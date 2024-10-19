@@ -6,17 +6,16 @@ import java.util.HashMap;
 public class Estanteria
 {
     //Datos
-    //private double[][] matSimilituds; //Matriz de similitudes
-    primate Map<int, Map<int, int>> mapSimilituds;  // Map<idProd, Map<idProd, Similitud>> Mapa con el id del producto 
-                                                    //como clave,cada clave contiene un mapa con todos los ids de los 
-                                                    //demás productos con su respectiva similitiud;
+   // private Map<Int, Map<Int, Int>> mapSimilituds;  // Map<idProd, Map<Similitud, idProd>> Mapa con el id del producto 
+                                                    //como clave,cada clave contiene un mapa con todas las similitudes 
+                                                    //de los demás productos con su respectivo id;
     private int[] vecEstanteria; //vector amb la estanteria resultant, cada hueco té el id del producte
 
     private int[] idProductes; //vector de les relacións on es guarden els ids dels productes
     
     //Constructor ?
     public Estanteria() {
-		this.mapSimilituds = new new HashMap<int, HashMap<int, int>>();
+		this.mapSimilituds = new HashMap<Int, HashMap<Int, Int>>();
         this.vecEstanteria = new String[0];
         this.idProductes = new int[0];
 	}
@@ -27,15 +26,10 @@ public class Estanteria
     {
         for(int i = 0; i < idProductes.size(); ++i)
         {
-            mapSimilituds[idProductes[i]].put(p.id, p.mapSim[idProductes[i]]);
+            mapSimilituds[idProductes[i]].put(p.mapSim[idProductes[i]], p.id);
         }
         idProductes.add(p.id);
-        mapSimilituds.put(p.id, p.mapSim);
-    }
-
-    public OmplirEstanteria()
-    {
-        //cridar algoritmes?
+        mapSimilituds.put(p.mapSim, p.id);
     }
 
     //veure similitud (1 prod vs tots)
@@ -46,7 +40,7 @@ public class Estanteria
     {
         int i_aux;
         int done = 0;
-        for (int i = 0; i < vecEstanteria.size(); ++i)
+        for (int i = 0; i < vecEstanteria.size(x    ); ++i)
         {
             if(done == 0) 
             {
