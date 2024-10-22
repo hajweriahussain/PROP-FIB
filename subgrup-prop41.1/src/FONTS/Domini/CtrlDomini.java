@@ -1,8 +1,6 @@
 package Domini
 
-public Class CtrlDo
-
-import org.w3c.dom.Text;mini {
+public Class CtrlDomini {
     private Usuari UsuariActual;
     private CjUsuaris cjUsuaris;
     private CjProductes CjProductes;
@@ -58,7 +56,7 @@ import org.w3c.dom.Text;mini {
     }
 
     public String getUsuariActual() {
-        return UsuariActual.getUsername();
+        return UsuariActual.getUsuari();
     }
 
     public void eliminarUsuari(){
