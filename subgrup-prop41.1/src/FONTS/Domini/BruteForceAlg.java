@@ -1,63 +1,86 @@
-import java.util.Vector;
+package Domini;
 
 public class BruteForceAlg {
 
     private float[][] matSimilituds;
-    private int[] vecProductes;
+    private Producte[] vecProductes;
     private float millorSimilitud;
-    private int[] vecResultat;
+    private Producte[] vecResultat;
 
-    //int[] es un arreglo y almacena un numero fijo de datos
-    //Vector<Integer> es dinamico, por lo tanto su tamaño puede crecer automáticamente a medida que se añaden elementos.
-
-    //Constructora
-    public BruteForceAlg(int[][] matSim, int[] vecPrd){
+    // Constructor
+    public BruteForceAlg(float[][] matSim, Producte[] vecPrd) {
         matSimilituds = matSim;
-        vecProductes = vecProd;
-        millorSimilitud = -1.0;
-        vecResult = new int[matSimilituds.size()]; //new Vector<>();
+        vecProductes = vecPrd;
+        millorSimilitud = -1.0f;
+        vecResultat = new Producte[matSimilituds.length];
     }
 
-    private float calcularSimilitudTotal(int[] vecActualProd){
-        float total = 0.0;
-        int n = vecActualProd.size();
-        for(int i=0; i<n; i++){
-            float producte1 = vecActualProd[i];
-            float producte2 = vecActualProd[i+1];
-            total += matSimilituds[producte1][producte2];
+    private static int factorial(int n) {
+        int resultado = 1;
+        for (int i = 2; i <= n; i++) {
+            resultado *= i;
         }
-        //com que estanteria es circular:
-        float producte1 = vecActualProd[n-1];
-        float producte2 = vecActualProd[0];
-        total += matSimilituds[producte1][producte2];
+        return resultado;
+}
+
+    private float calcularSimilitudTotal(Producte[] vecActualProd) {
+        float total = 0.0f;
+        int n = vecActualProd.length;
+        for (int i = 0; i < n - 1; i++) {
+            Producte producte1 = vecActualProd[i];
+            Producte producte2 = vecActualProd[i + 1];
+            total += matSimilituds[producte1.getId()][producte2.getId()];
+        }
+        // como es estanteria circular miramos el ultimo producto con el primero
+        Producte producte1 = vecActualProd[n - 1];
+        Producte producte2 = vecActualProd[0];
+        total += matSimilituds[producte1.getId()][producte2.getId()];
 
         return total;
     }
 
-    private void swap(int[] arr´, int i, int j) {
-        int temp = arr[i];
+    private void swap(Producte[] arr, int i, int j) {
+        Producte temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
     }
 
-    private void permutacions(int[] vProd, int L, int R, float millorSim, int[] vecRes){
+    private void permutacions(Producte[] vProd, int L, int R, float millorSim, Producte[] vecRes, int[] numPermutacions) {
+        if(numPermutacions[0] == 0) return;
         if (L == R) {
-            int simActual = calcularSimilitudTotal(productos, similitudes);
-            if (similitudActual > mejorSimilitud[0]) {
-                mejorSimilitud[0] = similitudActual;
-                System.arraycopy(productos, 0, mejorPerm, 0, productos.length);
+
+            float simActual = calcularSimilitudTotal(vProd);
+            if (simActual > millorSimilitud) {
+                millorSimilitud = simActual;
+                System.arraycopy(vProd, 0, vecResultat, 0, vProd.length);
             }
+            numPermutacions[0]--;
+
+
         } else {
-            for (int i = l; i <= r; i++) {
-                // Intercambiar productos[l] con productos[i]
-                swap(productos, l, i);
-                // Generar recursivamente las permutaciones
-                permutar(productos, l + 1, r, similitudes, mejorPerm, mejorSimilitud);
-                // Deshacer el intercambio
-                swap(productos, l, i);
+            for (int i = L; i <= R; i++) {
+                swap(vProd, L, i);
+                permutacions(vProd, L + 1, R, millorSimilitud, vecResultat,numPermutacions);
+                swap(vProd, L, i);
             }
         }
+
+    }
+
+    public void algoritme(){
+        int r = vecProductes.length - 1;
+        int[] numPermutacions = {factorial(r)/2};
+        //llamamos con l=1 para que siempre empieze con el mismo producto
+        permutacions(vecProductes,1,r,millorSimilitud,vecResultat,numPermutacions);
+    }
+
+    public Producte[] getResultat(){
+        return vecResultat;
+    }
+
+    public float getMillorSimilitud(){
+        return millorSimilitud;
     }
 
 
-
+}
