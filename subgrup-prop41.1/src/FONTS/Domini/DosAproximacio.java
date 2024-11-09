@@ -1,16 +1,16 @@
+package Domini;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Stack;
 
 class Aresta 
 {
     int V1, V2;
     double similitud;
 
-    //Creadora
+    //Constructora
 
     Aresta(int v1, int v2, double sim)
     {
@@ -22,17 +22,17 @@ class Aresta
 
 public class DosAproximacio
 {
-    private int n_productes;
-    private Aresta[] llista_arestes;
+    private int n;
+    public List<Aresta> llista_arestes; //posar a priv
     private int[] pare;
     private int[] mida;
 
     //Constructora
 
-    public DosAproximacio(double[][] matSim, int n)
+    public DosAproximacio(double[][] matSim)
     {
-        this.n_productes = n;
-        this.llista_arestes = new Aresta[0];
+        this.n = matSim.length;
+        this.llista_arestes = new ArrayList<Aresta>();
         this.pare = new int[n];
         this.mida = new int[n];
 
@@ -40,6 +40,7 @@ public class DosAproximacio
         {
             this.pare[i] = i;
             this.mida[i] = 1;
+
         }
 
         int aux = 0;
@@ -54,7 +55,7 @@ public class DosAproximacio
         }
     }
 
-    private void MergeSort(Aresta vec[], int l, int r)
+    public void MergeSort(Aresta vec[], int l, int r)
     {
         if (l < r)
         {
@@ -104,13 +105,13 @@ public class DosAproximacio
         }
     }
 
-    private int Find(int v)
+    public int Find(int v)
     {
-        if (pare[v] != v) return Find(pare[v]);
-        return v;
+        if (pare[v] == v) return v;
+        else return Find(pare[v]);
     }
 
-    private void Uneix(int v1, int v2)
+    public void Uneix(int v1, int v2)
     {
         int pare1 = Find(v1);
         int pare2 = Find(v2);
@@ -129,62 +130,76 @@ public class DosAproximacio
             }
         }
     }
-    
-    private List<Aresta> MST()
+
+    public List<Aresta> MST()
     {
-        MergeSort(llista_arestes, 0, llista_arestes.length - 1);
+        Aresta[] array_arestes = llista_arestes.toArray(new Aresta[llista_arestes.size()]);
+        MergeSort(array_arestes, 0, array_arestes.length - 1);
         List<Aresta> mst = new ArrayList<>();
         int i = 0;
-        while (mst.size() < this.n_productes - 1)
+
+        while (mst.size() < n-1 && i < array_arestes.length)
         {
-            if (Find(llista_arestes[i].V1) != Find(llista_arestes[i].V2))
+            if (Find(array_arestes[i].V1) != Find(array_arestes[i].V2))
             {
-                mst.add(llista_arestes[i]);
-                mst.add(new Aresta(llista_arestes[i].V2, llista_arestes[i].V1, llista_arestes[i].similitud)); //graf dirigit
-                Uneix(llista_arestes[i].V1, llista_arestes[i].V2);
+                mst.add(array_arestes[i]);
+                //mst.add(new Aresta(array_arestes[i].V2, array_arestes[i].V1, array_arestes[i].similitud)); //graf dirigit
+                Uneix(array_arestes[i].V1, array_arestes[i].V2);
             }
+            ++i;
         }
         return mst;
     }
 
-    private void dfs(int vertex, bool[] visitat, List<Integer>[] adjacencies, List<Integer> resultat) 
+    public List<Integer> findEuleria(int start, List<Integer>[] adjacencies) 
     {
-        visitat[vertex] = true;
-        resultat.add(vertex);
-        
-        for (int v = 0; v < adjacencies[vertex].size; ++i) {
-            if (!visitat[v]) {
-                dfs(v, visitat, adjacencies, resultat);
+        List<Integer> cicleEuleria = new ArrayList<>();
+        Stack<Integer> pila = new Stack<>();
+        pila.push(start);
+    
+        while (!pila.isEmpty()) {
+            int u = pila.peek();
+            if (adjacencies[u].isEmpty()) {
+                cicleEuleria.add(u);
+                pila.pop();
+            } else {
+                int v = adjacencies[u].remove(0);
+                adjacencies[v].remove(Integer.valueOf(u));
+                pila.push(v);
             }
         }
+        return cicleEuleria;
     }
+     
 
     public int[] Estanteria2Aproximacio()
     {
+        //Construir mst
         List<Aresta> mst = MST();
 
+        //Construir llista d'adjacències amb doble aresta
         List<Integer>[] adjacencies = new ArrayList[n];
         for (int i = 0; i < n; i++) {
             adjacencies[i] = new ArrayList<>();
         }
-        for(Arista ar : mst)
+        for(Aresta ar : mst)
         {
-            djacencies[ar.V1].add(ar.V2);
+            adjacencies[ar.V1].add(ar.V2);
             adjacencies[ar.V2].add(ar.V1);
         }
 
-        List<Integer> cicleEuleria = new ArrayList<>();
-        boolean[] visitat = new boolean[n];
-        dfs(0, visitat, adjacencies, cicleEuleria);
+        //Cicle Eulerià (algorisme de Hierholzer)
+        List<Integer> cicleEuleria = findEuleria(0, adjacencies);
 
-        visitat = new boolean[n];
-        int[] estanteria_res = new int[0];
-        for(int n : cicleEuleria)
-        {
-            if(!visitat[n])
-            {
-                visitat[n] = true;
-                estanteria_res.add(node);
+        //Eliminar repetits
+        boolean[] visitat = new boolean[n];
+        int[] estanteria_res = new int[n];
+        int i = 0;
+        for (Integer v : cicleEuleria) {
+            if (!visitat[v]) {
+                visitat[v] = true;
+                estanteria_res[i] = v;
+                ++i;
             }
         }
         return estanteria_res;
