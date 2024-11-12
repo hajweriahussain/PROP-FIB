@@ -217,7 +217,7 @@ public class DosAproximacio implements GenerarSolucio
 
     }
 
-    public Producte[] getEstanteria()
+    public Producte[] getResultat()
     {
         return res_productes;
     }
