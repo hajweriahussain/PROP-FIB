@@ -8,15 +8,15 @@ public class Producte {
     private String nom;
     private int fila;
     private int columna;
-    private Map<Integer, Float> similituts;
+    private Map<Integer, Double> similituts;
 
 
-    public Producte(int id, String nom, int fila, int columna) {
+    public Producte(int id, String nom) {
         this.id = id;
         this.nom = nom;
+        this.fila = 0;
+        this.columna = -1;
         this.similituts = new HashMap<>();
-        this.fila = fila;
-        this.columna = columna;
     }
 
 
@@ -25,20 +25,21 @@ public class Producte {
     }
 
     public String getNom() {
-        return nom;
+        return this.nom;
     }
 
     public int getFila() {
-        return fila;
+        return this.fila;
     }
 
     public int getColumna() {
-        return columna;
+        return this.columna;
     }
 
-    public Map<Integer, Float> getSimilituts() {
-        return similituts;
+    public Map<Integer, Double> getSimilituts() {
+        return this.similituts;
     }
+    
 
     public void setId(int id) {
         this.id = id;
@@ -56,47 +57,42 @@ public class Producte {
         this.columna = columna;
     }
 
-    public void setSimilituts(Map<Integer, Float> similituts) {
+    public void setSimilituts(Map<Integer, Double> similituts) {
         this.similituts = similituts;
     }
 
 
-    public void afegirSimilitut(int id, float similitut) {
+    public void afegirSimilitut(int id, double similitut) {
         similituts.put(id, similitut);
     }
 
-    public void modificarSimilitut(int id, float nova_similitut) {
-        if (similituts.containsKey(id)) {
-            similituts.put(id, nova_similitut);
-        }
-        else {
+    public void modificarSimilitut(int id, double nova_similitut) {
+        if (!similituts.containsKey(id)) {
             System.out.println("El producte amb id: " + id + " no existeix");
+            return;
         }
+
+        similituts.put(id, nova_similitut);
     }
 
-    public float obtenirSimilitut(int id) {
-        for (Map.Entry<Integer, Float> entry : similituts.entrySet()) {
-            if (entry.getKey() == id) {
-                return entry.getValue();
-            }
-        }
-        return 0.0f;
+    public double obtenirSimilitut(int id) {
+        return this.similituts.get(id);
     }
 
-    public Integer obtenirIdProducteMillorSimilitut() {
-        Integer millorSimilitut = null;
-        float maxSimilitut = -1.0f;
-        for (Map.Entry<Integer, Float> entry : similituts.entrySet()) {
+    public int obtenirIdProducteMillorSimilitut() {      
+        int idMillorSimilitut = 0;
+        double maxSimilitut = -1.0f;
+        for (Map.Entry<Integer, Double> entry : similituts.entrySet()) {
             if (entry.getValue() > maxSimilitut) {
                 maxSimilitut = entry.getValue();
-                millorSimilitut = entry.getKey();
+                idMillorSimilitut = entry.getKey();
             }
         }
-        return millorSimilitut;
+        return idMillorSimilitut;
     }
 
-    public void imprimirtSimilituts() {
-        for (Map.Entry<Integer, Float> entry : similituts.entrySet()) {
+    public void imprimirSimilituts() {
+        for (Map.Entry<Integer, Double> entry : similituts.entrySet()) {
             System.out.println("Producte id: " + entry.getKey() + ", similitut: " + entry.getValue());
         }
     }
