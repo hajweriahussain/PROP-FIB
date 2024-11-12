@@ -5,8 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-public class DosAproximacio implements GenerarSolucio
-{
+public class DosAproximacio implements GenerarSolucio {
     private int n;
     private List<Aresta> llista_arestes;
     private int[] pare;
@@ -17,8 +16,7 @@ public class DosAproximacio implements GenerarSolucio
 
     //Constructora
 
-    public DosAproximacio(double[][] matSim, Producte[] vecPrd)
-    {
+    public DosAproximacio(double[][] matSim, Producte[] vecPrd) {
         this.n = matSim.length;
         this.res_productes = new Producte[n];
         this.llista_arestes = new ArrayList<Aresta>();
@@ -27,8 +25,7 @@ public class DosAproximacio implements GenerarSolucio
         this.prods = vecPrd;
         this.sumaSimilitud = 0;
 
-        for(int i = 0; i < n; ++i)
-        {
+        for(int i = 0; i < n; ++i) {
             this.pare[i] = i;
             this.mida[i] = 1;
 
@@ -36,20 +33,16 @@ public class DosAproximacio implements GenerarSolucio
 
         int aux = 0;
 
-        for(int i = 0; i < n; ++i)
-        {
+        for(int i = 0; i < n; ++i) {
             ++aux;
-            for(int j = aux; j < n; ++j)
-            {
+            for(int j = aux; j < n; ++j) {
                 llista_arestes.add(new Aresta(i, j, matSim[i][j]));
             }
         }
     }
 
-    private void mergeSort(Aresta vec[], int l, int r)
-    {
-        if (l < r)
-        {
+    private void mergeSort(Aresta vec[], int l, int r) {
+        if (l < r) {
             int centre = (l + r) / 2;
             mergeSort(vec, l, centre);
             mergeSort(vec, centre+1, r);
@@ -66,29 +59,25 @@ public class DosAproximacio implements GenerarSolucio
             int i = 0;
             int j = 0;
             int k = l;
-            while(i < n1 && j < n2)
-            {
-                if(lvec[i].similitud <= rvec[j].similitud)
-                {
+
+            while(i < n1 && j < n2) {
+                if(lvec[i].similitud <= rvec[j].similitud) {
                     vec[k] = lvec[i];
                     ++i;
                 }
-                else
-                {
+                else {
                     vec[k] = rvec[j];
                     ++j;
                 }
                 ++k;
             }
 
-            while (i < n1)
-            {
+            while (i < n1) {
                 vec[k] = lvec[i];
                 ++i;
                 ++k;
             }
-            while (j < n2)
-            {
+            while (j < n2) {
                 vec[k] = rvec[j];
                 ++j;
                 ++k;
@@ -96,43 +85,35 @@ public class DosAproximacio implements GenerarSolucio
         }
     }
 
-    private int find(int v)
-    {
+    private int find(int v) {
         if (pare[v] == v) return v;
         else return find(pare[v]);
     }
 
-    private void uneix(int v1, int v2)
-    {
+    private void uneix(int v1, int v2) {
         int pare1 = find(v1);
         int pare2 = find(v2);
 
-        if (pare1 != pare2)
-        {
-            if (mida[pare1] <= mida[pare2])
-            {
+        if (pare1 != pare2) {
+            if (mida[pare1] <= mida[pare2]) {
                pare[pare1] = pare2;
                mida[pare2] += mida[pare1]; 
             }
-            else 
-            {
+            else {
                 pare[pare2] = pare1;
                 mida[pare1] += mida[pare2]; 
             }
         }
     }
 
-    private List<Aresta> MST()
-    {
+    private List<Aresta> MST() {
         Aresta[] array_arestes = llista_arestes.toArray(new Aresta[llista_arestes.size()]);
         mergeSort(array_arestes, 0, array_arestes.length - 1);
         List<Aresta> mst = new ArrayList<>();
         int i = 0;
 
-        while (mst.size() < n-1 && i < array_arestes.length)
-        {
-            if (find(array_arestes[i].V1) != find(array_arestes[i].V2))
-            {
+        while (mst.size() < n-1 && i < array_arestes.length) {
+            if (find(array_arestes[i].V1) != find(array_arestes[i].V2)) {
                 mst.add(array_arestes[i]);
                 //mst.add(new Aresta(array_arestes[i].V2, array_arestes[i].V1, array_arestes[i].similitud)); //graf dirigit
                 uneix(array_arestes[i].V1, array_arestes[i].V2);
@@ -151,8 +132,7 @@ public class DosAproximacio implements GenerarSolucio
         return 0; //en principi mai ha de retornar 0
     }
 
-    private List<Integer> findEuleria(int start, List<Integer>[] adjacencies) 
-    {
+    private List<Integer> findEuleria(int start, List<Integer>[] adjacencies) {
         List<Integer> cicleEuleria = new ArrayList<>();
         Stack<Integer> pila = new Stack<>();
         pila.push(start);
@@ -172,8 +152,7 @@ public class DosAproximacio implements GenerarSolucio
     }
      
 
-    public Producte[] generarLayout()
-    {
+    public Producte[] generarLayout() {
         //Construir mst
         List<Aresta> mst = MST();
 
@@ -182,8 +161,7 @@ public class DosAproximacio implements GenerarSolucio
         for (int i = 0; i < n; i++) {
             adjacencies[i] = new ArrayList<>();
         }
-        for(Aresta ar : mst)
-        {
+        for(Aresta ar : mst) {
             adjacencies[ar.V1].add(ar.V2);
             adjacencies[ar.V2].add(ar.V1);
         }
@@ -202,8 +180,7 @@ public class DosAproximacio implements GenerarSolucio
                 ++i;
             }
         }
-        for (int k = 0; k < n; ++k)
-        {
+        for (int k = 0; k < n; ++k) {
             res_productes[k] = prods[estanteria_res[k]];
             if(k == n-1) sumaSimilitud += obteSimilitud(estanteria_res[k], estanteria_res[0]);
             else sumaSimilitud += obteSimilitud(estanteria_res[k], estanteria_res[k+1]);
@@ -211,14 +188,12 @@ public class DosAproximacio implements GenerarSolucio
         return res_productes;
     }
 
-    public double getMillorSimilitud()
-    {
+    public double getMillorSimilitud() {
         return sumaSimilitud;
 
     }
 
-    public Producte[] getResultat()
-    {
+    public Producte[] getResultat() {
         return res_productes;
     }
 }
