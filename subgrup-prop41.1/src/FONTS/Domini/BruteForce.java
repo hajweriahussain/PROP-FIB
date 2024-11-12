@@ -1,17 +1,17 @@
 package Domini;
 
-public class BruteForceAlg {
+public class BruteForce implements GenerarSolucio {
 
-    private float[][] matSimilituds;
+    private double[][] matSimilituds;
     private Producte[] vecProductes;
-    private float millorSimilitud;
+    private double millorSimilitud;
     private Producte[] vecResultat;
 
     // Constructor
-    public BruteForceAlg(float[][] matSim, Producte[] vecPrd) {
+    public BruteForce(double[][] matSim, Producte[] vecPrd) {
         matSimilituds = matSim;
         vecProductes = vecPrd;
-        millorSimilitud = -1.0f;
+        millorSimilitud = -1.0;
         vecResultat = new Producte[matSimilituds.length];
     }
 
@@ -23,8 +23,8 @@ public class BruteForceAlg {
         return resultado;
 }
 
-    private float calcularSimilitudTotal(Producte[] vecActualProd) {
-        float total = 0.0f;
+    private double calcularSimilitudTotal(Producte[] vecActualProd) {
+        double total = 0.0;
         int n = vecActualProd.length;
         for (int i = 0; i < n - 1; i++) {
             Producte producte1 = vecActualProd[i];
@@ -45,11 +45,11 @@ public class BruteForceAlg {
         arr[j] = temp;
     }
 
-    private void permutacions(Producte[] vProd, int L, int R, float millorSim, Producte[] vecRes, int[] numPermutacions) {
+    private void permutacions(Producte[] vProd, int L, int R, double millorSim, Producte[] vecRes, int[] numPermutacions) {
         if(numPermutacions[0] == 0) return;
         if (L == R) {
 
-            float simActual = calcularSimilitudTotal(vProd);
+            double simActual = calcularSimilitudTotal(vProd);
             if (simActual > millorSimilitud) {
                 millorSimilitud = simActual;
                 System.arraycopy(vProd, 0, vecResultat, 0, vProd.length);
@@ -67,18 +67,19 @@ public class BruteForceAlg {
 
     }
 
-    public void algoritme(){
+    public Producte[] generarLayout(){
         int r = vecProductes.length - 1;
         int[] numPermutacions = {factorial(r)/2};
         //llamamos con l=1 para que siempre empieze con el mismo producto
         permutacions(vecProductes,1,r,millorSimilitud,vecResultat,numPermutacions);
+        return vecResultat;
     }
 
     public Producte[] getResultat(){
         return vecResultat;
     }
 
-    public float getMillorSimilitud(){
+    public double getMillorSimilitud(){
         return millorSimilitud;
     }
 
