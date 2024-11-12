@@ -10,9 +10,9 @@ public class DriverBruteForce {
 
     private DriverBruteForce bf;
 
-    public void optimizarLayout() {
-        System.out.println("Iniciando la optimización...");
-        Producte[] resultado = sa.generarLayout();
+    public void generar_Layout() {
+        System.out.println("Iniciando la generación del layout...");
+        Producte[] resultado = bf.generarLayout();
         for (Producte prod : resultado) {
             System.out.print("Producto " + prod.getId() + " ");
         }
@@ -37,8 +37,8 @@ public class DriverBruteForce {
             String filePath = "../../DATA/" + filename;
 
             try {
-                DriverSA driverSA = new DriverSA(filePath);
-                driverSA.optimizarLayout();
+                DriverBF driverBF = new DriverBF(filePath);
+                driverBF.generar_Layout();
 
             } catch (FileNotFoundException e) {
                 System.out.println("El archivo no se ha encontrado: " + e.getMessage());
