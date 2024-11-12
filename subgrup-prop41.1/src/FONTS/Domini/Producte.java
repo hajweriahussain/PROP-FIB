@@ -14,7 +14,7 @@ public class Producte {
     public Producte(int id, String nom) {
         this.id = id;
         this.nom = nom;
-        this.fila = 0;
+        this.fila = 0;  // en aquesta entrega, els productes estan a la mateixa fila
         this.columna = -1;
         this.similituts = new HashMap<>();
     }
@@ -39,7 +39,7 @@ public class Producte {
     public Map<Integer, Double> getSimilituts() {
         return this.similituts;
     }
-    
+
 
     public void setId(int id) {
         this.id = id;
@@ -95,5 +95,11 @@ public class Producte {
         for (Map.Entry<Integer, Double> entry : similituts.entrySet()) {
             System.out.println("Producte id: " + entry.getKey() + ", similitut: " + entry.getValue());
         }
+    }
+
+    // de moment, la posició del producte es diferencia pel número de columna en la prestatgeria
+    @Override
+    public String toString() {
+        return "Producte {id= " + id + ", nom= '" + nom + "', pos= " + columna +"}";
     }
 }
