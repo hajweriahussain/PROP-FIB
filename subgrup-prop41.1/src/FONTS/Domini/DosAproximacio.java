@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-public class DosAproximacio //implements GenerarSolucio
+public class DosAproximacio implements GenerarSolucio
 {
     private int n;
     private List<Aresta> llista_arestes;

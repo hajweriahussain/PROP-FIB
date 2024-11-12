@@ -1,4 +1,4 @@
-package Domini
+package Domini;
 
 public class Usuari {
     private String username;
@@ -27,3 +27,4 @@ public class Usuari {
         contrasenya = contra;
     }
 }
+
