@@ -11,7 +11,7 @@ public class BruteForce implements GenerarSolucio {
     public BruteForce(double[][] matSim, Producte[] vecPrd) {
         matSimilituds = matSim;
         vecProductes = vecPrd;
-        millorSimilitud = -1.0;
+        millorSimilitud = Double.MAX_VALUE;
         vecResultat = new Producte[matSimilituds.length];
     }
 
@@ -21,38 +21,44 @@ public class BruteForce implements GenerarSolucio {
             resultado *= i;
         }
         return resultado;
-}
+     }
 
-    private double calcularSimilitudTotal(Producte[] vecActualProd) {
+    private double calcularSimilitudTotal(int[] vecActualProd) {
         double total = 0.0;
         int n = vecActualProd.length;
+
         for (int i = 0; i < n - 1; i++) {
-            Producte producte1 = vecActualProd[i];
-            Producte producte2 = vecActualProd[i + 1];
-            total += matSimilituds[producte1.getId()][producte2.getId()];
+            int index1 = vecActualProd[i];
+            int index2 = vecActualProd[i + 1];
+            total += matSimilituds[index1][index2];
         }
-        // como es estanteria circular miramos el ultimo producto con el primero
-        Producte producte1 = vecActualProd[n - 1];
-        Producte producte2 = vecActualProd[0];
-        total += matSimilituds[producte1.getId()][producte2.getId()];
+        int index1 = vecActualProd[n - 1];
+        int index2 = vecActualProd[0];
+        total += matSimilituds[index1][index2];
 
         return total;
     }
 
-    private void swap(Producte[] arr, int i, int j) {
-        Producte temp = arr[i];
+    private void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
     }
 
-    private void permutacions(Producte[] vProd, int L, int R, double millorSim, Producte[] vecRes, int[] numPermutacions) {
+    private void permutacions(int[] vProd, int L, int R, int[] numPermutacions) {
         if(numPermutacions[0] == 0) return;
         if (L == R) {
-
+            System.out.println("&&&&&&&&&&&&&&&&&&&&&   " + numPermutacions[0]);
             double simActual = calcularSimilitudTotal(vProd);
-            if (simActual > millorSimilitud) {
+            for(int i=0; i<vProd.length; ++i){
+                System.out.println("prod perm:" + vProd[i]);
+            }
+            System.out.println("&&&&&&&&&&&&&&&&&&&&& similitud actual " + simActual);
+            if (simActual < millorSimilitud) {
                 millorSimilitud = simActual;
-                System.arraycopy(vProd, 0, vecResultat, 0, vProd.length);
+                for(int i=0; i<vecResultat.length; ++i){
+                    vecResultat[i] = vecProductes[vProd[i]];
+                }
             }
             numPermutacions[0]--;
 
@@ -60,7 +66,7 @@ public class BruteForce implements GenerarSolucio {
         } else {
             for (int i = L; i <= R; i++) {
                 swap(vProd, L, i);
-                permutacions(vProd, L + 1, R, millorSimilitud, vecResultat,numPermutacions);
+                permutacions(vProd, L + 1, R,numPermutacions);
                 swap(vProd, L, i);
             }
         }
@@ -69,9 +75,13 @@ public class BruteForce implements GenerarSolucio {
 
     public Producte[] generarLayout(){
         int r = vecProductes.length - 1;
-        int[] numPermutacions = {factorial(r)/2};
+        int[] numPermutacions = {factorial(r)};
+        int[] vP = new int[r+1];
+        for(int i=0;i<= r; ++i){
+            vP[i] = i;
+        }
         //llamamos con l=1 para que siempre empieze con el mismo producto
-        permutacions(vecProductes,1,r,millorSimilitud,vecResultat,numPermutacions);
+        permutacions(vP,0,r,numPermutacions);
         return vecResultat;
     }
 
@@ -81,6 +91,10 @@ public class BruteForce implements GenerarSolucio {
 
     public double getMillorSimilitud(){
         return millorSimilitud;
+    }
+
+    public Producte[] getVecProductes(){
+        return vecProductes;
     }
 
 
