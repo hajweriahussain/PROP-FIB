@@ -1,16 +1,12 @@
-package Domini
+package Domini;
 
-public Class CtrlDomini {
+public class CtrlDomini {
     private Usuari UsuariActual;
-    private CjUsuaris cjUsuaris;
-    private CjProductes CjProductes;
-    //habra cjPrestatgerias?
-    private cjPrestatgerias cjPrestatgerias;
-    private Prestatgeria Prestatgeria;
-    private tspAproximator tsp;
-    private BruteForceAlg bf;
-    private float[][] MatSimilituds;
-    private Producte[][] MatProductes;
+    private CjtUsuaris cjtUsuaris;
+    private CjtProductes cjtProductes;
+    private Prestatgeria prestatgeria;
+    private double[][] matSimilituds;
+
 
     private static CtrlDomini singletonObject;
     
@@ -19,24 +15,28 @@ public Class CtrlDomini {
     }
 
     public void inicialitzarCtrlDomini() {
-        cjUsuaris = new CjUsuaris(); //FALTA PARAMETRE
-        bf = new BruteForceAlg();
+        cjtUsuaris = new CjtUsuaris("");
+    }
+
+    public static CtrlDomini getInstance() {
+        if(singletonObject == null) {
+            singletonObject = new CtrlDomini();
+        }
+        return singletonObject;
     }
 
     public void iniciarSessio(String username, String pwd){
-        if (cjUsuaris.getUsuari(username) == null){
-            nouUsuari(username, pwd);
+        if (cjtUsuaris.getUsuari(username) == null){
+            crearUsuari(username, pwd);
         }
-        cjProductes = new cjProductes(username);
-        //cjPrestagerias si lo hay
-        cjPrestatgerias = new cjPrestatgerias(username);
-        Prestageria = novaPrestatgeria(); //LOS PARAMETROS DEBERIAN SER NFILES Y NCOLS. PERO DE DONDE LOS SACO
-        UsuariActual = cjUsuaris.getUsuari(username);
+        cjtProductes = new CjtProductes(username);
+//        Boolean bruteForce;
+//        crearPrestatgeria(bruteForce);
+        UsuariActual = cjtUsuaris.getUsuari(username);
     }
 
-    
-    public void nouUsuari(String name, String pwd){
-        cjUsuaris.crearUsuari(name, pwd);
+    public void crearUsuari(String name, String pwd){
+        cjtUsuaris.crearUsuari(name, pwd);
         iniciarSessio(name, pwd);
     }
 
@@ -44,23 +44,74 @@ public Class CtrlDomini {
         //per a aquesta entrega només crida a iniciar sessió, però per les següents haurà de cridar a la base de dades i guardar el que calgui
         iniciarSessio(nomUsuari, pwd); //canviem l'usuari actual
     }
-    
-    public int novaPrestatgeria(int nf, int nc){
-        int id = cjPrestatgerias.crearPrestatgeria(nf, nc);
+
+    public void crearProducte(int id, String nom){
+        Producte p = new Producte(id, nom);
+        cjtProductes.afegirProducte(p);
+    }
+
+    public void crearPrestatgeria(Boolean bruteForce){
+        double[][] matSimilituds = cjtProductes.obtenirMatriuSimilituts();
+
+        Producte[] vecProd = cjtProductes.obtenirProductes();
+        int numProductes = vecProd.length;
+        prestatgeria = new Prestatgeria(1, numProductes);
+
+        //Interface
+        GenerarSolucio generadorInicial;
+
+        if (bruteForce) {
+            generadorInicial = new BruteForce(matSimilituds, vecProd);
+        } else {
+            generadorInicial = new DosAproximacio(matSimilituds, vecProd);
+        }
+
+        Producte[] solucio = generadorInicial.generarLayout();
+        prestatgeria.setLayout(solucio);
+        
+        for (int i = 0; i < solucio.length; i++) {
+            solucio[i].setColumna(i);
+        }
 
     }
 
-    public void eliminarPrestatgeria(int id){
-        Prestatgeria p = cjPrestatgerias.getPrestatgeria(id);
-        cjPrestatgerias.esborrarPrestatgeria(p);
+    void modificarProducte(Integer idProdActual, Integer nouId, String nouNom, Integer novaColumna) {
+    	if (cjtProductes.getProducte(idProdActual) != null) {
+	    	if (nouId != null) {
+	    		cjtProductes.editarIdProducte(idProdActual, nouId);
+	    	}
+	    	if (nouNom != null) {
+	    		cjtProductes.editarNomProducte(idProdActual, nouNom);
+	    	}
+	    	if (novaColumna != null) {
+	    		cjtProductes.editarPosProducte(idProdActual, novaColumna);
+	    	}
+    	}
+    	else System.out.println("No existeix productes amb id = idProdActual");
     }
 
-    public String getUsuariActual() {
-        return UsuariActual.getUsuari();
+    void modificarPrestatgeria(int pos1, int pos2){
+        prestatgeria.intercanviarDosProductes(pos1, pos2);
     }
 
-    public void eliminarUsuari(){
-        cjUsuaris.esborrarUsuari(UsuariActual.getUsername());
-        tancarSessio(); //por implementar
+    public void esborrarProducte(int id){
+        cjtProductes.eliminarProducte(id);
+    }
+
+    public void esborrarPrestatgeria(){
+        prestatgeria.eliminarPrestatgeria();
+    }
+
+    public String getUsuariActual(){
+        return UsuariActual.getUsername();
+    }
+
+    public void esborrarUsuari(){
+        cjtUsuaris.eliminarUsuari(UsuariActual.getUsername());
+        tancarSessio(); 
+    }
+
+    public void tancarSessio(){
+        UsuariActual = new Usuari(null, null);
     }
 }
