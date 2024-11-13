@@ -1,5 +1,7 @@
 package Domini;
 
+import java.util.Map;
+
 public class CtrlDomini {
     private Usuari UsuariActual;
     private CjtUsuaris cjtUsuaris;
@@ -45,8 +47,8 @@ public class CtrlDomini {
         iniciarSessio(nomUsuari, pwd); //canviem l'usuari actual
     }
 
-    public void crearProducte(int id, String nom){
-        Producte p = new Producte(id, nom);
+    public void crearProducte(int id, String nom, Map<Integer, Double> similituds){
+        Producte p = new Producte(id, nom, similituds);
         cjtProductes.afegirProducte(p);
     }
 
@@ -75,16 +77,19 @@ public class CtrlDomini {
 
     }
 
-    void modificarProducte(Integer idProdActual, Integer nouId, String nouNom, Integer novaColumna) {
-    	if (cjtProductes.getProducte(idProdActual) != null) {
+    void modificarProducte(Integer idProdActual1, Integer idProdActual2, double novaSim, Integer nouId, String nouNom, Integer novaColumna) {
+    	if (cjtProductes.getProducte(idProdActual1) != null) {
 	    	if (nouId != null) {
-	    		cjtProductes.editarIdProducte(idProdActual, nouId);
+	    		cjtProductes.editarIdProducte(idProdActual1, nouId);
 	    	}
 	    	if (nouNom != null) {
-	    		cjtProductes.editarNomProducte(idProdActual, nouNom);
+	    		cjtProductes.editarNomProducte(idProdActual1, nouNom);
 	    	}
 	    	if (novaColumna != null) {
-	    		cjtProductes.editarPosProducte(idProdActual, novaColumna);
+	    		cjtProductes.editarPosProducte(idProdActual1, novaColumna);
+	    	}
+	    	if ((cjtProductes.getProducte(idProdActual2) != null) && (novaSim > 0)) {
+	    		cjtProductes.modificarSimilitud(idProdActual1, idProdActual2, novaSim);
 	    	}
     	}
     	else System.out.println("No existeix productes amb id = idProdActual");
