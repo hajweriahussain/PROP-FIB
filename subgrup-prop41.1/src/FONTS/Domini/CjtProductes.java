@@ -142,7 +142,7 @@ public class CjtProductes {
 
     public void establirSimilituts(Scanner scanner) {
         boolean validMat = false;
-
+        
         while (!validMat) {
             System.out.println("Introdueix les similituts (una línia per producte):");
         
