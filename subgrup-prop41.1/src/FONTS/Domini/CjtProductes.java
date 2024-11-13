@@ -38,29 +38,18 @@ public class CjtProductes {
         return productes.containsKey(idProd);
     }
 
-    public void afegirProducte(Producte p, Scanner scanner) {
+    public void afegirProducte(Producte p, Map<Integer, Double> similituds) {
         if (!existeixProducte(p.getId())) {
+            p.setSimilituds(similituds);
             productes.put(p.getId(), p);
-
-            if (p.getSimilituts().isEmpty()) {
-                System.out.println("Aquest producte no té similituts establertes");
-
-                for (Producte prodExistent : productes.values()) {
-                    if (prodExistent.getId() != p.getId()) {
-                        System.out.println("Similitut entre producte " + p.getId() + " i producte " + prodExistent.getId() + ": ");
-                        double similitut = scanner.nextDouble();
-                        p.afegirSimilitut(prodExistent.getId(), similitut);
-                    }
-                }
-            }
-
-            for (Map.Entry<Integer, Double> entry : p.getSimilituts().entrySet()) {
+            
+            for (Map.Entry<Integer, Double> entry : p.getSimilituds().entrySet()) {
                 int prodVecId = entry.getKey();
-                double similitut = entry.getValue();
+                double similitud = entry.getValue();
 
                 Producte prodVec = getProducte(prodVecId);
                 if (prodVec != null) {
-                    prodVec.afegirSimilitut(p.getId(), similitut);
+                    prodVec.afegirSimilitud(p.getId(), similitud);
                 }
             }
         }
@@ -85,10 +74,10 @@ public class CjtProductes {
         if (prod != null) {
             if (!existeixProducte(nou_idProd)) {
                 for (Producte prod2 : productes.values()) {
-                    if (prod2.getSimilituts().containsKey(idProd)) {
-                        double similitut = prod2.obtenirSimilitut(idProd);
-                        prod2.afegirSimilitut(nou_idProd, similitut);
-                        prod2.getSimilituts().remove(idProd);
+                    if (prod2.getSimilituds().containsKey(idProd)) {
+                        double similitud = prod2.obtenirSimilitud(idProd);
+                        prod2.afegirSimilitud(nou_idProd, similitud);
+                        prod2.getSimilituds().remove(idProd);
                     }
                 }
                 
@@ -130,8 +119,8 @@ public class CjtProductes {
         if (existeixProducte(idProd)) {
             productes.remove(idProd);
             for (Producte prod2 : productes.values()) {
-                if (prod2.getSimilituts().containsKey(idProd)) {
-                    prod2.getSimilituts().remove(idProd);
+                if (prod2.getSimilituds().containsKey(idProd)) {
+                    prod2.getSimilituds().remove(idProd);
                 }
             }
         }
@@ -140,42 +129,42 @@ public class CjtProductes {
         }
     }
 
-    public void establirSimilituts(Scanner scanner) {
+    public void establirSimilituds(Scanner scanner) {
         boolean validMat = false;
-        
+
         while (!validMat) {
-            System.out.println("Introdueix les similituts (una línia per producte):");
+            System.out.println("Introdueix les similituds (una línia per producte):");
         
             int n = productes.size();
-            double[][] matSimilituts = new double[n][n];
+            double[][] matSimilituds = new double[n][n];
             List<Producte> prodList = new ArrayList<>(productes.values());
     
             for (int i = 0; i < prodList.size(); i++) {
                 for (int j = 0; j < prodList.size(); j++) {
                     if (i == j) {
-                        matSimilituts[i][j] = 0.0;
+                        matSimilituds[i][j] = 0.0;
                     }
                     else {
-                        System.out.print("Similitut entre producte " + prodList.get(i).getId() + " i producte " + prodList.get(j).getId() + ": ");
-                        matSimilituts[i][j] = scanner.nextDouble();
+                        System.out.print("Similitud entre producte " + prodList.get(i).getId() + " i producte " + prodList.get(j).getId() + ": ");
+                        matSimilituds[i][j] = scanner.nextDouble();
                     }
                 }
             }
     
-            if (validarSimetria(matSimilituts)) {
+            if (validarSimetria(matSimilituds)) {
                 for (int i = 0; i < prodList.size(); i++) {
                     for (int j = 0; j < prodList.size(); j++) {
                         if (i != j) {
-                            prodList.get(i).afegirSimilitut(prodList.get(j).getId(), matSimilituts[i][j]);
+                            prodList.get(i).afegirSimilitud(prodList.get(j).getId(), matSimilituds[i][j]);
                         }
                     }
                 }
-                System.out.println("Similituts establertes correctament.");
+                System.out.println("Similituds establertes correctament.");
                 validMat = true;
             }
             else {
                 System.out.println("Error: La matriu de similitud no és simètrica. Torna a introduir les similituds.");
-                establirSimilituts(scanner);
+                establirSimilituds(scanner);
             }
         }
     }
@@ -192,19 +181,19 @@ public class CjtProductes {
         return true;
     }
 
-    public void modificarSimilitut(int idProd1, int idProd2, Scanner scanner) {
+    public void modificarSimilitud(int idProd1, int idProd2, Scanner scanner) {
         Producte prod1 = getProducte(idProd1);
         Producte prod2 = getProducte(idProd2);
 
         if (prod1 != null && prod2 != null) {
-            if (prod1.getSimilituts().containsKey(idProd2)) {
-                double nova_similitut = scanner.nextDouble();
-                prod1.modificarSimilitut(idProd2, nova_similitut);
-                prod2.modificarSimilitut(idProd1, nova_similitut);
-                System.out.println("Similitut actualitzada!");
+            if (prod1.getSimilituds().containsKey(idProd2)) {
+                double nova_similitud = scanner.nextDouble();
+                prod1.modificarSimilitud(idProd2, nova_similitud);
+                prod2.modificarSimilitud(idProd1, nova_similitud);
+                System.out.println("Similitud actualitzada!");
             }
             else {
-                System.out.println("Error: No existeix una similitut entre els productes");
+                System.out.println("Error: No existeix una similitud entre els productes");
             }
         }
         else {
@@ -212,15 +201,15 @@ public class CjtProductes {
         }
     }
 
-    public Map<Integer, Double> obtenirSimilituts(int idProd) {
+    public Map<Integer, Double> obtenirSimilituds(int idProd) {
         Producte prod = getProducte(idProd);
         if (prod != null) {
-            return prod.getSimilituts();
+            return prod.getSimilituds();
         }
         else return null;
     }
 
-    public double[][] obtenirMatriuSimilituts() {
+    public double[][] obtenirMatriuSimilituds() {
         int n = productes.size();
         double[][] mat = new double[n][n];
 
@@ -232,7 +221,7 @@ public class CjtProductes {
                     mat[idx][idx] = 0.0;
                 }
                 else {
-                    mat[idx][colx] = prod.obtenirSimilitut(prod2.getId());
+                    mat[idx][colx] = prod.obtenirSimilitud(prod2.getId());
                 }
                 ++colx;
             }
