@@ -38,9 +38,21 @@ public class CjtProductes {
         return productes.containsKey(idProd);
     }
 
-    public void afegirProducte(Producte p) {
+    public void afegirProducte(Producte p, Scanner scanner) {
         if (!existeixProducte(p.getId())) {
             productes.put(p.getId(), p);
+
+            if (p.getSimilituts().isEmpty()) {
+                System.out.println("Aquest producte no té similituts establertes");
+
+                for (Producte prodExistent : productes.values()) {
+                    if (prodExistent.getId() != p.getId()) {
+                        System.out.println("Similitut entre producte " + p.getId() + " i producte " + prodExistent.getId() + ": ");
+                        double similitut = scanner.nextDouble();
+                        p.afegirSimilitut(prodExistent.getId(), similitut);
+                    }
+                }
+            }
 
             for (Map.Entry<Integer, Double> entry : p.getSimilituts().entrySet()) {
                 int prodVecId = entry.getKey();
@@ -130,7 +142,7 @@ public class CjtProductes {
 
     public void establirSimilituts(Scanner scanner) {
         boolean validMat = false;
-
+        
         while (!validMat) {
             System.out.println("Introdueix les similituts (una línia per producte):");
         
@@ -159,6 +171,7 @@ public class CjtProductes {
                     }
                 }
                 System.out.println("Similituts establertes correctament.");
+                validMat = true;
             }
             else {
                 System.out.println("Error: La matriu de similitud no és simètrica. Torna a introduir les similituds.");
@@ -177,6 +190,26 @@ public class CjtProductes {
             }
         }
         return true;
+    }
+
+    public void modificarSimilitut(int idProd1, int idProd2, Scanner scanner) {
+        Producte prod1 = getProducte(idProd1);
+        Producte prod2 = getProducte(idProd2);
+
+        if (prod1 != null && prod2 != null) {
+            if (prod1.getSimilituts().containsKey(idProd2)) {
+                double nova_similitut = scanner.nextDouble();
+                prod1.modificarSimilitut(idProd2, nova_similitut);
+                prod2.modificarSimilitut(idProd1, nova_similitut);
+                System.out.println("Similitut actualitzada!");
+            }
+            else {
+                System.out.println("Error: No existeix una similitut entre els productes");
+            }
+        }
+        else {
+            System.out.println("Error: Un o ambdós productes no existeixen");
+        }
     }
 
     public Map<Integer, Double> obtenirSimilituts(int idProd) {
