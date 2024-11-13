@@ -1,19 +1,27 @@
 package Domini;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Producte {
     private Integer id;
     private String nom;
-    private Integer fila;
+    private Integer fila;       // en aquesta entrega, els productes estan a la mateixa fila
     private Integer columna;
     private Map<Integer, Double> similituds;
 
+    public Producte(int id, String nom) {
+        this.id = id;
+        this.nom = nom;
+        this.fila = 0;
+        this.columna = -1;
+        this.similituds = new HashMap<>();
+    }
 
     public Producte(int id, String nom, Map<Integer, Double> similituds) {
         this.id = id;
         this.nom = nom;
-        this.fila = 0;  // en aquesta entrega, els productes estan a la mateixa fila
+        this.fila = 0;  
         this.columna = -1;
         this.similituds = similituds;
     }

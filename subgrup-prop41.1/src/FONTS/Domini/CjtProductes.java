@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class CjtProductes {
     private String usuari;
@@ -38,19 +37,23 @@ public class CjtProductes {
         return productes.containsKey(idProd);
     }
 
-    public void afegirProducte(Producte p, Map<Integer, Double> similituds) {
-        if (!existeixProducte(p.getId())) {
-            p.setSimilituds(similituds);
-            productes.put(p.getId(), p);
+    public void afegirProducte(Producte p) {
+        if (!existeixProducte(p.getId())) { //
+            if (!p.getSimilituds().isEmpty()) {
+                productes.put(p.getId(), p);
             
-            for (Map.Entry<Integer, Double> entry : p.getSimilituds().entrySet()) {
-                int prodVecId = entry.getKey();
-                double similitud = entry.getValue();
+                for (Map.Entry<Integer, Double> entry : p.getSimilituds().entrySet()) {
+                    int prodVecId = entry.getKey();
+                    double similitud = entry.getValue();
 
-                Producte prodVec = getProducte(prodVecId);
-                if (prodVec != null) {
-                    prodVec.afegirSimilitud(p.getId(), similitud);
+                    Producte prodVec = getProducte(prodVecId);
+                    if (prodVec != null) {
+                        prodVec.afegirSimilitud(p.getId(), similitud);
+                    }
                 }
+            }
+            else {
+                System.out.println("Error: El producte no té similituds associades.");
             }
         }
         else {
@@ -129,65 +132,12 @@ public class CjtProductes {
         }
     }
 
-    public void establirSimilituds(Scanner scanner) {
-        boolean validMat = false;
-
-        while (!validMat) {
-            System.out.println("Introdueix les similituds (una línia per producte):");
-        
-            int n = productes.size();
-            double[][] matSimilituds = new double[n][n];
-            List<Producte> prodList = new ArrayList<>(productes.values());
-    
-            for (int i = 0; i < prodList.size(); i++) {
-                for (int j = 0; j < prodList.size(); j++) {
-                    if (i == j) {
-                        matSimilituds[i][j] = 0.0;
-                    }
-                    else {
-                        System.out.print("Similitud entre producte " + prodList.get(i).getId() + " i producte " + prodList.get(j).getId() + ": ");
-                        matSimilituds[i][j] = scanner.nextDouble();
-                    }
-                }
-            }
-    
-            if (validarSimetria(matSimilituds)) {
-                for (int i = 0; i < prodList.size(); i++) {
-                    for (int j = 0; j < prodList.size(); j++) {
-                        if (i != j) {
-                            prodList.get(i).afegirSimilitud(prodList.get(j).getId(), matSimilituds[i][j]);
-                        }
-                    }
-                }
-                System.out.println("Similituds establertes correctament.");
-                validMat = true;
-            }
-            else {
-                System.out.println("Error: La matriu de similitud no és simètrica. Torna a introduir les similituds.");
-                establirSimilituds(scanner);
-            }
-        }
-    }
-
-    private boolean validarSimetria(double[][] mat) {
-        int n = mat.length;
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                if (mat[i][j] != mat[j][i]) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public void modificarSimilitud(int idProd1, int idProd2, Scanner scanner) {
+    public void modificarSimilitud(int idProd1, int idProd2, double nova_similitud) {
         Producte prod1 = getProducte(idProd1);
         Producte prod2 = getProducte(idProd2);
 
         if (prod1 != null && prod2 != null) {
             if (prod1.getSimilituds().containsKey(idProd2)) {
-                double nova_similitud = scanner.nextDouble();
                 prod1.modificarSimilitud(idProd2, nova_similitud);
                 prod2.modificarSimilitud(idProd1, nova_similitud);
                 System.out.println("Similitud actualitzada!");
