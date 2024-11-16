@@ -1,7 +1,9 @@
-package Domini;
+package JUnit;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import Domini.Producte;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,11 +73,21 @@ public class ProducteTest {
     }
 
     @Test
-    public void testSetId() {
+    public void testSetIdPositiva() {
         prod.setId(2);
         assertEquals(2, prod.getId());
         prodS.setId(14);
         assertEquals(14, prodS.getId());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetIdZero() {
+        prod.setId(0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetIdNegativa() {
+        prod.setId(-1);
     }
 
     @Test
@@ -111,35 +123,67 @@ public class ProducteTest {
     }
 
     @Test
-    public void testAfegirSimilitud() {
-        prod.afegirSimilitud(2, 0.8);
-        assertEquals(0.8, prod.obtenirSimilitud(2), 0.001);
+    public void testIniciSimilituds() {
+        assertEquals(1, prodS.getSimilituds().size());
+        assertTrue(prodS.getSimilituds().containsKey(2));
+        assertEquals(0.4, prodS.getSimilituds().get(2), 0.001);
     }
 
     @Test
-    public void modificarSimilitutExistent() {
+    public void testAfegirSimilitudPositiva() {
+        prod.afegirSimilitud(2, 0.8);
+        assertEquals(0.8, prod.getSimilitud(2), 0.001);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAfegirSimilitudNegativa() {
+        prod.afegirSimilitud(2, -0.5);
+        assertTrue(prod.getSimilituds().isEmpty());
+    }
+
+    @Test
+    public void testAfegirSimilitudAmbClauDuplicada() {
+        prod.afegirSimilitud(2, 0.5);
+        prod.afegirSimilitud(2, 0.7);
+        assertEquals(0.7, prod.getSimilitud(2), 0.001);
+    }
+
+    @Test
+    public void modificarSimilitudExistent() {
         prod.afegirSimilitud(2, 0.8);
         prod.modificarSimilitud(2, 0.9);
-        assertEquals(0.9, prod.obtenirSimilitud(2), 0.001);
+        assertEquals(0.9, prod.getSimilitud(2), 0.001);
     }
 
     @Test
-    public void modificarSimilitutNoExistent() {
+    public void modificarSimilitudNoExistent() {
+        prod.modificarSimilitud(99, 0.7);
+        assertNull(prod.getSimilituds().get(99));
+    }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void modificarSimilitudNegativa() {
+        prod.afegirSimilitud(2, 0.8);
+        prod.modificarSimilitud(2, -0.3);
     }
 
     @Test
-    public void testObtenirSimilitut() {
+    public void testGetSimilitud() {
         prod.afegirSimilitud(3, 0.7);
-        assertEquals(0.7, prod.obtenirSimilitud(3), 0.001);
+        assertEquals(0.7, prod.getSimilitud(3), 0.001);
     }
 
     @Test
-    public void testObtenirIdProducteMillorSimilitut() {
+    public void testGetIdProducteMillorSimilitud() {
         prod.afegirSimilitud(2, 0.5);
         prod.afegirSimilitud(3, 0.9);
         prod.afegirSimilitud(4, 0.7);
-        assertEquals(3, prod.obtenirIdProducteMillorSimilitud());
+        assertEquals(3, prod.getIdProducteMillorSimilitud());
+    }
+
+    @Test
+    public void testSimilitudBuida() {
+        assertEquals(0, prod.getIdProducteMillorSimilitud());
     }
 
     @Test

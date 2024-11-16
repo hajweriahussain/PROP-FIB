@@ -28,7 +28,7 @@ public class CjtProductes {
     }
 
 
-    public Producte[] obtenirProductes() {
+    public Producte[] getProductes() {
         List<Producte> producteList = new ArrayList<>(productes.values());
         return producteList.toArray(Producte[]::new);
     }
@@ -41,7 +41,7 @@ public class CjtProductes {
         if (!existeixProducte(p.getId())) { //
             if (!p.getSimilituds().isEmpty()) {
                 productes.put(p.getId(), p);
-            
+
                 for (Map.Entry<Integer, Double> entry : p.getSimilituds().entrySet()) {
                     int prodVecId = entry.getKey();
                     double similitud = entry.getValue();
@@ -78,12 +78,12 @@ public class CjtProductes {
             if (!existeixProducte(nou_idProd)) {
                 for (Producte prod2 : productes.values()) {
                     if (prod2.getSimilituds().containsKey(idProd)) {
-                        double similitud = prod2.obtenirSimilitud(idProd);
+                        double similitud = prod2.getSimilitud(idProd);
                         prod2.afegirSimilitud(nou_idProd, similitud);
                         prod2.getSimilituds().remove(idProd);
                     }
                 }
-                
+
                 prod.setId(nou_idProd);
                 productes.remove(idProd);
                 productes.put(nou_idProd, prod);
@@ -151,7 +151,7 @@ public class CjtProductes {
         }
     }
 
-    public Map<Integer, Double> obtenirSimilituds(int idProd) {
+    public Map<Integer, Double> getSimilituds(int idProd) {
         Producte prod = getProducte(idProd);
         if (prod != null) {
             return prod.getSimilituds();
@@ -159,7 +159,7 @@ public class CjtProductes {
         else return null;
     }
 
-    public double[][] obtenirMatriuSimilituds() {
+    public double[][] getMatriuSimilituds() {
         int n = productes.size();
         double[][] mat = new double[n][n];
 
@@ -171,7 +171,7 @@ public class CjtProductes {
                     mat[idx][idx] = 0.0;
                 }
                 else {
-                    mat[idx][colx] = prod.obtenirSimilitud(prod2.getId());
+                    mat[idx][colx] = prod.getSimilitud(prod2.getId());
                 }
                 ++colx;
             }
