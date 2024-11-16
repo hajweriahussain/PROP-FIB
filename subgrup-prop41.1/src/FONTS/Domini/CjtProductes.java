@@ -1,8 +1,9 @@
 package Domini;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class CjtProductes {
     private String usuari;
@@ -26,79 +27,156 @@ public class CjtProductes {
         return productes.get(idProd);
     }
 
+
+    public Producte[] obtenirProductes() {
+        List<Producte> producteList = new ArrayList<>(productes.values());
+        return producteList.toArray(Producte[]::new);
+    }
+
     public boolean existeixProducte(int idProd) {
         return productes.containsKey(idProd);
     }
 
-    public boolean afegirProducte(Producte p) {
-        if (!productes.containsKey(p.getId())) {
-            productes.put(p.getId(), p);
-            return true;
-        }
-        System.out.println("Ja existeix un producte amb l'id especificat");
-        return false;
-    }
+    public void afegirProducte(Producte p) {
+        if (!existeixProducte(p.getId())) { //
+            if (!p.getSimilituds().isEmpty()) {
+                productes.put(p.getId(), p);
+            
+                for (Map.Entry<Integer, Double> entry : p.getSimilituds().entrySet()) {
+                    int prodVecId = entry.getKey();
+                    double similitud = entry.getValue();
 
-    public boolean editarProducte(Producte p) {
-        if (productes.containsKey(p.getId())) {
-            productes.put(p.getId(), p);
-            return true;
-        }
-        System.out.println("No existeix producte a editar");
-        return false;
-    }
-
-    public boolean eliminarProducte(int idProd) {
-        if (productes.containsKey(idProd)) {
-            productes.remove(idProd);
-            return true;
-        }
-        System.out.println("No existeix producte a eliminar");
-        return false;
-    }
-
-    public void establirSimilituts(Scanner scanner) {
-        System.out.println("Introdueix les similituts (una línia per producte):");
-        
-        for (Producte prod : productes.values()) {
-            for (Producte prod2 : productes.values()) {
-                if (prod.getId() == prod2.getId()) {
-                    productes.get(prod.getId()).afegirSimilitut(prod2.getId(), 0.0);
+                    Producte prodVec = getProducte(prodVecId);
+                    if (prodVec != null) {
+                        prodVec.afegirSimilitud(p.getId(), similitud);
+                    }
                 }
-                else {
-                    double similitut = scanner.nextDouble();
-                    productes.get(prod.getId()).afegirSimilitut(prod2.getId(), similitut);
+            }
+            else {
+                System.out.println("Error: El producte no té similituds associades.");
+            }
+        }
+        else {
+            System.out.println("Error: Ja existeix un producte amb l'id especificat");
+        }
+    }
+
+    public void editarProducte(Producte p) {
+        if (existeixProducte(p.getId())) {
+            Producte prod = getProducte(p.getId());
+            prod.setNom(p.getNom());
+            prod.setColumna(p.getColumna());
+        }
+        else {
+            System.out.println("Error: No existeix producte a editar");
+        }
+    }
+
+    public void editarIdProducte(int idProd, int nou_idProd) {
+        Producte prod = getProducte(idProd);
+        if (prod != null) {
+            if (!existeixProducte(nou_idProd)) {
+                for (Producte prod2 : productes.values()) {
+                    if (prod2.getSimilituds().containsKey(idProd)) {
+                        double similitud = prod2.obtenirSimilitud(idProd);
+                        prod2.afegirSimilitud(nou_idProd, similitud);
+                        prod2.getSimilituds().remove(idProd);
+                    }
+                }
+                
+                prod.setId(nou_idProd);
+                productes.remove(idProd);
+                productes.put(nou_idProd, prod);
+            }
+            else {
+                System.out.println("Error: Ja existeix un producte amb el nou id especificat");
+            }
+        }
+        else {
+            System.out.println("Error: No existeix producte a editar");
+        }
+    }
+
+    public void editarNomProducte(int idProd, String nou_nom) {
+        Producte prod = getProducte(idProd);
+        if (prod != null) {
+            prod.setNom(nou_nom);
+        }
+        else {
+            System.out.println("Error: No existeix producte a editar");
+        }
+    }
+
+    // de moment editem l'atribut columna del producte
+    public void editarPosProducte(int idProd, int nova_pos) {
+        Producte prod = getProducte(idProd);
+        if (prod != null) {
+            prod.setColumna(nova_pos);
+        }
+        else {
+            System.out.println("Error: No existeix producte a editar");
+        }
+    }
+
+    public void eliminarProducte(int idProd) {
+        if (existeixProducte(idProd)) {
+            productes.remove(idProd);
+            for (Producte prod2 : productes.values()) {
+                if (prod2.getSimilituds().containsKey(idProd)) {
+                    prod2.getSimilituds().remove(idProd);
                 }
             }
         }
+        else {
+            System.out.println("Error: No existeix producte a eliminar");
+        }
     }
 
-    public Map<Integer, Double> obtenirSimilituts(int idProd) {
-        Producte prod = productes.get(idProd);
+    public void modificarSimilitud(int idProd1, int idProd2, double nova_similitud) {
+        Producte prod1 = getProducte(idProd1);
+        Producte prod2 = getProducte(idProd2);
+
+        if (prod1 != null && prod2 != null) {
+            if (prod1.getSimilituds().containsKey(idProd2)) {
+                prod1.modificarSimilitud(idProd2, nova_similitud);
+                prod2.modificarSimilitud(idProd1, nova_similitud);
+                System.out.println("Similitud actualitzada!");
+            }
+            else {
+                System.out.println("Error: No existeix una similitud entre els productes");
+            }
+        }
+        else {
+            System.out.println("Error: Un o ambdós productes no existeixen");
+        }
+    }
+
+    public Map<Integer, Double> obtenirSimilituds(int idProd) {
+        Producte prod = getProducte(idProd);
         if (prod != null) {
-            return prod.getSimilituts();
+            return prod.getSimilituds();
         }
         else return null;
     }
 
-    public double[][] obtenirMatriuSimilituts() {
+    public double[][] obtenirMatriuSimilituds() {
         int n = productes.size();
-        double[][] matriu = new double[n][n];
+        double[][] mat = new double[n][n];
 
         int idx = 0;
         for (Producte prod : productes.values()) {
             int colx = 0;
             for (Producte prod2 : productes.values()) {
                 if (prod.getId() == prod2.getId()) {
-                    matriu[idx][idx] = 0.0;
+                    mat[idx][idx] = 0.0;
                 }
                 else {
-                    matriu[idx][colx] = prod.obtenirSimilitut(prod2.getId());
+                    mat[idx][colx] = prod.obtenirSimilitud(prod2.getId());
                 }
                 ++colx;
             }
             ++idx;
         }
-        return matriu;
+        return mat;
     }
 }
