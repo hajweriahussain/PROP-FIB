@@ -11,8 +11,8 @@ public class BruteForce implements GenerarSolucio {
     public BruteForce(double[][] matSim, Producte[] vecPrd) {
         matSimilituds = matSim;
         vecProductes = vecPrd;
-        millorSimilitud = Double.MAX_VALUE;
-        vecResultat = new Producte[matSimilituds.length];
+        millorSimilitud = -1.0;
+        vecResultat = new Producte[vecProductes.length];
     }
 
     private static int factorial(int n) {
@@ -48,13 +48,8 @@ public class BruteForce implements GenerarSolucio {
     private void permutacions(int[] vProd, int L, int R, int[] numPermutacions) {
         if(numPermutacions[0] == 0) return;
         if (L == R) {
-            System.out.println("&&&&&&&&&&&&&&&&&&&&&   " + numPermutacions[0]);
             double simActual = calcularSimilitudTotal(vProd);
-            for(int i=0; i<vProd.length; ++i){
-                System.out.println("prod perm:" + vProd[i]);
-            }
-            System.out.println("&&&&&&&&&&&&&&&&&&&&& similitud actual " + simActual);
-            if (simActual < millorSimilitud) {
+            if (simActual > millorSimilitud) {
                 millorSimilitud = simActual;
                 for(int i=0; i<vecResultat.length; ++i){
                     vecResultat[i] = vecProductes[vProd[i]];
@@ -91,10 +86,6 @@ public class BruteForce implements GenerarSolucio {
 
     public double getMillorSimilitud(){
         return millorSimilitud;
-    }
-
-    public Producte[] getVecProductes(){
-        return vecProductes;
     }
 
 
