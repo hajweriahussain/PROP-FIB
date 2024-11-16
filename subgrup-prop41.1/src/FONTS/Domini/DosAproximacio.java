@@ -2,6 +2,7 @@ package Domini;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -23,7 +24,7 @@ public class DosAproximacio implements GenerarSolucio {
         this.pare = new int[n];
         this.mida = new int[n];
         this.prods = vecPrd;
-        this.sumaSimilitud = 0;
+        this.sumaSimilitud = -1; // n -> -1
 
         for(int i = 0; i < n; ++i) {
             this.pare[i] = i;
@@ -61,7 +62,7 @@ public class DosAproximacio implements GenerarSolucio {
             int k = l;
 
             while(i < n1 && j < n2) {
-                if(lvec[i].similitud <= rvec[j].similitud) {
+                if(lvec[i].similitud >= rvec[j].similitud) { // <= -> >=
                     vec[k] = lvec[i];
                     ++i;
                 }
@@ -132,58 +133,85 @@ public class DosAproximacio implements GenerarSolucio {
         return 0; //en principi mai ha de retornar 0
     }
 
-    private List<Integer> findEuleria(int start, List<Integer>[] adjacencies) {
+    /*Comença a calcular la similitud a partir de l'element j de l'array, omitint els repetits*/
+    private void calculaSuma(List<Integer> cicleEuleria, int j) {
+        int mida = cicleEuleria.size();
+        boolean[] visitat = new boolean[n];
+        Arrays.fill(visitat, false);
+        int[] estanteria_res = new int[n];
+        int i = j;
+        int contador = 0;
+        while (contador < n) {
+            if (!visitat[cicleEuleria.get(i)]) {
+                visitat[cicleEuleria.get(i)] = true;
+                estanteria_res[contador] = cicleEuleria.get(i);
+                ++contador;
+            }
+            ++i;
+            if (i == mida) i = 0;
+        }
+        double newSum = 0;
+        Producte[] new_producte = new Producte[n];
+        for (int k = 0; k < n; ++k) {
+            new_producte[k] = prods[estanteria_res[k]];
+            if(k == n-1) newSum += obteSimilitud(estanteria_res[k], estanteria_res[0]);
+            else newSum += obteSimilitud(estanteria_res[k], estanteria_res[k+1]);
+        }
+
+        if (newSum > sumaSimilitud) { // < -> >
+            sumaSimilitud = newSum;
+            res_productes = new_producte;
+        }
+    }
+
+    /*Comença a calcular la similitud a partir de l'element j de l'array, omitint els repetits*/
+    private List<Integer> findEuleria(List<List<Integer>> adjacencies) {
         List<Integer> cicleEuleria = new ArrayList<>();
         Stack<Integer> pila = new Stack<>();
-        pila.push(start);
+        pila.push(0);
     
         while (!pila.isEmpty()) {
             int u = pila.peek();
-            if (adjacencies[u].isEmpty()) {
+            if (adjacencies.get(u).isEmpty()) {
                 cicleEuleria.add(u);
                 pila.pop();
             } else {
-                int v = adjacencies[u].remove(0);
-                adjacencies[v].remove(Integer.valueOf(u));
+                int v = adjacencies.get(u).remove(0);
                 pila.push(v);
             }
         }
         return cicleEuleria;
     }
-     
 
     public Producte[] generarLayout() {
         //Construir mst
         List<Aresta> mst = MST();
-
         //Construir llista d'adjacències amb doble aresta
-        List<Integer>[] adjacencies = new ArrayList[n];
+        List<List<Integer>> adjacencies = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            adjacencies[i] = new ArrayList<>();
-        }
-        for(Aresta ar : mst) {
-            adjacencies[ar.V1].add(ar.V2);
-            adjacencies[ar.V2].add(ar.V1);
+            adjacencies.add(new ArrayList<>());
         }
 
+        for (Aresta ar : mst) {
+            adjacencies.get(ar.V1).add(ar.V2);
+            adjacencies.get(ar.V2).add(ar.V1);
+        }
         //Cicle Eulerià (algorisme de Hierholzer)
-        List<Integer> cicleEuleria = findEuleria(0, adjacencies);
+        List<Integer> cicleEuleria = findEuleria(adjacencies);
+        int[] contador = new int[n];
+        Arrays.fill(contador, 0);
 
-        //Eliminar repetits
-        boolean[] visitat = new boolean[n];
-        int[] estanteria_res = new int[n];
-        int i = 0;
-        for (Integer v : cicleEuleria) {
-            if (!visitat[v]) {
-                visitat[v] = true;
-                estanteria_res[i] = v;
-                ++i;
-            }
+        for (int v = 0; v < cicleEuleria.size(); ++v) {
+            contador[cicleEuleria.get(v)] += 1;
         }
-        for (int k = 0; k < n; ++k) {
-            res_productes[k] = prods[estanteria_res[k]];
-            if(k == n-1) sumaSimilitud += obteSimilitud(estanteria_res[k], estanteria_res[0]);
-            else sumaSimilitud += obteSimilitud(estanteria_res[k], estanteria_res[k+1]);
+
+        calculaSuma(cicleEuleria, 0);
+        int pivote = 0;
+        for (Integer v : cicleEuleria) {
+            if (contador[v] > 1) {
+                calculaSuma(cicleEuleria, pivote);
+            }
+            ++pivote;
         }
         return res_productes;
     }
