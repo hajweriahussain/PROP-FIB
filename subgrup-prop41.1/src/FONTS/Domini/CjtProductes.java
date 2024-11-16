@@ -28,7 +28,7 @@ public class CjtProductes {
     }
 
 
-    public Producte[] getProductes() {
+    public Producte[] getVecProductes() {
         List<Producte> producteList = new ArrayList<>(productes.values());
         return producteList.toArray(Producte[]::new);
     }

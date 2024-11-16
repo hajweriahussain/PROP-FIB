@@ -36,10 +36,10 @@ public class CjtProductesTest {
     }
 
     @Test
-    public void testGetProductes() {
+    public void testGetVecProductes() {
         cjtProductes.afegirProducte(prod1);
         cjtProductes.afegirProducte(prod2);
-        Producte[] productes = cjtProductes.getProductes();
+        Producte[] productes = cjtProductes.getVecProductes();
         assertEquals(2, productes.length);
     }
 
