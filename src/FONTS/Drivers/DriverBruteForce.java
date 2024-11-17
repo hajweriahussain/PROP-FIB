@@ -106,9 +106,6 @@ public class DriverBruteForce {
         Producte[] resultat = bf.generarLayout();
 
         System.out.println("+---------------------------------+");
-        System.out.println("|           Prestatgeria          |");
-        System.out.println("+---------------------------------+");
-
         for (int i = 0; i < resultat.length; i++) {
             String id = String.format("%-4d", resultat[i].getId());
             String nombre = String.format("%-9s", resultat[i].getNom());
@@ -144,7 +141,7 @@ public class DriverBruteForce {
         else if(op == 2) {
             System.out.println("Introdueix el nom del fitxer (que ha d'estar al directori DATA del projecte)");
             String filename = sc.nextLine();
-            String filePath = "../DATA/" + filename;
+            String filePath = "../EXE/Drivers/" + filename;
 
             try {
                 DriverBruteForce driverBF = new DriverBruteForce(filePath);

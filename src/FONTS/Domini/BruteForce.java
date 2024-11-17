@@ -1,5 +1,7 @@
 package Domini;
 
+import java.math.BigInteger;
+
 public class BruteForce implements GeneradorSolucio {
 
     private double[][] matSimilituds;
@@ -15,13 +17,13 @@ public class BruteForce implements GeneradorSolucio {
         vecResultat = new Producte[vecProductes.length];
     }
 
-    private static int factorial(int n) {
-        int resultado = 1;
+    private static BigInteger factorial(int n) {
+        BigInteger resultado = BigInteger.ONE;
         for (int i = 2; i <= n; i++) {
-            resultado *= i;
+            resultado = resultado.multiply(BigInteger.valueOf(i));
         }
         return resultado;
-     }
+    }
 
     private double calcularSimilitudTotal(int[] vecActualProd) {
         double total = 0.0;
@@ -45,8 +47,8 @@ public class BruteForce implements GeneradorSolucio {
         arr[j] = temp;
     }
 
-    private void permutacions(int[] vProd, int L, int R, int[] numPermutacions) {
-        if(numPermutacions[0] == 0) return;
+    private void permutacions(int[] vProd, int L, int R, BigInteger[] numPermutacions) {
+        if (numPermutacions[0].equals(BigInteger.ZERO)) return;
         if (L == R) {
             double simActual = calcularSimilitudTotal(vProd);
             if (simActual > millorSimilitud) {
@@ -55,7 +57,7 @@ public class BruteForce implements GeneradorSolucio {
                     vecResultat[i] = vecProductes[vProd[i]];
                 }
             }
-            numPermutacions[0]--;
+            numPermutacions[0] = numPermutacions[0].subtract(BigInteger.ONE);
 
 
         } else {
@@ -70,12 +72,12 @@ public class BruteForce implements GeneradorSolucio {
 
     public Producte[] generarLayout(){
         int r = vecProductes.length - 1;
-        int[] numPermutacions = {factorial(r)};
+        BigInteger[] numPermutacions = {factorial(r)};
         int[] vP = new int[r+1];
         for(int i=0;i<= r; ++i){
             vP[i] = i;
         }
-        //llamamos con l=1 para que siempre empieze con el mismo producto
+
         permutacions(vP,0,r,numPermutacions);
         return vecResultat;
     }
