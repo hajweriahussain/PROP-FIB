@@ -26,7 +26,7 @@ public class CjtUsuaris {
         usuaris.put(nomUsuari, usr);
     }
 
-    public CjtUsuaris (String id, Usuari usr) {
+    public CjtUsuaris(String id, Usuari usr) {
         idCjtUsuaris = id;
         String nomUsuari = usr.getUsername();
         usuaris = new HashMap<>();

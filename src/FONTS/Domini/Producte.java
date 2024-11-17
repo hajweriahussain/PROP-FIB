@@ -84,6 +84,9 @@ public class Producte {
     }
 
     public void setSimilituds(Map<Integer, Double> similituds) {
+        for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
+            validarSimilitud(entry.getValue());
+        }
         this.similituds = similituds;
     }
 

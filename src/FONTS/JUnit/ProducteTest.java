@@ -122,6 +122,13 @@ public class ProducteTest {
         assertFalse(prod.getSimilituds().isEmpty());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetSimilitudsNegatives() {
+        Map<Integer, Double> sims2 = new HashMap<>();
+        sims2.put(10, -0.3);
+        prod.setSimilituds(sims2);
+    }
+
     @Test
     public void testIniciSimilituds() {
         assertEquals(1, prodS.getSimilituds().size());
