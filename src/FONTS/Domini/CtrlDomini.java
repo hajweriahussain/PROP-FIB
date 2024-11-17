@@ -66,7 +66,7 @@ public class CtrlDomini {
         int numProductes = vecProductes.length;
         prestatgeria = new Prestatgeria(1, numProductes);
         
-        GenerarSolucio generadorInicial;
+        GeneradorSolucio generadorInicial;
 
         if (bruteForce) {
             generadorInicial = new BruteForce(matSimilituds, vecProductes);
