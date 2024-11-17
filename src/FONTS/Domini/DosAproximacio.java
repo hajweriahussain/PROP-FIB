@@ -14,11 +14,13 @@ public class DosAproximacio implements GenerarSolucio {
     private Producte[] prods;
     private double sumaSimilitud;
     private Producte[] res_productes;
+    private double[][] matS;
 
     //Constructora
 
     public DosAproximacio(double[][] matSim, Producte[] vecPrd) {
         this.n = matSim.length;
+        this.matS = matSim;
         this.res_productes = new Producte[n];
         this.llista_arestes = new ArrayList<Aresta>();
         this.pare = new int[n];
@@ -116,21 +118,11 @@ public class DosAproximacio implements GenerarSolucio {
         while (mst.size() < n-1 && i < array_arestes.length) {
             if (find(array_arestes[i].V1) != find(array_arestes[i].V2)) {
                 mst.add(array_arestes[i]);
-                //mst.add(new Aresta(array_arestes[i].V2, array_arestes[i].V1, array_arestes[i].similitud)); //graf dirigit
                 uneix(array_arestes[i].V1, array_arestes[i].V2);
             }
             ++i;
         }
         return mst;
-    }
-
-    private double obteSimilitud(int v1, int v2) {
-        for (Aresta ar : llista_arestes) {
-            if ((ar.V1 == v1 && ar.V2 == v2) || (ar.V1 == v2 && ar.V2 == v1)) {
-                return ar.similitud;
-            }
-        }
-        return 0; //en principi mai ha de retornar 0
     }
 
     /*Comença a calcular la similitud a partir de l'element j de l'array, omitint els repetits*/
@@ -154,8 +146,8 @@ public class DosAproximacio implements GenerarSolucio {
         Producte[] new_producte = new Producte[n];
         for (int k = 0; k < n; ++k) {
             new_producte[k] = prods[estanteria_res[k]];
-            if(k == n-1) newSum += obteSimilitud(estanteria_res[k], estanteria_res[0]);
-            else newSum += obteSimilitud(estanteria_res[k], estanteria_res[k+1]);
+            if(k == n-1) newSum += matS[estanteria_res[k]][estanteria_res[0]];
+            else newSum += matS[estanteria_res[k]][estanteria_res[k+1]];
         }
 
         if (newSum > sumaSimilitud) { // < -> >
