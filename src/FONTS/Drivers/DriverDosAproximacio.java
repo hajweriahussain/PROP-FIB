@@ -95,11 +95,7 @@ public class DriverDosAproximacio {
 
     public void generar_Layout() {
         System.out.println("\nIniciando la generación del layout...");
-
         Producte[] resultat = dosAprox.generarLayout();
-
-        System.out.println("+---------------------------------+");
-        System.out.println("|           Prestatgeria          |");
         System.out.println("+---------------------------------+");
 
         for (int i = 0; i < resultat.length; i++) {
@@ -134,7 +130,7 @@ public class DriverDosAproximacio {
         } else if (entrada == 2) {
             System.out.println("Introdueix el nom del fitxer (que ha d'estar al directori DATA del projecte)");
             String filename = sc.nextLine();
-            String filePath = "../DATA/" + filename;
+            String filePath = "../EXE/Drivers/" + filename;
 
             try {
                 DriverDosAproximacio driver2A = new DriverDosAproximacio(filePath);
