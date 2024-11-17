@@ -1,0 +1,14 @@
+crearUsuari user1 pass1
+iniciarSessio user1 pass1
+crearUsuari user2 pass2
+canviarUsuari user2 pass2
+crearProducte 101 ProducteA
+crearProducte 102 ProducteB
+crearPrestatgeria false
+modificarProducte 101 201 NouNom 0
+modificarPrestatgeria 0 1
+esborrarProducte 201
+getUsuariActual
+esborrarUsuari
+tancarSessio
+sortir
