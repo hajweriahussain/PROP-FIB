@@ -24,18 +24,27 @@ public class DriverBruteForce {
         for (int i = 0; i < numProductes; i++) {
             String lineaProducte = scanner.nextLine();  // Ex: "1 A"
             String[] prod = lineaProducte.split("\\s+");
-            int idProducte = Integer.parseInt(prod[0]);
-            String nomProducte = prod[1];
 
-            productes[i] = new Producte(idProducte, nomProducte);
+            try {
+                int idProducte = Integer.parseInt(prod[0]);
+                String nomProducte = prod[1];
+                productes[i] = new Producte(idProducte, nomProducte);
+
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("El format del producte no és correcte. Introdueix un Id numèric seguit d'un nom");
+
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Excepción atrapada: Faltan datos (ID o nombre)"); // Depuración
+                throw new IllegalArgumentException("El format del producte no és correcte. Cal indicar tant l'ID com el nom");
+            }
+
         }
 
         //Llegeix la matriu de similituds
-        scanner.nextLine(); // Saltar la línea "Matriu similituds:"
+        scanner.nextLine();
         double[][] matriuSimilituds = llegirMatriu(scanner, numProductes);
 
          this.bf = new BruteForce(matriuSimilituds, productes);
-         //Producte[] resProd = bf.getVecProductes();
          scanner.close();
     }
 
@@ -52,10 +61,18 @@ public class DriverBruteForce {
             System.out.print("Introdueix l'ID y el nom del producte " + (i + 1) + ": ");
             String lineaProducte = scanner.nextLine();
             String[] prod = lineaProducte.split("\\s+");
-            int idProducte = Integer.parseInt(prod[0]);
-            String nomProducte = prod[1];
 
-            productes[i] = new Producte(idProducte, nomProducte);
+            try {
+                int idProducte = Integer.parseInt(prod[0]);
+                String nomProducte = prod[1];
+                productes[i] = new Producte(idProducte, nomProducte);
+
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("El format del producte no és correcte. Introdueix un ID numèric seguit d'un nom");
+
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new IllegalArgumentException("El format del producte no és correcte. Cal indicar tant l'ID com el nom");
+            }
         }
 
         //Llegeix la matriu de similituds
@@ -74,7 +91,10 @@ public class DriverBruteForce {
             String[] sim = lineaSimilituds.split("\\s+");
 
             for (int j = 0; j < numProductes; j++) {
-                matriuSimilituds[i][j] = Double.parseDouble(sim[j]);
+                double valor = Double.parseDouble(sim[j]);
+                if(valor < 0.0) throw new IllegalArgumentException("La matriu de similituds no pot contenir valors negatius");
+                if(valor > 1.0) throw new IllegalArgumentException("La matriu de similituds no pot contenir valors més grans que 1.0");
+                matriuSimilituds[i][j] = valor;
             }
         }
 
@@ -82,14 +102,22 @@ public class DriverBruteForce {
     }
 
     public void generar_Layout() {
-        System.out.println("Iniciando la generación del layout...");
+        System.out.println("\nIniciando la generación del layout...");
 
         Producte[] resultat = bf.generarLayout();
-        System.out.println("Resultat: ");
+
+        System.out.println("+---------------------------------+");
+        System.out.println("|           Prestatgeria          |");
+        System.out.println("+---------------------------------+");
+
         for (int i = 0; i < resultat.length; i++) {
-            System.out.println("Id = " + resultat[i].getId() + ", Nom = " + resultat[i].getNom());
-            System.out.println("Millor sim " + bf.getMillorSimilitud());
+            String id = String.format("%-4d", resultat[i].getId());
+            String nombre = String.format("%-9s", resultat[i].getNom());
+            System.out.println("|  ID: " + id + " | Producte: " + nombre + " |");
+            System.out.println("+---------------------------------+");
         }
+
+        System.out.println("\nSimilitud más alta: " + String.format("%.2f", bf.getMillorSimilitud()));
     }
 
     public static void main(String[] args){
@@ -106,10 +134,14 @@ public class DriverBruteForce {
             try {
                 DriverBruteForce driverBF = new DriverBruteForce();
                 driverBF.generar_Layout();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error en les dades: " + e.getMessage());
+
             } catch (Exception e) {
                 System.out.println("Error al generar el layout: " + e.getMessage());
             }
         }
+
         else if(op == 2) {
             System.out.println("Introdueix el nom del fitxer (que ha d'estar al directori DATA del projecte)");
             String filename = sc.nextLine();
@@ -121,6 +153,12 @@ public class DriverBruteForce {
 
             } catch (FileNotFoundException e) {
                 System.out.println("L'arxiu no s'ha trobat: " + e.getMessage());
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error en la matriu de similituds: " + e.getMessage());
+
+            } catch (Exception e) {
+                System.out.println("Error al generar el layout: " + e.getMessage());
             }
 
         }

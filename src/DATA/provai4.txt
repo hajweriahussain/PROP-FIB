@@ -1,0 +1,10 @@
+Numero de productes: 4
+1 a
+2 b
+3 c
+4 d
+Matriu:
+0 10 15 20
+10 0 35 25
+15 35 0 30
+20 25 30 0
