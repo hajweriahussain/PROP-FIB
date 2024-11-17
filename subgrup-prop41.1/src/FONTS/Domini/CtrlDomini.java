@@ -8,6 +8,7 @@ public class CtrlDomini {
     private CjtProductes cjtProductes;
     private Prestatgeria prestatgeria;
     private double[][] matSimilituds;
+    private Producte[] vecProductes;
 
 
     private static CtrlDomini singletonObject;
@@ -32,8 +33,6 @@ public class CtrlDomini {
             crearUsuari(username, pwd);
         }
         cjtProductes = new CjtProductes(username);
-//        Boolean bruteForce;
-//        crearPrestatgeria(bruteForce);
         UsuariActual = cjtUsuaris.getUsuari(username);
     }
 
@@ -43,29 +42,36 @@ public class CtrlDomini {
     }
 
     public void canviarUsuari(String nomUsuari, String pwd) {
-        //per a aquesta entrega només crida a iniciar sessió, però per les següents haurà de cridar a la base de dades i guardar el que calgui
         iniciarSessio(nomUsuari, pwd); //canviem l'usuari actual
     }
-
-    public void crearProducte(int id, String nom, Map<Integer, Double> similituds){
+    
+    public Producte[] llistarProductesUsuari() {
+    	return cjtProductes.getVecProductes();
+    }
+    
+    public Producte[] llistarPrestatgeriaUsuari() {
+    	return prestatgeria.getLayout();
+    }
+    
+    
+    public void crearProducte(int id, String nom, Map<Integer, Double> similituds, Boolean bruteForce){
         Producte p = new Producte(id, nom, similituds);
         cjtProductes.afegirProducte(p);
+        crearPrestatgeria(bruteForce);
     }
 
     public void crearPrestatgeria(Boolean bruteForce){
-        double[][] matSimilituds = cjtProductes.obtenirMatriuSimilituts();
-
-        Producte[] vecProd = cjtProductes.obtenirProductes();
-        int numProductes = vecProd.length;
+        matSimilituds = cjtProductes.getMatriuSimilituds();
+        vecProductes = cjtProductes.getVecProductes();
+        int numProductes = vecProductes.length;
         prestatgeria = new Prestatgeria(1, numProductes);
-
-        //Interface
+        
         GenerarSolucio generadorInicial;
 
         if (bruteForce) {
-            generadorInicial = new BruteForce(matSimilituds, vecProd);
+            generadorInicial = new BruteForce(matSimilituds, vecProductes);
         } else {
-            generadorInicial = new DosAproximacio(matSimilituds, vecProd);
+            generadorInicial = new DosAproximacio(matSimilituds, vecProductes);
         }
 
         Producte[] solucio = generadorInicial.generarLayout();
@@ -74,33 +80,35 @@ public class CtrlDomini {
         for (int i = 0; i < solucio.length; i++) {
             solucio[i].setColumna(i);
         }
-
     }
 
-    void modificarProducte(Integer idProdActual1, Integer idProdActual2, double novaSim, Integer nouId, String nouNom, Integer novaColumna) {
+    public void modificarProducte(Integer idProdActual1, Integer idProdActual2, double novaSim, Integer nouId, String nouNom, Integer novaColumna, Boolean bruteForce) {
     	if (cjtProductes.getProducte(idProdActual1) != null) {
 	    	if (nouId != null) {
 	    		cjtProductes.editarIdProducte(idProdActual1, nouId);
+	    		System.out.println("S'ha modificat el id del producte amb id " + idProdActual1);
 	    	}
 	    	if (nouNom != null) {
 	    		cjtProductes.editarNomProducte(idProdActual1, nouNom);
-	    	}
-	    	if (novaColumna != null) {
-	    		cjtProductes.editarPosProducte(idProdActual1, novaColumna);
+	    		System.out.println("S'ha modificat el nom del producte amb id " + idProdActual1);
 	    	}
 	    	if ((cjtProductes.getProducte(idProdActual2) != null) && (novaSim > 0)) {
 	    		cjtProductes.modificarSimilitud(idProdActual1, idProdActual2, novaSim);
+	    		crearPrestatgeria(bruteForce);
+	    		System.out.println("S'ha modificat la similitud entre el producte amb id " 
+	    							+ idProdActual1 + " i el producte amb id " + idProdActual2);
 	    	}
     	}
-    	else System.out.println("No existeix productes amb id = idProdActual");
+    	else System.out.println("No existeix producte amb id = idProdActual1");
     }
 
-    void modificarPrestatgeria(int pos1, int pos2){
+	public void modificarPrestatgeria(int pos1, int pos2){
         prestatgeria.intercanviarDosProductes(pos1, pos2);
     }
 
-    public void esborrarProducte(int id){
+    public void esborrarProducte(int id, Boolean bruteForce){
         cjtProductes.eliminarProducte(id);
+        crearPrestatgeria(bruteForce);
     }
 
     public void esborrarPrestatgeria(){

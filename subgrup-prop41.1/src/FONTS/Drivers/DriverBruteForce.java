@@ -35,7 +35,7 @@ public class DriverBruteForce {
         double[][] matriuSimilituds = llegirMatriu(scanner, numProductes);
 
          this.bf = new BruteForce(matriuSimilituds, productes);
-         Producte[] resProd = bf.getVecProductes();
+         //Producte[] resProd = bf.getVecProductes();
          scanner.close();
     }
 

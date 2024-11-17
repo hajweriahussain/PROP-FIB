@@ -1,0 +1,3 @@
+DriverComplet: Classe on s'implementa el driver principal del sistema.
+DriverDosAproximacio: Classe on s'implementa el driver de l'algorisme DosAproximacio
+DriverBruteForce: Classe on s'implementa el driver de l'algorisme BruteForce

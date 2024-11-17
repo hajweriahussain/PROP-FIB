@@ -33,9 +33,15 @@ public class Prestatgeria {
     }
     public void intercanviarDosProductes(int posProd1, int posProd2) {
         if (posProd1 >= 0 && posProd1 < numProductes && posProd2 >= 0 && posProd2 < numProductes) {
-            Producte prod1Temp = layout[posProd1];
-            layout[posProd1] = layout[posProd2];
-            layout[posProd2] = prod1Temp;
+            Producte prod1 = layout[posProd1];
+            Producte prod2 = layout[posProd2];
+            
+            layout[posProd1] = prod2;
+            layout[posProd2] = prod1;
+
+            prod1.setColumna(posProd2);
+            prod2.setColumna(posProd1);
+      
             System.out.println("S'han intercambiat els productes de " + posProd1 + " i " + posProd2);
         } else {
             System.out.println("Posicions fora de rang");
