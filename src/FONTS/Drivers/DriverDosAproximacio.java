@@ -15,17 +15,25 @@ public class DriverDosAproximacio {
         FileReader fr = new FileReader(dataFile);
         Scanner scanner = new Scanner(fr);
 
-        String lineaNumProductes = scanner.nextLine(); // Ej: "Número de productes: 4"
+        String lineaNumProductes = scanner.nextLine();
         int numProductes = Integer.parseInt(lineaNumProductes.split(":")[1].trim());
 
         Producte[] productes = new Producte[numProductes];
         for (int i = 0; i < numProductes; i++) {
-            String lineaProducte = scanner.nextLine();  // Ej: "1 A"
+            String lineaProducte = scanner.nextLine();
             String[] prod = lineaProducte.split("\\s+");
-            int idProducte = Integer.parseInt(prod[0]);
-            String nomProducte = prod[1];
 
-            productes[i] = new Producte(idProducte, nomProducte);
+            try {
+                int idProducte = Integer.parseInt(prod[0]);
+                String nomProducte = prod[1];
+                productes[i] = new Producte(idProducte, nomProducte);
+
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("El format del producte no és correcte. Introdueix un Id numèric seguit d'un nom");
+
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new IllegalArgumentException("El format del producte no és correcte. Cal indicar tant l'ID com el nom");
+            }
         }
 
         scanner.nextLine();
@@ -46,10 +54,18 @@ public class DriverDosAproximacio {
             System.out.print("Introdueix l'ID y el nom del producte " + (i + 1) + ": ");
             String lineaProducte = scanner.nextLine();
             String[] prod = lineaProducte.split("\\s+");
-            int idProducte = Integer.parseInt(prod[0]);
-            String nomProducte = prod[1];
 
-            productes[i] = new Producte(idProducte, nomProducte);
+            try {
+                int idProducte = Integer.parseInt(prod[0]);
+                String nomProducte = prod[1];
+                productes[i] = new Producte(idProducte, nomProducte);
+
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("El format del producte no és correcte. Introdueix un ID numèric seguit d'un nom");
+
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new IllegalArgumentException("El format del producte no és correcte. Cal indicar tant l'ID com el nom");
+            }
         }
 
         System.out.println("Introdueix la matriu de similituds:");
@@ -67,41 +83,55 @@ public class DriverDosAproximacio {
             String[] sim = lineaSimilituds.split("\\s+");
 
             for (int j = 0; j < numProductes; j++) {
-                matriuSimilituds[i][j] = Double.parseDouble(sim[j]);
+                double valor = Double.parseDouble(sim[j]);
+                if (valor < 0.0) throw new IllegalArgumentException("La matriu de similituds no pot contenir valors negatius");
+                if (valor > 1.0) throw new IllegalArgumentException("La matriu de similituds no pot contenir valors més grans que 1.0");
+                matriuSimilituds[i][j] = valor;
             }
         }
+
         return matriuSimilituds;
     }
 
     public void generar_Layout() {
-        System.out.println("Iniciando la generación del layout con 2-Aproximació...");
+        System.out.println("\nIniciando la generación del layout...");
 
         Producte[] resultat = dosAprox.generarLayout();
 
-        for (Producte prod : resultat) {
-            System.out.println("Producto " + prod.getId() + ": " + prod.getNom());
+        System.out.println("+---------------------------------+");
+        System.out.println("|           Prestatgeria          |");
+        System.out.println("+---------------------------------+");
+
+        for (int i = 0; i < resultat.length; i++) {
+            String id = String.format("%-4d", resultat[i].getId());
+            String nombre = String.format("%-9s", resultat[i].getNom());
+            System.out.println("|  ID: " + id + " | Producte: " + nombre + " |");
+            System.out.println("+---------------------------------+");
         }
-        System.out.println("Millor Similitud: " + dosAprox.getMillorSimilitud());
+
+        System.out.println("\nSimilitud més alta: " + String.format("%.2f", dosAprox.getMillorSimilitud()));
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Escull el mètode d'entrada de les dades:");
         System.out.println("1 - Entrada per terminal");
         System.out.println("2 - Entrada per fitxer de text");
+
         int entrada = sc.nextInt();
         sc.nextLine();
 
-        if(entrada == 1){
+        if (entrada == 1) {
             try {
                 DriverDosAproximacio driver2A = new DriverDosAproximacio();
                 driver2A.generar_Layout();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error en les dades: " + e.getMessage());
             } catch (Exception e) {
                 System.out.println("Error al generar el layout: " + e.getMessage());
             }
-        }
-        else if(entrada == 2) {
+        } else if (entrada == 2) {
             System.out.println("Introdueix el nom del fitxer (que ha d'estar al directori DATA del projecte)");
             String filename = sc.nextLine();
             String filePath = "../DATA/" + filename;
@@ -111,13 +141,15 @@ public class DriverDosAproximacio {
                 driver2A.generar_Layout();
             } catch (FileNotFoundException e) {
                 System.out.println("L'arxiu no s'ha trobat: " + e.getMessage());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error en la matriu de similituds: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Error al generar el layout: " + e.getMessage());
             }
-        }
-        else{
+        } else {
             System.out.println("Opció no vàlida.");
-            sc.close();
-            return;
         }
+
         sc.close();
     }
 }
