@@ -1,0 +1,79 @@
+-------Manual d'ús Driver DosAproximacio-------
+
+-------Objecte de la prova-------
+
+Aquest driver té com a objectiu provar la classe DosAproximacio mitjançant la simulació de 
+l'algorisme que genera un layout basat en una matriu de similituds i una llista de productes. 
+Els casos d'ús inclouen:
+    - Lectura de dades d'entrada (per fitxer o terminal).
+    - Validació de la matriu de similituds.
+    - Execució de l'algorisme DosAproximacio i obtenció dels resultats.
+
+-------Altres elements integrats a la prova-------
+
+El driver integra les següents classes i funcionalitats:
+    - Classe Producte: Utilitzada per crear i gestionar els productes que formaran part del layout.
+    - Classe DosAproximacio: Conté l'algorisme de generació del layout i càlcul de la millor similitud.
+
+-------Fitxers de dades necessaris------- (això no està bee crec)
+
+En el mode d'entrada per fitxer, es requereix un arxiu amb el format següent:
+    - Una línia inicial amb el nombre de productes.
+    - Una llista dels productes amb ID i nom, separats per espais, una línia per producte.
+    - Una matriu de similituds (de dimensió n x n, on n és el nombre de productes), amb valors entre 
+      0.0 i 1.0. Cada fila ha de contenir valors separats per espais, ha de ser simètrica i la diagonal
+      ha de valdre 0.0. 
+
+    Es pot veure un exemple d'entrada al final d'aquest arxiu.
+
+-------Valors estudiats-------
+
+    Proves de caixa negra:
+    - Es prova amb conjunts de dades vàlids per verificar si el resultat generat és coherent amb els inputs.
+    - Proves amb errors intencionats, com fitxers amb format incorrecte, valors fora del rang permès (menors 
+      de 0.0 o majors de 1.0), o productes sense nom.
+
+-------Efectes estudiats-------
+
+    - Correcta visualització dels resultats en format taula amb ID i nom dels productes.
+    - Càlcul correcte de la millor similitud entre els productes.
+    - Gestió d'errors, com formats incorrectes o dades inconsistents.
+
+-------Operativa-------
+
+Mode d'entrada per terminal:
+
+    Es demana el nombre de productes i, seguidament, s'introdueixen els ID i noms dels productes.
+    Es proporcionen les dades de la matriu de similituds directament.
+
+Mode d'entrada per fitxer:
+
+    Es proporciona el nom del fitxer, que ha d'estar al directori especificat.
+    El fitxer es llegeix i es valida la seva estructura.
+
+-------Exemple de fitxer d'entrada-------
+
+Número de productes: 4
+1 A
+2 B
+3 C
+4 D
+Matriu similituds:
+0.00000 0.08805 0.68035 0.03273
+0.08805 0.00000 0.12726 0.97154
+0.68035 0.12726 0.00000 0.54186
+0.03273 0.97154 0.54186 0.00000
+
+-------Exemple de sortida esperada-------
+
++---------------------------------+
+|  ID: 1    | Producte: A         |
++---------------------------------+
+|  ID: 3    | Producte: C         |
++---------------------------------+
+|  ID: 4    | Producte: D         |
++---------------------------------+
+|  ID: 2    | Producte: B         |
++---------------------------------+
+
+Similitud més alta: 2,28   
