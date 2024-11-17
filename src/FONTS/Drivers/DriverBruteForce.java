@@ -34,7 +34,6 @@ public class DriverBruteForce {
                 throw new IllegalArgumentException("El format del producte no és correcte. Introdueix un Id numèric seguit d'un nom");
 
             } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Excepción atrapada: Faltan datos (ID o nombre)"); // Depuración
                 throw new IllegalArgumentException("El format del producte no és correcte. Cal indicar tant l'ID com el nom");
             }
 
