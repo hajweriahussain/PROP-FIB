@@ -7,17 +7,12 @@ mv Domini/*.class ../EXE/Domini
 
 javac --release 22 Drivers/*.java
 
-mv Drivers/DriverBruteForce.class ../EXE/Drivers/DriverBruteForce
-mv Drivers/DriverDosAproximacio.class ../EXE/Drivers/DriverDosAproximacio
-mv Drivers/DriverComplet.class ../EXE/Drivers/DriverComplet
+mv Drivers/*.class ../EXE/Drivers
 
 
 javac --release 22 -classpath $JUNIT_JAR:../EXE/Domini: JUnit/*.java
 
-mv JUnit/ProducteTest.class ../EXE/JUnit/ProducteTest
-mv JUnit/CjtProductesTest.class ../EXE/JUnit/CjtProductesTest
-mv JUnit/BruteForceTest.class ../EXE/JUnit/BruteForceTest
-mv JUnit/DosAproximacioTest.class ../EXE/JUnit/DosAproximacioTest
+mv JUnit/*.class ../EXE/JUnit
 
 mv Domini/*.class ../EXE/Domini
 
