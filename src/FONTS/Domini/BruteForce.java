@@ -1,6 +1,6 @@
 package Domini;
 
-public class BruteForce implements GenerarSolucio {
+public class BruteForce implements GeneradorSolucio {
 
     private double[][] matSimilituds;
     private Producte[] vecProductes;
