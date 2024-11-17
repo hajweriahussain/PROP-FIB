@@ -1,2 +1,0 @@
-cd cd Drivers/DriverDosAproximacio
-java Drivers/DriverDosAproximacio/DriverDosAproximacio
