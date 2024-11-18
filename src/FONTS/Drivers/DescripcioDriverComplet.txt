@@ -103,15 +103,30 @@ Exemple: llistarPrestatgeriaUsuari
 Descripció: Mostra el layout de la prestatgeria de l'usuari, amb els productes ordenats segons el layout generat per l'algoritme seleccionat.
 -------------------------------------------------------------------------------------------
 
-8. Modificar Producte
-Permet modificar les propietats d'un producte existent.
+8. Llistar Usuaris
+Mostra els usuaris que hi han creats.
 
-Comanda: modificarProducte <idActual> <idNou> <similitud> <nouId> <nouNom> <novaPos> <algoritme>
-Exemple: modificarProducte 101 102 0.8 105 NouProducteA null true
-Descripció: Modifica el producte amb ID <idActual>, canviant la seva similitud amb el producte <idNou>, així com altres propietats com el nou ID (<nouId>), el nou nom (<nouNom>) i la nova posició (<novaPos>). L'algoritme s'utilitza per regenerar el layout de la prestatgeria si cal. Si no volem canviar alguns atributs els posem a null
+Comanda: llistarUsuaris
+Exemple: llistarUsuaris
+Descripció: Mostra els usuaris que hi han creats en aquesta instancia del ctrl domini.
 -------------------------------------------------------------------------------------------
 
-9. Modificar Prestatgeria
+9. Modificar Producte
+Permet modificar les propietats d'un producte existent.
+
+Comanda: modificarProducte <idActual> <nouId> <nouNom> 
+Exemple: modificarProducte 101 105 NouProducteA 
+Descripció: Modifica el producte amb ID <idActual>, canviant el seu ID pel nou ID (<nouId>) o el nou nom (<nouNom>).
+-------------------------------------------------------------------------------------------
+
+10. Modificar Similitud
+Permet modificar la similitud entre dos productes.
+
+Comanda: modificarSimilitud <idProd1> <idProd2> <novaSim> <algoritme> 
+Exemple: modificarSimilitud 101 105 0.5 true 
+Descripció: Modifica la similitud entre producte amb ID <idProd1> i producte amb ID <idProd1>, per la nova similitud <novaSim>, i recalcula la disposició amb el algoritme <algoritme>
+-------------------------------------------------------------------------------------------
+11. Modificar Prestatgeria
 Intercanvia dos productes dins de la prestatgeria.
 
 Comanda: modificarPrestatgeria <pos1> <pos2>
@@ -119,7 +134,7 @@ Exemple: modificarPrestatgeria 0 2
 Descripció: Intercanvia els productes situats a les posicions <pos1> i <pos2> dins del layout de la prestatgeria.
 -------------------------------------------------------------------------------------------
 
-10. Esborrar Producte
+12. Esborrar Producte
 Elimina un producte del conjunt de productes.
 
 Comanda: esborrarProducte <id> <algoritme>
@@ -127,7 +142,7 @@ Exemple: esborrarProducte 105 true
 Descripció: Elimina el producte amb ID <id> del conjunt de productes. Si es proporciona l'algoritme (true o false), es regenera la prestatgeria després de l'eliminació.
 -------------------------------------------------------------------------------------------
 
-11. Esborrar Prestatgeria
+13. Esborrar Prestatgeria
 Elimina la prestatgeria actual.
 
 Comanda: esborrarPrestatgeria
@@ -135,7 +150,7 @@ Exemple: esborrarPrestatgeria
 Descripció: Elimina completament la prestatgeria de l'usuari actual, deixant el layout buit.
 -------------------------------------------------------------------------------------------
 
-12. Consultar Usuari Actual
+14. Consultar Usuari Actual
 Mostra el nom de l'usuari actual.
 
 Comanda: getUsuariActual
@@ -143,7 +158,7 @@ Exemple: getUsuariActual
 Descripció: Mostra el nom de l'usuari que està actualment en sessió.
 -------------------------------------------------------------------------------------------
 
-13. Esborrar Usuari
+15. Esborrar Usuari
 Elimina l'usuari actual.
 
 Comanda: esborrarUsuari
@@ -151,7 +166,7 @@ Exemple: esborrarUsuari
 Descripció: Elimina completament l'usuari actual del sistema i tanca la sessió. Encara que s'elimina l'usuari, els productes d'aquest usuari segueixen al sistema.
 -------------------------------------------------------------------------------------------
 
-14. Tancar Sessió
+16. Tancar Sessió
 Tanca la sessió de l'usuari actual.
 
 Comanda: tancarSessio
@@ -159,7 +174,7 @@ Exemple: tancarSessio
 Descripció: Tanca la sessió de l'usuari actual, permetent iniciar sessió amb un altre usuari.
 -------------------------------------------------------------------------------------------
 
-15. Sortir
+17. Sortir
 Finalitza l'execució del Driver Complet.
 
 Comanda: sortir
@@ -178,7 +193,8 @@ crearProducte 103 ProducteC 101:0.7,102:0.6 false
 crearPrestatgeria true
 llistarProductesUsuari
 llistarPrestatgeriaUsuari
-modificarProducte 101 102 0.8 104 NouProducteA null true
+modificarProducte 101 104 NouProducteA
+modificarSimilituds 104 103 0.4 true
 modificarPrestatgeria 0 2
 esborrarProducte 104 true
 getUsuariActual

@@ -1,6 +1,7 @@
 package Domini;
 
 import java.util.Map;
+import java.util.Set;
 
 public class CtrlDomini {
     private Usuari UsuariActual;
@@ -69,6 +70,10 @@ public class CtrlDomini {
         return prestatgeria.getLayout();
     }
     
+    public Set<String> llistarUsuaris(){
+    	return cjtUsuaris.getUsuaris();
+    }
+    
     
     public void crearProducte(int id, String nom, Map<Integer, Double> similituds, Boolean bruteForce){
     	if (id <= 0 || nom == null) {
@@ -118,7 +123,7 @@ public class CtrlDomini {
                 System.out.println("S'ha modificat el id del producte amb id " + idProdActual1);
             }
 
-            if (nouNom != null) {
+            if (nouNom == "-") {
                 cjtProductes.editarNomProducte(idProdActual1, nouNom);
                 System.out.println("S'ha modificat el nom del producte amb id " + idProdActual1);
             }
@@ -129,14 +134,14 @@ public class CtrlDomini {
     }
     
     public void modificarSimilituds(Integer idProdActual1, Integer idProdActual2, double novaSim, Boolean bruteForce) {
-    	if (cjtProductes.getProducte(idProdActual1) != null || cjtProductes.getProducte(idProdActual2) != null) {
+    	if (cjtProductes.getProducte(idProdActual1) != null && cjtProductes.getProducte(idProdActual2) != null) {
     		cjtProductes.modificarSimilitud(idProdActual1, idProdActual2, novaSim);
             crearPrestatgeria(bruteForce);
             System.out.println("S'ha modificat la similitud entre el producte amb id " 
                                 + idProdActual1 + " i el producte amb id " + idProdActual2);
     	}
     	else {
-            System.out.println("No existeixen els productes amb id = " + idProdActual1 + " i id= " + idProdActual2 );
+            System.out.println("No existeixen un dels productes amb id = " + idProdActual1 + " o id= " + idProdActual2 );
         }
     }
 

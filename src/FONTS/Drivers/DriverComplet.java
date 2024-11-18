@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import Domini.*;
 
@@ -38,18 +39,27 @@ public class DriverComplet {
         switch (vec[0]) {
         	case "iniciarSessio":
 	            dC.iniciarSessio(vec[1], vec[2]);
+	            System.out.println();
 	            break;
             case "crearUsuari":
                 dC.crearUsuari(vec[1], vec[2]);
+                System.out.println();
                 break;
             case "canviarUsuari":
             	dC.canviarUsuari(vec[1], vec[2]);
+            	System.out.println();
                 break;
             case "llistarProductesUsuari":
             	dC.llistarProductesUsuari();
+            	System.out.println();
                 break;
             case "llistarPrestatgeriaUsuari":
             	dC.llistarPrestatgeriaUsuari();
+            	System.out.println();
+                break;
+            case "llistarUsuaris":
+            	dC.llistarUsuaris();
+            	System.out.println();
                 break;
             case "crearProducte":
             	int id = Integer.parseInt(vec[1]);
@@ -57,48 +67,59 @@ public class DriverComplet {
             	Map<Integer, Double> similituds = stringToMap(vec[3]);
             	Boolean bF = Boolean.parseBoolean(vec[4]);
             	dC.crearProducte(id, nom, similituds, bF);
+            	System.out.println();
                 break;
             case "crearPrestatgeria":
             	boolean bruteForce = Boolean.parseBoolean(vec[1]);
             	dC.crearPrestatgeria(bruteForce);
+            	System.out.println();
                 break;
             case "modificarProducte":
                 Integer idP1 = Integer.parseInt(vec[1]);
-                Integer nouIdP1 = vec[4].equals("null") ? null : Integer.parseInt(vec[4]);
-                String nouNomP1 = vec[5];
+                Integer nouIdP1 = vec[2].equals("null") ? null : Integer.parseInt(vec[2]);
+                String nouNomP1 = vec[3];
                 dC.modificarProducte(idP1, nouIdP1, nouNomP1);
+                System.out.println();
                 break;
             case "modificarSimilituds":
                 Integer P1 = Integer.parseInt(vec[1]);
                 Integer P2 = Integer.parseInt(vec[2]);
                 double novaSim = Double.parseDouble(vec[3]);
-                Boolean bForce = Boolean.parseBoolean(vec[7]);
+                Boolean bForce = Boolean.parseBoolean(vec[4]);
                 dC.modificarSimilituds(P1, P2, novaSim, bForce);
+                System.out.println();
                 break;
             case "modificarPrestatgeria":
             	int pos1 = Integer.parseInt(vec[1]);
             	int pos2 = Integer.parseInt(vec[2]);
             	dC.modificarPrestatgeria(pos1, pos2);
+            	System.out.println();
                 break;
             case "esborrarProducte":
             	int id1 = Integer.parseInt(vec[1]);
             	Boolean bF1 = Boolean.parseBoolean(vec[2]);
             	dC.esborrarProducte(id1, bF1);
+            	System.out.println();
                 break;
             case "esborrarPrestatgeria":
             	dC.esborrarPrestatgeria();
+            	System.out.println();
                 break;
             case "getUsuariActual":
             	dC.getUsuariActual();
+            	System.out.println();
                 break;
             case "esborrarUsuari":
             	dC.esborrarUsuari();
+            	System.out.println();
                 break;
             case "tancarSessio":
             	dC.tancarSessio();
+            	System.out.println();
                 break;
             case "sortir":
                 System.out.println("Sortint del driver...");
+                System.out.println();
                 return;
             default:
                 System.out.println("Comanda no existeix: " + comanda);
@@ -168,6 +189,16 @@ public class DriverComplet {
         }
     	
 	}
+    
+    public void llistarUsuaris() {
+    	Set<String> usuaris = cD.llistarUsuaris();
+    	
+    	System.out.println("Usuaris:");
+        for (String usuari: usuaris) {
+        	System.out.println(usuari);
+        }
+    	
+    }
     
     public void crearProducte(int id, String nom, Map<Integer, Double> similituds, Boolean bruteForce) {
     	cD.crearProducte(id, nom, similituds, bruteForce);
