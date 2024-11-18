@@ -53,21 +53,29 @@ public class Prestatgeria {
         }
     }
     public void intercanviarDosProductes(int posProd1, int posProd2) {
-        if (posProd1 >= 0 && posProd1 < numProductes && posProd2 >= 0 && posProd2 < numProductes) {
-            Producte prod1 = layout[posProd1];
-            Producte prod2 = layout[posProd2];
-            
-            layout[posProd1] = prod2;
-            layout[posProd2] = prod1;
-
-            prod1.setColumna(posProd2);
-            prod2.setColumna(posProd1);
-      
-            System.out.println("S'han intercambiat els productes de " + posProd1 + " i " + posProd2);
-        } else {
+    	if (posProd1 < 0 || posProd1 >= numProductes || posProd2 < 0 || posProd2 >= numProductes) {
             System.out.println("Posicions fora de rang");
             return;
         }
+
+        if (posProd1 == posProd2) {
+            System.out.println("Les posicions són iguals, no es realitza l'intercanvi");
+            return;
+        }
+
+        if (layout[posProd1] == null || layout[posProd2] == null) {
+            System.out.println("Un o ambdós productes són null, no es pot realitzar l'intercanvi");
+            return;
+        }
+
+        Producte temp = layout[posProd1];
+        layout[posProd1] = layout[posProd2];
+        layout[posProd2] = temp;
+
+        layout[posProd1].setColumna(posProd1);
+        layout[posProd2].setColumna(posProd2);
+
+        System.out.println("S'han intercanviat els productes de " + posProd1 + " i " + posProd2);
     }
     public void eliminarPrestatgeria() {
     	if (layout == null) {
