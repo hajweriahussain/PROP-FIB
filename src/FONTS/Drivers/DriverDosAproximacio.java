@@ -128,9 +128,9 @@ public class DriverDosAproximacio {
                 System.out.println("Error al generar el layout: " + e.getMessage());
             }
         } else if (entrada == 2) {
-            System.out.println("Introdueix el nom del fitxer (que ha d'estar al directori DATA del projecte)");
+            System.out.println("Introdueix el nom del fitxer (que ha d'estar al directori JocsAlgoritmes (../EXE/Drivers/JocsAlgoritmes) del projecte)");
             String filename = sc.nextLine();
-            String filePath = "../EXE/Drivers/" + filename;
+            String filePath = "../EXE/Drivers/JocsAlgoritmes" + filename;
 
             try {
                 DriverDosAproximacio driver2A = new DriverDosAproximacio(filePath);
