@@ -141,7 +141,7 @@ public class DriverBruteForce {
         else if(op == 2) {
             System.out.println("Introdueix el nom del fitxer (que ha d'estar al directori JocsAlgoritmes (../EXE/Drivers/JocsAlgoritmes) del projecte)");
             String filename = sc.nextLine();
-            String filePath = "../EXE/Drivers/JocsAlgoritmes" + filename;
+            String filePath = "../EXE/Drivers/JocsAlgoritmes/" + filename;
 
             try {
                 DriverBruteForce driverBF = new DriverBruteForce(filePath);
