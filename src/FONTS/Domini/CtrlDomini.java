@@ -110,24 +110,34 @@ public class CtrlDomini {
         
     }
 
-    public void modificarProducte(Integer idProdActual1, Integer idProdActual2, double novaSim, Integer nouId, String nouNom, Integer novaColumna, Boolean bruteForce) {
-    	if (cjtProductes.getProducte(idProdActual1) != null) {
-	    	if (nouId != null) {
-	    		cjtProductes.editarIdProducte(idProdActual1, nouId);
-	    		System.out.println("S'ha modificat el id del producte amb id " + idProdActual1);
-	    	}
-	    	if (nouNom != null) {
-	    		cjtProductes.editarNomProducte(idProdActual1, nouNom);
-	    		System.out.println("S'ha modificat el nom del producte amb id " + idProdActual1);
-	    	}
-	    	if ((cjtProductes.getProducte(idProdActual2) != null) && (novaSim > 0)) {
-	    		cjtProductes.modificarSimilitud(idProdActual1, idProdActual2, novaSim);
-	    		crearPrestatgeria(bruteForce);
-	    		System.out.println("S'ha modificat la similitud entre el producte amb id " 
-	    							+ idProdActual1 + " i el producte amb id " + idProdActual2);
-	    	}
+    public void modificarProducte(Integer idProdActual1, Integer nouId, String nouNom) {
+        if (cjtProductes.getProducte(idProdActual1) != null) {
+            
+            if (nouId != null) {
+                cjtProductes.editarIdProducte(idProdActual1, nouId);
+                System.out.println("S'ha modificat el id del producte amb id " + idProdActual1);
+            }
+
+            if (nouNom != null) {
+                cjtProductes.editarNomProducte(idProdActual1, nouNom);
+                System.out.println("S'ha modificat el nom del producte amb id " + idProdActual1);
+            }
+            
+        } else {
+            System.out.println("No existeix producte amb id = " + idProdActual1);
+        }
+    }
+    
+    public void modificarSimilituds(Integer idProdActual1, Integer idProdActual2, double novaSim, Boolean bruteForce) {
+    	if (cjtProductes.getProducte(idProdActual1) != null || cjtProductes.getProducte(idProdActual2) != null) {
+    		cjtProductes.modificarSimilitud(idProdActual1, idProdActual2, novaSim);
+            crearPrestatgeria(bruteForce);
+            System.out.println("S'ha modificat la similitud entre el producte amb id " 
+                                + idProdActual1 + " i el producte amb id " + idProdActual2);
     	}
-    	else System.out.println("No existeix producte amb id = idProdActual1");
+    	else {
+            System.out.println("No existeixen els productes amb id = " + idProdActual1 + " i id= " + idProdActual2 );
+        }
     }
 
 	public void modificarPrestatgeria(int pos1, int pos2){

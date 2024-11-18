@@ -63,14 +63,17 @@ public class DriverComplet {
             	dC.crearPrestatgeria(bruteForce);
                 break;
             case "modificarProducte":
-            	int idP1 = Integer.parseInt(vec[1]);
-            	int idP2 = Integer.parseInt(vec[2]);
-            	double novaSim = Double.parseDouble(vec[3]);
-            	int nouIdP1 = Integer.parseInt(vec[4]);
-            	String nouNomP1 = vec[5];
-            	int novaPos = Integer.parseInt(vec[6]);
-            	Boolean bForce = Boolean.parseBoolean(vec[7]);
-            	dC.modificarProducte(idP1, idP2, novaSim, nouIdP1, nouNomP1, novaPos, bForce);
+                Integer idP1 = Integer.parseInt(vec[1]);
+                Integer nouIdP1 = vec[4].equals("null") ? null : Integer.parseInt(vec[4]);
+                String nouNomP1 = vec[5];
+                dC.modificarProducte(idP1, nouIdP1, nouNomP1);
+                break;
+            case "modificarSimilituds":
+                Integer P1 = Integer.parseInt(vec[1]);
+                Integer P2 = Integer.parseInt(vec[2]);
+                double novaSim = Double.parseDouble(vec[3]);
+                Boolean bForce = Boolean.parseBoolean(vec[7]);
+                dC.modificarSimilituds(P1, P2, novaSim, bForce);
                 break;
             case "modificarPrestatgeria":
             	int pos1 = Integer.parseInt(vec[1]);
@@ -177,8 +180,12 @@ public class DriverComplet {
 		else System.out.println("S'ha creat la prestatgeria i s'ha trobat el layout amb l'algoritme 2-Aproximació");		
 	}
     
-    public void modificarProducte(Integer idP1, Integer idP2, double novaSim, Integer nouIdP1, String nouNomP1, Integer novaPos, Boolean bForce) {
-    	cD.modificarProducte(idP1, idP2, novaSim, nouIdP1, nouNomP1, novaPos, bForce);
+    public void modificarProducte(Integer idP1, Integer nouIdP1, String nouNomP1) {
+    	cD.modificarProducte(idP1, nouIdP1, nouNomP1);
+    }
+    
+    public void modificarSimilituds(Integer idP1, Integer IdP2, double novaSim, Boolean bF) {
+    	cD.modificarSimilituds(idP1, IdP2, novaSim, bF);
     }
     
     public void modificarPrestatgeria(int pos1, int pos2) {
@@ -230,7 +237,7 @@ public class DriverComplet {
         	System.out.println("Introdueix el nom del fitxer.txt (ha d'estar en el mateix directori que els executables del Driver):");
         	if (sc.hasNextLine()) {
         	    String filename = sc.nextLine().trim();
-        	    String filePath = "../EXE/Drivers/" + filename;
+        	    String filePath = "../EXE/Drivers/JocsComplet/" + filename;
 
         	    try {
         	        dC.scanner = new Scanner(new FileReader(filePath));
