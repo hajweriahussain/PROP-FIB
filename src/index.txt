@@ -1,0 +1,3 @@
+DOCS: Els documents ja descrits en el contingut de la primera entrega. Aquest directori no conté cap codi.
+FONTS: Classes implementades fins al moment (incloent-hi drivers). Els subdirectoris segueixen l’estructura de packages, perquè el codi sigui recompilable directament. S’ha inclòs un makefile per compilar el projecte.
+EXE: Executables per provar les classes o funcionalitats implementades i jocs de proves.
