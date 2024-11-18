@@ -1,22 +1,24 @@
--------Manual d'ús Driver DosAproximacio-------
+-------Manual d'ús Drivers Aloritmes (DosAproximacio i BruteForce)-------
 
 -------Objecte de la prova-------
 
-Aquest driver té com a objectiu provar la classe DosAproximacio mitjançant la simulació de 
+Aquests drivers tenen com a objectiu provar les classe DosAproximacio i BruteForce mitjançant la simulació de
 l'algorisme que genera un layout basat en una matriu de similituds i una llista de productes. 
 Els casos d'ús inclouen:
     - Lectura de dades d'entrada (per fitxer o terminal).
     - Validació de la matriu de similituds.
-    - Execució de l'algorisme DosAproximacio i obtenció dels resultats.
+    - Execució de l'algorisme i obtenció dels resultats.
 
 -------Altres elements integrats a la prova-------
 
 El driver integra les següents classes i funcionalitats:
     - Classe Producte: Utilitzada per crear i gestionar els productes que formaran part del layout.
-    - Classe DosAproximacio: Conté l'algorisme de generació del layout i càlcul de la millor similitud.
+    - Classe DosAproximacio o Classe BruteForce: Conté l'algorisme de generació del l'ayout i càlcul de la millor similitud.
 
--------Fitxers de dades necessaris------- (això no està bee crec)
 
+-------Fitxers de dades necessaris-------
+
+No es necessita cap fitxer d'entrada, excepte si es vol introduir les dades a través d'un fitxer.
 En el mode d'entrada per fitxer, es requereix un arxiu amb el format següent:
     - Una línia inicial amb el nombre de productes.
     - Una llista dels productes amb ID i nom, separats per espais, una línia per producte.

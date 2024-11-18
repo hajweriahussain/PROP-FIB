@@ -139,7 +139,7 @@ public class DriverBruteForce {
         }
 
         else if(op == 2) {
-            System.out.println("Introdueix el nom del fitxer (que ha d'estar al directori DATA del projecte)");
+            System.out.println("Introdueix el nom del fitxer (que ha d'estar al directori ../EXE/Drivers/ del projecte)");
             String filename = sc.nextLine();
             String filePath = "../EXE/Drivers/" + filename;
 
