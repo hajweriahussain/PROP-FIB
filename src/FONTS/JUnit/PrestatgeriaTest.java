@@ -79,20 +79,40 @@ public class PrestatgeriaTest {
 	
 	@Test
     public void testIntercanviarDosProductes() {
-        prestatgeria.intercanviarDosProductes(0, 2);
-
-        Producte[] layout = prestatgeria.getLayout();
-        assertEquals(prodC, layout[0]);
-        assertEquals(prodB, layout[1]);
-        assertEquals(prodA, layout[2]);
-        
-        prestatgeria.intercanviarDosProductes(-1, 3);
-        prestatgeria.intercanviarDosProductes(0, 4);
-        layout = prestatgeria.getLayout();
-        assertEquals(prodA, layout[0]);
-        assertEquals(prodB, layout[1]);
-        assertEquals(prodC, layout[2]);
+		prestatgeria.intercanviarDosProductes(0, 2);
+	    Producte[] layout = prestatgeria.getLayout();
+	    assertEquals(prodC, layout[0]);
+	    assertEquals(prodB, layout[1]);
+	    assertEquals(prodA, layout[2]);
     }
+	
+	@Test
+    public void testIntercanviarDosProductesMateixaPos() {
+		prestatgeria.intercanviarDosProductes(0, 0);
+	    Producte[] layout = prestatgeria.getLayout();
+	    assertEquals(prodA, layout[0]);
+	    assertEquals(prodB, layout[1]);
+	    assertEquals(prodC, layout[2]);
+	}
+	
+	@Test
+	public void testIntercanviarDosProductesForaRang() {
+		prestatgeria.intercanviarDosProductes(-1, 3);
+	    Producte[] layout = prestatgeria.getLayout();
+	    assertEquals(prodA, layout[0]);
+	    assertEquals(prodB, layout[1]);
+	    assertEquals(prodC, layout[2]);
+	}
+	
+	@Test
+	public void testIntercanviarDosProductesNulls() {
+		prestatgeria.setLayout(new Producte[]{prodA, null, prodC});
+	    prestatgeria.intercanviarDosProductes(1, 2);
+	    Producte[] layout = prestatgeria.getLayout();
+	    assertEquals(prodA, layout[0]);
+	    assertNull(layout[1]);
+	    assertEquals(prodC, layout[2]);
+	}
 	
 	@Test
     public void testEliminarPrestatgeria() {

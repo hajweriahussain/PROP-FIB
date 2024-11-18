@@ -227,7 +227,7 @@ public class DriverComplet {
             dC.scanner = new Scanner(System.in);
             dC.llegirComandesTerminal(dC);;
         } else if (opcion == 2) {
-        	System.out.println("Introduce el nombre del archivo (debe estar en el mismo directorio que el Driver):");
+        	System.out.println("Introdueix el nom del fitxer.txt (ha d'estar en el mateix directori que els executables del Driver):");
         	if (sc.hasNextLine()) {
         	    String filename = sc.nextLine().trim();
         	    String filePath = "../EXE/Drivers/" + filename;
@@ -236,13 +236,13 @@ public class DriverComplet {
         	        dC.scanner = new Scanner(new FileReader(filePath));
         	        dC.llegirComandesFitxer(dC);
         	    } catch (FileNotFoundException e) {
-        	        System.out.println("El archivo no se ha encontrado: " + e.getMessage());
+        	        System.out.println("L'arxiu no s'ha trobat: " + e.getMessage());
         	    }
         	} else {
-        	    System.out.println("Error al leer el nombre del archivo.");
+        	    System.out.println("Error al llegir el fitxer.");
         	}
         } else {
-            System.out.println("Opción no válida.");
+            System.out.println("Opció no valida.");
         }
 
         sc.close();
