@@ -227,16 +227,20 @@ public class DriverComplet {
             dC.scanner = new Scanner(System.in);
             dC.llegirComandesTerminal(dC);;
         } else if (opcion == 2) {
-            System.out.println("Introduce el nombre del archivo (debe estar en el directorio DATA):");
-            String filename = sc.nextLine();
-            String filePath = "../DATA/" + filename;
+        	System.out.println("Introduce el nombre del archivo (debe estar en el mismo directorio que el Driver):");
+        	if (sc.hasNextLine()) {
+        	    String filename = sc.nextLine().trim();
+        	    String filePath = "../EXE/Drivers/" + filename;
 
-            try {
-                dC.scanner = new Scanner(new FileReader(filePath));
-                dC.llegirComandesFitxer(dC);
-            } catch (FileNotFoundException e) {
-                System.out.println("El archivo no se ha encontrado: " + e.getMessage());
-            }
+        	    try {
+        	        dC.scanner = new Scanner(new FileReader(filePath));
+        	        dC.llegirComandesFitxer(dC);
+        	    } catch (FileNotFoundException e) {
+        	        System.out.println("El archivo no se ha encontrado: " + e.getMessage());
+        	    }
+        	} else {
+        	    System.out.println("Error al leer el nombre del archivo.");
+        	}
         } else {
             System.out.println("Opción no válida.");
         }

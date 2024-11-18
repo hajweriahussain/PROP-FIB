@@ -29,9 +29,17 @@ public class CtrlDomini {
     }
 
     public void iniciarSessio(String username, String pwd){
-        if (cjtUsuaris.getUsuari(username) == null){
-            crearUsuari(username, pwd);
+    	if (username == null || pwd == null) {
+            System.out.println("Error: Nom d'usuari o contrasenya no vàlids.");
+            return;
         }
+        if (cjtUsuaris.getUsuari(username) == null) {
+            System.out.println("L'usuari no existeix. Creant nou usuari.");
+            crearUsuari(username, pwd);
+        } else {
+            System.out.println("Usuari trobat. Iniciant sessió...");
+        }
+
         cjtProductes = new CjtProductes(username);
         UsuariActual = cjtUsuaris.getUsuari(username);
     }
@@ -46,40 +54,60 @@ public class CtrlDomini {
     }
     
     public Producte[] llistarProductesUsuari() {
-    	return cjtProductes.getVecProductes();
+    	if (cjtProductes == null) {
+            System.out.println("Error: No hi ha cap conjunt de productes associat a l'usuari.");
+            return null;
+        }
+        return cjtProductes.getVecProductes();
     }
     
     public Producte[] llistarPrestatgeriaUsuari() {
-    	return prestatgeria.getLayout();
+    	if (prestatgeria == null) {
+            System.out.println("Error: No hi ha cap prestatgeria creada.");
+            return null;
+        }
+        return prestatgeria.getLayout();
     }
     
     
     public void crearProducte(int id, String nom, Map<Integer, Double> similituds, Boolean bruteForce){
+    	if (id <= 0 || nom == null) {
+            System.out.println("Error: Dades del producte no vàlides.");
+            return;
+        }
         Producte p = new Producte(id, nom, similituds);
         cjtProductes.afegirProducte(p);
         crearPrestatgeria(bruteForce);
     }
 
     public void crearPrestatgeria(Boolean bruteForce){
+    	if (cjtProductes == null || cjtProductes.getVecProductes().length == 0) {
+            System.out.println("Error: No hi ha productes per crear la prestatgeria.");
+            return;
+        }
+
         matSimilituds = cjtProductes.getMatriuSimilituds();
         vecProductes = cjtProductes.getVecProductes();
         int numProductes = vecProductes.length;
         prestatgeria = new Prestatgeria(1, numProductes);
-        
+
         GeneradorSolucio generadorInicial;
 
         if (bruteForce) {
             generadorInicial = new BruteForce(matSimilituds, vecProductes);
+            System.out.println("Creant prestatgeria amb algoritme de força bruta.");
         } else {
             generadorInicial = new DosAproximacio(matSimilituds, vecProductes);
+            System.out.println("Creant prestatgeria amb algoritme de 2-Aproximació.");
         }
 
         Producte[] solucio = generadorInicial.generarLayout();
         prestatgeria.setLayout(solucio);
-        
+
         for (int i = 0; i < solucio.length; i++) {
             solucio[i].setColumna(i);
         }
+        
     }
 
     public void modificarProducte(Integer idProdActual1, Integer idProdActual2, double novaSim, Integer nouId, String nouNom, Integer novaColumna, Boolean bruteForce) {
@@ -103,6 +131,10 @@ public class CtrlDomini {
     }
 
 	public void modificarPrestatgeria(int pos1, int pos2){
+		if (prestatgeria == null) {
+            System.out.println("Error: No hi ha cap prestatgeria per modificar.");
+            return;
+        }
         prestatgeria.intercanviarDosProductes(pos1, pos2);
     }
 
@@ -112,6 +144,10 @@ public class CtrlDomini {
     }
 
     public void esborrarPrestatgeria(){
+    	if (prestatgeria == null) {
+            System.out.println("La prestatgeria no existeix.");
+            return;
+        }
         prestatgeria.eliminarPrestatgeria();
     }
 
@@ -120,6 +156,10 @@ public class CtrlDomini {
     }
 
     public void esborrarUsuari(){
+    	if (UsuariActual == null) {
+            System.out.println("No hi ha usuari actual.");
+            return;
+        }
         cjtUsuaris.eliminarUsuari(UsuariActual.getUsername());
         tancarSessio(); 
     }

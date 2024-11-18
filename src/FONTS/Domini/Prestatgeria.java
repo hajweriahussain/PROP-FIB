@@ -7,9 +7,18 @@ public class Prestatgeria {
 
 
     public Prestatgeria(int id, int nProd){
-        this.id = id;
-        this.numProductes = nProd;
-        this.layout = new Producte[numProductes];
+    	if (id <= 0) {
+            System.out.println("Error: L'ID ha de ser un valor positiu. Assignant ID per defecte 1.");
+            this.id = 1;
+        } else this.id = id;
+        
+    	if (nProd <= 0) {
+            System.out.println("Error: El número de productes ha de ser major que zero. Assignant 1 producte per defecte.");
+            this.numProductes = 1;
+        } else {
+            this.numProductes = nProd;
+        }
+    	this.layout = new Producte[this.numProductes];
     }
     public Producte[] getLayout(){
         return layout;
@@ -21,13 +30,25 @@ public class Prestatgeria {
         return numProductes;
     }
     public void setId(int id){
-        this.id = id;
+    	if (id <= 0) {
+            System.out.println("Error: L'ID ha de ser un valor positiu. No es canvia l'ID.");
+        } else {
+            this.id = id;
+        }
     }
     public void setNumProductes(int nProd){
         this.numProductes = nProd;
     }
     public void setLayout(Producte[] disposicio){
-        for (int i = 0; i < numProductes; ++i){
+    	if (disposicio == null) {
+            System.out.println("Error: La disposició és null. No es pot assignar el layout.");
+            return;
+        }
+        if (disposicio.length != numProductes) {
+            System.out.println("Error: La longitud de la disposició no coincideix amb el número de productes. No es pot assignar el layout.");
+            return;
+        }
+        for (int i = 0; i < numProductes; ++i) {
             layout[i] = disposicio[i];
         }
     }
@@ -45,9 +66,14 @@ public class Prestatgeria {
             System.out.println("S'han intercambiat els productes de " + posProd1 + " i " + posProd2);
         } else {
             System.out.println("Posicions fora de rang");
+            return;
         }
     }
     public void eliminarPrestatgeria() {
+    	if (layout == null) {
+            System.out.println("La prestatgeria ja està esborrada.");
+            return;
+        }
         for (int i = 0; i < numProductes; ++i) {
             layout[i] = null;
         }

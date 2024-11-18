@@ -1,0 +1,23 @@
+crearUsuari user1 password1
+iniciarSessio user1 password1
+crearProducte 1 ProducteA 2:0.5,3:0.8 false
+crearProducte 2 ProducteB 1:0.5,3:0.3 false
+crearProducte 3 ProducteC 1:0.8,2:0.3 false
+modificarProducte 1 2 0.0 10 ProducteModificat null false
+crearProducte 4 ProducteX 5:0.6 false
+crearProducte 5 ProducteY 4:0.6 false
+modificarProducte 4 5 0.9 null null null true
+llistarProductesUsuari
+crearProducte 6 ProducteZ 7:0.4 false
+crearProducte 7 ProducteW 6:0.4 false
+modificarProducte 6 null 0.0 null "NouNom" null false
+llistarProductesUsuari
+crearProducte 8 ProducteA 9:0.2 false
+crearProducte 9 ProducteB 8:0.2 false
+crearPrestatgeria false
+modificarProducte 8 null 0.0 null null 1 false
+llistarPrestatgeriaUsuari
+modificarProducte 99 10 0.5 100 "Inexistent" null false
+llistarProductesUsuari
+modificarProducte 12 99 0.8 null null null true
+llistarProductesUsuari
