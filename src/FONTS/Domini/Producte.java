@@ -17,7 +17,7 @@ public class Producte {
     }
 
     private void validarSimilitud(double similitud) {
-        if (similitud < 0) {
+        if (similitud < 0 || similitud > 1) {
             throw new IllegalArgumentException("Error: La similitud ha de ser un valor positiu");
         }
     }
