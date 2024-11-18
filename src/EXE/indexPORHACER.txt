@@ -1,9 +1,0 @@
-Domini: Directori on es troben les classes del domini d'aquesta entrega.
-
-Drivers: Directori on es troben els drivers, el driver principal, el driver de l'algorisme BruteForce i l'algoritme DosAproximacio
-
-JUnit: Directori on es troben els tests unitaris de les classes importants com BruteForce, DosAproximacio, Producte, CJtProductes i Prestatgeria.
-
-lib: Directori on es troben les llibreries que hem hagut de fer servir per fer els tests unitaris.
-
-make.sh: Executable que compila el projecte per linux i macOS.
