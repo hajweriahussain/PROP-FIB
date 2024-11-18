@@ -1,0 +1,188 @@
+-------Manual d'ús Driver Complet (CtrlDomini) ------------------------
+
+-------Objecte de la prova-------
+
+Aquest driver te com a objectiu provar la clase CtrlDomini mitjançant la simulació dels differents
+ proporcionando funcionalidades como:
+	- Crear i gestionar usuaris
+	- Crear i modificar productes
+	- Crear la prestatgeria amb els algoritmes (BruteForce y DosAproximacio).
+	- Modificació de la prestatgeria i els productes.
+	- Llistar productes i prestatgeria.
+	- Esborrar productes, prestatgeria i usuaris.
+	 
+-------Altres elements integrats a la prova-------
+El driver integra les següents classes i funcionalitats:
+	- Usuari: Permet crear y gestionar un usuari amb la seva respectiva sessió.
+	- CjtProductes: Maneja un conjunt de productes, incloent les seves similituds.
+	- Prestatgeria: Contiene el layout de los productes y permite intercambiar productes.
+	- Algoritmes de Solució: Utiliza dos algoritmes (BruteForce y DosAproximacio) per generar el layout de la prestatgeria basat en les similituds entre productes, a través de la interface GeneradorSolucio
+
+-------Fitxers de dades necessaris-------
+
+No es necessita cap fitxer d'entrada, excepte si es vol introduir les dades a través d'un fitxer.
+
+-------Valors estudiats-------
+
+Proves de caixa negra:
+    - Es prova amb conjunts de dades vàlids per verificar si el resultat generat és coherent amb els inputs.
+    - Proves amb errors intencionats, com fitxers amb format incorrecte, valors fora del rang permès (menors de 0.0 o majors de 1.0), o productes sense nom.
+    
+-------Efectes estudiats-------
+
+	- Comportament del sistema en la creació de prestatgeries amb diferents configuracions d'algoritmes.
+	- Maneig d'errors quan es proporcionen posicions fora de rang o productes nuls.
+	- Validació de la consistencia i completitud del conjunt de productes i de la prestatgeria després de les operacions de modificació i eliminació.
+	- Efecte de la modificació de productes sobre el layout de la prestatgeria.
+
+-------Operativa-------
+
+Mode d'entrada per terminal:
+
+	S'introdueixen comandes.
+
+Mode d'entrada per fitxer:
+
+    Es proporciona el nom del fitxer, que ha d'estar al directori especificat.
+    El fitxer es llegeix i es valida la seva estructura.
+    
+-------------------------------------------Comandes---------------------------------------------
+1. Crear Usuari
+Permet crear un usuari amb un nom i una contrasenya.
+
+Comanda: crearUsuari <nomUsuari> <contrasenya>
+Exemple: crearUsuari user1 pass1
+Descripció: Afegeix un nou usuari al sistema amb el nom d'usuari i la contrasenya especificats. Si l'usuari ja existeix, no es crea un nou usuari.
+-------------------------------------------------------------------------------------------
+
+2. Iniciar Sessió
+Inicia sessió amb l'usuari especificat.
+
+Comanda: iniciarSessio <nomUsuari> <contrasenya>
+Exemple: iniciarSessio user1 pass1
+Descripció: Inicia sessió amb l'usuari proporcionat. Si el nom d'usuari o la contrasenya no són vàlids, es mostra un error. Si l'usuari no existeix, es pot crear automàticament.
+-------------------------------------------------------------------------------------------
+
+3. Canviar Usuari
+Permet canviar l'usuari actual per un altre.
+
+Comanda: canviarUsuari <nomUsuari> <contrasenya>
+Exemple: canviarUsuari user2 pass2
+Descripció: Tanca la sessió de l'usuari actual i inicia sessió amb el nou usuari especificat.
+-------------------------------------------------------------------------------------------
+
+4. Crear Producte
+Afegeix un nou producte al conjunt de productes de l'usuari actual.
+
+Comanda: crearProducte <id> <nom> <mapaSimilituds> <algoritme>
+Exemple: crearProducte 101 ProducteA 102:0.5,103:0.7 true
+Descripció: Crea un nou producte amb un ID únic, un nom i un mapa de similituds amb altres productes. El paràmetre <algoritme> indica si s'utilitzarà BruteForce (true) o DosAproximacio (false) per generar el layout de la prestatgeria.
+-------------------------------------------------------------------------------------------
+
+5. Crear Prestatgeria
+Genera una prestatgeria amb els productes existents.
+
+Comanda: crearPrestatgeria <algoritme>
+Exemple: crearPrestatgeria true
+Descripció: Crea una prestatgeria amb els productes actuals utilitzant l'algoritme especificat (true per a BruteForce, false per a DosAproximacio). El layout de la prestatgeria es determina basant-se en les similituds entre productes.
+-------------------------------------------------------------------------------------------
+
+6. Llistar Productes de l'Usuari
+Mostra una llista de tots els productes de l'usuari actual.
+
+Comanda: llistarProductesUsuari
+Exemple: llistarProductesUsuari
+Descripció: Llista tots els productes del conjunt de productes de l'usuari actual, incloent l'ID, el nom i la posició dins del layout.
+-------------------------------------------------------------------------------------------
+
+7. Llistar Prestatgeria de l'Usuari
+Mostra el layout actual de la prestatgeria.
+
+Comanda: llistarPrestatgeriaUsuari
+Exemple: llistarPrestatgeriaUsuari
+Descripció: Mostra el layout de la prestatgeria de l'usuari, amb els productes ordenats segons el layout generat per l'algoritme seleccionat.
+-------------------------------------------------------------------------------------------
+
+8. Modificar Producte
+Permet modificar les propietats d'un producte existent.
+
+Comanda: modificarProducte <idActual> <idNou> <similitud> <nouId> <nouNom> <novaPos> <algoritme>
+Exemple: modificarProducte 101 102 0.8 105 NouProducteA null true
+Descripció: Modifica el producte amb ID <idActual>, canviant la seva similitud amb el producte <idNou>, així com altres propietats com el nou ID (<nouId>), el nou nom (<nouNom>) i la nova posició (<novaPos>). L'algoritme s'utilitza per regenerar el layout de la prestatgeria si cal. Si no volem canviar alguns atributs els posem a null
+-------------------------------------------------------------------------------------------
+
+9. Modificar Prestatgeria
+Intercanvia dos productes dins de la prestatgeria.
+
+Comanda: modificarPrestatgeria <pos1> <pos2>
+Exemple: modificarPrestatgeria 0 2
+Descripció: Intercanvia els productes situats a les posicions <pos1> i <pos2> dins del layout de la prestatgeria.
+-------------------------------------------------------------------------------------------
+
+10. Esborrar Producte
+Elimina un producte del conjunt de productes.
+
+Comanda: esborrarProducte <id> <algoritme>
+Exemple: esborrarProducte 105 true
+Descripció: Elimina el producte amb ID <id> del conjunt de productes. Si es proporciona l'algoritme (true o false), es regenera la prestatgeria després de l'eliminació.
+-------------------------------------------------------------------------------------------
+
+11. Esborrar Prestatgeria
+Elimina la prestatgeria actual.
+
+Comanda: esborrarPrestatgeria
+Exemple: esborrarPrestatgeria
+Descripció: Elimina completament la prestatgeria de l'usuari actual, deixant el layout buit.
+-------------------------------------------------------------------------------------------
+
+12. Consultar Usuari Actual
+Mostra el nom de l'usuari actual.
+
+Comanda: getUsuariActual
+Exemple: getUsuariActual
+Descripció: Mostra el nom de l'usuari que està actualment en sessió.
+-------------------------------------------------------------------------------------------
+
+13. Esborrar Usuari
+Elimina l'usuari actual.
+
+Comanda: esborrarUsuari
+Exemple: esborrarUsuari
+Descripció: Elimina completament l'usuari actual del sistema i tanca la sessió. Encara que s'elimina l'usuari, els productes d'aquest usuari segueixen al sistema.
+-------------------------------------------------------------------------------------------
+
+14. Tancar Sessió
+Tanca la sessió de l'usuari actual.
+
+Comanda: tancarSessio
+Exemple: tancarSessio
+Descripció: Tanca la sessió de l'usuari actual, permetent iniciar sessió amb un altre usuari.
+-------------------------------------------------------------------------------------------
+
+15. Sortir
+Finalitza l'execució del Driver Complet.
+
+Comanda: sortir
+Exemple: sortir
+Descripció: Acaba l'execució del Driver Complet i surt del programa.
+
+-------.......................Exemple de fitxer d'entrada----------------------------------
+
+crearUsuari user1 pass1
+iniciarSessio user1 pass1
+crearUsuari user2 pass2
+canviarUsuari user2 pass2
+crearProducte 101 ProducteA 102:0.5,103:0.7 true
+crearProducte 102 ProducteB 101:0.5,103:0.6 false
+crearProducte 103 ProducteC 101:0.7,102:0.6 false
+crearPrestatgeria true
+llistarProductesUsuari
+llistarPrestatgeriaUsuari
+modificarProducte 101 102 0.8 104 NouProducteA null true
+modificarPrestatgeria 0 2
+esborrarProducte 104 true
+getUsuariActual
+esborrarUsuari
+tancarSessio
+sortir
+ 

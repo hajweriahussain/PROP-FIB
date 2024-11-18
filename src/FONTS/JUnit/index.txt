@@ -13,3 +13,6 @@ Tests per a la classe DosAproximacio. Verifica que l'algoritme de DosAproximacio
 
 ProducteTest
 Tests per a la classe Producte. Evalua que la gestió d'un producte es realitza correctament.
+
+PrestatgeriaTest
+Tests per a la classe Prestatgeria. Evalua que la gestió de la disposició de la prestatgeria es realitza correctament.
