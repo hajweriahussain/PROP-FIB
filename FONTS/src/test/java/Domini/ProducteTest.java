@@ -1,9 +1,8 @@
-package JUnit;
+package Domini;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import Domini.Producte;
 
 import java.util.HashMap;
 import java.util.Map;

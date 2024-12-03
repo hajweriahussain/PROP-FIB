@@ -1,10 +1,8 @@
-package JUnit;
+package Domini;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import Domini.Prestatgeria;
-import Domini.Producte;
 
 public class PrestatgeriaTest {
 	private Prestatgeria prestatgeria;

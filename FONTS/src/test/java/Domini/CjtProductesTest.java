@@ -1,10 +1,8 @@
-package JUnit;
+package Domini;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import Domini.CjtProductes;
-import Domini.Producte;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

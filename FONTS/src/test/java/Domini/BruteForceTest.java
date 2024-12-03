@@ -1,7 +1,5 @@
-package JUnit;
+package Domini;
 
-import Domini.BruteForce;
-import Domini.Producte;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
