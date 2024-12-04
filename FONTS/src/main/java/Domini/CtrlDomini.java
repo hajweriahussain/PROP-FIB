@@ -7,7 +7,7 @@ public class CtrlDomini {
     private Usuari UsuariActual;
     private CjtUsuaris cjtUsuaris;
     private CjtProductes cjtProductes;
-    private Prestatgeria prestatgeria;
+    private CjtPrestatgeria cjtPrestatgeries;
     private double[][] matSimilituds;
     private Producte[] vecProductes;
 
@@ -42,6 +42,7 @@ public class CtrlDomini {
         }
 
         cjtProductes = new CjtProductes(username);
+        cjtPrestatgeries = new CjtPrestatgeria(username);
         UsuariActual = cjtUsuaris.getUsuari(username);
     }
 
@@ -62,12 +63,13 @@ public class CtrlDomini {
         return cjtProductes.getVecProductes();
     }
     
-    public Producte[] llistarPrestatgeriaUsuari() {
-    	if (prestatgeria == null) {
+    public Producte[][] llistarPrestatgeriaUsuari(int id) {
+    	if (cjtPrestatgeries == null) {
             System.out.println("Error: No hi ha cap prestatgeria creada.");
             return null;
         }
-        return prestatgeria.getLayout();
+        Prestatgeria p = cjtPrestatgeries.getPrestatgeria(id);
+        return p.getLayout();
     }
     
     public Set<String> llistarUsuaris(){
@@ -82,7 +84,9 @@ public class CtrlDomini {
         }
         Producte p = new Producte(id, nom, similituds);
         cjtProductes.afegirProducte(p);
-        crearPrestatgeria(bruteForce);
+        //cjtPrestatgeries.crearPrestatgeria(bruteForce);
+        
+        //Modificacions aqui
     }
 
     public void crearPrestatgeria(Boolean bruteForce){
@@ -106,7 +110,7 @@ public class CtrlDomini {
             System.out.println("Creant prestatgeria amb algoritme de 2-Aproximació.");
         }
 
-        Producte[] solucio = generadorInicial.generarLayout();
+        Producte[][] solucio = generadorInicial.generarLayout();
         prestatgeria.setLayout(solucio);
 
         for (int i = 0; i < solucio.length; i++) {
@@ -145,12 +149,12 @@ public class CtrlDomini {
         }
     }
 
-	public void modificarPrestatgeria(int pos1, int pos2){
+	public void modificarPrestatgeria(int fila1, int col1, int fila2, int col2){
 		if (prestatgeria == null) {
             System.out.println("Error: No hi ha cap prestatgeria per modificar.");
             return;
         }
-        prestatgeria.intercanviarDosProductes(pos1, pos2);
+        prestatgeria.intercanviarDosProductes(fila1, col1, fila2, col2);
     }
 
     public void esborrarProducte(int id, Boolean bruteForce){
@@ -158,12 +162,12 @@ public class CtrlDomini {
         crearPrestatgeria(bruteForce);
     }
 
-    public void esborrarPrestatgeria(){
+    public void esborrarPrestatgeria(int id){
     	if (prestatgeria == null) {
             System.out.println("La prestatgeria no existeix.");
             return;
         }
-        prestatgeria.eliminarPrestatgeria();
+        prestatgeria.esborrarPrestatgeria();
     }
 
     public String getUsuariActual(){
