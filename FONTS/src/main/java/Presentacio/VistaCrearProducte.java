@@ -4,8 +4,8 @@
  */
 package Presentacio;
 
-import java.util.*;
-import javax.swing.JOptionPane;
+import java.awt.Color;
+import javax.swing.*;
 
 /**
  *
@@ -13,14 +13,12 @@ import javax.swing.JOptionPane;
  */
 public class VistaCrearProducte extends javax.swing.JFrame {
 
-    //private CtrlPresentacio cp;
-    
     /**
-     * Creates new form VistaCrearProducte
+     * Creates new form VistaP
      */
     public VistaCrearProducte() {
-        initComponents();
-        //cp = new CtrlPresentacio();
+        initComponents();                
+        jPanel1.setVisible(false);
     }
 
     /**
@@ -32,127 +30,288 @@ public class VistaCrearProducte extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        LabelTitol = new javax.swing.JLabel();
-        LabelID = new javax.swing.JLabel();
-        LabelNom = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        TextID = new javax.swing.JTextField();
-        TextNom = new javax.swing.JTextField();
-        BtCrearProducte = new javax.swing.JButton();
-
-        jButton1.setText("jButton1");
+        bgPanel = new javax.swing.JPanel();
+        labelTitol = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        labelId = new javax.swing.JLabel();
+        botoValidarId = new javax.swing.JButton();
+        labelFoto = new javax.swing.JLabel();
+        botoSortir = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        labelNom = new javax.swing.JLabel();
+        textNom = new javax.swing.JTextField();
+        labelSimilituds = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textAreaSims = new javax.swing.JTextArea();
+        botoCrear = new javax.swing.JButton();
+        textId = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setLocation(new java.awt.Point(0, 0));
+        setLocationByPlatform(true);
 
-        LabelTitol.setText("Nou Producte");
-
-        LabelID.setText("Identificador (ID):");
-
-        LabelNom.setText("Nom:");
-
-        jLabel4.setText("Similituds amb altres productes (separats per comes, ex., \"1: 0.75, 2: 0.34\"):");
-        jLabel4.setToolTipText("");
-        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        TextID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TextIDActionPerformed(evt);
+        bgPanel.setBackground(new java.awt.Color(255, 255, 255));
+        bgPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bgPanelMouseClicked(evt);
             }
         });
 
-        BtCrearProducte.setText("Crear Producte");
-        BtCrearProducte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtCrearProducteActionPerformed(evt);
+        labelTitol.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        labelTitol.setText("CREAR PRODUCTE");
+
+        labelId.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
+        labelId.setText("Identificador (ID):");
+
+        botoValidarId.setText("Validar ID");
+        botoValidarId.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoValidarId.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                botoValidarIdMousePressed(evt);
             }
         });
+
+        labelFoto.setIcon(new javax.swing.ImageIcon("/home/ariadna/Documents/uni/Q5/PROP/PROP_PROYECTO3/subgrup-prop41.1/FONTS/src/main/resources/img/super.png")); // NOI18N
+        labelFoto.setText("jLabel1");
+
+        botoSortir.setBackground(new java.awt.Color(153, 153, 153));
+        botoSortir.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        botoSortir.setText("Sortir");
+        botoSortir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoSortir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botoSortirMouseClicked(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        labelNom.setText("Nom:");
+
+        textNom.setForeground(new java.awt.Color(153, 153, 153));
+        textNom.setText("Introdueix un nom");
+        textNom.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                textNomMousePressed(evt);
+            }
+        });
+
+        labelSimilituds.setText("Similituds amb altres productes (ex., 2:0.75, 3:0.4):");
+
+        textAreaSims.setColumns(20);
+        textAreaSims.setForeground(new java.awt.Color(153, 153, 153));
+        textAreaSims.setRows(5);
+        textAreaSims.setToolTipText("");
+        textAreaSims.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                textAreaSimsMousePressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(textAreaSims);
+
+        botoCrear.setText("Crear");
+        botoCrear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoCrear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botoCrearMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelNom, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addComponent(textNom))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelSimilituds)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelNom)
+                    .addComponent(textNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(labelSimilituds)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        textId.setForeground(new java.awt.Color(153, 153, 153));
+        textId.setText("Introdueix un identificador numèric");
+        textId.setToolTipText("");
+        textId.setActionCommand("<Not Set>");
+        textId.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                textIdMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout bgPanelLayout = new javax.swing.GroupLayout(bgPanel);
+        bgPanel.setLayout(bgPanelLayout);
+        bgPanelLayout.setHorizontalGroup(
+            bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bgPanelLayout.createSequentialGroup()
+                        .addComponent(labelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(bgPanelLayout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
+                                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(labelId)
+                                            .addGroup(bgPanelLayout.createSequentialGroup()
+                                                .addComponent(textId, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(botoValidarId, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(bgPanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(labelTitol)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
+        );
+        bgPanelLayout.setVerticalGroup(
+            bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgPanelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(labelTitol)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bgPanelLayout.createSequentialGroup()
+                        .addComponent(labelFoto)
+                        .addContainerGap(43, Short.MAX_VALUE))
+                    .addGroup(bgPanelLayout.createSequentialGroup()
+                        .addComponent(labelId)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botoValidarId))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(LabelTitol)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BtCrearProducte)
-                .addGap(158, 158, 158))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(LabelNom)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(TextNom))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(LabelID)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(TextID, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addComponent(bgPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(LabelTitol)
-                .addGap(61, 61, 61)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LabelID)
-                    .addComponent(TextID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LabelNom)
-                    .addComponent(TextNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, Short.MAX_VALUE)
-                .addComponent(BtCrearProducte)
-                .addGap(156, 156, 156))
+            .addComponent(bgPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TextIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TextIDActionPerformed
+    private void botoValidarIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoValidarIdMousePressed
+        String id = textId.getText();
+        
+        if (id.equals("") || id.equals("Introdueix un identificador numèric")) {
+            JOptionPane.showMessageDialog(this, "Has d'introduir un identificador.", "AVÍS", JOptionPane.WARNING_MESSAGE);
+        }
+        else {  // Comprovar que l'id és vàlid
+            jPanel1.setVisible(true);
+        }
+    }//GEN-LAST:event_botoValidarIdMousePressed
 
-    private void BtCrearProducteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtCrearProducteActionPerformed
-        String textId = TextID.getText();
-        String textNom = TextNom.getText();
+    private void textIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textIdMousePressed
+        if (textId.getText().equals("Introdueix un identificador numèric")) {
+            textId.setText("");
+            textId.setForeground(Color.black);
+        }
+        if ((textNom.getText()).isEmpty()) {
+            textNom.setText("Introdueix un nom");
+            textNom.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_textIdMousePressed
+
+    private void botoSortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoSortirMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_botoSortirMouseClicked
+
+    private void bgPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bgPanelMouseClicked
+        if (textId.getText().equals("")) {
+            textId.setText("Introdueix un identificador numèric");
+            textId.setForeground(Color.gray);
+        }
+        if ((textNom.getText()).equals("")) {
+            textNom.setText("Introdueix un nom");
+            textNom.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_bgPanelMouseClicked
+
+    private void textNomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textNomMousePressed
+        if (textNom.getText().equals("Introdueix un nom")) {
+            textNom.setText("");
+            textNom.setForeground(Color.black);
+        }
+        if ((textId.getText()).isEmpty()) {
+            textId.setText("Introdueix un identificador numèric");
+            textId.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_textNomMousePressed
+
+    private void botoCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoCrearMouseClicked
+        String id = textId.getText().trim();
+        String nom = textNom.getText().trim();
         
-        int id = Integer.parseInt(textId);
-        
-        Map<Integer, Double> similituds = new HashMap<>();
-        
-        //Producte[] productes = (Producte[]) cp.mostrarProductes();
-        /*
-        if (productes != null) {
-            for (Producte prod : productes) {
-                if (prod.getId() == id) {   // error
-                    // info label?
-                    TextID.setText("");  // Borra el contenido del campo
-                    return;
-                }
-            }
-        }*/
-        if (textId.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Error: No es pot crear un producte sense ID");
-            // showMessageDialog -> No es pot crear un producte sense ID, Error
+        if (id.isEmpty() || id.equals("Introdueix un identificador numèric")) {
+            JOptionPane.showMessageDialog(this, "Has d'introduir un identificador.", "AVÍS", JOptionPane.WARNING_MESSAGE);
         }
         else {
-            // rootPaneCheckingEnabled??
-            //cp.crearProducte(id, textNom, similituds, true);
-            // showMessageDialog -> Producte creat correctament
-            TextID.setText(null);
-            TextNom.setText(null);
+            if (nom.isEmpty() || nom.equals("Introdueix un nom")) {
+                JOptionPane.showMessageDialog(this, "Has d'introduir un nom.", "AVÍS", JOptionPane.WARNING_MESSAGE);
+            }
+            else {  
+                if (textAreaSims.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Has d'introduir les similituds amb tots els productes.", "AVÍS", JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "S'ha creat el producte correctament!");
+                }
+            }
         }
-    }//GEN-LAST:event_BtCrearProducteActionPerformed
+    }//GEN-LAST:event_botoCrearMouseClicked
+
+    private void textAreaSimsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textAreaSimsMousePressed
+        if (textId.getText().equals("")) {
+            textId.setText("Introdueix un identificador numèric");
+            textId.setForeground(Color.gray);
+        }
+        if ((textNom.getText()).equals("")) {
+            textNom.setText("Introdueix un nom");
+            textNom.setForeground(Color.gray);
+        }
+        textAreaSims.setForeground(Color.black);
+    }//GEN-LAST:event_textAreaSimsMousePressed
 
     /**
      * @param args the command line arguments
@@ -180,6 +339,7 @@ public class VistaCrearProducte extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(VistaCrearProducte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -190,13 +350,20 @@ public class VistaCrearProducte extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BtCrearProducte;
-    private javax.swing.JLabel LabelID;
-    private javax.swing.JLabel LabelNom;
-    private javax.swing.JLabel LabelTitol;
-    private javax.swing.JTextField TextID;
-    private javax.swing.JTextField TextNom;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel bgPanel;
+    private javax.swing.JButton botoCrear;
+    private javax.swing.JButton botoSortir;
+    private javax.swing.JButton botoValidarId;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel labelFoto;
+    private javax.swing.JLabel labelId;
+    private javax.swing.JLabel labelNom;
+    private javax.swing.JLabel labelSimilituds;
+    private javax.swing.JLabel labelTitol;
+    private javax.swing.JTextArea textAreaSims;
+    private javax.swing.JTextField textId;
+    private javax.swing.JTextField textNom;
     // End of variables declaration//GEN-END:variables
 }

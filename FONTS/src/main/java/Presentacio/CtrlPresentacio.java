@@ -8,7 +8,7 @@ public class CtrlPresentacio {
     private CtrlDomini ctrlDomini;
 
     private VistaMenuInici vistaMenuInici;
-    private VistaLogin vistaLogin;
+    private VistaLogIn vistaLogIn;
     private VistaSignup vistaSignup;
     private VistaMenuUsuari vistaMenuUsuari;
     private VistaProducte vistaProducte;
@@ -18,22 +18,23 @@ public class CtrlPresentacio {
 
     public CtrlPresentacio() {
         ctrlDomini = CtrlDomini.getInstance();
-        vistaMenuInici = new VistaMenuInici(this);
-        vistaLogin = new VistaLogin(this);
+        // Instanciar vistas
+        /*vistaMenuInici = new VistaMenuInici(this);
+        vistaLogIn = new VistaLogIn(this);
         vistaSignup = new VistaSignup(this);
         vistaMenuUsuari = new VistaMenuUsuari(this);
         vistaProducte = new VistaProducte(this);
         vistaCrearProducte = new VistaCrearProducte(this);
         vistaPrestatgeria = new VistaPrestatgeria(this);
-        vistaCrearPrestatgeria = new VistaCrearPrestatgeria(this);
+        vistaCrearPrestatgeria = new VistaCrearPrestatgeria(this);*/
     }
 
     public void mostrarMenuInici() {
         new VistaMenuInici();
     }
 
-    public static void mostrarLogin() {
-        new VistaLogin();
+    public static void mostrarLogIn() {
+        new VistaLogIn();
     }
 
     public void mostrarSignup() {
@@ -121,7 +122,7 @@ public class CtrlPresentacio {
         return ctrlDomini.getUsuariActual();
     }
 
-    public void registrarUsuari(String username, String pwd)throws ExceptionFormat, ExceptionFormats {
+    public void registrarUsuari(String username, String pwd) {
         ctrlDomini.crearUsuari(username, pwd);
     }
 
