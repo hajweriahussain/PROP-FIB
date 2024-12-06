@@ -7,7 +7,7 @@ public class CtrlDomini {
     private Usuari UsuariActual;
     private CjtUsuaris cjtUsuaris;
     private CjtProductes cjtProductes;
-    private CjtPrestatgeria cjtPrestatgeries;
+    private CjtPrestatgeries cjtPrestatgeries;
     private double[][] matSimilituds;
     private Producte[] vecProductes;
 
@@ -42,7 +42,7 @@ public class CtrlDomini {
         }
 
         cjtProductes = new CjtProductes(username);
-        cjtPrestatgeries = new CjtPrestatgeria(username);
+        cjtPrestatgeries = new CjtPrestatgeries(username);
         UsuariActual = cjtUsuaris.getUsuari(username);
     }
 

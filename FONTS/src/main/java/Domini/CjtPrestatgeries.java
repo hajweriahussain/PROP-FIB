@@ -3,11 +3,11 @@ package Domini;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CjtPrestatgeria {
+public class CjtPrestatgeries {
     private String user;
     private Map<Integer, Prestatgeria> map_prest;
 
-    public CjtPrestatgeria(String u) {
+    public CjtPrestatgeries(String u) {
         this.user = u;
         this.map_prest = new HashMap<>();
     }
