@@ -8,7 +8,7 @@ import java.util.Set;
 public class CtrlDomini {
     private Usuari UsuariActual;
     private CjtProductes cjtProductes;
-    private CjtPrestatgeries cjtPrestatgeries;
+    private CjtPrestatgeria cjtPrestatgeries;
     private double[][] matSimilituds;
     private Producte[] vecProductes;
     private CtrlPersistencia cp;
@@ -30,26 +30,18 @@ public class CtrlDomini {
         }
         return singletonObject;
     }
+   
 
     public void iniciarSessio(String username, String pwd){
-    	if (username == null || pwd == null) {
-            System.out.println("Error: Nom d'usuari o contrasenya no vàlids.");
-            return;
-        }
-        if (cjtUsuaris.getUsuari(username) == null) {
-            System.out.println("L'usuari no existeix. Creant nou usuari.");
-            crearUsuari(username, pwd);
-        } else {
-            System.out.println("Usuari trobat. Iniciant sessió...");
-        }
-
         cjtProductes = new CjtProductes(username);
-        cjtPrestatgeries = new CjtPrestatgeries(username);
+        //ListToMapProductes(cp.importarProductes(username));
+        cjtPrestatgeries = new CjtPrestatgeria(username);
+        //ListToMapPrestatgeries(cp.importarPrestatgeries(username));
         UsuariActual = cjtUsuaris.getUsuari(username);
     }
 
     public void crearUsuari(String name, String pwd){
-        cjtUsuaris.crearUsuari(name, pwd);
+    	//cp.afegirUsuari(name, pwd);
         iniciarSessio(name, pwd);
     }
 
@@ -65,18 +57,23 @@ public class CtrlDomini {
         return cjtProductes.getVecProductes();
     }
     
-    public Producte[][] llistarPrestatgeriaUsuari(int id) {
+    public Map<String, char[][]> llistarPrestatgeriesUsuari() {
     	if (cjtPrestatgeries == null) {
             System.out.println("Error: No hi ha cap prestatgeria creada.");
             return null;
         }
-        Prestatgeria p = cjtPrestatgeries.getPrestatgeria(id);
-        return p.getLayout();
+    	Map<String, Teclat> prestatgeries = new HashMap<> (cjtPrestatgeries.getPrestatgeries(UsuariActual.getNomUsuari()));
+        Map<String, char[][]>pres = new HashMap<>();
+        if(prestatgeries.isEmpty()) //Si no té teclats enviarà un missatge de que no té teclats
+            return null;
+        else {
+            for(String clau : prestatgeries.keySet()) {
+                pres.put(clau, prestatgeries.get(clau).getLayout());
+            }
+        }
+        return pres;
     }
     
-    public Set<String> llistarUsuaris(){
-    	return cjtUsuaris.getUsuaris();
-    }
     
     
     public void crearProducte(int id, String nom, Map<Integer, Double> similituds, Boolean bruteForce){
