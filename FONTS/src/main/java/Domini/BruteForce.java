@@ -7,14 +7,22 @@ public class BruteForce implements GeneradorSolucio {
     private double[][] matSimilituds;
     private Producte[] vecProductes;
     private double millorSimilitud;
-    private Producte[] vecResultat;
+    private Producte[] vecResultat; 
+    private Producte[][] matResultat;
+    private int columnes;
+    private int files;
 
     // Constructor
-    public BruteForce(double[][] matSim, Producte[] vecPrd) {
+    public BruteForce(double[][] matSim, Producte[] vecPrd, int numColumnes) {
         matSimilituds = matSim;
         vecProductes = vecPrd;
         millorSimilitud = -1.0;
-        vecResultat = new Producte[vecProductes.length];
+        columnes = numColumnes;
+        int n = vecProductes.length;
+        vecResultat = new Producte[n];
+        if (n%columnes == 0) this.files = n/columnes;
+        else this.files = n/columnes + 1;
+        this.matResultat = new Producte[files][columnes];
     }
 
     private static BigInteger factorial(int n) {
@@ -70,7 +78,7 @@ public class BruteForce implements GeneradorSolucio {
 
     }
 
-    public Producte[] generarLayout(){
+    public Producte[][] generarLayout(){
         int r = vecProductes.length - 1;
         BigInteger[] numPermutacions = {factorial(r)};
         int[] vP = new int[r+1];
@@ -79,11 +87,25 @@ public class BruteForce implements GeneradorSolucio {
         }
 
         permutacions(vP,0,r,numPermutacions);
-        return vecResultat;
+        
+        //muntem la matriu resultat
+        int k = 0;
+        for (int i = 0; i < files; ++i) {
+            for (int j = 0; j < columnes && k < vecProductes.length; ++j) {
+                if(i%2 == 0) { //del dret
+                    matResultat[i][j] = vecResultat[k];
+                }
+                else { //del reves
+                    matResultat[i][(columnes-1)-j] = vecResultat[k];
+                }
+                ++k;
+            }
+        }
+        return matResultat;
     }
 
-    public Producte[] getResultat(){
-        return vecResultat;
+    public Producte[][] getResultat(){
+        return matResultat;
     }
 
     public double getMillorSimilitud(){
