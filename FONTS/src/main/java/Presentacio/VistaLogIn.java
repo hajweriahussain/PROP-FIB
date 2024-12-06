@@ -40,6 +40,7 @@ public class VistaLogIn extends javax.swing.JPanel {
         contrasenya = new javax.swing.JPasswordField();
         jSeparator2 = new javax.swing.JSeparator();
         entrar = new javax.swing.JButton();
+        lblErrors = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(600, 400));
 
@@ -52,7 +53,7 @@ public class VistaLogIn extends javax.swing.JPanel {
         });
 
         logoFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        logoFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo3.png"))); // NOI18N
+        logoFoto.setIcon(new javax.swing.ImageIcon("/home/laura/Documentos/PROP/Proyecto22/subgrup-prop41.1/FONTS/src/main/resources/img/logo3.png")); // NOI18N
 
         logo1.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         logo1.setText("PRESTATGERIES");
@@ -84,7 +85,7 @@ public class VistaLogIn extends javax.swing.JPanel {
         jSeparator1.setForeground(new java.awt.Color(51, 51, 51));
 
         contrasenya.setForeground(new java.awt.Color(153, 153, 153));
-        contrasenya.setText("    jPasswordField1");
+        contrasenya.setText("********");
         contrasenya.setBorder(null);
         contrasenya.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -112,48 +113,51 @@ public class VistaLogIn extends javax.swing.JPanel {
             }
         });
 
+        lblErrors.setForeground(new java.awt.Color(255, 51, 51));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(logoFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 446, Short.MAX_VALUE)
+                        .addComponent(entrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(sortir)
-                        .addGap(14, 14, 14))
+                        .addGap(22, 22, 22))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(entrar)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(contrasenya)
-                                .addComponent(lblContrasenya)
-                                .addComponent(lblUsuari)
-                                .addComponent(lblIniciSessio)
-                                .addComponent(logo1)
-                                .addComponent(logo2)
-                                .addComponent(jSeparator1)
-                                .addComponent(usuari, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
-                                .addComponent(jSeparator2)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblErrors, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(contrasenya, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblContrasenya, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblUsuari, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblIniciSessio, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(logo1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(logo2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(usuari, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addContainerGap(118, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(logoFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
+                        .addGap(17, 17, 17)
                         .addComponent(logo1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(logo2)))
-                .addGap(24, 24, 24)
+                        .addComponent(logo2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(logoFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(lblIniciSessio)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblUsuari)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(usuari, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,11 +169,13 @@ public class VistaLogIn extends javax.swing.JPanel {
                 .addComponent(contrasenya, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(entrar)
-                .addGap(17, 17, 17)
-                .addComponent(sortir)
-                .addGap(16, 16, 16))
+                .addGap(18, 18, 18)
+                .addComponent(lblErrors)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sortir)
+                    .addComponent(entrar))
+                .addGap(26, 26, 26))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -191,17 +197,27 @@ public class VistaLogIn extends javax.swing.JPanel {
     }//GEN-LAST:event_entrarActionPerformed
 
     private void usuariMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuariMousePressed
-        usuari.setText("");
-        contrasenya.setText("********");
-        usuari.setForeground(Color.black);
-        contrasenya.setForeground(Color.gray);
+        if(usuari.getText().equals("  Introdueix el teu nom d'usuari")){
+            usuari.setText("");
+            usuari.setForeground(Color.black);
+        }
+        if(String.valueOf(contrasenya.getPassword()).isEmpty()){
+            contrasenya.setText("********");
+            contrasenya.setForeground(Color.gray);
+        }
+        lblErrors.setText("");
     }//GEN-LAST:event_usuariMousePressed
 
     private void contrasenyaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contrasenyaMousePressed
-        usuari.setText(" Introdueix el teu nom d'usuari");
-        contrasenya.setText("");
-        usuari.setForeground(Color.gray);
-        contrasenya.setForeground(Color.black);
+        if(String.valueOf(contrasenya.getPassword()).equals("********")){
+            contrasenya.setText("");
+            contrasenya.setForeground(Color.black);
+        }
+        if(usuari.getText().isEmpty()){
+            usuari.setText(" Introdueix el teu nom d'usuari");
+            usuari.setForeground(Color.gray);
+        }
+        lblErrors.setText("");
     }//GEN-LAST:event_contrasenyaMousePressed
 
     private void entrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrarMouseClicked
@@ -209,7 +225,14 @@ public class VistaLogIn extends javax.swing.JPanel {
         //....
         //Si el usuario y/o la contraseña estan mal entonces: 
         //if(....){
-        
+       // javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nIntent d'inici de sessió incorrecte.\n No existeix cap compte amb aquest usuari i/o contrasenya.");
+       if(String.valueOf(contrasenya.getPassword()).isEmpty() || usuari.getText().isEmpty()){
+            lblErrors.setText("S'han de completar tots els camps.");
+        }
+       
+       if(usuari.getText().equals("  Introdueix el teu nom d'usuari") || String.valueOf(contrasenya.getPassword()).equals("********")){
+            lblErrors.setText("S'han de completar tots els camps.");
+        }
     }//GEN-LAST:event_entrarMouseClicked
 
 
@@ -219,6 +242,7 @@ public class VistaLogIn extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblContrasenya;
+    private javax.swing.JLabel lblErrors;
     private javax.swing.JLabel lblIniciSessio;
     private javax.swing.JLabel lblUsuari;
     private javax.swing.JLabel logo1;
