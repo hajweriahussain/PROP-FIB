@@ -10,12 +10,12 @@ import java.awt.Color;
  *
  * @author laura
  */
-public class vistaLogIn extends javax.swing.JPanel {
+public class VistaLogIn extends javax.swing.JPanel {
 
     /**
      * Creates new form vistaLogIn
      */
-    public vistaLogIn() {
+    public VistaLogIn() {
         initComponents();
     }
 
