@@ -2,6 +2,7 @@ Aresta: classe auxiliar per l'algoritme DosAproximacio
 BruteForce: classe que implementa l'algoritme basat en força bruta
 CjtProductes: classe que implementa els conjunts de Productes del sistema
 CjtUsuaris: classe que implementa els conjunts d'usuaris del sistema
+CjtPrestatgeria: classe que implementa els conjunts de prestatgeries d'un usuari
 CtrlDomini: classe que evita l'acoblament entre la capa de presentacio, el dirver en aquest moment, i la capa de domini
 DosAproximacio: classe que implementa l'algoritme basat en un TSP - 2 Aproximació
 GeneradorSolucio: classe implementada pels dos algoritmes

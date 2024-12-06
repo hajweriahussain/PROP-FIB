@@ -10,6 +10,7 @@ import Domini.Producte;
 public class DriverDosAproximacio {
 
     private DosAproximacio dosAprox;
+    private static int numCol;
 
     public DriverDosAproximacio(String dataFile) throws FileNotFoundException {
         FileReader fr = new FileReader(dataFile);
@@ -39,7 +40,7 @@ public class DriverDosAproximacio {
         scanner.nextLine();
         double[][] matriuSimilituds = llegirMatriu(scanner, numProductes);
 
-        this.dosAprox = new DosAproximacio(matriuSimilituds, productes);
+        this.dosAprox = new DosAproximacio(matriuSimilituds, productes, numCol);
         scanner.close();
     }
 
@@ -71,7 +72,7 @@ public class DriverDosAproximacio {
         System.out.println("Introdueix la matriu de similituds:");
         double[][] matriuSimilituds = llegirMatriu(scanner, numProductes);
 
-        this.dosAprox = new DosAproximacio(matriuSimilituds, productes);
+        this.dosAprox = new DosAproximacio(matriuSimilituds, productes, numCol);
         scanner.close();
     }
 
@@ -94,28 +95,35 @@ public class DriverDosAproximacio {
     }
 
     public void generar_Layout() {
-        System.out.println("\nIniciando la generación del layout...");
-        Producte[] resultat = dosAprox.generarLayout();
-        System.out.println("+---------------------------------+");
-
-        for (int i = 0; i < resultat.length; i++) {
-            String id = String.format("%-4d", resultat[i].getId());
-            String nombre = String.format("%-9s", resultat[i].getNom());
-            System.out.println("|  ID: " + id + " | Producte: " + nombre + " |");
-            System.out.println("+---------------------------------+");
-        }
+        System.out.println("\nIniciant la generació del layout...");
+        Producte[][] resultat = dosAprox.generarLayout();
 
         System.out.println("\nSimilitud més alta: " + String.format("%.2f", dosAprox.getMillorSimilitud()));
+
+        // Imprimir la matriz mat_res
+        System.out.println("\nMatriz Resultante (mat_res):");
+        for (int i = 0; i < resultat.length; i++) {
+            for (int j = 0; j < resultat[i].length; j++) {
+                if (resultat[i][j] != null) {
+                    String id = String.format("%-4d", resultat[i][j].getId());
+                    String nombre = String.format("%-9s", resultat[i][j].getNom());
+                    System.out.print("| ID: " + id + " : Producte: " + nombre + " ");
+                } 
+                else System.out.print("| ----------------------");
+            }
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
+        System.out.println("Escull el número de columnes de la estanteria:");
+        int entrada = sc.nextInt();
+        numCol = entrada;
         System.out.println("Escull el mètode d'entrada de les dades:");
         System.out.println("1 - Entrada per terminal");
         System.out.println("2 - Entrada per fitxer de text");
-
-        int entrada = sc.nextInt();
+        entrada = sc.nextInt();
         sc.nextLine();
 
         if (entrada == 1) {
@@ -130,7 +138,7 @@ public class DriverDosAproximacio {
         } else if (entrada == 2) {
             System.out.println("Introdueix el nom del fitxer (que ha d'estar al directori JocsAlgoritmes (../EXE/Drivers/JocsAlgoritmes) del projecte)");
             String filename = sc.nextLine();
-            String filePath = "../EXE/Drivers/JocsAlgoritmes/" + filename;
+            String filePath = "../../../../EXE/Drivers/JocsAlgoritmes/" + filename;
 
             try {
                 DriverDosAproximacio driver2A = new DriverDosAproximacio(filePath);

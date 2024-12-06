@@ -27,7 +27,7 @@ public class CjtPrestatgeria {
         return null;
     }
 
-    public Producte[] getLayout(int prestatgeID) {
+    public Producte[][] getLayout(int prestatgeID) {
         if (map_prest.containsKey(prestatgeID)) return (map_prest.get(prestatgeID).getLayout());
         //llença excepció
         System.out.println("Error: L'usuari no té cap prestatge amb aquesta id");

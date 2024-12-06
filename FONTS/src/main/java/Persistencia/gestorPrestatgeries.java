@@ -8,6 +8,6 @@ package Persistencia;
  *
  * @author guillem
  */
-public class gestorPrestatgeries {
+public class GestorPrestatgeries {
     
 }

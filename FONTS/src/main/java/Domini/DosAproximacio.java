@@ -15,10 +15,13 @@ public class DosAproximacio implements GeneradorSolucio {
     private double sumaSimilitud;
     private Producte[] res_productes;
     private double[][] matS;
+    private int columnes;
+    private int files;
+    private Producte[][] mat_res;
 
     //Constructora
 
-    public DosAproximacio(double[][] matSim, Producte[] vecPrd) {
+    public DosAproximacio(double[][] matSim, Producte[] vecPrd, int numCol) {
         this.n = matSim.length;
         this.matS = matSim;
         this.res_productes = new Producte[n];
@@ -27,6 +30,10 @@ public class DosAproximacio implements GeneradorSolucio {
         this.mida = new int[n];
         this.prods = vecPrd;
         this.sumaSimilitud = -1; // n -> -1
+        this.columnes = numCol;
+        if (n%columnes == 0) this.files = n/columnes;
+        else this.files = n/columnes + 1;
+        this.mat_res = new Producte[files][columnes];
 
         for(int i = 0; i < n; ++i) {
             this.pare[i] = i;
@@ -125,38 +132,59 @@ public class DosAproximacio implements GeneradorSolucio {
         return mst;
     }
 
-    /*Comença a calcular la similitud a partir de l'element j de l'array, omitint els repetits*/
-    private void calculaSuma(List<Integer> cicleEuleria, int j) {
+    private void calculaSuma(List<Integer> cicleEuleria, int i, int[] cont, boolean[] visitat, int[] estanteria_res, int contador) {
         int mida = cicleEuleria.size();
-        boolean[] visitat = new boolean[n];
-        Arrays.fill(visitat, false);
-        int[] estanteria_res = new int[n];
-        int i = j;
-        int contador = 0;
+    
         while (contador < n) {
             if (!visitat[cicleEuleria.get(i)]) {
-                visitat[cicleEuleria.get(i)] = true;
-                estanteria_res[contador] = cicleEuleria.get(i);
-                ++contador;
+                if (cont[cicleEuleria.get(i)] > 1) { //hi ha repeticions d'aquest número
+                    //recurssió omitint aquest valor
+                    int auxi = i;
+                    int[] auxcont = Arrays.copyOf(cont, cont.length);
+                    boolean[] auxvisitat = Arrays.copyOf(visitat, visitat.length);
+                    int[] auxres = Arrays.copyOf(estanteria_res, estanteria_res.length);
+                    int auxcontador = contador;
+    
+                    cont[cicleEuleria.get(i)] -= 1;
+                    i = (i + 1) % mida;
+    
+                    calculaSuma(cicleEuleria, i, cont, visitat, estanteria_res, contador);
+    
+                    i = auxi;
+                    cont = auxcont;
+                    visitat = auxvisitat;
+                    estanteria_res = auxres;
+                    contador = auxcontador;
+    
+                    cont[cicleEuleria.get(i)] = 1;
+                    visitat[cicleEuleria.get(i)] = true;
+                    estanteria_res[contador] = cicleEuleria.get(i);
+                    contador++;                
+                } 
+                else { //només apareix 1 cop, l'afegim
+                    visitat[cicleEuleria.get(i)] = true;
+                    estanteria_res[contador] = cicleEuleria.get(i);
+                    contador++;
+                }
             }
-            ++i;
-            if (i == mida) i = 0;
+            i = (i + 1) % mida;
         }
+    
         double newSum = 0;
         Producte[] new_producte = new Producte[n];
         for (int k = 0; k < n; ++k) {
             new_producte[k] = prods[estanteria_res[k]];
-            if(k == n-1) newSum += matS[estanteria_res[k]][estanteria_res[0]];
-            else newSum += matS[estanteria_res[k]][estanteria_res[k+1]];
+            if (k == n - 1) newSum += matS[estanteria_res[k]][estanteria_res[0]];
+            else newSum += matS[estanteria_res[k]][estanteria_res[k + 1]];
         }
-
+    
         if (newSum > sumaSimilitud) { // < -> >
             sumaSimilitud = newSum;
             res_productes = new_producte;
         }
     }
+    
 
-    /*Comença a calcular la similitud a partir de l'element j de l'array, omitint els repetits*/
     private List<Integer> findEuleria(List<List<Integer>> adjacencies) {
         List<Integer> cicleEuleria = new ArrayList<>();
         Stack<Integer> pila = new Stack<>();
@@ -175,7 +203,7 @@ public class DosAproximacio implements GeneradorSolucio {
         return cicleEuleria;
     }
 
-    public Producte[] generarLayout() {
+    public Producte[][] generarLayout() {
         //Construir mst
         List<Aresta> mst = MST();
         //Construir llista d'adjacències amb doble aresta
@@ -197,15 +225,27 @@ public class DosAproximacio implements GeneradorSolucio {
             contador[cicleEuleria.get(v)] += 1;
         }
 
-        calculaSuma(cicleEuleria, 0);
-        int pivote = 0;
-        for (Integer v : cicleEuleria) {
-            if (contador[v] > 1) {
-                calculaSuma(cicleEuleria, pivote);
+        boolean[] visitat = new boolean[n];
+        Arrays.fill(visitat, false);
+        int[] estanteria_res = new int[n];
+        calculaSuma(cicleEuleria, 0, contador, visitat, estanteria_res, 0);
+
+        //muntem la matriu resultat
+        int k = 0;
+        for (int i = 0; i < files; ++i) {
+            for (int j = 0; j < columnes && k < n; ++j) {
+                if(i%2 == 0) { //del dret
+                    mat_res[i][j] = res_productes[k];
+                }
+                else { //del reves
+                    mat_res[i][(columnes-1)-j] = res_productes[k];
+                }
+                ++k;
             }
-            ++pivote;
         }
-        return res_productes;
+
+        return mat_res;
+
     }
 
     public double getMillorSimilitud() {
@@ -213,7 +253,7 @@ public class DosAproximacio implements GeneradorSolucio {
 
     }
 
-    public Producte[] getResultat() {
-        return res_productes;
+    public Product[][] getResultat() {
+        return mat_res;
     }
 }
