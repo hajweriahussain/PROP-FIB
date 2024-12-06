@@ -2,6 +2,7 @@ package Presentacio;
 
 import Domini.CtrlDomini;
 import Domini.Producte;
+import java.util.*;
 
 public class CtrlPresentacio {
     private CtrlDomini ctrlDomini;
