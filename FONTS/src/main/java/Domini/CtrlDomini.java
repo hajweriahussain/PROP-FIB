@@ -1,15 +1,17 @@
 package Domini;
 
+
+import Persistencia.CtrlPersistencia;
 import java.util.Map;
 import java.util.Set;
 
 public class CtrlDomini {
     private Usuari UsuariActual;
-    private CjtUsuaris cjtUsuaris;
     private CjtProductes cjtProductes;
     private CjtPrestatgeria cjtPrestatgeries;
     private double[][] matSimilituds;
     private Producte[] vecProductes;
+    private CtrlPersistencia cp;
 
 
     private static CtrlDomini singletonObject;
@@ -19,7 +21,7 @@ public class CtrlDomini {
     }
 
     public void inicialitzarCtrlDomini() {
-        cjtUsuaris = new CjtUsuaris("");
+    	cp = new CtrlPersistencia();
     }
 
     public static CtrlDomini getInstance() {
@@ -89,12 +91,11 @@ public class CtrlDomini {
         //Modificacions aqui
     }
 
-    public void crearPrestatgeria(Boolean bruteForce){
+    public void crearPrestatgeria(Boolean bruteForce, int id){
     	if (cjtProductes == null || cjtProductes.getVecProductes().length == 0) {
             System.out.println("Error: No hi ha productes per crear la prestatgeria.");
             return;
         }
-
         matSimilituds = cjtProductes.getMatriuSimilituds();
         vecProductes = cjtProductes.getVecProductes();
         int numProductes = vecProductes.length;

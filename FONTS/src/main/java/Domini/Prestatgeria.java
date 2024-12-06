@@ -128,7 +128,7 @@ public class Prestatgeria {
         prestatge1[colProd1].setFila(filaProd1);
         prestatge2[colProd2].setFila(filaProd2);
 
-        System.out.println("S'han intercanviat els productes de " + posProd1 + " i " + posProd2);
+        System.out.println("S'han intercanviat els productes de " + filaProd1 + "," + colProd1 + " i " + filaProd2 + "," + colProd2);
     }
     public void afegirPrestatge() {
         layout.add(new Producte[numColumnas]);
