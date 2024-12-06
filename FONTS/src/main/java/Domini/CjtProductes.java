@@ -37,7 +37,8 @@ public class CjtProductes {
         return productes.containsKey(idProd);
     }
 
-    public void afegirProducte(Producte p) {
+    public void afegirProducte(int id, String nom, Map<Integer, Double> similituds) {
+        Producte p = new Producte(id, nom, similituds);
         if (!existeixProducte(p.getId())) { //
             if (!p.getSimilituds().isEmpty()) {
                 productes.put(p.getId(), p);
