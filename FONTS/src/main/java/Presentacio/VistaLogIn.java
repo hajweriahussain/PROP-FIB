@@ -4,6 +4,8 @@
  */
 package Presentacio;
 
+import java.awt.Color;
+
 /**
  *
  * @author laura
@@ -26,73 +28,202 @@ public class vistaLogIn extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblUsuari = new javax.swing.JLabel();
-        lblContra = new javax.swing.JLabel();
-        usuari = new javax.swing.JTextField();
-        contrasenya = new javax.swing.JPasswordField();
         sortir = new javax.swing.JButton();
+        logoFoto = new javax.swing.JLabel();
+        logo1 = new javax.swing.JLabel();
+        logo2 = new javax.swing.JLabel();
+        lblIniciSessio = new javax.swing.JLabel();
+        lblUsuari = new javax.swing.JLabel();
+        lblContrasenya = new javax.swing.JLabel();
+        usuari = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        contrasenya = new javax.swing.JPasswordField();
+        jSeparator2 = new javax.swing.JSeparator();
         entrar = new javax.swing.JButton();
 
-        lblUsuari.setText("Usuari:");
+        setPreferredSize(new java.awt.Dimension(600, 400));
 
-        lblContra.setText("Contrasenya:");
-
+        sortir.setBackground(new java.awt.Color(255, 153, 153));
         sortir.setText("Sortir");
+        sortir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sortirMouseClicked(evt);
+            }
+        });
 
+        logoFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo3.png"))); // NOI18N
+
+        logo1.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
+        logo1.setText("PRESTATGERIES");
+
+        logo2.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
+        logo2.setText("N' PRODUCTS");
+
+        lblIniciSessio.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
+        lblIniciSessio.setText("INICIAR SESSIÓ");
+
+        lblUsuari.setText("USUARI");
+
+        lblContrasenya.setText("CONTRASENYA");
+
+        usuari.setForeground(new java.awt.Color(153, 153, 153));
+        usuari.setText("  Introdueix el teu nom d'usuari");
+        usuari.setBorder(null);
+        usuari.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                usuariMousePressed(evt);
+            }
+        });
+        usuari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usuariActionPerformed(evt);
+            }
+        });
+
+        jSeparator1.setForeground(new java.awt.Color(51, 51, 51));
+
+        contrasenya.setForeground(new java.awt.Color(153, 153, 153));
+        contrasenya.setText("    jPasswordField1");
+        contrasenya.setBorder(null);
+        contrasenya.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                contrasenyaMousePressed(evt);
+            }
+        });
+        contrasenya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contrasenyaActionPerformed(evt);
+            }
+        });
+
+        jSeparator2.setForeground(new java.awt.Color(51, 51, 51));
+
+        entrar.setBackground(new java.awt.Color(157, 213, 184));
         entrar.setText("Entrar");
+        entrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                entrarMouseClicked(evt);
+            }
+        });
+        entrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(sortir)
-                .addGap(16, 16, 16))
             .addGroup(layout.createSequentialGroup()
+                .addComponent(logoFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(lblUsuari)
-                                .addGap(40, 40, 40))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblContra)
-                                .addGap(19, 19, 19)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(contrasenya)
-                            .addComponent(usuari, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 446, Short.MAX_VALUE)
+                        .addComponent(sortir)
+                        .addGap(14, 14, 14))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(153, 153, 153)
-                        .addComponent(entrar)))
-                .addContainerGap(80, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(entrar)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(contrasenya)
+                                .addComponent(lblContrasenya)
+                                .addComponent(lblUsuari)
+                                .addComponent(lblIniciSessio)
+                                .addComponent(logo1)
+                                .addComponent(logo2)
+                                .addComponent(jSeparator1)
+                                .addComponent(usuari, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                                .addComponent(jSeparator2)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUsuari)
-                    .addComponent(usuari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblContra)
-                    .addComponent(contrasenya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(logoFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(logo1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(logo2)))
+                .addGap(24, 24, 24)
+                .addComponent(lblIniciSessio)
+                .addGap(27, 27, 27)
+                .addComponent(lblUsuari)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(usuari, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblContrasenya)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(contrasenya, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(entrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addGap(17, 17, 17)
                 .addComponent(sortir)
-                .addGap(19, 19, 19))
+                .addGap(16, 16, 16))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void sortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sortirMouseClicked
+        
+        
+    }//GEN-LAST:event_sortirMouseClicked
+
+    private void usuariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usuariActionPerformed
+
+    private void contrasenyaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasenyaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contrasenyaActionPerformed
+
+    private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_entrarActionPerformed
+
+    private void usuariMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuariMousePressed
+        usuari.setText("");
+        contrasenya.setText("********");
+        usuari.setForeground(Color.black);
+        contrasenya.setForeground(Color.gray);
+    }//GEN-LAST:event_usuariMousePressed
+
+    private void contrasenyaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contrasenyaMousePressed
+        usuari.setText(" Introdueix el teu nom d'usuari");
+        contrasenya.setText("");
+        usuari.setForeground(Color.gray);
+        contrasenya.setForeground(Color.black);
+    }//GEN-LAST:event_contrasenyaMousePressed
+
+    private void entrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrarMouseClicked
+        
+        //....
+        //Si el usuario y/o la contraseña estan mal entonces: 
+        //if(....){
+        
+    }//GEN-LAST:event_entrarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField contrasenya;
     private javax.swing.JButton entrar;
-    private javax.swing.JLabel lblContra;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblContrasenya;
+    private javax.swing.JLabel lblIniciSessio;
     private javax.swing.JLabel lblUsuari;
+    private javax.swing.JLabel logo1;
+    private javax.swing.JLabel logo2;
+    private javax.swing.JLabel logoFoto;
     private javax.swing.JButton sortir;
     private javax.swing.JTextField usuari;
     // End of variables declaration//GEN-END:variables

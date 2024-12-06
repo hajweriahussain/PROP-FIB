@@ -8,7 +8,7 @@ import java.util.Set;
 public class CtrlDomini {
     private Usuari UsuariActual;
     private CjtProductes cjtProductes;
-    private CjtPrestatgeria cjtPrestatgeries;
+    private CjtPrestatgeries cjtPrestatgeries;
     private double[][] matSimilituds;
     private Producte[] vecProductes;
     private CtrlPersistencia cp;
@@ -44,7 +44,7 @@ public class CtrlDomini {
         }
 
         cjtProductes = new CjtProductes(username);
-        cjtPrestatgeries = new CjtPrestatgeria(username);
+        cjtPrestatgeries = new CjtPrestatgeries(username);
         UsuariActual = cjtUsuaris.getUsuari(username);
     }
 

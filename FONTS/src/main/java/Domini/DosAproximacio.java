@@ -253,7 +253,7 @@ public class DosAproximacio implements GeneradorSolucio {
 
     }
 
-    public Product[][] getResultat() {
+    public Producte[][] getResultat() {
         return mat_res;
     }
 }
