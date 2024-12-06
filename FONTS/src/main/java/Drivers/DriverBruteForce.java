@@ -10,6 +10,7 @@ import Domini.Producte;
 public class DriverBruteForce {
 
     private BruteForce bf;
+    private static int numCol;
 
     //constructora per llegir d'un arxiu
     public DriverBruteForce(String dataFile) throws FileNotFoundException {
@@ -43,7 +44,7 @@ public class DriverBruteForce {
         scanner.nextLine();
         double[][] matriuSimilituds = llegirMatriu(scanner, numProductes);
 
-         this.bf = new BruteForce(matriuSimilituds, productes);
+         this.bf = new BruteForce(matriuSimilituds, productes, numCol);
          scanner.close();
     }
 
@@ -78,7 +79,7 @@ public class DriverBruteForce {
         System.out.println("Indrodueix la matriu de similituds:");
         double[][] matriuSimilituds = llegirMatriu(scanner, numProductes);
 
-        this.bf = new BruteForce(matriuSimilituds, productes);
+        this.bf = new BruteForce(matriuSimilituds, productes, numCol);
         scanner.close();
     }
 
@@ -103,14 +104,20 @@ public class DriverBruteForce {
     public void generar_Layout() {
         System.out.println("\nIniciando la generación del layout...");
 
-        Producte[] resultat = bf.generarLayout();
+        Producte[][] resultat = bf.generarLayout();
 
-        System.out.println("+---------------------------------+");
+        // Imprimir la matriz mat_res
+        System.out.println("\nMatriz Resultante (mat_res):");
         for (int i = 0; i < resultat.length; i++) {
-            String id = String.format("%-4d", resultat[i].getId());
-            String nombre = String.format("%-9s", resultat[i].getNom());
-            System.out.println("|  ID: " + id + " | Producte: " + nombre + " |");
-            System.out.println("+---------------------------------+");
+            for (int j = 0; j < resultat[i].length; j++) {
+                if (resultat[i][j] != null) {
+                    String id = String.format("%-4d", resultat[i][j].getId());
+                    String nombre = String.format("%-9s", resultat[i][j].getNom());
+                    System.out.print("| ID: " + id + " : Producte: " + nombre + " ");
+                } 
+                else System.out.print("| ----------------------");
+            }
+            System.out.println();
         }
 
         System.out.println("\nSimilitud más alta: " + String.format("%.2f", bf.getMillorSimilitud()));
@@ -118,7 +125,11 @@ public class DriverBruteForce {
 
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
-
+        
+        System.out.println("Escull el número de columnes de la estanteria:");
+        int entrada = sc.nextInt();
+        numCol = entrada;
+        
         System.out.println("Escull el mètode d'entrada de les dades:");
         System.out.println("1 - Entrada per terminal");
         System.out.println("2 - Entrada per fitxer de text");
