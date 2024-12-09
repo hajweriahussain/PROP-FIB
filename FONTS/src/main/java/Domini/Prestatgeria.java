@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class Prestatgeria {
     private LinkedList<Producte[]> layout;
-//    private List<List<Pair<String, Integer>>> layout;
+    private List<List<Pair<String, Integer>>> disp;
     private Set<Integer> productes;
     private int id;
     private String nom;
@@ -39,6 +39,7 @@ public class Prestatgeria {
         this.nom = nom;
         this.productes = new HashSet<>();
         this.layout = new LinkedList<>();
+        disp = new ArrayList<>();
         for (int i = 0; i < this.numFilas; i++) {
             layout.add(new Producte[this.numColumnas]);
         }
@@ -86,6 +87,10 @@ public class Prestatgeria {
         return disposicio;
     }
     
+    public List<List<Pair<String, Integer>>> getDisp() {
+        return disp;
+    }
+    
     public void setId(int id){
     	if (id <= 0) {
             System.out.println("Error: L'ID ha de ser un valor positiu. No es canvia l'ID.");
@@ -101,9 +106,6 @@ public class Prestatgeria {
 
         int novesFiles = disposicio.length;
         int novesColumnes = disposicio[0].length;
-
-        
-
         this.numFilas = novesFiles;
         this.numColumnas = novesColumnes;
 
@@ -113,7 +115,21 @@ public class Prestatgeria {
             System.arraycopy(disposicio[i], 0, novaFila, 0, novesColumnes);
             layout.add(novaFila);
         }
+        
+        disp = new ArrayList<>();
 
+        
+        for (int i = 0; i < novesFiles; i++) {
+            List<Pair<String, Integer>> fila = new ArrayList<>();
+            for (int j = 0; j < novesColumnes; j++) {
+                Producte producte = disposicio[i][j];
+                if (producte != null) {
+                    fila.add(new Pair<>(producte.getNom(), producte.getId()));
+                }
+            }
+            disp.add(fila);
+        }
+        
         System.out.println("El layout s'ha actualitzat correctament.");
     }
     
@@ -145,6 +161,13 @@ public class Prestatgeria {
         prestatge2[colProd2].setColumna(colProd2);
         prestatge1[colProd1].setFila(filaProd1);
         prestatge2[colProd2].setFila(filaProd2);
+        
+        List<Pair<String, Integer>> fila1 = disp.get(filaProd1);
+        List<Pair<String, Integer>> fila2 = disp.get(filaProd2);
+
+        Pair<String, Integer> tempDisp = fila1.get(colProd1);
+        fila1.set(colProd1, fila2.get(colProd2));
+        fila2.set(colProd2, tempDisp);
 
         System.out.println("S'han intercanviat els productes de " + filaProd1 + "," + colProd1 + " i " + filaProd2 + "," + colProd2);
     }
