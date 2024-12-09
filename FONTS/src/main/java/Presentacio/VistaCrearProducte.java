@@ -34,7 +34,6 @@ public class VistaCrearProducte extends javax.swing.JFrame {
         labelTitol = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         labelId = new javax.swing.JLabel();
-        botoValidarId = new javax.swing.JButton();
         labelFoto = new javax.swing.JLabel();
         botoSortir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -43,8 +42,9 @@ public class VistaCrearProducte extends javax.swing.JFrame {
         labelSimilituds = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaSims = new javax.swing.JTextArea();
-        botoCrear = new javax.swing.JButton();
         textId = new javax.swing.JTextField();
+        botoCrear = new javax.swing.JButton();
+        botoValidarId = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -62,14 +62,6 @@ public class VistaCrearProducte extends javax.swing.JFrame {
 
         labelId.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         labelId.setText("Identificador (ID):");
-
-        botoValidarId.setText("Validar ID");
-        botoValidarId.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botoValidarId.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                botoValidarIdMousePressed(evt);
-            }
-        });
 
         labelFoto.setIcon(new javax.swing.ImageIcon("/home/ariadna/Documents/uni/Q5/PROP/PROP_PROYECTO3/subgrup-prop41.1/FONTS/src/main/resources/img/super.png")); // NOI18N
         labelFoto.setText("jLabel1");
@@ -97,6 +89,7 @@ public class VistaCrearProducte extends javax.swing.JFrame {
         });
 
         labelSimilituds.setText("Similituds amb altres productes (ex., 2:0.75, 3:0.4):");
+        labelSimilituds.setFocusable(false);
 
         textAreaSims.setColumns(20);
         textAreaSims.setForeground(new java.awt.Color(153, 153, 153));
@@ -109,48 +102,30 @@ public class VistaCrearProducte extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(textAreaSims);
 
-        botoCrear.setText("Crear");
-        botoCrear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botoCrear.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botoCrearMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelNom, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25)
-                        .addComponent(textNom))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelSimilituds)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                .addComponent(labelNom)
+                .addGap(18, 18, 18)
+                .addComponent(textNom))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(labelSimilituds)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNom)
                     .addComponent(textNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addComponent(labelSimilituds)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         textId.setForeground(new java.awt.Color(153, 153, 153));
@@ -163,33 +138,55 @@ public class VistaCrearProducte extends javax.swing.JFrame {
             }
         });
 
+        botoCrear.setText("Crear");
+        botoCrear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoCrear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botoCrearMouseClicked(evt);
+            }
+        });
+
+        botoValidarId.setText("Validar ID");
+        botoValidarId.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoValidarId.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                botoValidarIdMousePressed(evt);
+            }
+        });
+        botoValidarId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botoValidarIdActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout bgPanelLayout = new javax.swing.GroupLayout(bgPanel);
         bgPanel.setLayout(bgPanelLayout);
         bgPanelLayout.setHorizontalGroup(
             bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelLayout.createSequentialGroup()
+            .addGroup(bgPanelLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgPanelLayout.createSequentialGroup()
-                        .addComponent(labelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(bgPanelLayout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGap(25, 25, 25)
+                                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textId, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(bgPanelLayout.createSequentialGroup()
+                                        .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
-                                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labelId)
-                                            .addGroup(bgPanelLayout.createSequentialGroup()
-                                                .addComponent(textId, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(botoValidarId, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(bgPanelLayout.createSequentialGroup()
+                                        .addComponent(labelId)
                                         .addGap(0, 0, Short.MAX_VALUE))))
-                            .addGroup(bgPanelLayout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(botoValidarId)
+                                .addGap(123, 123, 123))))
                     .addComponent(labelTitol)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25))
         );
         bgPanelLayout.setVerticalGroup(
@@ -199,63 +196,39 @@ public class VistaCrearProducte extends javax.swing.JFrame {
                 .addComponent(labelTitol)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
                 .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgPanelLayout.createSequentialGroup()
-                        .addComponent(labelFoto)
-                        .addContainerGap(43, Short.MAX_VALUE))
-                    .addGroup(bgPanelLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
                         .addComponent(labelId)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botoValidarId))
-                        .addGap(18, 18, 18)
+                        .addGap(15, 15, 15)
+                        .addComponent(textId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(botoValidarId)
+                        .addGap(15, 15, 15)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))))
+                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(bgPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addComponent(labelFoto)))
+                .addGap(25, 25, 25))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void botoValidarIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoValidarIdMousePressed
-        String id = textId.getText();
-        
-        if (id.equals("") || id.equals("Introdueix un identificador numèric")) {
-            JOptionPane.showMessageDialog(this, "Has d'introduir un identificador.", "AVÍS", JOptionPane.WARNING_MESSAGE);
-        }
-        else {  // Comprovar que l'id és vàlid
-            jPanel1.setVisible(true);
-        }
-    }//GEN-LAST:event_botoValidarIdMousePressed
-
-    private void textIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textIdMousePressed
-        if (textId.getText().equals("Introdueix un identificador numèric")) {
-            textId.setText("");
-            textId.setForeground(Color.black);
-        }
-        if ((textNom.getText()).isEmpty()) {
-            textNom.setText("Introdueix un nom");
-            textNom.setForeground(Color.gray);
-        }
-    }//GEN-LAST:event_textIdMousePressed
-
-    private void botoSortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoSortirMouseClicked
-        this.dispose();
-    }//GEN-LAST:event_botoSortirMouseClicked
 
     private void bgPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bgPanelMouseClicked
         if (textId.getText().equals("")) {
@@ -268,21 +241,10 @@ public class VistaCrearProducte extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bgPanelMouseClicked
 
-    private void textNomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textNomMousePressed
-        if (textNom.getText().equals("Introdueix un nom")) {
-            textNom.setText("");
-            textNom.setForeground(Color.black);
-        }
-        if ((textId.getText()).isEmpty()) {
-            textId.setText("Introdueix un identificador numèric");
-            textId.setForeground(Color.gray);
-        }
-    }//GEN-LAST:event_textNomMousePressed
-
     private void botoCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoCrearMouseClicked
         String id = textId.getText().trim();
         String nom = textNom.getText().trim();
-        
+
         if (id.isEmpty() || id.equals("Introdueix un identificador numèric")) {
             JOptionPane.showMessageDialog(this, "Has d'introduir un identificador.", "AVÍS", JOptionPane.WARNING_MESSAGE);
         }
@@ -290,7 +252,7 @@ public class VistaCrearProducte extends javax.swing.JFrame {
             if (nom.isEmpty() || nom.equals("Introdueix un nom")) {
                 JOptionPane.showMessageDialog(this, "Has d'introduir un nom.", "AVÍS", JOptionPane.WARNING_MESSAGE);
             }
-            else {  
+            else {
                 if (textAreaSims.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Has d'introduir les similituds amb tots els productes.", "AVÍS", JOptionPane.WARNING_MESSAGE);
                 }
@@ -300,6 +262,17 @@ public class VistaCrearProducte extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_botoCrearMouseClicked
+
+    private void textIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textIdMousePressed
+        if (textId.getText().equals("Introdueix un identificador numèric")) {
+            textId.setText("");
+            textId.setForeground(Color.black);
+        }
+        if ((textNom.getText()).isEmpty()) {
+            textNom.setText("Introdueix un nom");
+            textNom.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_textIdMousePressed
 
     private void textAreaSimsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textAreaSimsMousePressed
         if (textId.getText().equals("")) {
@@ -312,6 +285,45 @@ public class VistaCrearProducte extends javax.swing.JFrame {
         }
         textAreaSims.setForeground(Color.black);
     }//GEN-LAST:event_textAreaSimsMousePressed
+
+    private void textNomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textNomMousePressed
+        if (textNom.getText().equals("Introdueix un nom")) {
+            textNom.setText("");
+            textNom.setForeground(Color.black);
+        }
+        if ((textId.getText()).isEmpty()) {
+            textId.setText("Introdueix un identificador numèric");
+            textId.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_textNomMousePressed
+
+    private void botoSortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoSortirMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_botoSortirMouseClicked
+
+    private void botoValidarIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoValidarIdMousePressed
+        String id = textId.getText();
+
+        if (id.equals("") || id.equals("Introdueix un identificador numèric")) {
+            JOptionPane.showMessageDialog(this, "Has d'introduir un identificador.", "AVÍS", JOptionPane.WARNING_MESSAGE);
+        }
+        else {  // Comprovar que l'id és vàlid
+            try {
+                int idNum = Integer.parseInt(id);
+                
+                if(idNum <= 0) {
+                    JOptionPane.showMessageDialog(this, "L'id ha de ser un nombre positiu.", "ATENCIÓ", JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "L'id ha de ser un nombre positiu.", "ATENCIÓ", JOptionPane.WARNING_MESSAGE);
+            }
+            jPanel1.setVisible(true);
+        }
+    }//GEN-LAST:event_botoValidarIdMousePressed
+
+    private void botoValidarIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoValidarIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botoValidarIdActionPerformed
 
     /**
      * @param args the command line arguments

@@ -1,7 +1,5 @@
 package Persistencia;
 
-import Domini.Producte;
-import Domini.CjtProductes;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -14,7 +12,7 @@ import java.util.*;
 
 public class GestorCjtProductes {
 
-    public static CjtProductes importarProductes(String usuari) {
+    public static List<String> importarProductes(String usuari) {
         CjtProductes cjtProductes = new CjtProductes(usuari);
         String ruta = getRuta(usuari);  // Obtenir la ruta de l'arxiu JSON corresponent a l'usuari
 
@@ -40,8 +38,7 @@ public class GestorCjtProductes {
                         similituds.put(idSimilitud, valor);
                     }
 
-                    Producte producte = new Producte(id, nom, similituds);
-                    cjtProductes.afegirProducte(producte);
+                    cjtProductes.afegirProducte(id, nom, similituds);
                 }
             }
         } catch (IOException e) {
@@ -117,19 +114,15 @@ public class GestorCjtProductes {
 
         File carpeta = new File(rutaCarpeta);
         if (!carpeta.exists()) {
-            if (!carpeta.mkdirs()) {
-                System.err.println("No s'ha pogut crear la carpeta: " + rutaCarpeta);
-            }
+            carpeta.mkdirs();   // Crea la carpeta
         }
 
         File arxiu = new File(rutaArxiu);
         if (!arxiu.exists()) {
             try {
-                if (arxiu.createNewFile()) {
-                    System.out.println("Arxiu creat: " + rutaArxiu);
-                }
+                arxiu.createNewFile();  // Crea l'arxiu
             } catch (IOException e) {
-                System.err.println("Error en crear l'arxiu: " + e.getMessage());
+                e.printStackTrace();
             }
         }
 

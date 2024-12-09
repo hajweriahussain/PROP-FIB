@@ -6,9 +6,8 @@ import java.util.Map;
 public class Producte {
     private Integer id;
     private String nom;
-    private Integer fila;       // en aquesta entrega, els productes estan a la mateixa fila
-    private Integer columna;
     private Map<Integer, Double> similituds;
+    private Map<Integer, Pair<Integer, Integer>> posPrestatgeries;
 
     private void validarId(int id) {
         if (id <= 0) {
@@ -26,22 +25,19 @@ public class Producte {
         validarId(id);
         this.id = id;
         this.nom = nom;
-        this.fila = 0;
-        this.columna = -1;
         this.similituds = new HashMap<>();
+        this.posPrestatgeries = new HashMap<>();
     }
 
     public Producte(int id, String nom, Map<Integer, Double> similituds) {
         validarId(id);
         this.id = id;
         this.nom = nom;
-        this.fila = 0;
-        this.columna = -1;
-
         for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
             validarSimilitud(entry.getValue());
         }
         this.similituds = similituds;
+        this.posPrestatgeries = new HashMap<>();
     }
 
 
@@ -53,16 +49,12 @@ public class Producte {
         return this.nom;
     }
 
-    public int getFila() {
-        return this.fila;
-    }
-
-    public int getColumna() {
-        return this.columna;
-    }
-
     public Map<Integer, Double> getSimilituds() {
         return this.similituds;
+    }
+    
+    public Map<Integer, Pair<Integer, Integer>> getPosPrestatgeries() {
+        return this.posPrestatgeries;
     }
 
 
@@ -75,19 +67,15 @@ public class Producte {
         this.nom = nom;
     }
 
-    public void setFila(int fila) {
-        this.fila = fila;
-    }
-
-    public void setColumna(int columna) {
-        this.columna = columna;
-    }
-
     public void setSimilituds(Map<Integer, Double> similituds) {
         for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
             validarSimilitud(entry.getValue());
         }
         this.similituds = similituds;
+    }
+    
+    public void setPosPrestatgeries(Map<Integer, Pair<Integer, Integer>> posPres) {
+        this.posPrestatgeries = posPres;
     }
 
 
@@ -96,14 +84,14 @@ public class Producte {
         similituds.put(id, similitud);
     }
 
-    public void modificarSimilitud(int id, double nova_similitud) {
-        validarSimilitud(nova_similitud);
+    public void modificarSimilitud(int id, double novaSimilitud) {
+        validarSimilitud(novaSimilitud);
         if (!similituds.containsKey(id)) {
             System.out.println("Error: El producte amb id: " + id + " no existeix");
             return;
         }
 
-        similituds.put(id, nova_similitud);
+        similituds.put(id, novaSimilitud);
     }
 
     public double getSimilitud(int id) {
@@ -120,6 +108,19 @@ public class Producte {
             }
         }
         return idMillorSimilitud;
+    }
+        
+    public void afegirPosPrestatgeria(int idPres, Pair<Integer, Integer> pos) {
+        posPrestatgeries.put(idPres, pos);
+    }
+    
+    public void modificarPosPrestatgeria(int idPres, Pair<Integer, Integer> novaPos) {
+        if (!posPrestatgeries.containsKey(idPres)) {
+            System.out.println("Error: La prestatgeria amb id: " + idPres + "no existeix");
+            return;
+        }
+        
+        posPrestatgeries.put(idPres, novaPos);
     }
 
     public void imprimirSimilituds() {
