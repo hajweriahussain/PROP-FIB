@@ -1,16 +1,23 @@
 package Domini;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class Prestatgeria {
     private LinkedList<Producte[]> layout;
+//    private List<List<Pair<String, Integer>>> layout;
+    private Set<Integer> productes;
     private int id;
+    private String nom;
     private int numFilas;
     private int numColumnas;
     
 
 
-    public Prestatgeria(int id, int filas, int columnas){
+    public Prestatgeria(int id, String nom,  int filas, int columnas){
     	if (id <= 0) {
             System.out.println("Error: L'ID ha de ser un valor positiu. Assignant ID per defecte 1.");
             this.id = 1;
@@ -29,7 +36,8 @@ public class Prestatgeria {
         } else {
             this.numColumnas = columnas;
         }
-
+        this.nom = nom;
+        this.productes = new HashSet<>();
         this.layout = new LinkedList<>();
         for (int i = 0; i < this.numFilas; i++) {
             layout.add(new Producte[this.numColumnas]);
@@ -44,12 +52,24 @@ public class Prestatgeria {
         return layout.get(indexFila);
     }
     
+    public int getId() {
+        return id;
+    }
+    
+    public String getNom() {
+        return nom;
+    }
+    
     public int getNumFilas() {
         return numFilas;
     }
 
     public int getNumColumnas() {
         return numColumnas;
+    }
+    
+    public Set<Integer> getProductes() {
+        return productes;
     }
     
     public Producte[][] getLayout() {
@@ -65,9 +85,7 @@ public class Prestatgeria {
 
         return disposicio;
     }
-    public int getId(){
-        return id;
-    }
+    
     public void setId(int id){
     	if (id <= 0) {
             System.out.println("Error: L'ID ha de ser un valor positiu. No es canvia l'ID.");
@@ -141,6 +159,7 @@ public class Prestatgeria {
             System.out.println("Error: Índex d'estant fora de rang.");
             return;
         }
+            
         layout.remove(indexFila);
         numFilas--;
         System.out.println("Estant " + indexFila + " eliminat. Total files: " + numFilas);

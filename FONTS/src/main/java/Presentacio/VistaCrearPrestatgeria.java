@@ -42,7 +42,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel1.setFont(new java.awt.Font("Khmer OS", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel1.setText("Nova Prestatgeria");
         jLabel1.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -52,7 +52,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(6, 78, 0, 0);
         add(jLabel1, gridBagConstraints);
 
-        jLabel2.setFont(new java.awt.Font("Khmer OS System", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel2.setText("Identificador (ID)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -62,7 +62,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(43, 84, 0, 0);
         add(jLabel2, gridBagConstraints);
 
-        jLabel3.setFont(new java.awt.Font("Khmer OS System", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel3.setText("Nombre de filas");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -71,7 +71,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(21, 84, 0, 0);
         add(jLabel3, gridBagConstraints);
 
-        jLabel4.setFont(new java.awt.Font("Khmer OS System", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel4.setText("Nombre de columnas");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -125,7 +125,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         add(jTextField3, gridBagConstraints);
 
         crearButton.setBackground(new java.awt.Color(0, 153, 76));
-        crearButton.setFont(new java.awt.Font("Khmer OS System", 1, 14)); // NOI18N
+        crearButton.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
         crearButton.setForeground(new java.awt.Color(255, 255, 255));
         crearButton.setText("Crear Prestatgeria");
         crearButton.addActionListener(new java.awt.event.ActionListener() {
