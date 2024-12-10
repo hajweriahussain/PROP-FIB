@@ -16,7 +16,7 @@ public class CtrlPersistencia {
         GestorUsuaris.afegirUsuari(user,password);
     }
     
-    public void eliminarUsuari(String user) { //falta completar para los otros gestores
+    public void eliminarUsuari(String user) { 
         GestorUsuaris.eliminarUsuari(user);
         GestorCjtProductes.esborrarProductes(user);
         GestorCjtPrestatgeries.borrarPrestatgeriesUsuari(user);
