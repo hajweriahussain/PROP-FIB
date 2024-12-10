@@ -10,10 +10,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class GestorCjtProductes {
 
     public static List<String> importarProductes(String usuari) {
-        CjtProductes cjtProductes = new CjtProductes(usuari);
+        List<String> productes = new ArrayList<>();
         String ruta = getRuta(usuari);  // Obtenir la ruta de l'arxiu JSON corresponent a l'usuari
 
         try (FileReader fr = new FileReader(ruta)) {
@@ -22,23 +25,41 @@ public class GestorCjtProductes {
                 JSONObject jsonProductes = (JSONObject) parser.parse(fr);
 
                 for (Object key : jsonProductes.keySet()) {
-                    String idString = (String) key; // Clau del producte en format String
-                    JSONObject jsonProducte = (JSONObject) jsonProductes.get(idString);
+                    String idProd = (String) key; // Clau del producte en format String
+                    JSONObject jsonProducte = (JSONObject) jsonProductes.get(idProd);
 
-                    // Extreure les dades del producte del JSON
-                    int id = Integer.parseInt(idString);
-                    String nom = (String) jsonProducte.get("nom");
+                    Map<String, Object> producteInfo = new HashMap<>();
+                    producteInfo.put("id", idProd);
+                    producteInfo.put("nom", jsonProducte.get("nom"));
+
                     JSONArray similitudsArray = (JSONArray) jsonProducte.get("similituds");
+                    List<Map<String, Object>> similituds = new ArrayList<>();
 
-                    Map<Integer, Double> similituds = new HashMap<>();
                     for (Object obj : similitudsArray) {
                         JSONObject entry = (JSONObject) obj;
-                        int idSimilitud = ((Long) entry.get("id")).intValue();
-                        double valor = (Double) entry.get("valor");
-                        similituds.put(idSimilitud, valor);
+                        Map<String, Object> objData = new HashMap<>();
+                        objData.put("id", entry.get("id"));   // ID del producte
+                        objData.put("similitud", entry.get("similitud"));   // Similitud amb aquest producte
+                        similituds.add(objData);
                     }
+                    producteInfo.put("similituds", similituds);
 
-                    cjtProductes.afegirProducte(id, nom, similituds);
+                    JSONArray posPrestatgeriesArray = (JSONArray) jsonProducte.get("posPrestatgeries");
+                    List<Map<String, Object>> posPrestatgeries = new ArrayList<>();
+
+                    for (Object obj : posPrestatgeriesArray) {
+                        JSONObject pos = (JSONObject) obj;
+                        Map<String, Object> posData = new HashMap<>();
+                        posData.put("id", pos.get("id"));
+                        posData.put("fila", pos.get("fila"));
+                        posData.put("columna", pos.get("columna"));
+                        posPrestatgeries.add(posData);
+                    }
+                    producteInfo.put("posPrestatgeries", posPrestatgeries);
+
+                    Gson gson = new Gson();
+                    String producteJSON = gson.toJson(producteInfo);
+                    productes.add(producteJSON);
                 }
             }
         } catch (IOException e) {
@@ -49,34 +70,41 @@ public class GestorCjtProductes {
             System.err.println("Error inesperat: " + e.getMessage());
         }
 
-        return cjtProductes;
+        return productes;
     }
 
-    public static void guardarProductes(CjtProductes cjtProductes, String usuari) {
-        if (cjtProductes != null) {
-            JSONObject jsonProductes = new JSONObject();
+    public static void guardarProductes(List<String> productes, String usuari) {
+        if (productes != null) {
+            Map<String, Object> jsonProductes = new LinkedHashMap<>();
+            JSONParser parser = new JSONParser();
 
-            for (Producte prod : cjtProductes.getVecProductes()) {
-                JSONObject jsonProducte = new JSONObject();
-                jsonProducte.put("nom", prod.getNom());
+            for (String prod : productes) {
+                try {
+                    JSONObject jsonProducte = (JSONObject) parser.parse(prod);
+                    String id = jsonProducte.get("id").toString();
 
-                JSONArray similitudsArray = new JSONArray();
-                for (Map.Entry<Integer, Double> entry : prod.getSimilituds().entrySet()) {
-                    JSONObject similitud = new JSONObject();
-                    similitud.put("id", entry.getKey());
-                    similitud.put("valor", entry.getValue());
-                    similitudsArray.add(similitud);
+                    Map<String, Object> producteOrdenat = new LinkedHashMap<>();
+                    producteOrdenat.put("id", jsonProducte.get("id"));
+                    producteOrdenat.put("nom", jsonProducte.get("nom"));
+                    producteOrdenat.put("similituds", jsonProducte.get("similituds"));
+                    producteOrdenat.put("posPrestatgeries", jsonProducte.get("posPrestatgeries"));
+
+                    jsonProductes.put(String.valueOf(id), producteOrdenat);
+                } catch (ParseException e) {
+                    System.err.println("Error al parsear el JSON: " + e.getMessage());
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                jsonProducte.put("similituds", similitudsArray);
-
-                jsonProductes.put(String.valueOf(prod.getId()), jsonProducte);
             }
 
             esborrarProductes(usuari);
             String ruta = getRuta(usuari);
 
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             try (FileWriter file = new FileWriter(ruta)) {
-                file.write(jsonProductes.toJSONString());
+                file.write(gson.toJson(jsonProductes));
+                file.flush();
             } catch (IOException e) {
                 System.err.println("Error al guardar l'arxiu: " + e.getMessage());
             }
@@ -87,30 +115,24 @@ public class GestorCjtProductes {
 
     public static boolean esborrarProductes(String usuari) {
         String ruta = getRuta(usuari);
-        File arxiu = new File(ruta);
-
-        if (!arxiu.exists()) {
-            System.err.println("L'arxiu no existeix: " + ruta);
-            return false;
-        }
+        boolean borrat = false;
 
         try {
-            if (arxiu.delete()) {
-                return true;
+            File arxiu = new File(ruta);
+            if (arxiu.exists() && arxiu.isFile()) {
+                borrat = arxiu.delete();
             }
-            else {
-                System.err.println("No s'ha pogut eliminar l'arxiu: " + ruta);
-                return false;
-            }
-        } catch (SecurityException e) {
-            System.err.println("Permissos insuficients per eliminar l'arxiu: " + ruta);
-            return false;
         }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return borrat;
     }
 
     private static String getRuta(String usuari) {
         String rutaCarpeta = "src/main/java/persistencia";
-        String rutaArxiu = rutaCarpeta + "/" + usuari + "_Productes.json";
+        String rutaArxiu = rutaCarpeta + "/" + usuari + "_productes.json";
 
         File carpeta = new File(rutaCarpeta);
         if (!carpeta.exists()) {
@@ -122,7 +144,7 @@ public class GestorCjtProductes {
             try {
                 arxiu.createNewFile();  // Crea l'arxiu
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Error en accedir al arxiu: " + e.getMessage());
             }
         }
 
