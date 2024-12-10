@@ -1,5 +1,7 @@
 package Persistencia;
 
+import java.util.List;
+
 public class CtrlPersistencia {
 
     public CtrlPersistencia() {
@@ -16,11 +18,30 @@ public class CtrlPersistencia {
     
     public void eliminarUsuari(String user) { //falta completar para los otros gestores
         GestorUsuaris.eliminarUsuari(user);
-        //......
+        GestorCjtProductes.esborrarProductes(user);
+        GestorCjtPrestatgeries.borrarPrestatgeriesUsuari(user);
     }
     
     public boolean verificarContrasenya(String user, String password){
         return GestorUsuaris.verificarContrasenya(user,password);
     }
+    
+    public List<String> importarPrestatgeria(String usuari){
+        return GestorCjtPrestatgeries.importarPrestatgeria(usuari);
+    }
+    
+    public void guardarPrestatgeries(List<String> prestatgeries, String usuari){
+        GestorCjtPrestatgeries.guardarPrestatgeries(prestatgeries,usuari);
+    }
+    
+    public List<String> importarProductes(String usuari){
+        return GestorCjtProductes.importarProductes(usuari);
+    }
+    
+    public void guardarProductes(List<String> productes, String usuari){
+        GestorCjtProductes.guardarProductes(productes, usuari);
+    }
+    
+    
 
 }
