@@ -66,7 +66,6 @@ public class CjtProductes {
         if (existeixProducte(p.getId())) {
             Producte prod = getProducte(p.getId());
             prod.setNom(p.getNom());
-            prod.setColumna(p.getColumna());
         }
         else {
             System.out.println("Error: No existeix producte a editar");
@@ -98,24 +97,22 @@ public class CjtProductes {
         }
     }
 
-    public void editarNomProducte(int idProd, String nou_nom) {
+    public void editarNomProducte(int idProd, String nouNom) {
         Producte prod = getProducte(idProd);
         if (prod != null) {
-            prod.setNom(nou_nom);
+            prod.setNom(nouNom);
         }
         else {
             System.out.println("Error: No existeix producte a editar");
         }
     }
 
-    // de moment editem l'atribut columna del producte
-    public void editarPosProducte(int idProd, int nova_pos) {
+    public void editarPosProducte(int idProd, int idPres, Pair<Integer, Integer> novaPos) {
         Producte prod = getProducte(idProd);
         if (prod != null) {
-            prod.setColumna(nova_pos);
-        }
-        else {
-            System.out.println("Error: No existeix producte a editar");
+            prod.modificarPosPrestatgeria(idPres, novaPos);
+        } else {
+            System.out.println("Error: No existeix producte amb ID " + idProd);
         }
     }
 
@@ -133,14 +130,14 @@ public class CjtProductes {
         }
     }
 
-    public void modificarSimilitud(int idProd1, int idProd2, double nova_similitud) {
+    public void modificarSimilitud(int idProd1, int idProd2, double novaSimilitud) {
         Producte prod1 = getProducte(idProd1);
         Producte prod2 = getProducte(idProd2);
 
         if (prod1 != null && prod2 != null) {
             if (prod1.getSimilituds().containsKey(idProd2)) {
-                prod1.modificarSimilitud(idProd2, nova_similitud);
-                prod2.modificarSimilitud(idProd1, nova_similitud);
+                prod1.modificarSimilitud(idProd2, novaSimilitud);
+                prod2.modificarSimilitud(idProd1, novaSimilitud);
                 System.out.println("Similitud actualitzada!");
             }
             else {
