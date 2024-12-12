@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+
 public class CjtProductes {
     private String usuari;
     private Map<Integer, Producte> productes;
@@ -177,4 +179,54 @@ public class CjtProductes {
         }
         return mat;
     }
-}
+    
+    public List<Producte> getProductesPerIds(List<Integer> idsProds) {
+        List<Producte> prodSeleccionats = new ArrayList<>();
+        for (Integer id : idsProds) {
+            Producte producte = getProducte(id);
+            if (producte != null) {
+                prodSeleccionats.add(producte);
+            }
+        }
+        return prodSeleccionats;
+    }
+    
+    public double[][] getMatriuSimilitudsPerIds(List<Integer> idsProds) {
+        int n = idsProds.size();
+        double[][] mat = new double[n][n];
+
+        for (int i = 0; i < n; i++) {
+            Producte prod1 = getProducte(idsProds.get(i));
+            for (int j = 0; j < n; j++) {
+                Producte prod2 = getProducte(idsProds.get(j));
+                if (prod1.getId() == prod2.getId()) {
+                    mat[i][j] = 0.0;
+                } else {
+                    mat[i][j] = prod1.getSimilitud(prod2.getId());
+                }
+            }
+        }
+        return mat;
+    }
+    
+    public void listToProductes(List<String> producteJsonList) {
+        Gson gson = new Gson();
+        Map<Integer, Producte> productesMap = new HashMap<>();
+
+        for (String jsonProducte : producteJsonList) {
+            Map<String, Object> producteData = gson.fromJson(jsonProducte, Map.class);
+            
+            int id = ((Double) producteData.get("id")).intValue(); // Convertir Double a Integer
+            String nom = (String) producteData.get("nom");
+            Map<Integer, Double> similituds = (Map<Integer, Double>) producteData.get("similituds");
+            Map<Integer, Pair<Integer, Integer>> prestatgeriesPos = (Map<Integer, Pair<Integer, Integer>>) producteData.get("posPrestatgeries");
+
+            Producte producte = new Producte(id, nom, similituds);
+            producte.setPosPrestatgeries(prestatgeriesPos);
+
+            productesMap.put(id, producte);
+        }
+
+        this.productes = productesMap;
+    }
+ }

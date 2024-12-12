@@ -6,85 +6,95 @@ import java.util.*;
 
 public class CtrlPresentacio {
     private CtrlDomini ctrlDomini;
-
     private VistaMenuInici vistaMenuInici;
-    private VistaLogIn vistaLogIn;
-    private VistaSignup vistaSignup;
-    private VistaMenuUsuari vistaMenuUsuari;
-    private VistaProducte vistaProducte;
-    private VistaCrearProducte vistaCrearProducte;
-    private VistaPrestatgeria vistaPrestatgeria;
-    private VistaCrearPrestatgeria vistaCrearPrestatgeria;
 
     public CtrlPresentacio() {
-        ctrlDomini = CtrlDomini.getInstance();
-        // Instanciar vistas
-        /*vistaMenuInici = new VistaMenuInici(this);
-        vistaLogIn = new VistaLogIn(this);
-        vistaSignup = new VistaSignup(this);
-        vistaMenuUsuari = new VistaMenuUsuari(this);
-        vistaProducte = new VistaProducte(this);
-        vistaCrearProducte = new VistaCrearProducte(this);
-        vistaPrestatgeria = new VistaPrestatgeria(this);
-        vistaCrearPrestatgeria = new VistaCrearPrestatgeria(this);*/
+        this.ctrlDomini = CtrlDomini.getInstance();
+        this.vistaMenuInici = new VistaMenuInici();
+        initialize();
     }
+    
+    private void initialize() {
+        vistaMenuInici.setVisible(true);
+    }
+    
+    // VISTES
 
     public void mostrarMenuInici() {
-        new VistaMenuInici();
-    }
-
-    public static void mostrarLogIn() {
-        new VistaLogIn();
-    }
-
-    public void mostrarSignup() {
-        new VistaSignup();
+        vistaMenuInici.setVisible(true);
     }
 
     public void mostrarMenuUsuari() {
-        new VistaMenuUsuari();
-    }
-
-    public void mostrarProducteIndividual(int idProd) {
-        new VistaProducte(idProd);
-    }
-
-    public void mostrarPrestatgeriaIndividual(int idPres) {
-        new VistaPrestatgeria(idPres);
-    }
-
-    public void mostrarCrearProducte() {
-        new VistaCrearProducte();
-    }
-
-    public void mostrarCrearPrestatgeria() {
-        new VistaCrearPrestatgeria();
+        VistaMenuUsuari vistaMenuUsuari = new VistaMenuUsuari();
+        
+        // Configurar botones en VistaMenuUsuari
+        configurarBotonesVistaMenuUsuari(vistaMenuUsuari);
+        
+        vistaMenuUsuari.setVisible(true);
+        vistaMenuInici.dispose(); // Cerrar el JFrame de inicio
     }
     
-/*
-    public Pair<Boolean,Boolean> validarLogin(String username, String pwd) {
-        return ctrlDomini.comprovarUsuari(username, pwd); //
-    }
- */
+    private void configurarBotonesVistaMenuUsuari(VistaMenuUsuari vistaMenuUsuari) {
+        vistaMenuUsuari.getPrestatgeriesButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                vistaMenuUsuari.mostrarVistaPrestatgeria(); // Cambiar al panel Prestatgeria
+            }
+        });
 
-    public void realizarLogin(String username, String pwd)throws ExceptionFormat, ExceptionFormats {
-        ctrlDomini.iniciarSessio(username, pwd);
-    }
+        vistaMenuUsuari.getProductesButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                vistaMenuUsuari.mostrarVistaProducte(); // Cambiar al panel Producte
+            }
+        });
 
-    public void logout() {
-        ctrlDomini.tancarSessio();
+        vistaMenuUsuari.getSobreNosaltresButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                vistaMenuUsuari.mostrarMenuUsuariPanel(); // Cambiar al panel Sobre Nosaltres
+            }
+        });
+
+        vistaMenuUsuari.getTancarSessioButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ctrlDomini.tancarSessio();
+                vistaMenuInici.mostrarVistaLogIn(); // Volver a la pantalla de login
+            }
+        });
     }
 
     public Producte[] mostrarProductes() {
         return ctrlDomini.llistarProductesUsuari();
     }
 
-    public Producte[][] mostrarPrestatgeria(int idPres) {
-        return ctrlDomini.llistarPrestatgeriaUsuari(idPres);
+    public Producte[][] mostrarPrestatgeries() {
+        return ctrlDomini.llistarPrestatgeriesUsuari();
     }
-  
-    public void crearProducte(int idProd, String nomProd, Map<Integer, Double> sims, boolean bf) {
-        ctrlDomini.crearProducte(idProd, nomProd, sims, bf);
+    
+    /* Eliminar??
+    public void mostrarProducteIndividual(int idProd) {
+        new VistaProducte(idProd);
+    }
+    
+    public void mostrarPrestatgeriaIndividual(int idPres) {
+        new VistaPrestatgeria(idPres);
+    }
+    
+    public void mostrarCrearProducte() {
+        new VistaCrearProducte();
+    }
+    
+    public void mostrarCrearPrestatgeria() {
+        new VistaCrearPrestatgeria();
+    }
+    */
+    
+    // PRODUCTES
+      
+    public void crearProducte(int idProd, String nomProd, Map<Integer, Double> sims) {
+        ctrlDomini.crearProducte(idProd, nomProd, sims);
     }
 
 /*
@@ -93,16 +103,17 @@ public class CtrlPresentacio {
     }
 */
     
-    public void esborrarProducte(int idProd, boolean bf) {
-        ctrlDomini.esborrarProducte(idProd, bf);
+    public void esborrarProducte(int idProd) {
+        ctrlDomini.esborrarProducte(idProd);
     }
+    
+    // PRESTATGERIES
 
-/*
-    public void crearPrestatgeria(int idPres, boolean bf) {
-        ctrlDomini.crearPrestatgeria(idPres, bf);
+    public void crearPrestatgeria(int idPres, String nom, int numCols, Set<Integer> productes, boolean bf) {
+        ctrlDomini.crearPrestatgeria(idPres, nom, numCols, productes, bf);
     }
    
-
+/*
     public void crearPrestatgeriaFitxer(int idPres, String path) throws ExceptionFormats {
         ctrlDomini.llegirPrestatgeriaFitxer(idPres,path);
     }
@@ -111,12 +122,20 @@ public class CtrlPresentacio {
     public void esborrarPrestatgeria(int idPres) {
         ctrlDomini.esborrarPrestatgeria(idPres);
     }
+    
+    // USUARI
 
-/*
-    public boolean existeixUsuari(String Username) {
-        return ctrlDomini.existeixUsuari(Username);
+    public Boolean validarLogin(String username, String pwd) {
+        return ctrlDomini.comprovarUsuari(username, pwd); //
     }
- */
+
+    public void realizarLogin(String username, String pwd) {
+        ctrlDomini.iniciarSessio(username, pwd);
+    }
+
+    public boolean existeixUsuari(String username) {
+        return ctrlDomini.existeixUsuari(username);
+    }
 
     public String nom_usuari_actual() {
         return ctrlDomini.getUsuariActual();
@@ -126,14 +145,15 @@ public class CtrlPresentacio {
         ctrlDomini.crearUsuari(username, pwd);
     }
 
-/*
-    public void eliminarUsuari(String username) {
-        ctrlDomini.eliminarUsuari(username);
+    public void esborrarUsuari() {
+        ctrlDomini.esborrarUsuari();
     }
-*/
+
+    public void logout() {
+        ctrlDomini.tancarSessio();
+    }
 
     public static void main(String[] args) {
-        CtrlPresentacio ctrlPresentacio = new CtrlPresentacio();
-        ctrlPresentacio.mostrarMenuInici();
+        new CtrlPresentacio();
     }
 }

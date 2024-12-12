@@ -1,10 +1,6 @@
 package Domini;
 
-/**
- *
- * @author ariadna
- */
-class Pair<T1, T2> {
+public class Pair<T1, T2> {
     public T1 clau;
     public T2 valor;
 

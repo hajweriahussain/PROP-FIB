@@ -18,7 +18,7 @@ public class VistaCrearProducte extends javax.swing.JFrame {
      */
     public VistaCrearProducte() {
         initComponents();                
-        jPanel1.setVisible(false);
+        infoPanel.setVisible(false);
     }
 
     /**
@@ -32,19 +32,20 @@ public class VistaCrearProducte extends javax.swing.JFrame {
 
         bgPanel = new javax.swing.JPanel();
         labelTitol = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
+        separator = new javax.swing.JSeparator();
         labelId = new javax.swing.JLabel();
         labelFoto = new javax.swing.JLabel();
         botoSortir = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        infoPanel = new javax.swing.JPanel();
         labelNom = new javax.swing.JLabel();
         textNom = new javax.swing.JTextField();
         labelSimilituds = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrollPaneSimilituds = new javax.swing.JScrollPane();
         textAreaSims = new javax.swing.JTextArea();
         textId = new javax.swing.JTextField();
         botoCrear = new javax.swing.JButton();
         botoValidarId = new javax.swing.JButton();
+        botoImportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -66,9 +67,9 @@ public class VistaCrearProducte extends javax.swing.JFrame {
         labelFoto.setIcon(new javax.swing.ImageIcon("/home/ariadna/Documents/uni/Q5/PROP/PROP_PROYECTO3/subgrup-prop41.1/FONTS/src/main/resources/img/super.png")); // NOI18N
         labelFoto.setText("jLabel1");
 
-        botoSortir.setBackground(new java.awt.Color(153, 153, 153));
+        botoSortir.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.shadow"));
         botoSortir.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
-        botoSortir.setText("Sortir");
+        botoSortir.setText("X");
         botoSortir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botoSortir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -76,7 +77,7 @@ public class VistaCrearProducte extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        infoPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         labelNom.setText("Nom:");
 
@@ -100,32 +101,32 @@ public class VistaCrearProducte extends javax.swing.JFrame {
                 textAreaSimsMousePressed(evt);
             }
         });
-        jScrollPane1.setViewportView(textAreaSims);
+        scrollPaneSimilituds.setViewportView(textAreaSims);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout infoPanelLayout = new javax.swing.GroupLayout(infoPanel);
+        infoPanel.setLayout(infoPanelLayout);
+        infoPanelLayout.setHorizontalGroup(
+            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(infoPanelLayout.createSequentialGroup()
                 .addComponent(labelNom)
                 .addGap(18, 18, 18)
                 .addComponent(textNom))
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(infoPanelLayout.createSequentialGroup()
                 .addComponent(labelSimilituds)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
+            .addComponent(scrollPaneSimilituds)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        infoPanelLayout.setVerticalGroup(
+            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(infoPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNom)
                     .addComponent(textNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addComponent(labelSimilituds)
                 .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(scrollPaneSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         textId.setForeground(new java.awt.Color(153, 153, 153));
@@ -159,6 +160,8 @@ public class VistaCrearProducte extends javax.swing.JFrame {
             }
         });
 
+        botoImportar.setText("Importar");
+
         javax.swing.GroupLayout bgPanelLayout = new javax.swing.GroupLayout(bgPanel);
         bgPanel.setLayout(bgPanelLayout);
         bgPanelLayout.setHorizontalGroup(
@@ -167,35 +170,46 @@ public class VistaCrearProducte extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgPanelLayout.createSequentialGroup()
-                        .addComponent(labelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(bgPanelLayout.createSequentialGroup()
-                                .addGap(25, 25, 25)
+                                .addComponent(labelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(textId, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(bgPanelLayout.createSequentialGroup()
-                                        .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(25, 25, 25)
+                                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(textId, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(infoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(bgPanelLayout.createSequentialGroup()
+                                                .addComponent(labelId)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addGroup(bgPanelLayout.createSequentialGroup()
+                                                .addComponent(botoImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelLayout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(bgPanelLayout.createSequentialGroup()
-                                        .addComponent(labelId)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(botoValidarId)
-                                .addGap(123, 123, 123))))
-                    .addComponent(labelTitol)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
+                                        .addComponent(botoValidarId)
+                                        .addGap(123, 123, 123))))
+                            .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25))
+                    .addGroup(bgPanelLayout.createSequentialGroup()
+                        .addComponent(labelTitol)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10))))
         );
         bgPanelLayout.setVerticalGroup(
             bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgPanelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(labelTitol)
+                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bgPanelLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(labelTitol))
+                    .addGroup(bgPanelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgPanelLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -205,11 +219,11 @@ public class VistaCrearProducte extends javax.swing.JFrame {
                         .addGap(15, 15, 15)
                         .addComponent(botoValidarId)
                         .addGap(15, 15, 15)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(infoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(botoImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(bgPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addComponent(labelFoto)))
@@ -314,10 +328,10 @@ public class VistaCrearProducte extends javax.swing.JFrame {
                 if(idNum <= 0) {
                     JOptionPane.showMessageDialog(this, "L'id ha de ser un nombre positiu.", "ATENCIÓ", JOptionPane.WARNING_MESSAGE);
                 }
+                infoPanel.setVisible(true);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "L'id ha de ser un nombre positiu.", "ATENCIÓ", JOptionPane.WARNING_MESSAGE);
             }
-            jPanel1.setVisible(true);
         }
     }//GEN-LAST:event_botoValidarIdMousePressed
 
@@ -364,16 +378,17 @@ public class VistaCrearProducte extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bgPanel;
     private javax.swing.JButton botoCrear;
+    private javax.swing.JButton botoImportar;
     private javax.swing.JButton botoSortir;
     private javax.swing.JButton botoValidarId;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel infoPanel;
     private javax.swing.JLabel labelFoto;
     private javax.swing.JLabel labelId;
     private javax.swing.JLabel labelNom;
     private javax.swing.JLabel labelSimilituds;
     private javax.swing.JLabel labelTitol;
+    private javax.swing.JScrollPane scrollPaneSimilituds;
+    private javax.swing.JSeparator separator;
     private javax.swing.JTextArea textAreaSims;
     private javax.swing.JTextField textId;
     private javax.swing.JTextField textNom;

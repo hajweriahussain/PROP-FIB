@@ -56,7 +56,15 @@ public class Producte {
     public Map<Integer, Pair<Integer, Integer>> getPosPrestatgeries() {
         return this.posPrestatgeries;
     }
-
+    
+    public Pair<Integer, Integer> getPosPrestatgeria(int idPres) {
+        if (posPrestatgeries.containsKey(idPres)) {
+            return posPrestatgeries.get(idPres);
+        }
+        else {
+            return null;
+        }
+    }
 
     public void setId(int id) {
         validarId(id);
@@ -76,6 +84,10 @@ public class Producte {
     
     public void setPosPrestatgeries(Map<Integer, Pair<Integer, Integer>> posPres) {
         this.posPrestatgeries = posPres;
+    }
+    
+    public void setPosPrestatgeria(int idPres, Pair<Integer, Integer> novaPos) {
+        posPrestatgeries.put(idPres, novaPos);
     }
 
 
