@@ -20,7 +20,7 @@ import org.json.simple.parser.ParseException;
  * @author hajweria
  */
 public class GestorCjtPrestatgeries {
-    public static List<String> importarPrestatgeria(String usuari) {
+    public static List<String> importarPrestatgeries(String usuari) {
         List<String> prestatgeries = new ArrayList<>();
         String ruta = getRuta(usuari);
         try(FileReader fr = new FileReader(ruta)) {
@@ -121,7 +121,7 @@ public class GestorCjtPrestatgeries {
         }
 }
     
-    public static boolean borrarPrestatgeriesUsuari(String usuari) {
+    public static boolean esborrarPrestatgeriesUsuari(String usuari) {
 
        String ruta = getRuta(usuari);
 

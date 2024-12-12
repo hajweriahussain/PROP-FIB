@@ -12,7 +12,6 @@ public class Usuari {
     public Usuari getUsuari(){
         return this;
     }
-
     public String getUsername(){
         return username;
     }

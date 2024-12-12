@@ -33,31 +33,35 @@ public class CtrlDomini {
         return singletonObject;
     }
    public void listToProductes(List<String> producteJsonList) {
-        Gson gson = new Gson();
-        Map<Integer, Producte> productes = new HashMap<>();
-
-        for (String jsonProducte : producteJsonList) {
-            Map<String, Object> producteData = gson.fromJson(jsonProducte, Map.class);
-
-            Integer id = ((Double) producteData.get("id")).intValue(); // Gson usa Double para números en JSON
-            String nom = (String) producteData.get("nom");
-            Integer fila = ((Double) producteData.get("fila")).intValue();
-            Integer columna = ((Double) producteData.get("columna")).intValue();
-
-            Map<Double, Double> rawSimilituds = (Map<Double, Double>) producteData.get("similituds");
-            Map<Integer, Double> similituds = new HashMap<>();
-            if (rawSimilituds != null) {
-                for (Map.Entry<Double, Double> entry : rawSimilituds.entrySet()) {
-                    similituds.put(entry.getKey().intValue(), entry.getValue());
-                }
-            }
-            cjtProductes.afegirProducte(id, nom, similituds);
-            cjtProductes.getProducte(id).setColumna(columna);
-            cjtProductes.getProducte(id).setColumna(fila);
-            //MODIFICACIONS
-        }
+//        Gson gson = new Gson();
+//        Map<Integer, Producte> productes = new HashMap<>();
+//
+//        for (String jsonProducte : producteJsonList) {
+//            Map<String, Object> producteData = gson.fromJson(jsonProducte, Map.class);
+//
+//            Integer id = ((Double) producteData.get("id")).intValue(); // Gson usa Double para números en JSON
+//            String nom = (String) producteData.get("nom");
+//            Integer fila = ((Double) producteData.get("fila")).intValue();
+//            Integer columna = ((Double) producteData.get("columna")).intValue();
+//
+//            Map<Double, Double> rawSimilituds = (Map<Double, Double>) producteData.get("similituds");
+//            Map<Integer, Double> similituds = new HashMap<>();
+//            if (rawSimilituds != null) {
+//                for (Map.Entry<Double, Double> entry : rawSimilituds.entrySet()) {
+//                    similituds.put(entry.getKey().intValue(), entry.getValue());
+//                }
+//            }
+//            cjtProductes.afegirProducte(id, nom, similituds);
+//            cjtProductes.editarPosProducte(id, 0, novaPos);
+//            cjtProductes.getProducte(id).setColumna(fila);
+//            //MODIFICACIONS
+//        }
+//        cjtProductes.listToCjtProductes(producteJsonList);
 
 }
+   public void listToPrestatgeries(List<String> presJsonList){
+//       cjtPrestatgeries.listToPrestatgeries(presJsonList);
+   }
 
     public void iniciarSessio(String username, String pwd){
         cjtProductes = new CjtProductes(username);
@@ -68,34 +72,28 @@ public class CtrlDomini {
     }
 
     public void crearUsuari(String name, String pwd){
-    	//cp.afegirUsuari(name, pwd);
+    	cp.afegirUsuari(name, pwd);
         iniciarSessio(name, pwd);
     }
     
-    public Producte[] llistarProductesUsuari() {
+    public void llistarProductesUsuari() {
     	if (cjtProductes == null) {
             System.out.println("Error: No hi ha cap conjunt de productes associat a l'usuari.");
-            return null;
+//            return null;
         }
-        return cjtProductes.getVecProductes();
+//        return cjtProductes.getVecProductes();
     }
     
-    public Map<String, Producte[][]> llistarPrestatgeriesUsuari() {
+    public void llistarPrestatgeriesUsuari() {
     	if (cjtPrestatgeries == null) {
             System.out.println("Error: No hi ha cap prestatgeria creada.");
-            return null;
+//            return null;
         }
-    	Map<String, Prestatgeria> prestatgeries = new HashMap<> (cjtPrestatgeries.getPrestatgeries(UsuariActual.getUsername()));
-        Map<String, Producte[][]> pres = new HashMap<>();
-        if(prestatgeries.isEmpty()) //Si no té teclats enviarà un missatge de que no té teclats
-            return null;
-        else {
-            for(String clau : prestatgeries.keySet()) {
-                pres.put(clau, prestatgeries.get(clau).getLayout());
-            }
-        }
-        return pres;
+//        return ;
+//        cjtPrestatgeries.llistarPrestatgeriesUsuari(UsuariActual.getUsername());
     }
+    
+    
     
     public void crearProducte(int id, String nom, Map<Integer, Double> similituds, Boolean bruteForce){
     	if (id <= 0 || nom == null) {
@@ -139,7 +137,7 @@ public class CtrlDomini {
         return producteList.toArray(new Producte[0]);
     }
     
-    public void obtenirLayout(Set<Integer> productes, Boolean bruteForce){
+    public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols){
         Producte[] vecProductes = getVecProductes(productes);
         double[][] matSimilituds = getMatSimilituds(vecProductes);
         GeneradorSolucio generadorInicial;
@@ -153,12 +151,12 @@ public class CtrlDomini {
         }
 
         Producte[][] solucio = generadorInicial.generarLayout();
-        cjtPrestatgeries.setLayout(solucio, id);
+//        cjtPrestatgeries.setLayout(solucio, id);
 
         for (int i = 0; i < solucio.length; i++) {
             for(int j = 0; j < solucio[0].length; ++j){
-                solucio[i][j].setFila(i);
-                solucio[i][j].setColumna(j);
+//                Pair<int, int> p = Pair(i, j);
+//                cjtProductes.editarPosProducte(solucio[i][j].getPosPrestatgeria(), id, p);
             }
         }
     }
@@ -171,8 +169,8 @@ public class CtrlDomini {
         
         int numProductes = productes.size();
         int numFilas = numProductes / numCols;
-        cjtPrestatgeries.crearPrestatgeria(id, nom, numFilas, numCols, productes);
-        obtenirLayout(productes,bruteForce);
+//        cjtPrestatgeries.crearPrestatgeria(id, nom, numFilas, numCols, productes);
+        obtenirLayout(id, productes,bruteForce, numCols);
     }
 
     public void modificarProducte(Integer idProdActual1, Integer nouId, String nouNom) {
@@ -238,8 +236,16 @@ public class CtrlDomini {
             System.out.println("No hi ha usuari actual.");
             return;
         }
-//        eliminarUsuari(UsuariActual.getUsername());
+        cp.eliminarUsuari(UsuariActual.getUsername());
         tancarSessio(); 
+    }
+    
+    public boolean existeixUsuari(String us) {
+        return cp.existeixUsuari(us);
+    }
+    
+    public Boolean comprovarUsuari(String username, String pwd) {
+        return cp.verificarContrasenya(username, pwd);
     }
     
     public List<String> productesToList(){
@@ -252,9 +258,8 @@ public class CtrlDomini {
                 Map<String, Object> producteData = Map.of(
                     "id", producte.getId(),
                     "nom", producte.getNom(),
-                    "fila", producte.getFila(),
-                    "columna", producte.getColumna(),
-                    "similituds", producte.getSimilituds()
+                    "similituds", producte.getSimilituds(),
+                    "prestatgeriesPos", producte.getPosPrestatgeries()
                 );
                 String jsonProducte = gson.toJson(producteData);
                 producteList.add(jsonProducte);
@@ -276,10 +281,10 @@ public class CtrlDomini {
                     "numFilas", p.getNumFilas(),
                     "numColumnas", p.getNumColumnas(),
                     "productes", p.getProductes(),
-                    "layout", p.getLayout() //CANVIAR
+                    "layout", p.getDisp()
                 );
-                String jsonProducte = gson.toJson(prestatgeriaData);
-                prestatgeriesList.add(jsonProducte);
+                String jsonPrestatgeria = gson.toJson(prestatgeriaData);
+                prestatgeriesList.add(jsonPrestatgeria);
             }
         }
         return prestatgeriesList;
@@ -288,8 +293,7 @@ public class CtrlDomini {
     public void tancarSessio() {
         List<String> prestatgeries =  prestatgeriesToList();
         List<String> productes = productesToList();
-
-        cp.guardarPrestageries(prestatgeries, UsuariActual.getUsername());
+        cp.guardarPrestatgeries(prestatgeries, UsuariActual.getUsername());
         cp.guardarProductes(productes, UsuariActual.getUsername());
         UsuariActual = new Usuari(null, null);
     }

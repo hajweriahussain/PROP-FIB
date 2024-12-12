@@ -148,7 +148,7 @@ public class Prestatgeria {
         Producte[] prestatge1 = layout.get(filaProd1);
         Producte[] prestatge2 = layout.get(filaProd2);
 
-        if (prestatge1[colProd1] == null || prestatge2[colProd2] == null) {
+        if (layout.get(filaProd1)[colProd1] == null || layout.get(filaProd2)[colProd2] == null) {
             System.out.println("Un o ambdós productes són null, no es pot realitzar l'intercanvi.");
             return;
         }
@@ -157,10 +157,10 @@ public class Prestatgeria {
         prestatge1[colProd1] = prestatge2[colProd2];
         prestatge2[colProd2] = temp;
 
-        prestatge1[colProd1].setColumna(colProd1);
-        prestatge2[colProd2].setColumna(colProd2);
-        prestatge1[colProd1].setFila(filaProd1);
-        prestatge2[colProd2].setFila(filaProd2);
+//        prestatge1[colProd1].setColumna(colProd1);
+//        prestatge2[colProd2].setColumna(colProd2);
+//        prestatge1[colProd1].setFila(filaProd1);
+//        prestatge2[colProd2].setFila(filaProd2);
         
         List<Pair<String, Integer>> fila1 = disp.get(filaProd1);
         List<Pair<String, Integer>> fila2 = disp.get(filaProd2);
