@@ -44,11 +44,11 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
         botoEstanterias = new javax.swing.JButton();
         logoLabel = new javax.swing.JLabel();
         botoProductes = new javax.swing.JButton();
-        botoEstanterias1 = new javax.swing.JButton();
-        botoEstanterias2 = new javax.swing.JButton();
-        botoEstanterias3 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        botoAboutUs = new javax.swing.JButton();
+        botoUsuari = new javax.swing.JButton();
+        botoTancarSessio = new javax.swing.JButton();
+        titol1 = new javax.swing.JLabel();
+        titol2 = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,47 +81,47 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
         botoProductes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botoProductes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        botoEstanterias1.setBackground(new java.awt.Color(200, 255, 200));
-        botoEstanterias1.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
-        botoEstanterias1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/carrito3.png"))); // NOI18N
-        botoEstanterias1.setText("     Productes");
-        botoEstanterias1.setBorder(null);
-        botoEstanterias1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botoEstanterias1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        botoAboutUs.setBackground(new java.awt.Color(200, 255, 200));
+        botoAboutUs.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
+        botoAboutUs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/carrito3.png"))); // NOI18N
+        botoAboutUs.setText("     Productes");
+        botoAboutUs.setBorder(null);
+        botoAboutUs.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoAboutUs.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        botoEstanterias2.setBackground(new java.awt.Color(200, 255, 200));
-        botoEstanterias2.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
-        botoEstanterias2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user3.png"))); // NOI18N
-        botoEstanterias2.setText("     Usuari");
-        botoEstanterias2.setBorder(null);
-        botoEstanterias2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botoEstanterias2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        botoEstanterias2.addActionListener(new java.awt.event.ActionListener() {
+        botoUsuari.setBackground(new java.awt.Color(200, 255, 200));
+        botoUsuari.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
+        botoUsuari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user3.png"))); // NOI18N
+        botoUsuari.setText("     Usuari");
+        botoUsuari.setBorder(null);
+        botoUsuari.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoUsuari.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        botoUsuari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botoEstanterias2ActionPerformed(evt);
+                botoUsuariActionPerformed(evt);
             }
         });
 
-        botoEstanterias3.setBackground(new java.awt.Color(200, 255, 200));
-        botoEstanterias3.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
-        botoEstanterias3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/surt3.png"))); // NOI18N
-        botoEstanterias3.setText("     Tancar Sessió");
-        botoEstanterias3.setBorder(null);
-        botoEstanterias3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botoEstanterias3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        botoEstanterias3.addActionListener(new java.awt.event.ActionListener() {
+        botoTancarSessio.setBackground(new java.awt.Color(200, 255, 200));
+        botoTancarSessio.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
+        botoTancarSessio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/surt3.png"))); // NOI18N
+        botoTancarSessio.setText("     Tancar Sessió");
+        botoTancarSessio.setBorder(null);
+        botoTancarSessio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoTancarSessio.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        botoTancarSessio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botoEstanterias3ActionPerformed(evt);
+                botoTancarSessioActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 1, 23)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(240, 171, 68));
-        jLabel1.setText("PRESTATGERIES");
+        titol1.setFont(new java.awt.Font("Microsoft YaHei", 1, 23)); // NOI18N
+        titol1.setForeground(new java.awt.Color(240, 171, 68));
+        titol1.setText("PRESTATGERIES");
 
-        jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(69, 155, 107));
-        jLabel2.setText("N' PRODUCTS");
+        titol2.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
+        titol2.setForeground(new java.awt.Color(69, 155, 107));
+        titol2.setText("N' PRODUCTS");
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
         leftPanel.setLayout(leftPanelLayout);
@@ -131,17 +131,17 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(botoEstanterias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botoEstanterias1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botoAboutUs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botoProductes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botoEstanterias2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botoEstanterias3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botoUsuari, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botoTancarSessio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(leftPanelLayout.createSequentialGroup()
                 .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)))
+                    .addComponent(titol2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(titol1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)))
         );
         leftPanelLayout.setVerticalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,19 +151,19 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
                     .addComponent(logoLabel)
                     .addGroup(leftPanelLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jLabel1)
+                        .addComponent(titol1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)))
+                        .addComponent(titol2)))
                 .addGap(24, 24, 24)
                 .addComponent(botoProductes, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botoEstanterias1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botoAboutUs, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botoEstanterias, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botoEstanterias2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botoUsuari, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botoEstanterias3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botoTancarSessio, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -202,13 +202,13 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_botoEstanteriasActionPerformed
 
-    private void botoEstanterias2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoEstanterias2ActionPerformed
+    private void botoUsuariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoUsuariActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_botoEstanterias2ActionPerformed
+    }//GEN-LAST:event_botoUsuariActionPerformed
 
-    private void botoEstanterias3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoEstanterias3ActionPerformed
+    private void botoTancarSessioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoTancarSessioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_botoEstanterias3ActionPerformed
+    }//GEN-LAST:event_botoTancarSessioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -249,15 +249,15 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botoAboutUs;
     private javax.swing.JButton botoEstanterias;
-    private javax.swing.JButton botoEstanterias1;
-    private javax.swing.JButton botoEstanterias2;
-    private javax.swing.JButton botoEstanterias3;
     private javax.swing.JButton botoProductes;
+    private javax.swing.JButton botoTancarSessio;
+    private javax.swing.JButton botoUsuari;
     private javax.swing.JPanel content;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JLabel logoLabel;
+    private javax.swing.JLabel titol1;
+    private javax.swing.JLabel titol2;
     // End of variables declaration//GEN-END:variables
 }
