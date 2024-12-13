@@ -1,16 +1,19 @@
 package Presentacio;
 
 import Domini.CtrlDomini;
-import Domini.Producte;
 import java.util.*;
 
 public class CtrlPresentacio {
     private CtrlDomini ctrlDomini;
     private VistaMenuInici vistaMenuInici;
+    private Map<String, Map<String, String>> productes;
+    private Map<String, Map<String, String>> prestatgeries;
 
     public CtrlPresentacio() {
         this.ctrlDomini = CtrlDomini.getInstance();
         this.vistaMenuInici = new VistaMenuInici();
+        this.productes = new HashMap<>();
+        this.prestatgeries = new HashMap<>();
         initialize();
     }
     
@@ -27,50 +30,17 @@ public class CtrlPresentacio {
     public void mostrarMenuUsuari() {
         VistaMenuUsuari vistaMenuUsuari = new VistaMenuUsuari();
         
-        // Configurar botones en VistaMenuUsuari
-        configurarBotonesVistaMenuUsuari(vistaMenuUsuari);
-        
         vistaMenuUsuari.setVisible(true);
         vistaMenuInici.dispose(); // Cerrar el JFrame de inicio
     }
     
-    private void configurarBotonesVistaMenuUsuari(VistaMenuUsuari vistaMenuUsuari) {
-        vistaMenuUsuari.getPrestatgeriesButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                vistaMenuUsuari.mostrarVistaPrestatgeria(); // Cambiar al panel Prestatgeria
-            }
-        });
 
-        vistaMenuUsuari.getProductesButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                vistaMenuUsuari.mostrarVistaProducte(); // Cambiar al panel Producte
-            }
-        });
-
-        vistaMenuUsuari.getSobreNosaltresButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                vistaMenuUsuari.mostrarMenuUsuariPanel(); // Cambiar al panel Sobre Nosaltres
-            }
-        });
-
-        vistaMenuUsuari.getTancarSessioButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ctrlDomini.tancarSessio();
-                vistaMenuInici.mostrarVistaLogIn(); // Volver a la pantalla de login
-            }
-        });
+    public void mostrarProductes() {
+        productes = ctrlDomini.llistarProductesUsuari();
     }
 
-    public Producte[] mostrarProductes() {
-        return ctrlDomini.llistarProductesUsuari();
-    }
-
-    public Producte[][] mostrarPrestatgeries() {
-        return ctrlDomini.llistarPrestatgeriesUsuari();
+    public void mostrarPrestatgeries() {
+        prestatgeries = ctrlDomini.llistarPrestatgeriesUsuari();
     }
     
     /* Eliminar??

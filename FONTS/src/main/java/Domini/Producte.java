@@ -128,11 +128,11 @@ public class Producte {
     
     public void modificarPosPrestatgeria(int idPres, Pair<Integer, Integer> novaPos) {
         if (!posPrestatgeries.containsKey(idPres)) {
-            System.out.println("Error: La prestatgeria amb id: " + idPres + "no existeix");
+            System.out.println("Error: El producte no es troba a la prestatgeria amb id: " + idPres);
             return;
         }
         
-        posPrestatgeries.put(idPres, novaPos);
+        setPosPrestatgeria(idPres, novaPos);
     }
 
     public void imprimirSimilituds() {

@@ -28,7 +28,32 @@ public class CjtProductes {
     public Producte getProducte(int idProd) {
         return productes.get(idProd);
     }
-
+    
+    public Pair<Integer, Integer> getPosProducte(int idProd, int idPres) {
+        Producte prod = getProducte(idProd);
+        if (prod != null) {
+            Pair<Integer, Integer> posicio = prod.getPosPrestatgeria(idPres);
+            if (posicio != null) {
+                return posicio;
+            }
+            else return null;
+        }
+        else {
+            System.out.println("Error: No existeix un producte amb l'ID " + idProd);
+            return null;
+        }
+    }
+    
+    public Map<Integer, Pair<Integer, Integer>> getPosPrestatgeriesProducte(int idProd) {
+        Producte prod = getProducte(idProd);
+        if (prod != null) {
+            return prod.getPosPrestatgeries();
+        }
+        else {
+            System.out.println("Error: No existeix un producte amb l'ID " + idProd);
+            return null;
+        }
+    }
 
     public Producte[] getVecProductes() {
         List<Producte> producteList = new ArrayList<>(productes.values());
@@ -113,6 +138,7 @@ public class CjtProductes {
         Producte prod = getProducte(idProd);
         if (prod != null) {
             prod.modificarPosPrestatgeria(idPres, novaPos);
+            System.out.println("Posició del producte " + idProd + " actualitzada a la prestatgeria " + idPres);
         } else {
             System.out.println("Error: No existeix producte amb ID " + idProd);
         }
@@ -209,24 +235,59 @@ public class CjtProductes {
         return mat;
     }
     
-    public void listToProductes(List<String> producteJsonList) {
+    public Map<Integer, Producte> listToProductes(List<String> producteJsonList) {
         Gson gson = new Gson();
         Map<Integer, Producte> productesMap = new HashMap<>();
 
         for (String jsonProducte : producteJsonList) {
             Map<String, Object> producteData = gson.fromJson(jsonProducte, Map.class);
             
-            int id = ((Double) producteData.get("id")).intValue(); // Convertir Double a Integer
+            int id = ((Double) producteData.get("id")).intValue();
             String nom = (String) producteData.get("nom");
             Map<Integer, Double> similituds = (Map<Integer, Double>) producteData.get("similituds");
             Map<Integer, Pair<Integer, Integer>> prestatgeriesPos = (Map<Integer, Pair<Integer, Integer>>) producteData.get("posPrestatgeries");
 
-            Producte producte = new Producte(id, nom, similituds);
-            producte.setPosPrestatgeries(prestatgeriesPos);
+            Producte prod = new Producte(id, nom, similituds);
+            prod.setPosPrestatgeries(prestatgeriesPos);
 
-            productesMap.put(id, producte);
+            productesMap.put(id, prod);
         }
 
-        this.productes = productesMap;
+        return productesMap;
+    }
+    
+    public List<String> productesToList(Map<Integer, Producte> productes){
+        Gson gson = new Gson();
+        List<String> producteList = new ArrayList<>();
+
+        if (productes != null) {
+            for (Producte prod : productes.values()) {
+                Map<String, Object> producteData = Map.of(
+                    "id", prod.getId(),
+                    "nom", prod.getNom(),
+                    "similituds", prod.getSimilituds(),
+                    "posPrestatgeries", prod.getPosPrestatgeries()
+                );
+                String jsonProducte = gson.toJson(producteData);
+                producteList.add(jsonProducte);
+            }
+        }
+        return producteList;
+    }
+    
+    public Map<String, Map<String, String>> llistarProductes() {
+        Map<String, Map<String, String>> llistatProductes = new HashMap<>();
+
+        for (Producte prod : productes.values()) {
+            Map<String, String> infoProducte = new HashMap<>();
+            infoProducte.put("id", String.valueOf(prod.getId()));
+            infoProducte.put("nom", prod.getNom());
+            infoProducte.put("similituds", String.valueOf(prod.getSimilituds().size()));
+            infoProducte.put("posPrestatgeries", String.valueOf(prod.getPosPrestatgeries().size()));
+
+            llistatProductes.put(String.valueOf(prod.getId()), infoProducte);
+        }
+
+        return llistatProductes;
     }
  }
