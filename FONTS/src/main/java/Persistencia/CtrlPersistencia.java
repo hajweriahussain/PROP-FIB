@@ -19,7 +19,7 @@ public class CtrlPersistencia {
     public void eliminarUsuari(String user) { 
         GestorUsuaris.eliminarUsuari(user);
         GestorCjtProductes.esborrarProductes(user);
-        GestorCjtPrestatgeries.borrarPrestatgeriesUsuari(user);
+        GestorCjtPrestatgeries.esborrarPrestatgeriesUsuari(user);
     }
     
     public boolean verificarContrasenya(String user, String password){
@@ -27,7 +27,7 @@ public class CtrlPersistencia {
     }
     
     public List<String> importarPrestatgeria(String usuari){
-        return GestorCjtPrestatgeries.importarPrestatgeria(usuari);
+        return GestorCjtPrestatgeries.importarPrestatgeries(usuari);
     }
     
     public void guardarPrestatgeries(List<String> prestatgeries, String usuari){
