@@ -33,41 +33,19 @@ public class CtrlDomini {
         return singletonObject;
     }
    public void listToProductes(List<String> producteJsonList) {
-//        Gson gson = new Gson();
-//        Map<Integer, Producte> productes = new HashMap<>();
-//
-//        for (String jsonProducte : producteJsonList) {
-//            Map<String, Object> producteData = gson.fromJson(jsonProducte, Map.class);
-//
-//            Integer id = ((Double) producteData.get("id")).intValue(); // Gson usa Double para números en JSON
-//            String nom = (String) producteData.get("nom");
-//            Integer fila = ((Double) producteData.get("fila")).intValue();
-//            Integer columna = ((Double) producteData.get("columna")).intValue();
-//
-//            Map<Double, Double> rawSimilituds = (Map<Double, Double>) producteData.get("similituds");
-//            Map<Integer, Double> similituds = new HashMap<>();
-//            if (rawSimilituds != null) {
-//                for (Map.Entry<Double, Double> entry : rawSimilituds.entrySet()) {
-//                    similituds.put(entry.getKey().intValue(), entry.getValue());
-//                }
-//            }
-//            cjtProductes.afegirProducte(id, nom, similituds);
-//            cjtProductes.editarPosProducte(id, 0, novaPos);
-//            cjtProductes.getProducte(id).setColumna(fila);
-//            //MODIFICACIONS
-//        }
-//        cjtProductes.listToCjtProductes(producteJsonList);
-
+        cjtProductes.listToProductes(producteJsonList);
+       //ARREGLAR me tiene que devolver el map de productes
 }
    public void listToPrestatgeries(List<String> presJsonList){
-//       cjtPrestatgeries.listToPrestatgeries(presJsonList);
+       cjtPrestatgeries.listToPrestatgeries(presJsonList);
+       //ARREGLAR me tiene que devolver el map de prestatgeries
    }
 
     public void iniciarSessio(String username, String pwd){
         cjtProductes = new CjtProductes(username);
-        //ListToMapProductes(cp.importarProductes(username));
+        listToProductes(cp.importarProductes(username));
         cjtPrestatgeries = new CjtPrestatgeries(username);
-        //ListToMapPrestatgeries(cp.importarPrestatgeries(username));
+        listToPrestatgeries(cp.importarPrestatgeria(username)); //ARREGLAR es importar prestatgeries, PLURAL
         UsuariActual = new Usuari(username, pwd);
     }
 
@@ -76,21 +54,24 @@ public class CtrlDomini {
         iniciarSessio(name, pwd);
     }
     
-    public void llistarProductesUsuari() {
+    public Map<String, Map<String,String>> llistarProductesUsuari() {
     	if (cjtProductes == null) {
             System.out.println("Error: No hi ha cap conjunt de productes associat a l'usuari.");
-//            return null;
+            return null;
         }
-//        return cjtProductes.getVecProductes();
+//        return cjtProductes.llistarProductes();
+        return new HashMap<>();
+        //ARREGLAR, AÑADIR FUNCION LISTAR PRODUCTOS
     }
     
-    public void llistarPrestatgeriesUsuari() {
+    public Map<String, Map<String,String>> llistarPrestatgeriesUsuari() {
     	if (cjtPrestatgeries == null) {
             System.out.println("Error: No hi ha cap prestatgeria creada.");
-//            return null;
+            return null;
         }
-//        return ;
-//        cjtPrestatgeries.llistarPrestatgeriesUsuari(UsuariActual.getUsername());
+//        return cjtPrestatgeries.llistarPrestatgeriesUsuari();
+        //ARREGLAR, no tiene que ser void y imprimir los atributos, tiene que guardar todas las estanterias en un map de maps.
+        return new HashMap<>();
     }
     
     
@@ -101,8 +82,6 @@ public class CtrlDomini {
             return;
         }
         cjtProductes.afegirProducte(id, nom, similituds);
-        
-        //Modificacions aqui
     }
 
     public double[][] getMatSimilituds(Producte[] productes) {
@@ -138,27 +117,31 @@ public class CtrlDomini {
     }
     
     public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols){
-        Producte[] vecProductes = getVecProductes(productes);
-        double[][] matSimilituds = getMatSimilituds(vecProductes);
-        GeneradorSolucio generadorInicial;
+//        Producte[] vecProductes = cjtProductes.getProductesPerIds(productes);
+        // ARREGLAR, tiene que coger un set de integers como param, y devuelve un vector de productos.
+//        double[][] matSimilituds = cjtProductes.getMatriuSimilitudsPerIds(vecProductes);
+        // ARREGLAR, tiene que coger un vector de productos como param
 
-        if (bruteForce) {
-            generadorInicial = new BruteForce(matSimilituds, vecProductes, numCols);
-            System.out.println("Creant prestatgeria amb algoritme de força bruta.");
-        } else {
-            generadorInicial = new DosAproximacio(matSimilituds, vecProductes, numCols);
-            System.out.println("Creant prestatgeria amb algoritme de 2-Aproximació.");
-        }
-
-        Producte[][] solucio = generadorInicial.generarLayout();
+//        GeneradorSolucio generadorInicial;
+//
+//        if (bruteForce) {
+//            generadorInicial = new BruteForce(matSimilituds, vecProductes, numCols);
+//            System.out.println("Creant prestatgeria amb algoritme de força bruta.");
+//        } else {
+//            generadorInicial = new DosAproximacio(matSimilituds, vecProductes, numCols);
+//            System.out.println("Creant prestatgeria amb algoritme de 2-Aproximació.");
+//        }
+//
+//        Producte[][] solucio = generadorInicial.generarLayout();
+//        //PENSANDO EN QUITAR EL LAYOUT CON LAS INSTANCIAS DE PRODUCTOS, SOBRA.
 //        cjtPrestatgeries.setLayout(solucio, id);
-
-        for (int i = 0; i < solucio.length; i++) {
-            for(int j = 0; j < solucio[0].length; ++j){
+//
+//        for (int i = 0; i < solucio.length; i++) {
+//            for(int j = 0; j < solucio[0].length; ++j){
 //                Pair<int, int> p = Pair(i, j);
-//                cjtProductes.editarPosProducte(solucio[i][j].getPosPrestatgeria(), id, p);
-            }
-        }
+//                cjtProductes.editarPosProducte(solucio[i][j].getId(), id, p);
+//            }
+//        }
     }
 
     public void crearPrestatgeria(int id, String nom, int numCols, Set<Integer> productes, Boolean bruteForce){
@@ -169,7 +152,7 @@ public class CtrlDomini {
         
         int numProductes = productes.size();
         int numFilas = numProductes / numCols;
-//        cjtPrestatgeries.crearPrestatgeria(id, nom, numFilas, numCols, productes);
+        cjtPrestatgeries.crearPrestatgeria(id, nom, numFilas, numCols, productes);
         obtenirLayout(id, productes,bruteForce, numCols);
     }
 
@@ -194,11 +177,16 @@ public class CtrlDomini {
     public void modificarSimilituds(Integer idProdActual1, Integer idProdActual2, double novaSim, Boolean bruteForce) {
     	if (cjtProductes.getProducte(idProdActual1) != null && cjtProductes.getProducte(idProdActual2) != null) {
             cjtProductes.modificarSimilitud(idProdActual1, idProdActual2, novaSim);
+            //ARREGLAR, FALTA GETTER DE POS PRESTATGERIES
+//            cjtProductes.getPosPrestatgeries(idProdActual1);
+//            cjtProductes.getPosPrestatgeries(idProdActual2);
+             //ARREGLAR, cjtprest haura de crear funcio per a buscar estanteries en comu en un map.
             //obtener las estanterias en que esta prod1
             //obtener las estanterias en que esta prod2
             //buscar si tienen estanterias en comun
             // si si tiene, sacar id de la estanteria, y numcolumnas de la estanteria y 
             //volver a calcular la disposicion de todas las estanterias en que se encuentran estos productos juntos.
+            //si me devuelbve un set de ids de estanterias, pues un for que vaya llamando a obtenirlayout para todas.
             System.out.println("S'ha modificat la similitud entre el producte amb id " 
                                 + idProdActual1 + " i el producte amb id " + idProdActual2);
     	}
@@ -217,6 +205,7 @@ public class CtrlDomini {
 
     public void esborrarProducte(int id, Boolean bruteForce){
         cjtProductes.eliminarProducte(id);
+        //ARREGLAR, FALTA GETTER DE POS PRESTATGERIES.
         //elimino todas las estanterias en las que haya este producto
         //cjtpres.getprestatgeriesConProd(id);
         //llamar esborrarPrestageria sobre todas las estanterias
@@ -240,12 +229,17 @@ public class CtrlDomini {
         tancarSessio(); 
     }
     
+    
     public boolean existeixUsuari(String us) {
         return cp.existeixUsuari(us);
     }
     
     public Boolean comprovarUsuari(String username, String pwd) {
         return cp.verificarContrasenya(username, pwd);
+    }
+    
+    public String getUsuariActual(){
+        return UsuariActual.getUsername();
     }
     
     public List<String> productesToList(){
@@ -266,6 +260,9 @@ public class CtrlDomini {
             }
         }
         return producteList;
+
+        //   ARREGLAR, FALTA FUNCION
+//        return cjtProductes.productesToList();
     }
     
     public List<String> prestatgeriesToList(){
@@ -288,6 +285,8 @@ public class CtrlDomini {
             }
         }
         return prestatgeriesList;
+        //   ARREGLAR, FALTA FUNCION
+//        return cjtPrestatgeries.prestatgeriesToList();
     }
 
     public void tancarSessio() {

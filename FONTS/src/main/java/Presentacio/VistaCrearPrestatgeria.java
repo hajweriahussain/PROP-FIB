@@ -4,19 +4,122 @@
  */
 package Presentacio;
 
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+
 /**
  *
  * @author hajweriahussain
  */
 public class VistaCrearPrestatgeria extends javax.swing.JPanel {
-
     /**
-     * Creates new form VistaCrearPrestatgeria
+     * Creates new form vistaCrearPrestatgeria
+     * 
      */
+        private CardLayout cardLayout;
+        private JPanel cardPanel;
+        private CtrlPresentacio cp;
+        
     public VistaCrearPrestatgeria() {
+        
         initComponents();
+        cp = new CtrlPresentacio();
+        initComponents();
+        this.setSize(600, 400);
+        cardLayout = (CardLayout) this.getLayout();
+        cargarProductosEnScrollPane();
     }
+    
+    public void cargarProductosEnScrollPane(){
+        Set<Integer> idsProductos = new HashSet<>(Arrays.asList(101, 102, 103, 104, 105, 106, 107, 
+                                                    108, 109, 110, 111, 112, 113, 114, 115, 116, 117,
+                                                    118, 119, 120, 121, 122, 123, 124, 125));
+//        Set<Integer> idsProductos = cp.mostrarProductes();
+        panelGrid.setLayout(new GridLayout(0, 4, 10, 10));
+        for (Integer id : idsProductos) {
+            JCheckBox checkBox = new JCheckBox(String.valueOf(id)); // Usa el ID como texto
+            panelGrid.add(checkBox);           // Añade el checkbox al panel
+        }
 
+        // Añadir el panel al JScrollPane
+        panelProductos.setViewportView(panelGrid);
+    }
+    
+    
+    private Boolean validarID() {
+        String texto = Idtxt.getText().trim();
+//
+        if (texto.isEmpty()) {
+            errorId.setText("Error: El camp no pot estar buit.");
+            return false;
+        }
+        try {
+            int id = Integer.parseInt(texto); // Intenta convertir a número
+            if (id < 0) { // Opcional: verifica si es un número positivo
+                errorId.setText("Error: El identificador ha de ser un número positiu.");
+                return false;
+            }
+            else {
+                errorId.setText("Entrada válida."); // Todo está bien
+                errorId.setForeground(Color.GREEN); // Cambia el color si es válido
+            }
+        } catch (NumberFormatException e) {
+            errorId.setText("Error: Introdueix un número vàlid.");
+            errorId.setForeground(Color.RED); // Asegura el color de error
+            return false;
+        }
+        return true;
+    }
+    
+    
+    private Boolean validarNom() {
+        String texto = nomtxt.getText().trim();
+
+        if (texto.isEmpty()) {
+            errorNom.setText("Error: El camp no pot estar buit.");
+            errorNom.setForeground(Color.RED);
+            return false;
+        }
+
+        // Si el texto es válido (es un nombre), se limpia el mensaje de error
+        errorNom.setText("Entrada vàlida.");
+        errorNom.setForeground(Color.GREEN);
+        return true;
+    }
+    
+    private Boolean validarNumColumnes() {
+        String texto = colstxt.getText().trim();
+
+        if (texto.isEmpty()) {
+            errorNcols.setText("Error: El camp no pot estar buit.");
+            errorNcols.setForeground(Color.RED);
+            return false;
+        }
+
+        try {
+            int numFilas = Integer.parseInt(texto); // Intenta convertir a un número
+            if (numFilas <= 0) { // Verifica que sea un número positivo
+                errorNcols.setText("Error: El número de files ha de ser major que 0.");
+                errorNcols.setForeground(Color.RED);
+                return false;
+            } else {
+                errorNcols.setText("Entrada válida.");
+                errorNcols.setForeground(Color.GREEN);
+                
+            }
+        } catch (NumberFormatException e) {
+            errorNcols.setText("Error: Ha de ser un número enter positiu.");
+            errorNcols.setForeground(Color.RED);
+            return false;
+        }
+        return true;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -25,143 +128,348 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        crearButton = new javax.swing.JButton();
+        page1 = new javax.swing.JPanel();
+        title = new javax.swing.JLabel();
+        IdLabel = new javax.swing.JLabel();
+        nColsLabel = new javax.swing.JLabel();
+        Idtxt = new javax.swing.JTextField();
+        nomLabel = new javax.swing.JLabel();
+        nomtxt = new javax.swing.JTextField();
+        colstxt = new javax.swing.JTextField();
+        btnCrear = new javax.swing.JButton();
+        btnSortir = new javax.swing.JButton();
+        errorId = new javax.swing.JLabel();
+        errorNom = new javax.swing.JLabel();
+        errorNcols = new javax.swing.JLabel();
+        page2 = new javax.swing.JPanel();
+        productesLabel = new javax.swing.JLabel();
+        panelProductos = new javax.swing.JScrollPane();
+        panelGrid = new javax.swing.JPanel();
+        algoritmeLabel = new javax.swing.JLabel();
+        btnBF = new javax.swing.JRadioButton();
+        btnDosAp = new javax.swing.JRadioButton();
+        btnSortir2 = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(187, 229, 206));
+        setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(800, 600));
         setRequestFocusEnabled(false);
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.CardLayout());
 
-        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel1.setText("Nova Prestatgeria");
-        jLabel1.setToolTipText("");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 78, 0, 0);
-        add(jLabel1, gridBagConstraints);
+        page1.setBackground(new java.awt.Color(255, 255, 255));
+        page1.setPreferredSize(new java.awt.Dimension(600, 400));
 
-        jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel2.setText("Identificador (ID)");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(43, 84, 0, 0);
-        add(jLabel2, gridBagConstraints);
+        title.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        title.setText("Crear Prestatgeria");
 
-        jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel3.setText("Nombre de filas");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(21, 84, 0, 0);
-        add(jLabel3, gridBagConstraints);
+        IdLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        IdLabel.setText("Identificador");
 
-        jLabel4.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel4.setText("Nombre de columnas");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(28, 84, 0, 0);
-        add(jLabel4, gridBagConstraints);
+        nColsLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        nColsLabel.setText("Nombre de columnes");
 
-        jTextField1.setFont(new java.awt.Font("Khmer OS System", 0, 14)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+        Idtxt.setForeground(new java.awt.Color(153, 153, 153));
+        Idtxt.setText("Introdueix un identificador numeric");
+        Idtxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                IdtxtFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                IdtxtFocusLost(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 296;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(40, 12, 0, 0);
-        add(jTextField1, gridBagConstraints);
-
-        jTextField2.setFont(new java.awt.Font("Khmer OS System", 0, 14)); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 304;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 4, 0, 0);
-        add(jTextField2, gridBagConstraints);
-
-        jTextField3.setFont(new java.awt.Font("Khmer OS", 0, 14)); // NOI18N
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        Idtxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                IdtxtActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 268;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(23, 12, 0, 0);
-        add(jTextField3, gridBagConstraints);
 
-        crearButton.setBackground(new java.awt.Color(0, 153, 76));
-        crearButton.setFont(new java.awt.Font("Liberation Sans", 1, 14)); // NOI18N
-        crearButton.setForeground(new java.awt.Color(255, 255, 255));
-        crearButton.setText("Crear Prestatgeria");
-        crearButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                crearButtonActionPerformed(evt);
+        nomLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        nomLabel.setText("Nom");
+
+        nomtxt.setForeground(new java.awt.Color(153, 153, 153));
+        nomtxt.setText("Introdueix un nom");
+        nomtxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                nomtxtFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                nomtxtFocusLost(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(125, 29, 107, 79);
-        add(crearButton, gridBagConstraints);
+        nomtxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nomtxtActionPerformed(evt);
+            }
+        });
+
+        colstxt.setForeground(new java.awt.Color(153, 153, 153));
+        colstxt.setText("Introdueix el nombre de columnes");
+        colstxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                colstxtFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                colstxtFocusLost(evt);
+            }
+        });
+        colstxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                colstxtActionPerformed(evt);
+            }
+        });
+
+        btnCrear.setText("Següent");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
+
+        btnSortir.setBackground(new java.awt.Color(153, 153, 153));
+        btnSortir.setText("X");
+        btnSortir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSortirActionPerformed(evt);
+            }
+        });
+
+        errorId.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
+        errorId.setForeground(new java.awt.Color(255, 0, 0));
+
+        errorNom.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
+
+        errorNcols.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
+
+        javax.swing.GroupLayout page1Layout = new javax.swing.GroupLayout(page1);
+        page1.setLayout(page1Layout);
+        page1Layout.setHorizontalGroup(
+            page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(page1Layout.createSequentialGroup()
+                .addGroup(page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(page1Layout.createSequentialGroup()
+                        .addGap(227, 227, 227)
+                        .addComponent(title))
+                    .addGroup(page1Layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addGroup(page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(errorNcols, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(IdLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Idtxt, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nomtxt, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nColsLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nomLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(errorId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(errorNom, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(colstxt, javax.swing.GroupLayout.Alignment.LEADING))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addGroup(page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSortir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCrear, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18))
+        );
+        page1Layout.setVerticalGroup(
+            page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(page1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(title)
+                    .addComponent(btnSortir))
+                .addGap(32, 32, 32)
+                .addComponent(IdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Idtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorId, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nomLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nomtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorNom, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nColsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(colstxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorNcols, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addComponent(btnCrear)
+                .addGap(29, 29, 29))
+        );
+
+        add(page1, "card2");
+
+        page2.setBackground(new java.awt.Color(255, 255, 255));
+
+        productesLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        productesLabel.setText("Productes a afegir");
+
+        panelGrid.setBackground(new java.awt.Color(255, 255, 255));
+        panelGrid.setLayout(new java.awt.GridLayout());
+        panelProductos.setViewportView(panelGrid);
+
+        algoritmeLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        algoritmeLabel.setText("Algoritme a utilitzar");
+
+        btnBF.setText("Força Bruta");
+
+        btnDosAp.setText("Dos Aproximació");
+        btnDosAp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDosApActionPerformed(evt);
+            }
+        });
+
+        btnSortir2.setBackground(new java.awt.Color(153, 153, 153));
+        btnSortir2.setText("X");
+        btnSortir2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSortir2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout page2Layout = new javax.swing.GroupLayout(page2);
+        page2.setLayout(page2Layout);
+        page2Layout.setHorizontalGroup(
+            page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(page2Layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addGroup(page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(page2Layout.createSequentialGroup()
+                        .addComponent(btnBF)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDosAp))
+                    .addComponent(algoritmeLabel)
+                    .addComponent(productesLabel)
+                    .addComponent(panelProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(169, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSortir2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        page2Layout.setVerticalGroup(
+            page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(page2Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(btnSortir2)
+                .addGap(18, 18, 18)
+                .addComponent(productesLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(algoritmeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBF)
+                    .addComponent(btnDosAp))
+                .addContainerGap(169, Short.MAX_VALUE))
+        );
+
+        add(page2, "card3");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void crearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_crearButtonActionPerformed
+    private void IdtxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IdtxtFocusGained
+        if (Idtxt.getText().equals("Introdueix un identificador numeric")) {
+            Idtxt.setText("");
+            Idtxt.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_IdtxtFocusGained
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void IdtxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IdtxtFocusLost
+        if (Idtxt.getText().isEmpty()) {
+            Idtxt.setText("Introdueix un identificador numeric");
+            Idtxt.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_IdtxtFocusLost
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void IdtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdtxtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_IdtxtActionPerformed
+
+    private void nomtxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nomtxtFocusGained
+        if (nomtxt.getText().equals("Introdueix un nom")) {
+            nomtxt.setText("");
+            nomtxt.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_nomtxtFocusGained
+
+    private void nomtxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nomtxtFocusLost
+        if (nomtxt.getText().isEmpty()) {
+            nomtxt.setText("Introdueix un nom");
+            nomtxt.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_nomtxtFocusLost
+
+    private void nomtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomtxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nomtxtActionPerformed
+
+    private void colstxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_colstxtFocusGained
+        if (colstxt.getText().equals("Introdueix el nombre de columnes")) {
+            colstxt.setText("");
+            colstxt.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_colstxtFocusGained
+
+    private void colstxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_colstxtFocusLost
+        if (colstxt.getText().isEmpty()) {
+            colstxt.setText("Introdueix el nombre de columnes");
+            colstxt.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_colstxtFocusLost
+
+    private void colstxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colstxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_colstxtActionPerformed
+
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        // TODO add your handling code here:
+        boolean idValido = validarID();
+        boolean nomValido = validarNom();
+        boolean numColumnasValido = validarNumColumnes();
+        if (idValido && nomValido && numColumnasValido){
+            cardLayout.show(cardPanel, "page2");
+        }
+    }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void btnSortirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortirActionPerformed
+        // TODO add your handling code here:
+//        this.dispose();
+    }//GEN-LAST:event_btnSortirActionPerformed
+
+    private void btnDosApActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDosApActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDosApActionPerformed
+
+    private void btnSortir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortir2ActionPerformed
+        // TODO add your handling code here:
+//        this.dispose();
+    }//GEN-LAST:event_btnSortir2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton crearButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel IdLabel;
+    private javax.swing.JTextField Idtxt;
+    private javax.swing.JLabel algoritmeLabel;
+    private javax.swing.JRadioButton btnBF;
+    private javax.swing.JButton btnCrear;
+    private javax.swing.JRadioButton btnDosAp;
+    private javax.swing.JButton btnSortir;
+    private javax.swing.JButton btnSortir2;
+    private javax.swing.JTextField colstxt;
+    private javax.swing.JLabel errorId;
+    private javax.swing.JLabel errorNcols;
+    private javax.swing.JLabel errorNom;
+    private javax.swing.JLabel nColsLabel;
+    private javax.swing.JLabel nomLabel;
+    private javax.swing.JTextField nomtxt;
+    private javax.swing.JPanel page1;
+    private javax.swing.JPanel page2;
+    private javax.swing.JPanel panelGrid;
+    private javax.swing.JScrollPane panelProductos;
+    private javax.swing.JLabel productesLabel;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

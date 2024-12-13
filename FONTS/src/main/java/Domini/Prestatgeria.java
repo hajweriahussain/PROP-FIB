@@ -17,7 +17,7 @@ public class Prestatgeria {
     
 
 
-    public Prestatgeria(int id, String nom,  int filas, int columnas){
+    public Prestatgeria(int id, String nom,  int filas, int columnas, Set<Integer> productes ){
     	if (id <= 0) {
             System.out.println("Error: L'ID ha de ser un valor positiu. Assignant ID per defecte 1.");
             this.id = 1;
@@ -37,7 +37,7 @@ public class Prestatgeria {
             this.numColumnas = columnas;
         }
         this.nom = nom;
-        this.productes = new HashSet<>();
+        this.productes = productes;
         this.layout = new LinkedList<>();
         disp = new ArrayList<>();
         for (int i = 0; i < this.numFilas; i++) {
