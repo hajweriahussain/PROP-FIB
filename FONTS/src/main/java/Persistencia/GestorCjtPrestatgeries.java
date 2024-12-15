@@ -162,6 +162,52 @@ public class GestorCjtPrestatgeries {
         return rutaArxiu;
     }
     
+    public static List<String> importarFitxerPrestatgeria(String path) {
+       List<String> idsEstanteria = new ArrayList<>(); // Lista para los IDs válidos (como Strings)
+
+        try {
+            FileReader fr = new FileReader(path);
+            Scanner sc = new Scanner(fr);
+            if (!sc.hasNextLine()) {
+                System.out.println("Error: El fitxer està buit.");
+                return null; 
+            }
+            String linea = sc.nextLine();
+
+            if (sc.hasNextLine()) {
+                System.out.println("Error: El fitxer conté més d'una línia.");
+                return null;
+            }
+
+            String[] numeros = linea.split("\\s+"); // Divide por espacios
+
+            for (String num : numeros) {
+                try {
+                    int id = Integer.parseInt(num);
+                    if (id > 0) { 
+                        idsEstanteria.add(num); // Añadir el ID válido como String
+                    } else {
+                        System.out.println("Error: ID no vàlid (no és major que 0): " + num);
+                        return null; // Si hay un ID no válido, se detiene
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Format incorrecte per a l'ID: " + num);
+                    return null; // Si no es un número, se detiene
+                }
+            }
+
+            sc.close();
+            fr.close();
+
+        } catch (IOException e) {
+            System.out.println("Error: No s'ha pogut llegir el fitxer.");
+            e.printStackTrace();
+            return null;
+        }
+
+        return idsEstanteria; // Devuelve la lista de IDs válidos como Strings
+    }
+    
     
 
     
