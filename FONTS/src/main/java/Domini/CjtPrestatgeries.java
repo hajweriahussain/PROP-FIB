@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.google.gson.Gson;
 
 public class CjtPrestatgeries {
     private String user;
