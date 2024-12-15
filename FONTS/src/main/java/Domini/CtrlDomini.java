@@ -267,6 +267,10 @@ public class CtrlDomini {
         //   ARREGLAR, FALTA FUNCION
 //        return cjtPrestatgeries.prestatgeriesToList();
     }
+    
+    public void canviarContrasenya(String username, String novaContra){
+        cp.canviarContrasenya(username, novaContra);
+    }
 
     public void tancarSessio() {
         List<String> prestatgeries =  prestatgeriesToList();
