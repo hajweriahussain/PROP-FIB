@@ -37,6 +37,10 @@ public class CtrlPersistencia {
     public void guardarPrestatgeries(List<String> prestatgeries, String usuari){
         GestorCjtPrestatgeries.guardarPrestatgeries(prestatgeries,usuari);
     }
+
+    public List<String> importarFitxerPrestatgeria(String path){
+        GestorCjtPrestatgeries.importarFitxerPrestatgeria(path);
+    }
     
     public List<String> importarProductes(String usuari){
         return GestorCjtProductes.importarProductes(usuari);
