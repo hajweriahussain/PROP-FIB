@@ -12,14 +12,18 @@ import javax.swing.*;
  * @author ariadna
  */
 public class VistaCrearProducte extends javax.swing.JFrame {
+    
+    private CtrlPresentacio cp;
 
     /**
      * Creates new form VistaP
      */
     public VistaCrearProducte() {
-        initComponents();                
+        initComponents();  
+        cp = new CtrlPresentacio();
         infoPanel.setVisible(false);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -318,7 +322,7 @@ public class VistaCrearProducte extends javax.swing.JFrame {
     private void botoValidarIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoValidarIdMousePressed
         String id = textId.getText();
 
-        if (id.equals("") || id.equals("Introdueix un identificador numèric")) {
+        if (id.isEmpty() || id.equals("Introdueix un identificador numèric")) {
             JOptionPane.showMessageDialog(this, "Has d'introduir un identificador.", "AVÍS", JOptionPane.WARNING_MESSAGE);
         }
         else {  // Comprovar que l'id és vàlid
@@ -328,8 +332,14 @@ public class VistaCrearProducte extends javax.swing.JFrame {
                 if(idNum <= 0) {
                     JOptionPane.showMessageDialog(this, "L'id ha de ser un nombre positiu.", "ATENCIÓ", JOptionPane.WARNING_MESSAGE);
                 }
-                infoPanel.setVisible(true);
-            } catch (Exception ex) {
+                else if (cp.existeixProducteId(idNum)) {
+                    JOptionPane.showMessageDialog(this, "Ja existeix un producte amb aquest ID. Si us plau, introdueix un altre.", "ID Duplicat", JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "ID vàlid. Pots continuar.", "ID Vàlid", JOptionPane.INFORMATION_MESSAGE);
+                    infoPanel.setVisible(true);
+                }            
+            } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "L'id ha de ser un nombre positiu.", "ATENCIÓ", JOptionPane.WARNING_MESSAGE);
             }
         }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import java.util.Set;
 
 public class CjtProductes {
     private String usuari;
@@ -41,6 +42,15 @@ public class CjtProductes {
         else {
             System.out.println("Error: No existeix un producte amb l'ID " + idProd);
             return null;
+        }
+    }
+    
+    public void setMapProductes(Map<Integer, Producte> prods) {
+        if (prods != null && !prods.isEmpty()) {
+            this.productes = new HashMap<>(prods);
+        }
+        else {
+            System.out.println("Error: El map de productes és nul o buit");
         }
     }
     
@@ -206,25 +216,25 @@ public class CjtProductes {
         return mat;
     }
     
-    public List<Producte> getProductesPerIds(List<Integer> idsProds) {
+    public List<Producte> getProductesPerIds(Set<Integer> idsProds) {
         List<Producte> prodSeleccionats = new ArrayList<>();
         for (Integer id : idsProds) {
-            Producte producte = getProducte(id);
-            if (producte != null) {
-                prodSeleccionats.add(producte);
+            Producte prod = getProducte(id);
+            if (prod != null) {
+                prodSeleccionats.add(prod);
             }
         }
         return prodSeleccionats;
     }
     
-    public double[][] getMatriuSimilitudsPerIds(List<Integer> idsProds) {
-        int n = idsProds.size();
+    public double[][] getMatriuSimilitudsPerIds(Producte[] idsProds) {
+        int n = idsProds.length;
         double[][] mat = new double[n][n];
 
         for (int i = 0; i < n; i++) {
-            Producte prod1 = getProducte(idsProds.get(i));
+            Producte prod1 = idsProds[i];
             for (int j = 0; j < n; j++) {
-                Producte prod2 = getProducte(idsProds.get(j));
+                Producte prod2 = idsProds[j];
                 if (prod1.getId() == prod2.getId()) {
                     mat[i][j] = 0.0;
                 } else {
@@ -275,15 +285,16 @@ public class CjtProductes {
         return producteList;
     }
     
-    public Map<String, Map<String, String>> llistarProductes() {
+    public Map<String, Map<String, String>> llistarProductesUsuari() {
         Map<String, Map<String, String>> llistatProductes = new HashMap<>();
+        Gson gson = new Gson();
 
         for (Producte prod : productes.values()) {
             Map<String, String> infoProducte = new HashMap<>();
             infoProducte.put("id", String.valueOf(prod.getId()));
             infoProducte.put("nom", prod.getNom());
-            infoProducte.put("similituds", String.valueOf(prod.getSimilituds().size()));
-            infoProducte.put("posPrestatgeries", String.valueOf(prod.getPosPrestatgeries().size()));
+            infoProducte.put("similituds", gson.toJson(prod.getSimilituds()));
+            infoProducte.put("posPrestatgeries", gson.toJson(prod.getPosPrestatgeries()));
 
             llistatProductes.put(String.valueOf(prod.getId()), infoProducte);
         }
