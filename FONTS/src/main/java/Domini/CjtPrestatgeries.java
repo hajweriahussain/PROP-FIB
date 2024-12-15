@@ -2,6 +2,7 @@ package Domini;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,8 +40,8 @@ public class CjtPrestatgeries {
         else System.out.println("Error: L'usuari ja té una prestatgeria amb aquest ID.");
     }
 
-    public void editarPrestatgeria(int id, String nom, int filas, int columnas) {
-        if (map_prest.containsKey(id))map_prest.put(id, new Prestatgeria(id, nom, filas, columnas));
+    public void editarPrestatgeria(int id, String nom, int filas, int columnas, Set<Integer> setP) {
+        if (map_prest.containsKey(id))map_prest.put(id, new Prestatgeria(id, nom, filas, columnas, setP));
         else System.out.println("Error: L'usuari no té una prestatgeria amb aquest ID.");
     }
 
@@ -77,45 +78,42 @@ public class CjtPrestatgeries {
         else System.out.println("Error: No es pot esborrar la prestatgeria.");
     }
 
-    public List<String> prestatgeriesToList(List<String> presJsonList){
+    public Map<Integer, Prestatgeria> prestatgeriesToList (List<String> presJsonList) {
         Gson gson = new Gson();
-        List<String> prestatgeriesList = new ArrayList<>();
-        Map<Integer, Prestatgeria> prestatgeries = cjtPrestatgeries.getConjPrestatges(UsuariActual.getUsername());
+        Map<Integer, Prestatgeria> prestatgeriesMap = new HashMap<>();
 
-        if (prestatgeries != null) {
-            for (Prestatgeria p : prestatgeries.values()) {
-                Map<String, Object> prestatgeriaData = Map.of(
-                    "id", p.getId(),
-                    "nom", p.getNom(),
-                    "numFilas", p.getNumFilas(),
-                    "numColumnas", p.getNumColumnas(),
-                    "productes", p.getProductes(),
-                    "layout", p.getDisp()
-                );
-                String jsonPrestatgeria = gson.toJson(prestatgeriaData);
-                prestatgeriesList.add(jsonPrestatgeria);
-            }
+        for (String jsonPrestatgeria : presJsonList) {
+            Map<String, Object> prestatgeriaData = gson.fromJson(jsonPrestatgeria, Map.class);
+
+            int id = ((Double) prestatgeriaData.get("id")).intValue();
+            String nom = (String) prestatgeriaData.get("nom");
+            int numFilas = ((Double) prestatgeriaData.get("numFilas")).intValue();
+            int numColumnas = ((Double) prestatgeriaData.get("numColumnas")).intValue();
+            Set<Integer> productes = (Set<Integer>) prestatgeriaData.get("productes"); 
+
+            Prestatgeria prestatgeria = new Prestatgeria(id, nom, numFilas, numColumnas, productes);
+
+            prestatgeriesMap.put(id, prestatgeria);
         }
-        return prestatgeriesList;
+        return prestatgeriesMap;
     }
+
     
     public void listToPrestatgeries(List<String> presJasonList) {
         Gson gson = new Gson();
-        if (presJsonList == null || presJsonList.isEmpty()) {
-            System.out.println("Error: La llista JSON de prestatgeries és buida o nul·la.");
-            return;
-        }
  
-        for (String jsonPrestatgeria : presJsonList) {
+        for (String jsonPrestatgeria : presJasonList) {
             Map<String, Object> prestatgeriaData = gson.fromJson(jsonPrestatgeria, Map.class);
  
             Integer id = ((Double) prestatgeriaData.get("id")).intValue();
             String nom = (String) prestatgeriaData.get("nom");
             Integer numFilas = ((Double) prestatgeriaData.get("numFilas")).intValue();
             Integer numColumnas = ((Double) prestatgeriaData.get("numColumnas")).intValue();
+            Set<Integer> setP = new HashSet<>();
+            
  
             List<List<Map<String, Object>>> dispData = (List<List<Map<String, Object>>>) prestatgeriaData.get("layout");
-            Prestatgeria prestatgeria = new Prestatgeria(id, nom, numFilas, numColumnas);
+            Prestatgeria prestatgeria = new Prestatgeria(id, nom, numFilas, numColumnas, setP);
  
             if (dispData != null) {
                 Producte[][] layout = new Producte[numFilas][numColumnas];
@@ -137,22 +135,30 @@ public class CjtPrestatgeries {
         }
     }
     
-    public void llistarPrestatgeriesUsuari() {
+    public Map<String, Map<String, String>> llistarPrestatgeriesUsuari() {
+        Map<String, Map<String, String>> llistatPrestatgeries = new HashMap<>();
+
         if (map_prest.isEmpty()) {
             System.out.println("No hi ha prestatgeries per a l'usuari.");
-            return;
+            return llistatPrestatgeries;
         }
-        System.out.println("Prestatgeries de l'usuari:");
+
         for (Prestatgeria prestatgeria : map_prest.values()) {
-            System.out.println("ID: " + prestatgeria.getId());
-            System.out.println("Nom: " + prestatgeria.getNom());
-            System.out.println("Files: " + prestatgeria.getNumFilas());
-            System.out.println("Columnes: " + prestatgeria.getNumColumnas());
-            System.out.println("Productes: " + prestageria.getSetProductes());
-            System.out.println("----------------------");
+            Map<String, String> infoPrestatgeria = new HashMap<>();
+            infoPrestatgeria.put("id", String.valueOf(prestatgeria.getId()));
+            infoPrestatgeria.put("nom", prestatgeria.getNom());
+            infoPrestatgeria.put("files", String.valueOf(prestatgeria.getNumFilas()));
+            infoPrestatgeria.put("columnes", String.valueOf(prestatgeria.getNumColumnas()));
+            infoPrestatgeria.put("productes", prestatgeria.getProductes().toString());
+
+            llistatPrestatgeries.put(String.valueOf(prestatgeria.getId()), infoPrestatgeria);
         }
-}
+
+        return llistatPrestatgeries;
+    }
+
     
+    //dado dos maps, ver si coinciden 2 ids -> return vector de ids (integers). 
     public void eliminarPrestatgeria(int id) {
         if (map_prest.containsKey(id)) map_prest.remove(id);
         else System.out.println("Error: L'usuari no té una prestatgeria amb aquest ID.");
