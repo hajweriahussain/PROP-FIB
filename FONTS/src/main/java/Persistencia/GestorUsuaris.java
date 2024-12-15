@@ -159,7 +159,7 @@ public class GestorUsuaris{
        
         return rutaArxiu;
     }
-    
+ /*
     public static void main(String[] args) {
         afegirUsuari("Maria", "1234");
         afegirUsuari("Laura", "1234");
@@ -168,5 +168,5 @@ public class GestorUsuaris{
         if(verificarContrasenya("Laura", "1234")) System.out.println("Laura SI es la contrasenya correcta");
         canviarContrasenya("Laura", "laura la mejor");
     }
-    
+   */
 }
