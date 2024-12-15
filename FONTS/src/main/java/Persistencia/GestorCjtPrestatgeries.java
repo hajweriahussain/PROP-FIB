@@ -108,7 +108,7 @@ public class GestorCjtPrestatgeries {
                 }
             }
 
-            borrarPrestatgeriesUsuari(usuari);
+            esborrarPrestatgeriesUsuari(usuari);
             String ruta = getRuta(usuari);
             try (FileWriter file = new FileWriter(ruta)) {
                 file.write(jsonPrestatgeries.toJSONString());
@@ -117,7 +117,7 @@ public class GestorCjtPrestatgeries {
                 e.printStackTrace();
             }
         } else {
-            borrarPrestatgeriesUsuari(usuari);
+            esborrarPrestatgeriesUsuari(usuari);
         }
 }
     

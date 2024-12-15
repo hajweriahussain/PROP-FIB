@@ -33,8 +33,8 @@ public class CtrlDomini {
         return singletonObject;
     }
    public void listToProductes(List<String> producteJsonList) {
-        cjtProductes.listToProductes(producteJsonList);
-       //ARREGLAR me tiene que devolver el map de productes
+        //cjtProductes.setProductes(cjtProductes.listToProductes(producteJsonList));
+        //ARREGLAR
 }
    public void listToPrestatgeries(List<String> presJsonList){
        cjtPrestatgeries.listToPrestatgeries(presJsonList);
@@ -59,9 +59,8 @@ public class CtrlDomini {
             System.out.println("Error: No hi ha cap conjunt de productes associat a l'usuari.");
             return null;
         }
-//        return cjtProductes.llistarProductes();
-        return new HashMap<>();
-        //ARREGLAR, AÑADIR FUNCION LISTAR PRODUCTOS
+        return cjtProductes.llistarProductes();
+        //ARREGLAR, TIENES QUE AÑADIR LOS MAPS
     }
     
     public Map<String, Map<String,String>> llistarPrestatgeriesUsuari() {
@@ -118,7 +117,7 @@ public class CtrlDomini {
     
     public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols){
 //        Producte[] vecProductes = cjtProductes.getProductesPerIds(productes);
-        // ARREGLAR, tiene que coger un set de integers como param, y devuelve un vector de productos.
+//         ARREGLAR, tiene que coger un set de integers como param, y devuelve un vector de productos.
 //        double[][] matSimilituds = cjtProductes.getMatriuSimilitudsPerIds(vecProductes);
         // ARREGLAR, tiene que coger un vector de productos como param
 
@@ -138,7 +137,7 @@ public class CtrlDomini {
 //
 //        for (int i = 0; i < solucio.length; i++) {
 //            for(int j = 0; j < solucio[0].length; ++j){
-//                Pair<int, int> p = Pair(i, j);
+////                Pair<Integer, Integer> p = Pair<>(i, j);
 //                cjtProductes.editarPosProducte(solucio[i][j].getId(), id, p);
 //            }
 //        }
@@ -177,12 +176,10 @@ public class CtrlDomini {
     public void modificarSimilituds(Integer idProdActual1, Integer idProdActual2, double novaSim, Boolean bruteForce) {
     	if (cjtProductes.getProducte(idProdActual1) != null && cjtProductes.getProducte(idProdActual2) != null) {
             cjtProductes.modificarSimilitud(idProdActual1, idProdActual2, novaSim);
-            //ARREGLAR, FALTA GETTER DE POS PRESTATGERIES
-//            cjtProductes.getPosPrestatgeries(idProdActual1);
-//            cjtProductes.getPosPrestatgeries(idProdActual2);
+            
+            cjtProductes.getPosPrestatgeriesProducte(idProdActual1);
+            cjtProductes.getPosPrestatgeriesProducte(idProdActual2);
              //ARREGLAR, cjtprest haura de crear funcio per a buscar estanteries en comu en un map.
-            //obtener las estanterias en que esta prod1
-            //obtener las estanterias en que esta prod2
             //buscar si tienen estanterias en comun
             // si si tiene, sacar id de la estanteria, y numcolumnas de la estanteria y 
             //volver a calcular la disposicion de todas las estanterias en que se encuentran estos productos juntos.
@@ -205,10 +202,11 @@ public class CtrlDomini {
 
     public void esborrarProducte(int id, Boolean bruteForce){
         cjtProductes.eliminarProducte(id);
-        //ARREGLAR, FALTA GETTER DE POS PRESTATGERIES.
-        //elimino todas las estanterias en las que haya este producto
-        //cjtpres.getprestatgeriesConProd(id);
-        //llamar esborrarPrestageria sobre todas las estanterias
+        Map<Integer, Pair<Integer, Integer>> pres = cjtProductes.getPosPrestatgeriesProducte(id);
+        for (Map.Entry<Integer, Pair<Integer, Integer>> entry : pres.entrySet()) {
+            Integer key = entry.getKey();
+            esborrarPrestatgeria(key);
+        }
     }
 
     public void esborrarPrestatgeria(int id){
@@ -243,26 +241,7 @@ public class CtrlDomini {
     }
     
     public List<String> productesToList(){
-        Gson gson = new Gson();
-        List<String> producteList = new ArrayList<>();
-        Map<Integer, Producte> productes = cjtProductes.getProductes(UsuariActual.getUsername());
-
-        if (productes != null) {
-            for (Producte producte : productes.values()) {
-                Map<String, Object> producteData = Map.of(
-                    "id", producte.getId(),
-                    "nom", producte.getNom(),
-                    "similituds", producte.getSimilituds(),
-                    "prestatgeriesPos", producte.getPosPrestatgeries()
-                );
-                String jsonProducte = gson.toJson(producteData);
-                producteList.add(jsonProducte);
-            }
-        }
-        return producteList;
-
-        //   ARREGLAR, FALTA FUNCION
-//        return cjtProductes.productesToList();
+        return cjtProductes.productesToList(cjtProductes.getProductes(UsuariActual.getUsername()));
     }
     
     public List<String> prestatgeriesToList(){
