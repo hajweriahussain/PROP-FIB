@@ -80,8 +80,21 @@ public class CtrlPresentacio {
 */
     
     public void esborrarProducte(int idProd) {
-        ctrlDomini.esborrarProducte(idProd);
+        String idStr = String.valueOf(idProd);
+        if (existeixProducteId(idProd)) {
+            productes.remove(idStr);
+            ctrlDomini.esborrarProducte(idProd);
+
+            // Actualizar las referencias en las prestatgerías
+            //actualitzarPrestatgeriesDespresEsborrarProducte(idProd);
+
+            System.out.println("Producte amb ID " + idProd + " esborrat correctament.");
+        }
+        else {
+            System.out.println("Error: No existeix un producte amb l'ID " + idProd);
+        }
     }
+    
     
     private Set<Integer> getProducteIds() {
         Set<Integer> ids = new HashSet<>();
@@ -158,8 +171,6 @@ public class CtrlPresentacio {
 
         actualitzarSimilitudLocal(idProd1, idProd2, novaSimilitud);
         actualitzarSimilitudLocal(idProd2, idProd1, novaSimilitud);
-
-        System.out.println("Similitud actualitzada correctament.");
     }
 
     private void actualitzarSimilitudLocal(int idProd1, int idProd2, double novaSimilitud) {
@@ -185,28 +196,24 @@ public class CtrlPresentacio {
         Map<Integer, Pair<Integer, Integer>> posProd1 = getPosPrestatgeriesProducte(idProd1);
         Map<Integer, Pair<Integer, Integer>> posProd2 = getPosPrestatgeriesProducte(idProd2);
 
-        // Verificar que ambos productos están en la prestatgería especificada
         if (!posProd1.containsKey(idPrestatgeria) || !posProd2.containsKey(idPrestatgeria)) {
             System.out.println("Error: Un o ambdós productes no estan a la prestatgeria especificada.");
             return;
         }
 
-        // Intercambiar las posiciones
         Pair<Integer, Integer> tempPos = posProd1.get(idPrestatgeria);
         posProd1.put(idPrestatgeria, posProd2.get(idPrestatgeria));
         posProd2.put(idPrestatgeria, tempPos);
 
         // Actualizar en el dominio
-        // ctrlDomini.(idPrestatgeria, idProd1, idProd2);
+        ctrlDomini.modificarPrestatgeria(idPrestatgeria, idProd1, idProd2);
 
         // Actualizar en la presentación
-        actualizarPosicioProducteLocal(idProd1, posProd1);
-        actualizarPosicioProducteLocal(idProd2, posProd2);
-
-        System.out.println("Posicions dels productes actualitzades correctament.");
+        actualitzarPosicioProducteLocal(idProd1, posProd1);
+        actualitzarPosicioProducteLocal(idProd2, posProd2);
     }
 
-    private void actualizarPosicioProducteLocal(int idProd, Map<Integer, Pair<Integer, Integer>> novaPos) {
+    private void actualitzarPosicioProducteLocal(int idProd, Map<Integer, Pair<Integer, Integer>> novaPos) {
         String idStr = String.valueOf(idProd);
         if (productes.containsKey(idStr)) {
             Map<String, String> infoProducte = productes.get(idStr);
@@ -238,7 +245,8 @@ public class CtrlPresentacio {
             ctrlDomini.crearPrestatgeria(idPres, nom, numCols, productes, bf);
             afegirPrestatgeriaLocal(idPres, nom, numCols, productes, bf);
             return true;
-        } else {
+        }
+        else {
             System.out.println("Error: Ja existeix una prestatgeria amb l'ID " + idPres);
             return false;
         }

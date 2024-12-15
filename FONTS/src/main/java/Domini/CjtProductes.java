@@ -216,7 +216,7 @@ public class CjtProductes {
         return mat;
     }
     
-    public List<Producte> getProductesPerIds(Set<Integer> idsProds) {
+    public Producte[] getProductesPerIds(Set<Integer> idsProds) {
         List<Producte> prodSeleccionats = new ArrayList<>();
         for (Integer id : idsProds) {
             Producte prod = getProducte(id);
@@ -224,7 +224,7 @@ public class CjtProductes {
                 prodSeleccionats.add(prod);
             }
         }
-        return prodSeleccionats;
+        return prodSeleccionats.toArray(Producte[]::new);
     }
     
     public double[][] getMatriuSimilitudsPerIds(Producte[] idsProds) {
