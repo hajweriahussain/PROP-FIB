@@ -75,7 +75,7 @@ public class CtrlDomini {
     
     
     
-    public void crearProducte(int id, String nom, Map<Integer, Double> similituds, Boolean bruteForce){
+    public void crearProducte(int id, String nom, Map<Integer, Double> similituds){
     	if (id <= 0 || nom == null) {
             System.out.println("Error: Dades del producte no vàlides.");
             return;
@@ -200,7 +200,7 @@ public class CtrlDomini {
         cjtPrestatgeries.intercanviarDosProductes(id, fila1, col1, fila2, col2);
     }
 
-    public void esborrarProducte(int id, Boolean bruteForce){
+    public void esborrarProducte(int id){
         cjtProductes.eliminarProducte(id);
         Map<Integer, Pair<Integer, Integer>> pres = cjtProductes.getPosPrestatgeriesProducte(id);
         for (Map.Entry<Integer, Pair<Integer, Integer>> entry : pres.entrySet()) {

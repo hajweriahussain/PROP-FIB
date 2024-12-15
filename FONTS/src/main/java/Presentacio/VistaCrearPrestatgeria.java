@@ -128,6 +128,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         page1 = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
@@ -158,15 +159,39 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
 
         page1.setBackground(new java.awt.Color(255, 255, 255));
         page1.setPreferredSize(new java.awt.Dimension(600, 400));
+        page1.setLayout(new java.awt.GridBagLayout());
 
         title.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         title.setText("Crear Prestatgeria");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 54, 0, 0);
+        page1.add(title, gridBagConstraints);
 
         IdLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         IdLabel.setText("Identificador");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipady = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(32, 84, 0, 0);
+        page1.add(IdLabel, gridBagConstraints);
 
         nColsLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         nColsLabel.setText("Nombre de columnes");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipady = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 84, 0, 0);
+        page1.add(nColsLabel, gridBagConstraints);
 
         Idtxt.setForeground(new java.awt.Color(153, 153, 153));
         Idtxt.setText("Introdueix un identificador numeric");
@@ -183,9 +208,24 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                 IdtxtActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.ipadx = 172;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 84, 0, 0);
+        page1.add(Idtxt, gridBagConstraints);
 
         nomLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         nomLabel.setText("Nom");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.ipady = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 84, 0, 0);
+        page1.add(nomLabel, gridBagConstraints);
 
         nomtxt.setForeground(new java.awt.Color(153, 153, 153));
         nomtxt.setText("Introdueix un nom");
@@ -202,6 +242,14 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                 nomtxtActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.ipadx = 172;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 84, 0, 0);
+        page1.add(nomtxt, gridBagConstraints);
 
         colstxt.setForeground(new java.awt.Color(153, 153, 153));
         colstxt.setText("Introdueix el nombre de columnes");
@@ -218,6 +266,14 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                 colstxtActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.ipadx = 172;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 84, 0, 0);
+        page1.add(colstxt, gridBagConstraints);
 
         btnCrear.setText("Següent");
         btnCrear.addActionListener(new java.awt.event.ActionListener() {
@@ -225,6 +281,13 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                 btnCrearActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.ipadx = 13;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(109, 85, 29, 18);
+        page1.add(btnCrear, gridBagConstraints);
 
         btnSortir.setBackground(new java.awt.Color(153, 153, 153));
         btnSortir.setText("X");
@@ -233,86 +296,99 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                 btnSortirActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 21;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(14, 137, 0, 18);
+        page1.add(btnSortir, gridBagConstraints);
 
         errorId.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
         errorId.setForeground(new java.awt.Color(255, 0, 0));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.ipadx = 236;
+        gridBagConstraints.ipady = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 84, 0, 0);
+        page1.add(errorId, gridBagConstraints);
 
         errorNom.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.ipadx = 236;
+        gridBagConstraints.ipady = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 84, 0, 0);
+        page1.add(errorNom, gridBagConstraints);
 
         errorNcols.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
-
-        javax.swing.GroupLayout page1Layout = new javax.swing.GroupLayout(page1);
-        page1.setLayout(page1Layout);
-        page1Layout.setHorizontalGroup(
-            page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(page1Layout.createSequentialGroup()
-                .addGroup(page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(page1Layout.createSequentialGroup()
-                        .addGap(227, 227, 227)
-                        .addComponent(title))
-                    .addGroup(page1Layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addGroup(page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(errorNcols, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(IdLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Idtxt, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nomtxt, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nColsLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nomLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(errorId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(errorNom, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(colstxt, javax.swing.GroupLayout.Alignment.LEADING))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addGroup(page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSortir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCrear, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
-        );
-        page1Layout.setVerticalGroup(
-            page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(page1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(page1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(title)
-                    .addComponent(btnSortir))
-                .addGap(32, 32, 32)
-                .addComponent(IdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Idtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(errorId, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nomLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nomtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(errorNom, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nColsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(colstxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(errorNcols, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
-                .addComponent(btnCrear)
-                .addGap(29, 29, 29))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.ipadx = 236;
+        gridBagConstraints.ipady = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 84, 0, 0);
+        page1.add(errorNcols, gridBagConstraints);
 
         add(page1, "card2");
 
         page2.setBackground(new java.awt.Color(255, 255, 255));
+        page2.setLayout(new java.awt.GridBagLayout());
 
         productesLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         productesLabel.setText("Productes a afegir");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 60, 0, 0);
+        page2.add(productesLabel, gridBagConstraints);
 
         panelGrid.setBackground(new java.awt.Color(255, 255, 255));
-        panelGrid.setLayout(new java.awt.GridLayout());
+        panelGrid.setLayout(new java.awt.GridLayout(1, 0));
         panelProductos.setViewportView(panelGrid);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 341;
+        gridBagConstraints.ipady = 149;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 60, 0, 0);
+        page2.add(panelProductos, gridBagConstraints);
 
         algoritmeLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         algoritmeLabel.setText("Algoritme a utilitzar");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipady = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 60, 0, 0);
+        page2.add(algoritmeLabel, gridBagConstraints);
 
         btnBF.setText("Força Bruta");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 60, 169, 0);
+        page2.add(btnBF, gridBagConstraints);
 
         btnDosAp.setText("Dos Aproximació");
         btnDosAp.addActionListener(new java.awt.event.ActionListener() {
@@ -320,6 +396,13 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                 btnDosApActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 18, 169, 0);
+        page2.add(btnDosAp, gridBagConstraints);
 
         btnSortir2.setBackground(new java.awt.Color(153, 153, 153));
         btnSortir2.setText("X");
@@ -328,44 +411,13 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                 btnSortir2ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout page2Layout = new javax.swing.GroupLayout(page2);
-        page2.setLayout(page2Layout);
-        page2Layout.setHorizontalGroup(
-            page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(page2Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(page2Layout.createSequentialGroup()
-                        .addComponent(btnBF)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDosAp))
-                    .addComponent(algoritmeLabel)
-                    .addComponent(productesLabel)
-                    .addComponent(panelProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(169, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSortir2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        page2Layout.setVerticalGroup(
-            page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(page2Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(btnSortir2)
-                .addGap(18, 18, 18)
-                .addComponent(productesLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(algoritmeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBF)
-                    .addComponent(btnDosAp))
-                .addContainerGap(169, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 127, 0, 6);
+        page2.add(btnSortir2, gridBagConstraints);
 
         add(page2, "card3");
     }// </editor-fold>//GEN-END:initComponents
