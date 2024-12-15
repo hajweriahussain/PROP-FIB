@@ -156,11 +156,12 @@ public class Prestatgeria {
         Producte temp = prestatge1[colProd1];
         prestatge1[colProd1] = prestatge2[colProd2];
         prestatge2[colProd2] = temp;
-
-//        prestatge1[colProd1].setColumna(colProd1);
-//        prestatge2[colProd2].setColumna(colProd2);
-//        prestatge1[colProd1].setFila(filaProd1);
-//        prestatge2[colProd2].setFila(filaProd2);
+        
+        Pair<Integer, Integer> pos1 = new Pair<>(filaProd1, colProd1);
+        Pair<Integer, Integer> pos2 = new Pair<>(filaProd2, colProd2);
+        
+        prestatge1[colProd1].setPosPrestatgeria(id, pos1);
+        prestatge1[colProd2].setPosPrestatgeria(id, pos2);
         
         List<Pair<String, Integer>> fila1 = disp.get(filaProd1);
         List<Pair<String, Integer>> fila2 = disp.get(filaProd2);

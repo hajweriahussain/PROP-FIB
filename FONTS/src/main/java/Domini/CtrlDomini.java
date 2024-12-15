@@ -33,8 +33,7 @@ public class CtrlDomini {
         return singletonObject;
     }
    public void listToProductes(List<String> producteJsonList) {
-        //cjtProductes.setProductes(cjtProductes.listToProductes(producteJsonList));
-        //ARREGLAR
+        cjtProductes.setMapProductes(cjtProductes.listToProductes(producteJsonList));
 }
    public void listToPrestatgeries(List<String> presJsonList){
        cjtPrestatgeries.listToPrestatgeries(presJsonList);
@@ -59,8 +58,7 @@ public class CtrlDomini {
             System.out.println("Error: No hi ha cap conjunt de productes associat a l'usuari.");
             return null;
         }
-        return cjtProductes.llistarProductes();
-        //ARREGLAR, TIENES QUE AÑADIR LOS MAPS
+        return cjtProductes.llistarProductesUsuari();
     }
     
     public Map<String, Map<String,String>> llistarPrestatgeriesUsuari() {
@@ -116,31 +114,29 @@ public class CtrlDomini {
     }
     
     public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols){
-//        Producte[] vecProductes = cjtProductes.getProductesPerIds(productes);
-//         ARREGLAR, tiene que coger un set de integers como param, y devuelve un vector de productos.
-//        double[][] matSimilituds = cjtProductes.getMatriuSimilitudsPerIds(vecProductes);
-        // ARREGLAR, tiene que coger un vector de productos como param
+        Producte[] vecProductes = cjtProductes.getProductesPerIds(productes);
+        double[][] matSimilituds = cjtProductes.getMatriuSimilitudsPerIds(vecProductes);
 
-//        GeneradorSolucio generadorInicial;
-//
-//        if (bruteForce) {
-//            generadorInicial = new BruteForce(matSimilituds, vecProductes, numCols);
-//            System.out.println("Creant prestatgeria amb algoritme de força bruta.");
-//        } else {
-//            generadorInicial = new DosAproximacio(matSimilituds, vecProductes, numCols);
-//            System.out.println("Creant prestatgeria amb algoritme de 2-Aproximació.");
-//        }
-//
-//        Producte[][] solucio = generadorInicial.generarLayout();
-//        //PENSANDO EN QUITAR EL LAYOUT CON LAS INSTANCIAS DE PRODUCTOS, SOBRA.
+        GeneradorSolucio generadorInicial;
+
+        if (bruteForce) {
+            generadorInicial = new BruteForce(matSimilituds, vecProductes, numCols);
+            System.out.println("Creant prestatgeria amb algoritme de força bruta.");
+        } else {
+            generadorInicial = new DosAproximacio(matSimilituds, vecProductes, numCols);
+            System.out.println("Creant prestatgeria amb algoritme de 2-Aproximació.");
+        }
+
+        Producte[][] solucio = generadorInicial.generarLayout();
+        //PENSANDO EN QUITAR EL LAYOUT CON LAS INSTANCIAS DE PRODUCTOS, SOBRA.
 //        cjtPrestatgeries.setLayout(solucio, id);
-//
-//        for (int i = 0; i < solucio.length; i++) {
-//            for(int j = 0; j < solucio[0].length; ++j){
-////                Pair<Integer, Integer> p = Pair<>(i, j);
-//                cjtProductes.editarPosProducte(solucio[i][j].getId(), id, p);
-//            }
-//        }
+
+        for (int i = 0; i < solucio.length; i++) {
+            for(int j = 0; j < solucio[0].length; ++j){
+                Pair<Integer, Integer> p = new Pair<>(i, j);
+                cjtProductes.editarPosProducte(solucio[i][j].getId(), id, p);
+            }
+        }
     }
 
     public void crearPrestatgeria(int id, String nom, int numCols, Set<Integer> productes, Boolean bruteForce){
@@ -192,12 +188,14 @@ public class CtrlDomini {
         }
     }
 
-    public void modificarPrestatgeria(int id, int fila1, int col1, int fila2, int col2){
+        public void modificarPrestatgeria(int id, int idp1, int idp2){
         if (cjtPrestatgeries == null) {
             System.out.println("Error: No hi ha cap prestatgeria per modificar.");
             return;
         }
-        cjtPrestatgeries.intercanviarDosProductes(id, fila1, col1, fila2, col2);
+        Pair<Integer, Integer> pos1 = cjtProductes.getPosProducte(id, idp1);
+        Pair<Integer, Integer> pos2 = cjtProductes.getPosProducte(id, idp2);
+        cjtPrestatgeries.intercanviarDosProductes(id, pos1.clau, pos1.valor, pos2.clau, pos2.valor);
     }
 
     public void esborrarProducte(int id){
