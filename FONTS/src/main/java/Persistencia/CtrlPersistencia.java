@@ -21,6 +21,10 @@ public class CtrlPersistencia {
         GestorCjtProductes.esborrarProductes(user);
         GestorCjtPrestatgeries.esborrarPrestatgeriesUsuari(user);
     }
+
+    public void canviarContrasenya(String user, String novaPassword){
+        GestorUsuaris.canviarContrasenya(user,novaPassword);
+    }
     
     public boolean verificarContrasenya(String user, String password){
         return GestorUsuaris.verificarContrasenya(user,password);
