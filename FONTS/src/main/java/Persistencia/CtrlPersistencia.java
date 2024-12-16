@@ -39,7 +39,7 @@ public class CtrlPersistencia {
     }
 
     public List<String> importarFitxerPrestatgeria(String path){
-        GestorCjtPrestatgeries.importarFitxerPrestatgeria(path);
+        return GestorCjtPrestatgeries.importarFitxerPrestatgeria(path);
     }
     
     public List<String> importarProductes(String usuari){
@@ -49,7 +49,10 @@ public class CtrlPersistencia {
     public void guardarProductes(List<String> productes, String usuari){
         GestorCjtProductes.guardarProductes(productes, usuari);
     }
-    
-    
+   /* 
+    public List<String> importarFitxerProductes(String path){
+        return GestorCjtProductes.importarFitxerProductes(path);
+    }
+    */
 
 }
