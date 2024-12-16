@@ -150,4 +150,60 @@ public class GestorCjtProductes {
 
         return rutaArxiu;
     }
+    
+    public static List<String> importarFitxerProducte(String path) {
+        List<String> productesImportats = new ArrayList<>(); // Lista para los productos importados en formato String
+
+        try {
+            FileReader fr = new FileReader(path);
+            Scanner sc = new Scanner(fr);
+            if (!sc.hasNextLine()) {
+                System.out.println("Error: El fitxer està buit.");
+                return null;
+            }
+
+            while (sc.hasNextLine()) {
+                String linea = sc.nextLine();
+                String[] parts = linea.split("\\s+"); // Divide por espacios
+
+                if (parts.length < 2) { // Suponiendo que cada línea debe tener al menos 2 partes: ID y nombre
+                    System.out.println("Error: La línia no conté suficients dades: " + linea);
+                    continue; // Ignorar línea inválida y continuar
+                }
+
+                try {
+                    int idProd = Integer.parseInt(parts[0]); // ID del producto
+                    String nomProd = parts[1]; // Nombre del producto
+
+                    // Crear una representación en formato String del producto
+                    StringBuilder producteStr = new StringBuilder();
+                    producteStr.append(idProd).append(" ").append(nomProd);
+
+                    // Si hay similitudes, procesarlas (asumiendo que empiezan desde la tercera parte)
+                    if (parts.length > 2) {
+                        producteStr.append(" ");
+                        for (int i = 2; i < parts.length; i++) {
+                            producteStr.append(parts[i]).append(" ");
+                        }
+                    }
+
+                    // Añadir el producto en formato String a la lista
+                    productesImportats.add(producteStr.toString().trim());
+
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Format incorrecte per a l'ID: " + linea);
+                }
+            }
+
+            sc.close();
+            fr.close();
+
+        } catch (IOException e) {
+            System.out.println("Error: No s'ha pogut llegir el fitxer.");
+            e.printStackTrace();
+            return null;
+        }
+
+        return productesImportats;
+    }
 }

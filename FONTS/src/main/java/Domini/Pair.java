@@ -37,15 +37,4 @@ public class Pair<T1, T2> {
     public String toString() {
         return "(" + clau.toString() + "," + valor.toString() + ')';
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-
-        Pair<?, ?> pair = (Pair<?, ?>) obj;
-
-        if (clau != null ? !clau.equals(pair.clau) : pair.clau != null) return false;
-        return valor != null ? valor.equals(pair.valor) : pair.valor == null;
-    }
 }
