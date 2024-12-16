@@ -266,7 +266,7 @@ public class CjtProductes {
         return productesMap;
     }
     
-    public List<String> productesToList(Map<Integer, Producte> productes){
+    public List<String> productesToList(Map<Integer, Producte> productes) {
         Gson gson = new Gson();
         List<String> producteList = new ArrayList<>();
 
