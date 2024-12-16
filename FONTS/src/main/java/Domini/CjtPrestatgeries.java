@@ -24,6 +24,7 @@ public class CjtPrestatgeries {
         else return null;
     }
 
+
     public Prestatgeria getPrestatgeria(int prestatgeID) {
         if (map_prest.containsKey(prestatgeID)) return map_prest.get(prestatgeID);
         System.out.println("Error: L'usuari no té cap prestatge amb aquesta id");
@@ -54,13 +55,57 @@ public class CjtPrestatgeries {
           return null;
         }
     }
+    
+    public void setLayout(Producte[][] mat, Integer prestatgeID) {
+        Prestatgeria prestatgeria = getPrestatgeria(prestatgeID);
+        if (prestatgeria != null) prestatgeria.setLayout(mat);
+        else System.out.println("Error: No hi ha una prestatgeria amb aquest id.");
+    }
+    
+    public Set<Integer> getProductes(Integer prestatgeID) {
+        Prestatgeria prestatgeria = getPrestatgeria(prestatgeID);
+        if (prestatgeria != null) return prestatgeria.getProductes();
+        else System.out.println("Error: No hi ha una prestatgeria amb aquest id.");
+        return null;
+    }
+    
+    public int getNumCols(Integer prestatgeID) {
+        Prestatgeria prestatgeria = getPrestatgeria(prestatgeID);
+        if (prestatgeria != null) return prestatgeria.getNumColumnas();
+        else System.out.println("Error: No hi ha una prestatgeria amb aquest id.");
+        return 0;
+    }
+    
+    public Integer[] getIdsPrestatgeriesSame(Map<Integer, Pair<Integer, Integer>> parella1, 
+                                             Map<Integer, Pair<Integer, Integer>> parella2) {
+        Integer[] x = new Integer[3];
+        return x;
+        
+        /*
+        Terminar la classeee
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        */
+    }
 
     public void intercanviarDosProductes(int prestatgeID, int filaProd1, int colProd1, int filaProd2, int colProd2) {
         Prestatgeria prestatgeria = getPrestatgeria(prestatgeID);
         if (prestatgeria != null) prestatgeria.intercanviarDosProductes(filaProd1, colProd1, filaProd2, colProd2);
         else System.out.println("Error: No es pot intercanviar productes.");
     }
-
+/*
     public void afegirPrestatge(int prestatgeID) {
         Prestatgeria prestatgeria = getPrestatgeria(prestatgeID);
         if (prestatgeria != null) prestatgeria.afegirPrestatge();
@@ -71,7 +116,7 @@ public class CjtPrestatgeries {
         Prestatgeria prestatgeria = getPrestatgeria(prestatgeID);
         if (prestatgeria != null) prestatgeria.esborrarPrestatge(indexFila);
         else System.out.println("Error: No es pot esborrar el prestatge.");
-    }
+    }*/
 
     public void esborrarPrestatgeria(int prestatgeID) {
         Prestatgeria prestatgeria = getPrestatgeria(prestatgeID);
@@ -79,7 +124,29 @@ public class CjtPrestatgeries {
         else System.out.println("Error: No es pot esborrar la prestatgeria.");
     }
 
-    public Map<Integer, Prestatgeria> prestatgeriesToList (List<String> presJsonList) {
+    public List<String> prestatgeriesToList(Map<Integer, Prestatgeria> prestatgeriesMap) {
+        Gson gson = new Gson();
+        List<String> prestatgeriaList = new ArrayList<>();
+
+        if (prestatgeriesMap != null) {
+            for (Prestatgeria prestatgeria : prestatgeriesMap.values()) {
+                Map<String, Object> prestatgeriaData = Map.of(
+                    "id", prestatgeria.getId(),
+                    "nom", prestatgeria.getNom(),
+                    "numFilas", prestatgeria.getNumFilas(),
+                    "numColumnas", prestatgeria.getNumColumnas(),
+                    "productes", prestatgeria.getProductes(),
+                    "layout", prestatgeria.getLayout()
+                );
+                String jsonPrestatgeria = gson.toJson(prestatgeriaData);
+                prestatgeriaList.add(jsonPrestatgeria);
+            }
+        }
+        return prestatgeriaList;
+    }
+
+    
+    public Map<Integer, Prestatgeria> listToPrestatgeries(List<String> presJsonList) {
         Gson gson = new Gson();
         Map<Integer, Prestatgeria> prestatgeriesMap = new HashMap<>();
 
@@ -90,32 +157,10 @@ public class CjtPrestatgeries {
             String nom = (String) prestatgeriaData.get("nom");
             int numFilas = ((Double) prestatgeriaData.get("numFilas")).intValue();
             int numColumnas = ((Double) prestatgeriaData.get("numColumnas")).intValue();
-            Set<Integer> productes = (Set<Integer>) prestatgeriaData.get("productes"); 
-
-            Prestatgeria prestatgeria = new Prestatgeria(id, nom, numFilas, numColumnas, productes);
-
-            prestatgeriesMap.put(id, prestatgeria);
-        }
-        return prestatgeriesMap;
-    }
-
-    
-    public void listToPrestatgeries(List<String> presJasonList) {
-        Gson gson = new Gson();
- 
-        for (String jsonPrestatgeria : presJasonList) {
-            Map<String, Object> prestatgeriaData = gson.fromJson(jsonPrestatgeria, Map.class);
- 
-            Integer id = ((Double) prestatgeriaData.get("id")).intValue();
-            String nom = (String) prestatgeriaData.get("nom");
-            Integer numFilas = ((Double) prestatgeriaData.get("numFilas")).intValue();
-            Integer numColumnas = ((Double) prestatgeriaData.get("numColumnas")).intValue();
             Set<Integer> setP = new HashSet<>();
             
- 
-            List<List<Map<String, Object>>> dispData = (List<List<Map<String, Object>>>) prestatgeriaData.get("layout");
             Prestatgeria prestatgeria = new Prestatgeria(id, nom, numFilas, numColumnas, setP);
- 
+            List<List<Map<String, Object>>> dispData = (List<List<Map<String, Object>>>) prestatgeriaData.get("layout");
             if (dispData != null) {
                 Producte[][] layout = new Producte[numFilas][numColumnas];
                 for (int i = 0; i < dispData.size(); i++) {
@@ -123,17 +168,19 @@ public class CjtPrestatgeries {
                     for (int j = 0; j < filaData.size(); j++) {
                         Map<String, Object> prodData = filaData.get(j);
                         if (prodData != null) {
-                            Integer prodId = ((Double) prodData.get("id")).intValue();
+                            int prodId = ((Double) prodData.get("id")).intValue();
                             String prodNom = (String) prodData.get("nom");
                             Producte producte = new Producte(prodId, prodNom);
                             layout[i][j] = producte;
-                         }
+                            setP.add(prodId);
+                        }
                     }
                 }
                 prestatgeria.setLayout(layout);
             }
-            map_prest.put(id, prestatgeria);
+            prestatgeriesMap.put(id, prestatgeria);
         }
+        return prestatgeriesMap;
     }
     
     public Map<String, Map<String, String>> llistarPrestatgeriesUsuari() {
@@ -158,6 +205,26 @@ public class CjtPrestatgeries {
         return llistatPrestatgeries;
     }
 
+    
+    public void setMapPrestatgeries(Map<Integer, Prestatgeria> llistaPrest) {
+    /*
+        Terminar la classeeee
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        *
+        */
+    }
     
     //dado dos maps, ver si coinciden 2 ids -> return vector de ids (integers). 
     public void eliminarPrestatgeria(int id) {
