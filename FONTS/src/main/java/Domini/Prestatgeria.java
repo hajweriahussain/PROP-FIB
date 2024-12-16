@@ -123,6 +123,8 @@ public class Prestatgeria {
             List<Pair<String, Integer>> fila = new ArrayList<>();
             for (int j = 0; j < novesColumnes; j++) {
                 Producte producte = disposicio[i][j];
+                Pair<Integer, Integer> p = new Pair<>(i, j);
+                producte.afegirPosPrestatgeria(id, p);
                 if (producte != null) {
                     fila.add(new Pair<>(producte.getNom(), producte.getId()));
                 }
@@ -157,12 +159,12 @@ public class Prestatgeria {
         prestatge1[colProd1] = prestatge2[colProd2];
         prestatge2[colProd2] = temp;
         
-        Pair<Integer, Integer> pos1 = new Pair<>(filaProd1, colProd1);
-        Pair<Integer, Integer> pos2 = new Pair<>(filaProd2, colProd2);
+//        Pair<Integer, Integer> pos1 = new Pair<>(filaProd1, colProd1);
+//        Pair<Integer, Integer> pos2 = new Pair<>(filaProd2, colProd2);
         
-        prestatge1[colProd1].setPosPrestatgeria(id, pos1);
-        prestatge1[colProd2].setPosPrestatgeria(id, pos2);
-        
+//        prestatge1[colProd1].setPosPrestatgeria(id, pos1);
+//        prestatge1[colProd2].setPosPrestatgeria(id, pos2);
+//        
         List<Pair<String, Integer>> fila1 = disp.get(filaProd1);
         List<Pair<String, Integer>> fila2 = disp.get(filaProd2);
 
@@ -172,25 +174,26 @@ public class Prestatgeria {
 
         System.out.println("S'han intercanviat els productes de " + filaProd1 + "," + colProd1 + " i " + filaProd2 + "," + colProd2);
     }
-    public void afegirPrestatge() {
-        layout.add(new Producte[numColumnas]);
-        numFilas++;
-        System.out.println("S'ha afegit un nou estant. Total files: " + numFilas);
-    }
+//    public void afegirPrestatge() {
+//        layout.add(new Producte[numColumnas]);
+//        numFilas++;
+//        System.out.println("S'ha afegit un nou estant. Total files: " + numFilas);
+//    }
 
-    public void esborrarPrestatge(int indexFila) {
-        if (indexFila < 0 || indexFila >= layout.size()) {
-            System.out.println("Error: Índex d'estant fora de rang.");
-            return;
-        }
-            
-        layout.remove(indexFila);
-        numFilas--;
-        System.out.println("Estant " + indexFila + " eliminat. Total files: " + numFilas);
-    }
+//    public void esborrarPrestatge(int indexFila) {
+//        if (indexFila < 0 || indexFila >= layout.size()) {
+//            System.out.println("Error: Índex d'estant fora de rang.");
+//            return;
+//        }
+//            
+//        layout.remove(indexFila);
+//        numFilas--;
+//        System.out.println("Estant " + indexFila + " eliminat. Total files: " + numFilas);
+//    }
 
     public void esborrarPrestatgeria() {
         layout.clear();
+        disp = new ArrayList<>();
         numFilas = 0;
         numColumnas = 0;
         System.out.println("Prestatgeria esborrada.");
