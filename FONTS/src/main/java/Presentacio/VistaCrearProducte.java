@@ -1,29 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Presentacio;
 
 import java.awt.Color;
-import javax.swing.*;
+import java.util.Map;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ariadna
  */
-public class VistaCrearProducte extends javax.swing.JFrame {
+public class VistaCrearProducte extends javax.swing.JPanel {
     
     private CtrlPresentacio cp;
 
     /**
-     * Creates new form VistaP
+     * Creates new form VistaCP
      */
     public VistaCrearProducte() {
-        initComponents();  
+        initComponents();
+        this.setSize(700, 500);
         cp = new CtrlPresentacio();
         infoPanel.setVisible(false);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,11 +48,10 @@ public class VistaCrearProducte extends javax.swing.JFrame {
         botoValidarId = new javax.swing.JButton();
         botoImportar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLocation(new java.awt.Point(0, 0));
-        setLocationByPlatform(true);
+        setPreferredSize(new java.awt.Dimension(700, 500));
 
         bgPanel.setBackground(new java.awt.Color(255, 255, 255));
+        bgPanel.setPreferredSize(new java.awt.Dimension(700, 500));
         bgPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bgPanelMouseClicked(evt);
@@ -117,20 +113,20 @@ public class VistaCrearProducte extends javax.swing.JFrame {
                 .addComponent(textNom))
             .addGroup(infoPanelLayout.createSequentialGroup()
                 .addComponent(labelSimilituds)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 21, Short.MAX_VALUE))
             .addComponent(scrollPaneSimilituds)
         );
         infoPanelLayout.setVerticalGroup(
             infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(infoPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNom)
                     .addComponent(textNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addComponent(labelSimilituds)
                 .addGap(15, 15, 15)
-                .addComponent(scrollPaneSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(scrollPaneSimilituds))
         );
 
         textId.setForeground(new java.awt.Color(153, 153, 153));
@@ -190,7 +186,7 @@ public class VistaCrearProducte extends javax.swing.JFrame {
                                                 .addComponent(botoImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelLayout.createSequentialGroup()
+                                    .addGroup(bgPanelLayout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(botoValidarId)
                                         .addGap(123, 123, 123))))
@@ -224,31 +220,45 @@ public class VistaCrearProducte extends javax.swing.JFrame {
                         .addComponent(botoValidarId)
                         .addGap(15, 15, 15)
                         .addComponent(infoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                         .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(botoImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25))
                     .addGroup(bgPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                        .addComponent(labelFoto)))
-                .addGap(25, 25, 25))
+                        .addGap(18, 18, 18)
+                        .addComponent(labelFoto)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bgPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bgPanelMouseClicked
+    private void botoSortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoSortirMouseClicked
+        //this.dispose();
+    }//GEN-LAST:event_botoSortirMouseClicked
+
+    private void textNomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textNomMousePressed
+        if (textNom.getText().equals("Introdueix un nom")) {
+            textNom.setText("");
+            textNom.setForeground(Color.black);
+        }
+        if ((textId.getText()).isEmpty()) {
+            textId.setText("Introdueix un identificador numèric");
+            textId.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_textNomMousePressed
+
+    private void textAreaSimsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textAreaSimsMousePressed
         if (textId.getText().equals("")) {
             textId.setText("Introdueix un identificador numèric");
             textId.setForeground(Color.gray);
@@ -257,7 +267,19 @@ public class VistaCrearProducte extends javax.swing.JFrame {
             textNom.setText("Introdueix un nom");
             textNom.setForeground(Color.gray);
         }
-    }//GEN-LAST:event_bgPanelMouseClicked
+        textAreaSims.setForeground(Color.black);
+    }//GEN-LAST:event_textAreaSimsMousePressed
+
+    private void textIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textIdMousePressed
+        if (textId.getText().equals("Introdueix un identificador numèric")) {
+            textId.setText("");
+            textId.setForeground(Color.black);
+        }
+        if ((textNom.getText()).isEmpty()) {
+            textNom.setText("Introdueix un nom");
+            textNom.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_textIdMousePressed
 
     private void botoCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoCrearMouseClicked
         String id = textId.getText().trim();
@@ -281,44 +303,6 @@ public class VistaCrearProducte extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botoCrearMouseClicked
 
-    private void textIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textIdMousePressed
-        if (textId.getText().equals("Introdueix un identificador numèric")) {
-            textId.setText("");
-            textId.setForeground(Color.black);
-        }
-        if ((textNom.getText()).isEmpty()) {
-            textNom.setText("Introdueix un nom");
-            textNom.setForeground(Color.gray);
-        }
-    }//GEN-LAST:event_textIdMousePressed
-
-    private void textAreaSimsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textAreaSimsMousePressed
-        if (textId.getText().equals("")) {
-            textId.setText("Introdueix un identificador numèric");
-            textId.setForeground(Color.gray);
-        }
-        if ((textNom.getText()).equals("")) {
-            textNom.setText("Introdueix un nom");
-            textNom.setForeground(Color.gray);
-        }
-        textAreaSims.setForeground(Color.black);
-    }//GEN-LAST:event_textAreaSimsMousePressed
-
-    private void textNomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textNomMousePressed
-        if (textNom.getText().equals("Introdueix un nom")) {
-            textNom.setText("");
-            textNom.setForeground(Color.black);
-        }
-        if ((textId.getText()).isEmpty()) {
-            textId.setText("Introdueix un identificador numèric");
-            textId.setForeground(Color.gray);
-        }
-    }//GEN-LAST:event_textNomMousePressed
-
-    private void botoSortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoSortirMouseClicked
-        this.dispose();
-    }//GEN-LAST:event_botoSortirMouseClicked
-
     private void botoValidarIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoValidarIdMousePressed
         String id = textId.getText();
 
@@ -326,19 +310,20 @@ public class VistaCrearProducte extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Has d'introduir un identificador.", "AVÍS", JOptionPane.WARNING_MESSAGE);
         }
         else {  // Comprovar que l'id és vàlid
+            Map<String, Map<String, String>> productes = cp.mostrarProductes();
             try {
                 int idNum = Integer.parseInt(id);
-                
+
                 if(idNum <= 0) {
                     JOptionPane.showMessageDialog(this, "L'id ha de ser un nombre positiu.", "ATENCIÓ", JOptionPane.WARNING_MESSAGE);
                 }
-                else if (cp.existeixProducteId(idNum)) {
+                else if (cp.existeixProducteId(id, productes)) {
                     JOptionPane.showMessageDialog(this, "Ja existeix un producte amb aquest ID. Si us plau, introdueix un altre.", "ID Duplicat", JOptionPane.WARNING_MESSAGE);
                 }
                 else {
                     JOptionPane.showMessageDialog(this, "ID vàlid. Pots continuar.", "ID Vàlid", JOptionPane.INFORMATION_MESSAGE);
                     infoPanel.setVisible(true);
-                }            
+                }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "L'id ha de ser un nombre positiu.", "ATENCIÓ", JOptionPane.WARNING_MESSAGE);
             }
@@ -349,41 +334,17 @@ public class VistaCrearProducte extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_botoValidarIdActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaCrearProducte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaCrearProducte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaCrearProducte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaCrearProducte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void bgPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bgPanelMouseClicked
+        if (textId.getText().equals("")) {
+            textId.setText("Introdueix un identificador numèric");
+            textId.setForeground(Color.gray);
         }
-        //</editor-fold>
-        //</editor-fold>
+        if ((textNom.getText()).equals("")) {
+            textNom.setText("Introdueix un nom");
+            textNom.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_bgPanelMouseClicked
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VistaCrearProducte().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bgPanel;
