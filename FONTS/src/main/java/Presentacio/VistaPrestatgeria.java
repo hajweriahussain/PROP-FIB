@@ -4,19 +4,117 @@
  */
 package Presentacio;
 
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 /**
  *
  * @author hajweriahussain
  */
 public class VistaPrestatgeria extends javax.swing.JPanel {
-
+    private CardLayout cardLayout;
+    private CtrlPresentacio cp;
+    private VistaCrearPrestatgeria vistaCrear;
+    private GridBagConstraints gbc;
+        // Declara la vista
     /**
      * Creates new form VistaPrestatgeria
      */
     public VistaPrestatgeria() {
+        cp = new CtrlPresentacio();
         initComponents();
+        this.setSize(700,500);
+        page1.setSize(700,500);
+        page2.setSize(700,500);
+        cardInit();
+        titulo1Constraints();
+        initGridPres();
+        cargarPrestatgeriesEnScrollPanel();
+        
     }
+    
+    public void initGridPres(){
+        panelGrid.setLayout(new GridLayout(0, 4, 10, 10)); // Espaciado de 10px
+    }
+    
+    public void cardInit(){
+        cardLayout = new CardLayout();
+        bg.setLayout(cardLayout); // Asignar el CardLayout al JPanel 'bg'
 
+        bg.add(page1, "Page1");
+        bg.add(page2, "Page2");
+
+        cardLayout.show(bg, "Page1"); // Mostrar Page1 por defecto
+    }
+    
+    public void titulo1Constraints(){
+        gbc= new GridBagConstraints();
+        title1.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        gbc.gridx = 0;           // Columna
+        gbc.gridy = 0;           // Fila
+        gbc.weightx = 1.0;       // Distribuye espacio horizontalmente
+        gbc.weighty = 1.0;       // Distribuye espacio verticalmente
+        gbc.anchor = GridBagConstraints.CENTER; // Centrado
+        gbc.fill = GridBagConstraints.NONE;
+        
+        page1.add(title1, gbc);
+        panelPres.setPreferredSize(new Dimension(400, 200));
+    }
+    
+    public Map<String, Map<String, String>> crearEjemploPrestatgeries() {
+        Map<String, Map<String, String>> prestatgeries = new HashMap<>();
+        
+        Map<String, String> prestatgeria1 = new HashMap<>();
+        prestatgeria1.put("id", "1");
+        prestatgeria1.put("nom", "Estanteria Principal");
+        prestatgeria1.put("files", "5");
+        prestatgeria1.put("columnes", "3");
+        prestatgeria1.put("productes", "[1,2,3,4,5,6]");
+        prestatgeria1.put("layout", "Fila 0: (A1, 1), (K2, 2) | Fila 1: (B1, 3), (B2, 4) | Fila 2: (C1, 5), (C2, 6)");
+
+        
+        for ( int i = 0; i < 13; ++i){
+            prestatgeries.put(Integer.toString(i), prestatgeria1);
+        }
+
+        
+
+        return prestatgeries;
+    }
+    
+    public void cargarPrestatgeriesEnScrollPanel(){
+//        Map<String, Map<String,String>> pres = cp.mostrarPrestatgeries();
+
+
+        Map<String, Map<String,String>> pres = crearEjemploPrestatgeries();
+        for (String id : pres.keySet()) {
+            String nom = pres.get(id).get("nom"); 
+            String layout = pres.get(id).get("layout"); 
+
+            JButton btnPrestatgeria = new JButton(id + " - " + nom);
+
+            btnPrestatgeria.addActionListener(e -> {
+                title2.setText(nom);
+//                titulo2Centrado();
+//                mostrarDispEnPage2(layout);
+                cardLayout.show(bg, "Page2");
+            });
+            panelGrid.add(btnPrestatgeria);
+        }
+        panelPres.setViewportView(panelGrid);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -25,22 +123,122 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        bg = new javax.swing.JPanel();
+        page1 = new javax.swing.JPanel();
+        title1 = new javax.swing.JLabel();
+        panelPres = new javax.swing.JScrollPane();
+        panelGrid = new javax.swing.JPanel();
+        btnCrear = new javax.swing.JButton();
+        page2 = new javax.swing.JPanel();
+        title2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
+
+        bg.setBackground(new java.awt.Color(255, 255, 255));
+        bg.setLayout(new java.awt.CardLayout());
+
+        page1.setBackground(new java.awt.Color(255, 255, 255));
+        page1.setLayout(new java.awt.GridBagLayout());
+
+        title1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        title1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title1.setText("Les teves prestatgeries");
+        title1.setAlignmentX(0.5F);
+        page1.add(title1, new java.awt.GridBagConstraints());
+
+        panelPres.setBackground(new java.awt.Color(255, 255, 255));
+
+        panelGrid.setBackground(new java.awt.Color(255, 255, 255));
+        panelGrid.setLayout(new java.awt.GridLayout());
+        panelPres.setViewportView(panelGrid);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 737;
+        gridBagConstraints.ipady = 472;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(18, 26, 6, 18);
+        page1.add(panelPres, gridBagConstraints);
+
+        btnCrear.setText("+");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 9;
+        gridBagConstraints.ipady = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(24, 37, 0, 0);
+        page1.add(btnCrear, gridBagConstraints);
+
+        bg.add(page1, "card2");
+
+        page2.setLayout(new java.awt.GridBagLayout());
+
+        title2.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        title2.setText("Prestatgeria");
+        page2.add(title2, new java.awt.GridBagConstraints());
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        page2.add(jPanel1, new java.awt.GridBagConstraints());
+
+        bg.add(page2, "card3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 802, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 601, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        // TODO add your handling code here:
+        if (vistaCrear == null) {
+            vistaCrear = new VistaCrearPrestatgeria(); // Instancia de tu JPanel externo
+            bg.add(vistaCrear, "VistaCrear");          // Agregar al CardLayout
+        }
+
+    // Mostrar la vista 'VistaCrear'
+        cardLayout.show(bg, "VistaCrear");
+    }//GEN-LAST:event_btnCrearActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel bg;
+    private javax.swing.JButton btnCrear;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel page1;
+    private javax.swing.JPanel page2;
+    private javax.swing.JPanel panelGrid;
+    private javax.swing.JScrollPane panelPres;
+    private javax.swing.JLabel title1;
+    private javax.swing.JLabel title2;
     // End of variables declaration//GEN-END:variables
 }
