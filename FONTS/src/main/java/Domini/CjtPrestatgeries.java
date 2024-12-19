@@ -78,26 +78,19 @@ public class CjtPrestatgeries {
     
     public Integer[] getIdsPrestatgeriesSame(Map<Integer, Pair<Integer, Integer>> parella1, 
                                              Map<Integer, Pair<Integer, Integer>> parella2) {
-        Integer[] x = new Integer[3];
-        return x;
-        
-        /*
-        Terminar la classeee
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        */
+        List<Integer> list = new ArrayList<>();
+        for (Integer key : parella1.keySet()) {
+            if (parella2.containsKey(key)) {
+                list.add(key);
+            }
+        }
+        Integer[] res = new Integer[list.size()];
+        int i = 0;
+        for (Integer elem : list) {
+            res[i] = elem;
+            ++i;
+        }
+        return res;
     }
 
     public void intercanviarDosProductes(int prestatgeID, int filaProd1, int colProd1, int filaProd2, int colProd2) {
@@ -207,23 +200,7 @@ public class CjtPrestatgeries {
 
     
     public void setMapPrestatgeries(Map<Integer, Prestatgeria> llistaPrest) {
-    /*
-        Terminar la classeeee
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        *
-        */
+        map_prest = llistaPrest;
     }
     
     //dado dos maps, ver si coinciden 2 ids -> return vector de ids (integers). 
