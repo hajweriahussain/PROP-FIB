@@ -37,7 +37,7 @@ public class CtrlDomini {
         cjtProductes.setMapProductes(cjtProductes.listToProductes(producteJsonList));
 }
    public void listToPrestatgeries(List<String> presJsonList){
-//       cjtPrestatgeries.setMapPrestatgeries(cjtPrestatgeries.listToPrestatgeries(presJsonList));
+       cjtPrestatgeries.setMapPrestatgeries(cjtPrestatgeries.listToPrestatgeries(presJsonList));
        //ARREGLAR, tiene que devolver lo que devuelve la funcion de productos, y necesito un setMapPrestatgeries.
    }
 
@@ -45,7 +45,7 @@ public class CtrlDomini {
         cjtProductes = new CjtProductes(username);
         listToProductes(cp.importarProductes(username));
         cjtPrestatgeries = new CjtPrestatgeries(username);
-//        listToPrestatgeries(cp.importarPrestatgeries(username)); //ARREGLAR es importar prestatgeries, PLURAL
+        listToPrestatgeries(cp.importarPrestatgeries(username)); //ARREGLAR es importar prestatgeries, PLURAL
         UsuariActual = new Usuari(username, pwd);
     }
 
@@ -79,29 +79,29 @@ public class CtrlDomini {
     }
     
     public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols){
-//        Integer[] vecProductes = cjtProductes.getProductesPerIds(productes);
-//        double[][] matSimilituds = cjtProductes.getMatriuSimilitudsPerIds(vecProductes);
+        Integer[] vecProductes = cjtProductes.getProductesPerIds(productes);
+        double[][] matSimilituds = cjtProductes.getMatriuSimilitudsPerIds(vecProductes);
 
         GeneradorSolucio generadorInicial;
 
         if (bruteForce) {
-//            generadorInicial = new BruteForce(matSimilituds, vecProductes, numCols);
+            generadorInicial = new BruteForce(matSimilituds, vecProductes, numCols);
             System.out.println("Creant prestatgeria amb algoritme de força bruta.");
         } else {
-//            generadorInicial = new DosAproximacio(matSimilituds, vecProductes, numCols);
+            generadorInicial = new DosAproximacio(matSimilituds, vecProductes, numCols);
             System.out.println("Creant prestatgeria amb algoritme de 2-Aproximació.");
         }
 
-//        Integer[][] solucio = generadorInicial.generarLayout();
-//        cjtPrestatgeries.setLayout(cjtProductes.getMatProductes(solucio), id);
-        //cjtproductes necesitara hacer getmatproductes
+        Integer[][] solucio = generadorInicial.generarLayout();
+        cjtPrestatgeries.setLayout(cjtProductes.getMatProductes(solucio), id);
+        cjtproductes necesitara hacer getmatproductes
 
-//        for (int i = 0; i < solucio.length; i++) {
-//            for(int j = 0; j < solucio[0].length; ++j){
-//                Pair<Integer, Integer> p = new Pair<>(i, j);
-//                cjtProductes.editarPosProducte(solucio[i][j], id, p);
-//            }
-//        }
+        for (int i = 0; i < solucio.length; i++) {
+            for(int j = 0; j < solucio[0].length; ++j){
+                Pair<Integer, Integer> p = new Pair<>(i, j);
+                cjtProductes.editarPosProducte(solucio[i][j], id, p);
+            }
+        }
     }
 
     public void crearPrestatgeria(int id, String nom, int numCols, Set<Integer> productes, Boolean bruteForce){
@@ -140,18 +140,18 @@ public class CtrlDomini {
             
             cjtProductes.getPosPrestatgeriesProducte(idProdActual1);
             cjtProductes.getPosPrestatgeriesProducte(idProdActual2);
-//            Integer[] idsPres = cjtPrestatgeries.getIdsPrestatgeriesSame(cjtProductes.getPosPrestatgeriesProducte(idProdActual1), 
+            Integer[] idsPres = cjtPrestatgeries.getIdsPrestatgeriesSame(cjtProductes.getPosPrestatgeriesProducte(idProdActual1), 
 //                                                    cjtProductes.getPosPrestatgeriesProducte(idProdActual2) );
              //ARREGLAR, cjtprest haura de crear funcio per a buscar estanteries en comu en un map.
             //buscar si tienen estanterias en comun
             // si si tiene, sacar id de la estanteria, y numcolumnas de la estanteria y 
-//            if ( idsPres.length != 0){
-//                for(Integer i : idsPres){
-//                    Set<Integer> productes = cjtPrestatgeries.getProductes(idsPres[i]);
-//                    int cols = cjtPrestatgeries.getNumCols(idsPres[i]);
-//                    obtenirLayout(idsPres[i], productes, bruteForce, cols);
-//                }
-//            }
+            if ( idsPres.length != 0){
+                for(Integer i : idsPres){
+                    Set<Integer> productes = cjtPrestatgeries.getProductes(idsPres[i]);
+                    int cols = cjtPrestatgeries.getNumCols(idsPres[i]);
+                    obtenirLayout(idsPres[i], productes, bruteForce, cols);
+                }
+            }
             //volver a calcular la disposicion de todas las estanterias en que se encuentran estos productos juntos.
             //si me devuelbve un set de ids de estanterias, pues un for que vaya llamando a obtenirlayout para todas.
             System.out.println("S'ha modificat la similitud entre el producte amb id " 
@@ -215,8 +215,8 @@ public class CtrlDomini {
     }
     
     public void LlegirProducteFitxer(String nom, String id, String path) {
-//        List<String> prodInfo = cp.importarFitxerProducte(path));
-//        afegirProducteFitxer(nom, id, prodInfo);
+        List<String> prodInfo = cp.importarFitxerProducte(path));
+        afegirProducteFitxer(nom, id, prodInfo);
 
     }
     public void LlegirPrestatgeriaFitxer(String nom, String id, String cols, String path) {
@@ -251,19 +251,19 @@ public class CtrlDomini {
         return cjtProductes.productesToList(cjtProductes.getProductes(UsuariActual.getUsername()));
     }
     
-//    public List<String> prestatgeriesToList(){
-//        //   ARREGLAR, FALTA FUNCION
-//        return cjtPrestatgeries.prestatgeriesToList(cjtPrestatgeries.getConjPrestatges(UsuariActual.getUsername()));
-//    }
+    public List<String> prestatgeriesToList(){
+        //   ARREGLAR, FALTA FUNCION
+        return cjtPrestatgeries.prestatgeriesToList(cjtPrestatgeries.getConjPrestatges(UsuariActual.getUsername()));
+    }
     
     public void canviarContrasenya(String username, String novaContra){
         cp.canviarContrasenya(username, novaContra);
     }
 
     public void tancarSessio() {
-//        List<String> prestatgeries =  prestatgeriesToList();
+        List<String> prestatgeries =  prestatgeriesToList();
         List<String> productes = productesToList();
-//        cp.guardarPrestatgeries(prestatgeries, UsuariActual.getUsername());
+        cp.guardarPrestatgeries(prestatgeries, UsuariActual.getUsername());
         cp.guardarProductes(productes, UsuariActual.getUsername());
         UsuariActual = new Usuari(null, null);
     }
