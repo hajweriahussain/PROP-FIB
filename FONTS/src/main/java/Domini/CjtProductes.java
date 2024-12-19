@@ -227,14 +227,14 @@ public class CjtProductes {
         return prodSeleccionats.toArray(Producte[]::new);
     }
     
-    public double[][] getMatriuSimilitudsPerIds(Producte[] idsProds) {
+    public double[][] getMatriuSimilitudsPerIds(Integer[] idsProds) {
         int n = idsProds.length;
         double[][] mat = new double[n][n];
 
         for (int i = 0; i < n; i++) {
-            Producte prod1 = idsProds[i];
+            Producte prod1 = getProducte(idsProds[i]);
             for (int j = 0; j < n; j++) {
-                Producte prod2 = idsProds[j];
+                Producte prod2 = getProducte(idsProds[j]);
                 if (prod1.getId() == prod2.getId()) {
                     mat[i][j] = 0.0;
                 } else {
@@ -243,6 +243,34 @@ public class CjtProductes {
             }
         }
         return mat;
+    }
+    
+    public Producte[][] getMatProductes(Integer[][] idsProds) {
+        if (idsProds == null) return null;
+        
+        int files = idsProds.length;
+        Producte[][] matProds = new Producte[files][];
+
+        for (int i = 0; i < files; i++) {
+            if (idsProds[i] == null) {
+                matProds[i] = null;
+                continue;
+            }
+
+            int columnes = idsProds[i].length;
+            matProds[i] = new Producte[columnes];
+
+            for (int j = 0; j < columnes; j++) {
+                if (idsProds[i][j] != null) {
+                    matProds[i][j] = getProducte(idsProds[i][j]);
+                }
+                else {
+                    matProds[i][j] = null;
+                }
+            }
+        }
+
+        return matProds;
     }
     
     public Map<Integer, Producte> listToProductes(List<String> producteJsonList) {
