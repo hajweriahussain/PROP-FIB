@@ -49,10 +49,10 @@ public class CtrlPersistencia {
     public void guardarProductes(List<String> productes, String usuari){
         GestorCjtProductes.guardarProductes(productes, usuari);
     }
-   /* 
+    
     public List<String> importarFitxerProductes(String path){
-        return GestorCjtProductes.importarFitxerProductes(path);
+        return GestorCjtProductes.importarFitxerProducte(path);
     }
-    */
+   
 
 }

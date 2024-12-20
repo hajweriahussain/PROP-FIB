@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Presentacio;
+import java.awt.CardLayout;
 import java.awt.Color;
 /**
  *
@@ -13,8 +14,19 @@ public class VistaSignUp extends javax.swing.JPanel {
     /**
      * Creates new form VistaSignUp
      */
+    
+    private CtrlPresentacio cp;
+    private CardLayout cl;
+    private VistaLogIn vistaLI;
+    
     public VistaSignUp() {
         initComponents();
+        this.setSize(650, 450);
+        
+        cl = new CardLayout();
+        bg.setLayout(cl);
+        bg.add(SignUp, "signUp");
+        cl.show(bg, "signUp");
     }
 
     /**
@@ -26,81 +38,28 @@ public class VistaSignUp extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bg = new javax.swing.JPanel();
+        SignUp = new javax.swing.JPanel();
+        usuari = new javax.swing.JTextField();
         contrasenya = new javax.swing.JPasswordField();
+        jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        sortir = new javax.swing.JButton();
-        entrar = new javax.swing.JButton();
+        contrasenya2 = new javax.swing.JPasswordField();
+        enrere = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
+        entrar3 = new javax.swing.JButton();
+        lblConfirmacioContrasenya = new javax.swing.JLabel();
         logoFoto = new javax.swing.JLabel();
         logo1 = new javax.swing.JLabel();
         logo2 = new javax.swing.JLabel();
         lblIniciSessio = new javax.swing.JLabel();
         lblUsuari = new javax.swing.JLabel();
         lblContrasenya = new javax.swing.JLabel();
-        usuari = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
-        contrasenya2 = new javax.swing.JPasswordField();
-        jSeparator3 = new javax.swing.JSeparator();
-        lblConfirmacioContrasenya = new javax.swing.JLabel();
         lblErrors = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(600, 450));
 
-        contrasenya.setForeground(new java.awt.Color(153, 153, 153));
-        contrasenya.setText("********");
-        contrasenya.setBorder(null);
-        contrasenya.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                contrasenyaMousePressed(evt);
-            }
-        });
-        contrasenya.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contrasenyaActionPerformed(evt);
-            }
-        });
-
-        jSeparator2.setForeground(new java.awt.Color(51, 51, 51));
-
-        sortir.setBackground(new java.awt.Color(255, 153, 153));
-        sortir.setText("Sortir");
-        sortir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        sortir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                sortirMouseClicked(evt);
-            }
-        });
-
-        entrar.setBackground(new java.awt.Color(157, 213, 184));
-        entrar.setText("Entrar");
-        entrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        entrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                entrarMouseClicked(evt);
-            }
-        });
-        entrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entrarActionPerformed(evt);
-            }
-        });
-
-        logoFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        logoFoto.setIcon(new javax.swing.ImageIcon("/home/laura/Documentos/PROP/Proyecto22/subgrup-prop41.1/FONTS/src/main/resources/img/logo3.png")); // NOI18N
-
-        logo1.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        logo1.setText("PRESTATGERIES");
-
-        logo2.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        logo2.setText("N' PRODUCTS");
-
-        lblIniciSessio.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
-        lblIniciSessio.setText("NOU COMPTE");
-
-        lblUsuari.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
-        lblUsuari.setText("USUARI");
-
-        lblContrasenya.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
-        lblContrasenya.setText("CONTRASENYA");
+        bg.setLayout(new java.awt.CardLayout());
 
         usuari.setForeground(new java.awt.Color(153, 153, 153));
         usuari.setText("  Introdueix el teu nom d'usuari");
@@ -121,7 +80,23 @@ public class VistaSignUp extends javax.swing.JPanel {
             }
         });
 
+        contrasenya.setForeground(new java.awt.Color(153, 153, 153));
+        contrasenya.setText("********");
+        contrasenya.setBorder(null);
+        contrasenya.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                contrasenyaMousePressed(evt);
+            }
+        });
+        contrasenya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contrasenyaActionPerformed(evt);
+            }
+        });
+
         jSeparator1.setForeground(new java.awt.Color(51, 51, 51));
+
+        jSeparator2.setForeground(new java.awt.Color(51, 51, 51));
 
         contrasenya2.setForeground(new java.awt.Color(153, 153, 153));
         contrasenya2.setText("********");
@@ -137,56 +112,102 @@ public class VistaSignUp extends javax.swing.JPanel {
             }
         });
 
+        enrere.setBackground(new java.awt.Color(255, 153, 153));
+        enrere.setText("Enrere");
+        enrere.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        enrere.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                enrereMouseClicked(evt);
+            }
+        });
+        enrere.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enrereActionPerformed(evt);
+            }
+        });
+
         jSeparator3.setForeground(new java.awt.Color(51, 51, 51));
+
+        entrar3.setBackground(new java.awt.Color(157, 213, 184));
+        entrar3.setText("Entrar");
+        entrar3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        entrar3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                entrar3MouseClicked(evt);
+            }
+        });
+        entrar3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entrar3ActionPerformed(evt);
+            }
+        });
 
         lblConfirmacioContrasenya.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
         lblConfirmacioContrasenya.setText("Confima la contrasenya");
 
+        logoFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        logo1.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
+        logo1.setText("PRESTATGERIES");
+
+        logo2.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
+        logo2.setText("N' PRODUCTS");
+
+        lblIniciSessio.setFont(new java.awt.Font("Liberation Sans", 1, 20)); // NOI18N
+        lblIniciSessio.setText("NOU COMPTE");
+
+        lblUsuari.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
+        lblUsuari.setText("USUARI");
+
+        lblContrasenya.setFont(new java.awt.Font("Liberation Sans", 0, 16)); // NOI18N
+        lblContrasenya.setText("CONTRASENYA");
+
+        lblErrors.setFont(new java.awt.Font("Liberation Sans", 0, 12)); // NOI18N
         lblErrors.setForeground(new java.awt.Color(255, 0, 51));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout SignUpLayout = new javax.swing.GroupLayout(SignUp);
+        SignUp.setLayout(SignUpLayout);
+        SignUpLayout.setHorizontalGroup(
+            SignUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SignUpLayout.createSequentialGroup()
                 .addComponent(logoFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(entrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sortir)
-                        .addGap(22, 22, 22))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblErrors, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(contrasenya, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblContrasenya, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblUsuari, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblIniciSessio, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(usuari, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
-                                .addComponent(contrasenya2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jSeparator2)
-                                .addComponent(lblConfirmacioContrasenya, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(logo1)
-                            .addComponent(logo2))
-                        .addGap(0, 124, Short.MAX_VALUE))))
+                .addGroup(SignUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(SignUpLayout.createSequentialGroup()
+                        .addGroup(SignUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblErrors, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(SignUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(SignUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(contrasenya, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblContrasenya, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblUsuari, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblIniciSessio, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(usuari, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(contrasenya2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                                    .addComponent(lblConfirmacioContrasenya, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addComponent(logo1)
+                                .addComponent(logo2)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(SignUpLayout.createSequentialGroup()
+                        .addComponent(entrar3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 289, Short.MAX_VALUE)
+                        .addComponent(enrere)
+                        .addGap(95, 95, 95))))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+        SignUpLayout.setVerticalGroup(
+            SignUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SignUpLayout.createSequentialGroup()
+                .addGroup(SignUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(SignUpLayout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addComponent(logo1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(logo2))
                     .addComponent(logoFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblIniciSessio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUsuari)
@@ -206,15 +227,52 @@ public class VistaSignUp extends javax.swing.JPanel {
                 .addComponent(contrasenya2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblErrors)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sortir)
-                    .addComponent(entrar))
-                .addGap(26, 26, 26))
+                .addGap(26, 26, 26)
+                .addGroup(SignUpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(entrar3)
+                    .addComponent(enrere))
+                .addGap(0, 78, Short.MAX_VALUE))
+        );
+
+        bg.add(SignUp, "card2");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(bg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(bg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void usuariComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_usuariComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usuariComponentAdded
+
+    private void usuariMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuariMousePressed
+        if(usuari.getText().equals("  Introdueix el teu nom d'usuari")){
+            usuari.setText("");
+            usuari.setForeground(Color.black);
+        }
+        if(String.valueOf(contrasenya.getPassword()).isEmpty()){
+            contrasenya.setText("********");
+            contrasenya.setForeground(Color.gray);
+        }
+
+        if(String.valueOf(contrasenya2.getPassword()).isEmpty()){
+            contrasenya2.setText("********");
+            contrasenya2.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_usuariMousePressed
+
+    private void usuariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usuariActionPerformed
 
     private void contrasenyaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contrasenyaMousePressed
         if(String.valueOf(contrasenya.getPassword()).equals("********")){
@@ -236,63 +294,6 @@ public class VistaSignUp extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_contrasenyaActionPerformed
 
-    private void sortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sortirMouseClicked
-
-    }//GEN-LAST:event_sortirMouseClicked
-
-    private void entrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrarMouseClicked
-
-        //....
-        //Si el usuario y/o la contraseña estan mal entonces:
-        //if(...){
-           // javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nIntent d'inici de sessió incorrecte.\n No existeix cap compte amb aquest usuari i/o contrasenya.");
-        
-        String contrasenya11 = new String(contrasenya.getPassword());
-        String contrasenya22 = new String(contrasenya2.getPassword());
-        if(!contrasenya11.equals(contrasenya22)){
-            lblErrors.setText("Les contrasenyes no coincideixen.");
-        }
-        
-        //if(l'usuari ja existeix){
-            //lblErrors.setText("L'usuari ja existeix");
-        //}
-        
-        if(String.valueOf(contrasenya.getPassword()).isEmpty() || 
-                String.valueOf(contrasenya2.getPassword()).isEmpty() || usuari.getText().isEmpty()){
-            lblErrors.setText("S'han de completar tots els camps.");
-        }
-        
-        if(usuari.getText().equals("  Introdueix el teu nom d'usuari") || String.valueOf(contrasenya.getPassword()).equals("********") ||
-               String.valueOf(contrasenya2.getPassword()).equals("********")){
-            lblErrors.setText("S'han de completar tots els camps.");
-        }
-    }//GEN-LAST:event_entrarMouseClicked
-
-    private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entrarActionPerformed
-
-    private void usuariMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuariMousePressed
-        if(usuari.getText().equals("  Introdueix el teu nom d'usuari")){
-            usuari.setText("");
-            usuari.setForeground(Color.black);
-        }
-        if(String.valueOf(contrasenya.getPassword()).isEmpty()){
-            contrasenya.setText("********");
-            contrasenya.setForeground(Color.gray);
-        }
-        
-        if(String.valueOf(contrasenya2.getPassword()).isEmpty()){
-            contrasenya2.setText("********");
-            contrasenya2.setForeground(Color.gray);
-        }
-
-    }//GEN-LAST:event_usuariMousePressed
-
-    private void usuariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usuariActionPerformed
-
     private void contrasenya2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contrasenya2MousePressed
         if(usuari.getText().isEmpty()){
             usuari.setText(" Introdueix el teu nom d'usuari");
@@ -313,15 +314,61 @@ public class VistaSignUp extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_contrasenya2ActionPerformed
 
-    private void usuariComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_usuariComponentAdded
+    private void enrereMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enrereMouseClicked
+
+    }//GEN-LAST:event_enrereMouseClicked
+
+    private void entrar3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrar3MouseClicked
+
+ 
+            String contrasenya11 = new String(contrasenya.getPassword());
+            String contrasenya22 = new String(contrasenya2.getPassword());
+            Boolean validar = cp.existeixUsuari(usuari.getText());
+            if(!contrasenya11.equals(contrasenya22)){
+                lblErrors.setText("Les contrasenyes no coincideixen.");
+            }
+
+            else if(String.valueOf(contrasenya.getPassword()).isEmpty() ||
+                String.valueOf(contrasenya2.getPassword()).isEmpty() || usuari.getText().isEmpty()){
+                lblErrors.setText("S'han de completar tots els camps.");
+            }
+
+            else if(usuari.getText().equals("  Introdueix el teu nom d'usuari") || String.valueOf(contrasenya.getPassword()).equals("********") ||
+                String.valueOf(contrasenya2.getPassword()).equals("********")){
+                lblErrors.setText("S'han de completar tots els camps.");
+            }
+            else if(validar){
+                lblErrors.setText("Ja existeix aquest nom d'usuari.");
+            }
+            else{
+                cp.registrarUsuari(usuari.getText(), contrasenya11);
+            }
+    }//GEN-LAST:event_entrar3MouseClicked
+
+    private void entrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrar3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usuariComponentAdded
+    }//GEN-LAST:event_entrar3ActionPerformed
+
+    private void enrereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrereActionPerformed
+        // TODO add your handling code here:
+        if(vistaLI == null){
+            vistaLI = new VistaLogIn();
+            bg.add(vistaLI, "vistaLogIn");
+        }
+        cl.show(bg, "vistaLogIn");
+    }//GEN-LAST:event_enrereActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel SignUp;
+    private javax.swing.JPanel bg;
     private javax.swing.JPasswordField contrasenya;
     private javax.swing.JPasswordField contrasenya2;
+    private javax.swing.JButton enrere;
     private javax.swing.JButton entrar;
+    private javax.swing.JButton entrar1;
+    private javax.swing.JButton entrar2;
+    private javax.swing.JButton entrar3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -333,7 +380,6 @@ public class VistaSignUp extends javax.swing.JPanel {
     private javax.swing.JLabel logo1;
     private javax.swing.JLabel logo2;
     private javax.swing.JLabel logoFoto;
-    private javax.swing.JButton sortir;
     private javax.swing.JTextField usuari;
     // End of variables declaration//GEN-END:variables
 }
