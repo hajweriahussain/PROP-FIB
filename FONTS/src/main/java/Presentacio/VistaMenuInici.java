@@ -12,11 +12,12 @@ import javax.swing.JPanel;
  * @author guill
  */
 public class VistaMenuInici extends javax.swing.JFrame {
-
+    private CtrlPresentacio cp;
     /**
      * Creates new form VistaMenuIniciSesio
      */
     public VistaMenuInici() {
+        cp = new CtrlPresentacio();
         initComponents();
         initContent();
     }

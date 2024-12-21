@@ -9,18 +9,16 @@ package Presentacio;
  * @author guill
  */
 public class MenuUsuariPanel extends javax.swing.JPanel {
-
+    private CtrlPresentacio cp;
     /**
      * Creates new form MenuUsuariPanel
      */
     public MenuUsuariPanel() {
+        cp = new CtrlPresentacio();
         initComponents();
-       // setNomUsuari();
+        titulo.setText(cp.nomUsuariActual());
     }
     
-    public void setNomUsuari(String nom) {
-        nomUser.setText(nom);
-    }
     
     public void mostrarMenuUsuari() {
         /*if (actFrame != null) {
@@ -48,70 +46,69 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        background = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        buttonChange = new javax.swing.JButton();
-        FotoUser = new javax.swing.JLabel();
-        nomUser = new javax.swing.JLabel();
+        backgroun = new javax.swing.JPanel();
+        titulo = new javax.swing.JLabel();
+        perfil = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
-        background.setBackground(new java.awt.Color(255, 242, 239));
+        backgroun.setBackground(new java.awt.Color(255, 255, 255));
+        backgroun.setPreferredSize(new java.awt.Dimension(500, 500));
 
-        jLabel1.setText("Nom d'usuari:");
+        titulo.setBackground(new java.awt.Color(255, 255, 255));
+        titulo.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
+        titulo.setText("Usuari");
 
-        buttonChange.setText("Cambiar contrassenya");
-        buttonChange.addActionListener(new java.awt.event.ActionListener() {
+        perfil.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj3\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\personIcon.png")); // NOI18N
+
+        jButton1.setText("Canvi Contrassenya");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonChangeActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
-        FotoUser.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj2\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\personIcon.png")); // NOI18N
-
-        javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
-        background.setLayout(backgroundLayout);
-        backgroundLayout.setHorizontalGroup(
-            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backgroundLayout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
-                .addComponent(FotoUser)
-                .addGap(18, 18, 18)
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addComponent(nomUser)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(buttonChange)
-                        .addGap(102, 102, 102))))
-        );
-        backgroundLayout.setVerticalGroup(
-            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backgroundLayout.createSequentialGroup()
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(nomUser))
+        javax.swing.GroupLayout backgrounLayout = new javax.swing.GroupLayout(backgroun);
+        backgroun.setLayout(backgrounLayout);
+        backgrounLayout.setHorizontalGroup(
+            backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgrounLayout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(perfil)
+                .addGroup(backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgrounLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(titulo))
+                    .addGroup(backgrounLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(buttonChange))
-                    .addGroup(backgroundLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(FotoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(331, Short.MAX_VALUE))
+                        .addComponent(jButton1)))
+                .addContainerGap(194, Short.MAX_VALUE))
+        );
+        backgrounLayout.setVerticalGroup(
+            backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgrounLayout.createSequentialGroup()
+                .addGroup(backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgrounLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(perfil))
+                    .addGroup(backgrounLayout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(titulo)
+                        .addGap(36, 36, 36)
+                        .addComponent(jButton1)))
+                .addContainerGap(356, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(backgroun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(backgroun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -124,12 +121,15 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
         }  
     }//GEN-LAST:event_buttonChangeActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel FotoUser;
-    private javax.swing.JPanel background;
-    private javax.swing.JButton buttonChange;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel nomUser;
+    private javax.swing.JPanel backgroun;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel perfil;
+    private javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
 }

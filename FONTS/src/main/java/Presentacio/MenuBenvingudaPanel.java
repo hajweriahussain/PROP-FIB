@@ -11,7 +11,7 @@ package Presentacio;
 public class MenuBenvingudaPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form MenuBenvingudaPanel
+     * Creates new form MenuBenvingudaPanel2
      */
     public MenuBenvingudaPanel() {
         initComponents();
@@ -26,75 +26,55 @@ public class MenuBenvingudaPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        icona = new javax.swing.JLabel();
-        titol1 = new javax.swing.JLabel();
-        titol2 = new javax.swing.JLabel();
-        textArea = new javax.swing.JTextArea();
-        titol3 = new javax.swing.JLabel();
+        jTextArea1 = new javax.swing.JTextArea();
+        fotologo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
-        icona.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj2\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\LogoSinBordes.png")); // NOI18N
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        titol1.setFont(new java.awt.Font("Microsoft YaHei", 1, 27)); // NOI18N
-        titol1.setForeground(new java.awt.Color(240, 171, 68));
-        titol1.setText("PRESTATGERIES");
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("El projecte consisteix a desenvolupar un sistema per optimitzar la distribució de \nproductes en una prestatgeria circular d’un supermercat, maximitzant les compres \ngràcies a la proximitat entre productes relacionats.\n\nEl sistema inclourà funcionalitats per gestionar productes, registrar i visualitzar simi-\nlituds entre ells, i calcular distribucions òptimes utilitzant dos algorismes: força bruta\ni aproximació heurística. També permetrà modificar manualment les solucions pro-\nposades i importar/exportar dades en formats estàndards.\n\nEs podran afegir funcionalitats opcionals, com restriccions a la distribució o algoris-\nmes addicionals, assegurant un sistema flexible, eficient i adaptable.");
 
-        titol2.setFont(new java.awt.Font("Microsoft YaHei", 1, 22)); // NOI18N
-        titol2.setText("BENVINGUT/DA A...");
+        fotologo.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj3\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\LogoSinBordes.png")); // NOI18N
 
-        textArea.setColumns(20);
-        textArea.setRows(5);
-        textArea.setText("El projecte consisteix a desenvolupar un sistema per optimitzar la distribució de \nproductes en una prestatgeria circular d’un supermercat, maximitzant les compres \ngràcies a la proximitat entre productes relacionats.\n\nEl sistema inclourà funcionalitats per gestionar productes, registrar i visualitzar simi-\nlituds entre ells, i calcular distribucions òptimes utilitzant dos algorismes: força bruta\ni aproximació heurística. També permetrà modificar manualment les solucions pro-\nposades i importar/exportar dades en formats estàndards.\n\nEs podran afegir funcionalitats opcionals, com restriccions a la distribució o algoris-\nmes addicionals, assegurant un sistema flexible, eficient i adaptable.");
-        textArea.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
-
-        titol3.setFont(new java.awt.Font("Microsoft YaHei", 1, 30)); // NOI18N
-        titol3.setForeground(new java.awt.Color(69, 155, 107));
-        titol3.setText("N' PRODUCTS");
+        jLabel1.setText("Benvingut/da a ...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(209, 209, 209)
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(icona, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(titol2, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-                            .addComponent(titol1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(titol3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(19, 19, 19))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(textArea, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41))))
+                        .addComponent(fotologo)
+                        .addGap(136, 136, 136))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(icona))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(titol2)
-                        .addGap(18, 18, 18)
-                        .addComponent(titol1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(titol3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addComponent(textArea, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(46, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(fotologo)
+                .addGap(12, 12, 12)
+                .addComponent(jTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel icona;
-    private javax.swing.JTextArea textArea;
-    private javax.swing.JLabel titol1;
-    private javax.swing.JLabel titol2;
-    private javax.swing.JLabel titol3;
+    private javax.swing.JLabel fotologo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }
