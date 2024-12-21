@@ -5,24 +5,24 @@ import java.math.BigInteger;
 public class BruteForce implements GeneradorSolucio {
 
     private double[][] matSimilituds;
-    private Producte[] vecProductes;
+    private int[] vecProductes;
     private double millorSimilitud;
-    private Producte[] vecResultat; 
-    private Producte[][] matResultat;
+    private int[] vecResultat; 
+    private int[][] matResultat;
     private int columnes;
     private int files;
 
     // Constructor
-    public BruteForce(double[][] matSim, Producte[] vecPrd, int numColumnes) {
+    public BruteForce(double[][] matSim, int[] vecPrd, int numColumnes) {
         matSimilituds = matSim;
         vecProductes = vecPrd;
         millorSimilitud = -1.0;
         columnes = numColumnes;
         int n = vecProductes.length;
-        vecResultat = new Producte[n];
+        vecResultat = new int[n];
         if (n%columnes == 0) this.files = n/columnes;
         else this.files = n/columnes + 1;
-        this.matResultat = new Producte[files][columnes];
+        this.matResultat = new int[files][columnes];
     }
 
     private static BigInteger factorial(int n) {
@@ -78,13 +78,10 @@ public class BruteForce implements GeneradorSolucio {
 
     }
 
-    public Producte[][] generarLayout(){
+    public int[][] generarLayout(){
         int r = vecProductes.length - 1;
         BigInteger[] numPermutacions = {factorial(r)};
-        int[] vP = new int[r+1];
-        for(int i=0;i<= r; ++i){
-            vP[i] = i;
-        }
+        int[] vP = vecProductes;
 
         permutacions(vP,0,r,numPermutacions);
         
@@ -104,7 +101,7 @@ public class BruteForce implements GeneradorSolucio {
         return matResultat;
     }
 
-    public Producte[][] getResultat(){
+    public int[][] getResultat(){
         return matResultat;
     }
 
