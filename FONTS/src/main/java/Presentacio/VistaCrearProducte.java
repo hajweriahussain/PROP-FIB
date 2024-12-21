@@ -1,12 +1,13 @@
 package Presentacio;
 
 import java.awt.Color;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import Exceptions.ExceptionFormat;
 
 /**
  *
@@ -15,16 +16,18 @@ import javax.swing.*;
 public class VistaCrearProducte extends javax.swing.JPanel {
     
     private CtrlPresentacio cp;
+    //private VistaProducte vistaProducte;
 
     /**
      * Creates new form VistaCrearProducte
      */
     public VistaCrearProducte() {
-        initComponents();
+        initComponents();  
         cp = new CtrlPresentacio();
         this.setSize(700, 500);
         mostrarProductesEnJList();
         prellenarAreaSimilituds();
+        configurarBotoImportar();
     }
     
     private void resetLabels() {
@@ -61,10 +64,9 @@ public class VistaCrearProducte extends javax.swing.JPanel {
 
         return similitudMap;
     }
-
     
     private void mostrarProductesEnJList() {
-        Map<String, Map<String, String>> productes = crearExempleProductes();
+        Map<String, Map<String, String>> productes = cp.mostrarProductes();
         DefaultListModel<String> model = new DefaultListModel<>();
 
         for (String id : productes.keySet()) {
@@ -73,80 +75,18 @@ public class VistaCrearProducte extends javax.swing.JPanel {
 
         llistaProductesExistents.setModel(model);
     }
-    
-    
+     
     private void prellenarAreaSimilituds() {
-        Map<String, Map<String, String>> productes = crearExempleProductes();
+        Map<String, Map<String, String>> productes = cp.mostrarProductes();
         StringBuilder builder = new StringBuilder();
 
         for (String id : productes.keySet()) {
-            builder.append(id).append(": ").append("\n"); // El usuario completará los valores
+            builder.append(id).append(": ").append("\n");
         }
 
         textAreaSims.setText(builder.toString());
     }
-    
-    /*
-    private void importarProductosDesdeArchivo() {
-        JFileChooser fileChooser = new JFileChooser();
-        int seleccion = fileChooser.showOpenDialog(this);
 
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            File archivo = fileChooser.getSelectedFile();
-            try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-                Map<String, Map<String, String>> productosNuevos = new HashMap<>();
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    String[] partes = linea.split(",");
-                    if (partes.length < 2) {
-                        JOptionPane.showMessageDialog(this, "Línia incorrecta: " + linea, "Error de Format", JOptionPane.WARNING_MESSAGE);
-                        continue;
-                    }
-                    String id = partes[0].trim();
-                    String nombre = partes[1].trim();
-                    if (!productosNuevos.containsKey(id)) {
-                        Map<String, String> detalles = new HashMap<>();
-                        detalles.put("id", id);
-                        detalles.put("nom", nombre);
-                        detalles.put("similituds", "{}");
-                        detalles.put("posPrestatgeries", "{}");
-                        productosNuevos.put(id, detalles);
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Producte duplicat al fitxer: " + id, "Error", JOptionPane.WARNING_MESSAGE);
-                    }
-                }
-                // Aquí actualizas el sistema con los productos nuevos
-                // cp.afegirProductes(productosNuevos);
-                JOptionPane.showMessageDialog(this, "Productes importats correctament!");
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "No s'ha pogut llegir el fitxer.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }*/
-
-
-    
-    public static Map<String, Map<String, String>> crearExempleProductes() {
-        Map<String, Map<String, String>> productes = new HashMap<>();
-
-        // Producto 1: Patates
-        Map<String, String> producte1 = new HashMap<>();
-        producte1.put("id", "1");
-        producte1.put("nom", "Patates");
-        producte1.put("similituds", "{\"2\":0.5}");
-        producte1.put("posPrestatgeries", "{}"); // Vacío porque no está en ninguna estantería
-        productes.put("1", producte1);
-
-        // Producto 2: Poma
-        Map<String, String> producte2 = new HashMap<>();
-        producte2.put("id", "2");
-        producte2.put("nom", "Poma");
-        producte2.put("similituds", "{\"1\":0.5}");
-        producte2.put("posPrestatgeries", "{}"); // Vacío porque no está en ninguna estantería
-        productes.put("2", producte2);
-
-        return productes;
-    }
     
     private boolean validarId() {
         String id = textId.getText().trim();
@@ -157,7 +97,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
             return false;
         }
         try {
-            Map<String, Map<String, String>> productes = crearExempleProductes();
+            Map<String, Map<String, String>> productes = cp.mostrarProductes();
             int idNum = Integer.parseInt(id);
 
             if(idNum <= 0) {
@@ -175,6 +115,10 @@ public class VistaCrearProducte extends javax.swing.JPanel {
             }            
         } catch (NumberFormatException ex) {
             labelErrorId.setText("L'id ha de ser un nombre positiu.");
+            labelErrorId.setForeground(Color.red);
+            return false;
+        } catch (Exception e) {
+            labelErrorId.setText("Error inesperat: " + e.getMessage());
             labelErrorId.setForeground(Color.red);
             return false;
         }
@@ -195,8 +139,8 @@ public class VistaCrearProducte extends javax.swing.JPanel {
     }
 
     private boolean validarSimilituds() {
-        String similituds = textAreaSims.getText().trim(); // Entrada del usuario
-        Map<String, Map<String, String>> productes = crearExempleProductes();
+        String similituds = textAreaSims.getText().trim();
+        Map<String, Map<String, String>> productes = cp.mostrarProductes();
 
         if (productes.isEmpty()) {
             return true;
@@ -214,7 +158,6 @@ public class VistaCrearProducte extends javax.swing.JPanel {
                 }
             }
 
-            // Tot correcte
             labelErrorSimilituds.setText("Totes les similituds estan introduïdes correctament.");
             labelErrorSimilituds.setForeground(Color.green);
             return true;
@@ -225,7 +168,27 @@ public class VistaCrearProducte extends javax.swing.JPanel {
             return false;
         }
     }
-
+    
+    private void configurarBotoImportar() {
+        botoImportar.addActionListener(e -> importarProducteDesdeFitxer());
+    }
+    
+    private void importarProducteDesdeFitxer() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            try {
+                String path = selectedFile.getAbsolutePath();
+                cp.crearProducteFitxer(path);
+                JOptionPane.showMessageDialog(this, "Producte importat amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
+                mostrarProductesEnJList();
+                prellenarAreaSimilituds();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error en importar el producte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -236,9 +199,9 @@ public class VistaCrearProducte extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bg = new javax.swing.JPanel();
+        bgPanel = new javax.swing.JPanel();
         labelTitol = new javax.swing.JLabel();
-        separator7 = new javax.swing.JSeparator();
+        separator = new javax.swing.JSeparator();
         botoSortir = new javax.swing.JButton();
         textId = new javax.swing.JTextField();
         botoCrear = new javax.swing.JButton();
@@ -249,19 +212,14 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         labelSimilituds = new javax.swing.JLabel();
         labelErrorNom = new javax.swing.JLabel();
         labelErrorSimilituds = new javax.swing.JLabel();
-        scrollPaneProductes = new javax.swing.JScrollPane();
+        scrollPaneLlistaProductes = new javax.swing.JScrollPane();
         llistaProductesExistents = new javax.swing.JList<>();
         scrollPaneSimilituds = new javax.swing.JScrollPane();
         textAreaSims = new javax.swing.JTextArea();
         labelId = new javax.swing.JLabel();
         labelProductesRegistrats = new javax.swing.JLabel();
 
-        bg.setBackground(new java.awt.Color(255, 255, 255));
-        bg.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bgMouseClicked(evt);
-            }
-        });
+        bgPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         labelTitol.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         labelTitol.setText("CREAR PRODUCTE");
@@ -280,9 +238,12 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         textId.setText("Introdueix un identificador numèric");
         textId.setToolTipText("");
         textId.setActionCommand("<Not Set>");
-        textId.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                textIdMousePressed(evt);
+        textId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textIdFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textIdFocusLost(evt);
             }
         });
 
@@ -303,9 +264,12 @@ public class VistaCrearProducte extends javax.swing.JPanel {
 
         textNom.setForeground(new java.awt.Color(153, 153, 153));
         textNom.setText("Introdueix un nom");
-        textNom.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                textNomMousePressed(evt);
+        textNom.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textNomFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textNomFocusLost(evt);
             }
         });
 
@@ -324,7 +288,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        scrollPaneProductes.setViewportView(llistaProductesExistents);
+        scrollPaneLlistaProductes.setViewportView(llistaProductesExistents);
 
         textAreaSims.setColumns(20);
         textAreaSims.setForeground(new java.awt.Color(153, 153, 153));
@@ -341,75 +305,75 @@ public class VistaCrearProducte extends javax.swing.JPanel {
 
         labelProductesRegistrats.setText("Productes registrats:");
 
-        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
-        bg.setLayout(bgLayout);
-        bgLayout.setHorizontalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
+        javax.swing.GroupLayout bgPanelLayout = new javax.swing.GroupLayout(bgPanel);
+        bgPanel.setLayout(bgPanelLayout);
+        bgPanelLayout.setHorizontalGroup(
+            bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgPanelLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(bgLayout.createSequentialGroup()
-                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(bgLayout.createSequentialGroup()
-                                .addComponent(separator7, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bgPanelLayout.createSequentialGroup()
+                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(bgPanelLayout.createSequentialGroup()
+                                .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(bgLayout.createSequentialGroup()
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(bgPanelLayout.createSequentialGroup()
+                                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(labelProductesRegistrats)
-                                    .addComponent(scrollPaneProductes, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgLayout.createSequentialGroup()
+                                    .addComponent(scrollPaneLlistaProductes, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE))
+                                .addGap(64, 64, 64)
+                                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
                                         .addComponent(botoImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgLayout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
                                         .addComponent(labelNom)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(textNom))
                                     .addComponent(labelErrorId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(textId, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(scrollPaneSimilituds, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(bgLayout.createSequentialGroup()
+                                    .addGroup(bgPanelLayout.createSequentialGroup()
                                         .addComponent(labelErrorNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(69, 69, 69))
                                     .addComponent(labelErrorSimilituds, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgLayout.createSequentialGroup()
-                                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
+                                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(labelSimilituds, javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(labelId, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(25, 25, 25))
-                    .addGroup(bgLayout.createSequentialGroup()
+                    .addGroup(bgPanelLayout.createSequentialGroup()
                         .addComponent(labelTitol)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10))))
         );
-        bgLayout.setVerticalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(bgLayout.createSequentialGroup()
+        bgPanelLayout.setVerticalGroup(
+            bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgPanelLayout.createSequentialGroup()
+                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bgPanelLayout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(labelTitol))
-                    .addGroup(bgLayout.createSequentialGroup()
+                    .addGroup(bgPanelLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(separator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelId)
                     .addComponent(labelProductesRegistrats))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(bgLayout.createSequentialGroup()
+                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(bgPanelLayout.createSequentialGroup()
                         .addComponent(textId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelErrorId)
                         .addGap(12, 12, 12)
-                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelNom))
                         .addGap(6, 6, 6)
@@ -418,11 +382,11 @@ public class VistaCrearProducte extends javax.swing.JPanel {
                         .addComponent(labelSimilituds)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(scrollPaneSimilituds, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))
-                    .addComponent(scrollPaneProductes))
+                    .addComponent(scrollPaneLlistaProductes))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelErrorSimilituds)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botoImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25))
@@ -432,11 +396,11 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bgPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -444,75 +408,57 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         //this.dispose();
     }//GEN-LAST:event_botoSortirMouseClicked
 
-    private void textIdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textIdMousePressed
-        if (textId.getText().equals("Introdueix un identificador numèric")) {
-            textId.setText("");
-            textId.setForeground(Color.black);
-        }
-        if ((textNom.getText()).isEmpty()) {
-            textNom.setText("Introdueix un nom");
-            textNom.setForeground(Color.gray);
-        }
-    }//GEN-LAST:event_textIdMousePressed
-
     private void botoCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoCrearMouseClicked
         boolean idValid = validarId();
         boolean nomValid = validarNom();
         boolean similitudsValides = validarSimilituds();
 
         if (idValid && nomValid && similitudsValides) {
-            Map<String, Map<String, String>> prods = crearExempleProductes();
-            Map<String, String> p = new HashMap<>();
-            p.put("id", textId.getText());
-            p.put("nom", textNom.getText());
-            p.put("similituds", textAreaSims.getText());
-            p.put("posPrestatgeries", "{}"); // Buit perquè no està en cap prestatgeria
-            prods.put(textId.getText(), p);
-            labelProductesRegistrats.setText("Nou producte: " + textNom.getText());
-
-            resetLabels();
-            JOptionPane.showMessageDialog(this, "Producte creat!", "CONFIRMACIÓ", JOptionPane.INFORMATION_MESSAGE);
-            //cp.crearProducte(textId.getText().trim(), textNom.getText().trim(), textAreaSims.getText().trim());
+            try {
+                cp.crearProducte(textId.getText().trim(), textNom.getText().trim(), textAreaSims.getText().trim());
+                resetLabels();
+                JOptionPane.showMessageDialog(this, "Producte creat!", "CONFIRMACIÓ", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error en crear el producte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_botoCrearMouseClicked
 
-    private void textNomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textNomMousePressed
-        if (textNom.getText().equals("Introdueix un nom")) {
-            textNom.setText("");
-            textNom.setForeground(Color.black);
+    private void textAreaSimsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textAreaSimsMousePressed
+        textAreaSims.setForeground(Color.black);
+    }//GEN-LAST:event_textAreaSimsMousePressed
+
+    private void textIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textIdFocusGained
+        if (textId.getText().equals("Introdueix un identificador numèric")) {
+            textId.setText("");
+            textId.setForeground(Color.black);
         }
+    }//GEN-LAST:event_textIdFocusGained
+
+    private void textIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textIdFocusLost
         if ((textId.getText()).isEmpty()) {
             textId.setText("Introdueix un identificador numèric");
             textId.setForeground(Color.gray);
         }
-    }//GEN-LAST:event_textNomMousePressed
+    }//GEN-LAST:event_textIdFocusLost
 
-    private void textAreaSimsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textAreaSimsMousePressed
-        if (textId.getText().equals("")) {
-            textId.setText("Introdueix un identificador numèric");
-            textId.setForeground(Color.gray);
+    private void textNomFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNomFocusGained
+        if (textNom.getText().equals("Introdueix un nom")) {
+            textNom.setText("");
+            textNom.setForeground(Color.black);
         }
-        if ((textNom.getText()).equals("")) {
+    }//GEN-LAST:event_textNomFocusGained
+
+    private void textNomFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNomFocusLost
+        if ((textNom.getText()).isEmpty()) {
             textNom.setText("Introdueix un nom");
             textNom.setForeground(Color.gray);
         }
-        textAreaSims.setForeground(Color.black);
-    }//GEN-LAST:event_textAreaSimsMousePressed
-
-    private void bgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bgMouseClicked
-        if (textId.getText().equals("")) {
-            textId.setText("Introdueix un identificador numèric");
-            textId.setForeground(Color.gray);
-        }
-        if ((textNom.getText()).equals("")) {
-            textNom.setText("Introdueix un nom");
-            textNom.setForeground(Color.gray);
-        }
-    }//GEN-LAST:event_bgMouseClicked
+    }//GEN-LAST:event_textNomFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel bg;
+    private javax.swing.JPanel bgPanel;
     private javax.swing.JButton botoCrear;
     private javax.swing.JButton botoImportar;
     private javax.swing.JButton botoSortir;
@@ -525,9 +471,9 @@ public class VistaCrearProducte extends javax.swing.JPanel {
     private javax.swing.JLabel labelSimilituds;
     private javax.swing.JLabel labelTitol;
     private javax.swing.JList<String> llistaProductesExistents;
-    private javax.swing.JScrollPane scrollPaneProductes;
+    private javax.swing.JScrollPane scrollPaneLlistaProductes;
     private javax.swing.JScrollPane scrollPaneSimilituds;
-    private javax.swing.JSeparator separator7;
+    private javax.swing.JSeparator separator;
     private javax.swing.JTextArea textAreaSims;
     private javax.swing.JTextField textId;
     private javax.swing.JTextField textNom;

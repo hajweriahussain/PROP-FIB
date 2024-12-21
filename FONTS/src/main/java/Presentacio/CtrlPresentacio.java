@@ -1,6 +1,7 @@
 package Presentacio;
 
 import Domini.CtrlDomini;
+import Exceptions.ExceptionFormat;
 
 import java.util.*;
 import javax.swing.JFrame;
@@ -81,15 +82,9 @@ public class CtrlPresentacio {
         ctrlDomini.crearProducte(Integer.parseInt(idProd), nomProd, similitudsMap);
     }
 
-/*
-    public void crearProducteFitxer(String idProd, String nomProd, String path) throws ExceptionFormats {
-        ctrlDomini.LlegirProducteFitxer(nomProd, idProd, path);
-    }*/
-    
-    public void crearProducteFitxer(String path) throws ExceptionFormats {
+    public void crearProducteFitxer(String path) throws ExceptionFormat {
         ctrlDomini.LlegirProducteFitxer(path);
     }
-
     
     public void esborrarProducte(String idProd) {
         ctrlDomini.esborrarProducte(Integer.parseInt(idProd));
@@ -121,12 +116,10 @@ public class CtrlPresentacio {
         Set<Integer> productesSet = convertirStringASet(productes);
         ctrlDomini.crearPrestatgeria(Integer.parseInt(idPres), nom, Integer.parseInt(numCols), productesSet, Boolean.valueOf(bf));
     }
-   
-/*
-    public void crearPrestatgeriaFitxer(int idPres, String path) throws ExceptionFormats {
-        ctrlDomini.llegirPrestatgeriaFitxer(idPres,path);
+
+    public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) throws ExceptionFormat {
+        ctrlDomini.LlegirPrestatgeriaFitxer(nom, idPres, cols, path);
     }
-*/
     
     public void esborrarPrestatgeria(String idPres) {
         ctrlDomini.esborrarPrestatgeria(Integer.parseInt(idPres));

@@ -16,25 +16,22 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="bg" alignment="0" max="32767" attributes="0"/>
+          <Component id="bgPanel" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="bg" alignment="0" max="32767" attributes="0"/>
+          <Component id="bgPanel" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="bg">
+    <Container class="javax.swing.JPanel" name="bgPanel">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bgMouseClicked"/>
-      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -45,15 +42,15 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="separator7" min="-2" pref="639" max="-2" attributes="0"/>
+                                  <Component id="separator" min="-2" pref="639" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="labelProductesRegistrats" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="scrollPaneProductes" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
+                                      <Component id="scrollPaneLlistaProductes" alignment="0" pref="219" max="32767" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="botoImportar" min="-2" pref="90" max="-2" attributes="0"/>
@@ -109,7 +106,7 @@
                       </Group>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="separator7" min="-2" pref="10" max="-2" attributes="0"/>
+                  <Component id="separator" min="-2" pref="10" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="labelId" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -133,7 +130,7 @@
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Component id="scrollPaneSimilituds" pref="96" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="scrollPaneProductes" alignment="0" max="32767" attributes="0"/>
+                      <Component id="scrollPaneLlistaProductes" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="labelErrorSimilituds" min="-2" max="-2" attributes="0"/>
@@ -156,7 +153,7 @@
             <Property name="text" type="java.lang.String" value="CREAR PRODUCTE"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JSeparator" name="separator7">
+        <Component class="javax.swing.JSeparator" name="separator">
         </Component>
         <Component class="javax.swing.JButton" name="botoSortir">
           <Properties>
@@ -185,7 +182,8 @@
             <Property name="actionCommand" type="java.lang.String" value="&lt;Not Set&gt;"/>
           </Properties>
           <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="textIdMousePressed"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="textIdFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="textIdFocusLost"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="botoCrear">
@@ -225,7 +223,8 @@
             <Property name="text" type="java.lang.String" value="Introdueix un nom"/>
           </Properties>
           <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="textNomMousePressed"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="textNomFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="textNomFocusLost"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="labelSimilituds">
@@ -253,7 +252,7 @@
             <Property name="text" type="java.lang.String" value="jLabel1"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="scrollPaneProductes">
+        <Container class="javax.swing.JScrollPane" name="scrollPaneLlistaProductes">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
