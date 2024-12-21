@@ -65,8 +65,10 @@ public class GestorCjtPrestatgeries {
                     prestatgeries.add(prestatgeriaJson);
                 }
             }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo de prestatgeries: " + e.getMessage());
+        } catch (ParseException e) {
+            System.err.println("Error al parsear el archivo JSON de prestatgeries: " + e.getMessage());
         }
         return prestatgeries;
 
@@ -103,8 +105,7 @@ public class GestorCjtPrestatgeries {
 
                     jsonPrestatgeries.put(id, jsonPres);
                 } catch (ParseException e) {
-                    System.err.println("Error al parsear la estantería: " + p);
-                    e.printStackTrace();
+                    System.err.println("Error al parsear una prestatgeria en formato JSON: " + e.getMessage());
                 }
             }
 
@@ -114,7 +115,7 @@ public class GestorCjtPrestatgeries {
                 file.write(jsonPrestatgeries.toJSONString());
                 file.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Error al guardar el archivo de prestatgeries: " + e.getMessage());
             }
         } else {
             esborrarPrestatgeriesUsuari(usuari);
@@ -133,7 +134,7 @@ public class GestorCjtPrestatgeries {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Error al intentar borrar el archivo de prestatgeries: " + e.getMessage());
         }
         return borrat;
     }
@@ -155,7 +156,7 @@ public class GestorCjtPrestatgeries {
             try {
                 arxiu.createNewFile(); // Crea l'arxiu
             } catch (IOException e) {
-                System.err.println("Error en crear l'arxiu: " + e.getMessage());
+                System.err.println("Error en crear el archivo: " + e.getMessage());
             }
         }
 
@@ -169,13 +170,13 @@ public class GestorCjtPrestatgeries {
             FileReader fr = new FileReader(path);
             Scanner sc = new Scanner(fr);
             if (!sc.hasNextLine()) {
-                System.out.println("Error: El fitxer està buit.");
+                System.err.println("Error: El archivo está vacío.");
                 return null; 
             }
             String linea = sc.nextLine();
 
             if (sc.hasNextLine()) {
-                System.out.println("Error: El fitxer conté més d'una línia.");
+                System.err.println("Error: El archivo contiene más de una línea.");
                 return null;
             }
 
@@ -187,11 +188,11 @@ public class GestorCjtPrestatgeries {
                     if (id > 0) { 
                         idsEstanteria.add(num); // Añadir el ID válido como String
                     } else {
-                        System.out.println("Error: ID no vàlid (no és major que 0): " + num);
+                        System.err.println("Error: ID no válido (no es mayor que 0): " + num);
                         return null; // Si hay un ID no válido, se detiene
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Error: Format incorrecte per a l'ID: " + num);
+                    System.err.println("Error: Formato incorrecto para el ID: " + num);
                     return null; // Si no es un número, se detiene
                 }
             }
@@ -200,16 +201,11 @@ public class GestorCjtPrestatgeries {
             fr.close();
 
         } catch (IOException e) {
-            System.out.println("Error: No s'ha pogut llegir el fitxer.");
-            e.printStackTrace();
+            System.err.println("Error: No se pudo leer el archivo: " + e.getMessage());
             return null;
         }
 
         return idsEstanteria; // Devuelve la lista de IDs válidos como Strings
     }
-    
-    
-
-    
     
 }
