@@ -2,7 +2,6 @@ package Domini;
 
 import java.util.HashMap;
 import java.util.Map;
-import Exceptions.ExceptionFormat;
 
 public class Producte {
     private Integer id;
@@ -97,10 +96,10 @@ public class Producte {
         similituds.put(id, similitud);
     }
 
-    public void modificarSimilitud(int id, double novaSimilitud) throws ExceptionFormat {
+    public void modificarSimilitud(int id, double novaSimilitud) {
         validarSimilitud(novaSimilitud);
         if (!similituds.containsKey(id)) {
-            throw new ExceptionFormat("Error: El producte amb id: " + id + " no existeix");
+            System.err.println("Error: El producte amb id: " + id + " no existeix");
         }
 
         similituds.put(id, novaSimilitud);
@@ -126,9 +125,9 @@ public class Producte {
         posPrestatgeries.put(idPres, pos);
     }
     
-    public void modificarPosPrestatgeria(int idPres, Pair<Integer, Integer> novaPos) throws ExceptionFormat {
+    public void modificarPosPrestatgeria(int idPres, Pair<Integer, Integer> novaPos) {
         if (!posPrestatgeries.containsKey(idPres)) {
-            throw new ExceptionFormat("Error: El producte no es troba a la prestatgeria amb id: " + idPres);
+            System.err.println("Error: El producte no es troba a la prestatgeria amb id: " + idPres);
         }
         
         setPosPrestatgeria(idPres, novaPos);
