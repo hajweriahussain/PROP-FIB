@@ -1,6 +1,7 @@
 package Presentacio;
 
 import java.awt.BorderLayout;
+import javax.swing.JPanel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -29,11 +30,14 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     
     private void initContent() {
-        MenuUsuariPanel pl = new  MenuUsuariPanel();
-        pl.setSize(800, 500);
-        pl.setLocation(0, 0);
+        ShowJPanel(new VistaLogIn());
+    }
+    
+    private void ShowJPanel(JPanel p) {
+        p.setSize(700, 500);
+        p.setLocation(0, 0);
         content.removeAll();
-        content.add(pl, BorderLayout.CENTER);
+        content.add(p, BorderLayout.CENTER);
         content.repaint();
     }
     
@@ -41,25 +45,47 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
     private void initComponents() {
 
         leftPanel = new javax.swing.JPanel();
-        botoEstanterias = new javax.swing.JButton();
+        botoSobreNoasaltres = new javax.swing.JButton();
         logoLabel = new javax.swing.JLabel();
+        botoEstanterias = new javax.swing.JButton();
         botoProductes = new javax.swing.JButton();
-        botoAboutUs = new javax.swing.JButton();
         botoUsuari = new javax.swing.JButton();
         botoTancarSessio = new javax.swing.JButton();
-        titol1 = new javax.swing.JLabel();
-        titol2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setMinimumSize(new java.awt.Dimension(800, 500));
 
         leftPanel.setBackground(new java.awt.Color(200, 255, 200));
 
+        botoSobreNoasaltres.setBackground(new java.awt.Color(200, 255, 200));
+        botoSobreNoasaltres.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
+        botoSobreNoasaltres.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Presentacio/nosaltres3.png"))); // NOI18N
+        botoSobreNoasaltres.setText("     Sobre nosaltres");
+        botoSobreNoasaltres.setBorder(null);
+        botoSobreNoasaltres.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoSobreNoasaltres.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        botoSobreNoasaltres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botoSobreNoasaltresActionPerformed(evt);
+            }
+        });
+
+        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        logoLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj2\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\LogoSinBordes2.png")); // NOI18N
+        logoLabel.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        logoLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoLabelMouseClicked(evt);
+            }
+        });
+
         botoEstanterias.setBackground(new java.awt.Color(200, 255, 200));
         botoEstanterias.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
-        botoEstanterias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nosaltres3.png"))); // NOI18N
-        botoEstanterias.setText("     Sobre nosaltres");
+        botoEstanterias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Presentacio/estante3.png"))); // NOI18N
+        botoEstanterias.setText("     Prestatgeria");
         botoEstanterias.setBorder(null);
         botoEstanterias.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botoEstanterias.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -69,29 +95,22 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
             }
         });
 
-        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/LogoSinBordes2.png"))); // NOI18N
-        logoLabel.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-
         botoProductes.setBackground(new java.awt.Color(200, 255, 200));
         botoProductes.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
-        botoProductes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/estante3.png"))); // NOI18N
-        botoProductes.setText("     Prestatgeria");
+        botoProductes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Presentacio/carrito3.png"))); // NOI18N
+        botoProductes.setText("     Productes");
         botoProductes.setBorder(null);
         botoProductes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botoProductes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-
-        botoAboutUs.setBackground(new java.awt.Color(200, 255, 200));
-        botoAboutUs.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
-        botoAboutUs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/carrito3.png"))); // NOI18N
-        botoAboutUs.setText("     Productes");
-        botoAboutUs.setBorder(null);
-        botoAboutUs.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botoAboutUs.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        botoProductes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botoProductesActionPerformed(evt);
+            }
+        });
 
         botoUsuari.setBackground(new java.awt.Color(200, 255, 200));
         botoUsuari.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
-        botoUsuari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user3.png"))); // NOI18N
+        botoUsuari.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj2\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\user3.png")); // NOI18N
         botoUsuari.setText("     Usuari");
         botoUsuari.setBorder(null);
         botoUsuari.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -104,7 +123,7 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
 
         botoTancarSessio.setBackground(new java.awt.Color(200, 255, 200));
         botoTancarSessio.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
-        botoTancarSessio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/surt3.png"))); // NOI18N
+        botoTancarSessio.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj2\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\surt3.png")); // NOI18N
         botoTancarSessio.setText("     Tancar Sessió");
         botoTancarSessio.setBorder(null);
         botoTancarSessio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -115,13 +134,23 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
             }
         });
 
-        titol1.setFont(new java.awt.Font("Microsoft YaHei", 1, 23)); // NOI18N
-        titol1.setForeground(new java.awt.Color(240, 171, 68));
-        titol1.setText("PRESTATGERIES");
+        jLabel1.setFont(new java.awt.Font("Microsoft YaHei", 1, 23)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(240, 171, 68));
+        jLabel1.setText("PRESTATGERIES");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
-        titol2.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
-        titol2.setForeground(new java.awt.Color(69, 155, 107));
-        titol2.setText("N' PRODUCTS");
+        jLabel2.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(69, 155, 107));
+        jLabel2.setText("N' PRODUCTS");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
         leftPanel.setLayout(leftPanelLayout);
@@ -130,9 +159,9 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
             .addGroup(leftPanelLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(botoEstanterias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botoAboutUs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botoSobreNoasaltres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botoProductes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botoEstanterias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botoUsuari, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botoTancarSessio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -140,26 +169,27 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
                 .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titol2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(titol1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)))
         );
         leftPanelLayout.setVerticalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(logoLabel)
                     .addGroup(leftPanelLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(titol1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(titol2)))
-                .addGap(24, 24, 24)
+                        .addComponent(jLabel2))
+                    .addGroup(leftPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botoEstanterias, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botoProductes, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botoAboutUs, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botoEstanterias, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botoSobreNoasaltres, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botoUsuari, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -171,7 +201,7 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 694, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,7 +215,7 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(content, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,17 +228,40 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botoEstanteriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoEstanteriasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botoEstanteriasActionPerformed
+    private void botoSobreNoasaltresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoSobreNoasaltresActionPerformed
+        ShowJPanel(new MenuAboutUsPanel());
+    }//GEN-LAST:event_botoSobreNoasaltresActionPerformed
 
     private void botoUsuariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoUsuariActionPerformed
-        // TODO add your handling code here:
+        ShowJPanel(new MenuUsuariPanel());
     }//GEN-LAST:event_botoUsuariActionPerformed
 
     private void botoTancarSessioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoTancarSessioActionPerformed
-        // TODO add your handling code here:
+        CtrlPresentacio cp = new CtrlPresentacio();
+        cp.logout();
+        cp.mostrarMenuInici();
+               
     }//GEN-LAST:event_botoTancarSessioActionPerformed
+
+    private void botoEstanteriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoEstanteriasActionPerformed
+        ShowJPanel(new VistaPrestatgeria());
+    }//GEN-LAST:event_botoEstanteriasActionPerformed
+
+    private void botoProductesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoProductesActionPerformed
+        ShowJPanel(new VistaProducte());
+    }//GEN-LAST:event_botoProductesActionPerformed
+
+    private void logoLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoLabelMouseClicked
+        ShowJPanel(new MenuBenvingudaPanel());
+    }//GEN-LAST:event_logoLabelMouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        ShowJPanel(new MenuBenvingudaPanel());
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        ShowJPanel(new MenuBenvingudaPanel());
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -249,15 +302,15 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botoAboutUs;
     private javax.swing.JButton botoEstanterias;
     private javax.swing.JButton botoProductes;
+    private javax.swing.JButton botoSobreNoasaltres;
     private javax.swing.JButton botoTancarSessio;
     private javax.swing.JButton botoUsuari;
     private javax.swing.JPanel content;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JLabel logoLabel;
-    private javax.swing.JLabel titol1;
-    private javax.swing.JLabel titol2;
     // End of variables declaration//GEN-END:variables
 }

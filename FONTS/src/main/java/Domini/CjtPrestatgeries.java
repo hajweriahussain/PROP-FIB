@@ -129,7 +129,7 @@ public class CjtPrestatgeries {
                     "numFilas", prestatgeria.getNumFilas(),
                     "numColumnas", prestatgeria.getNumColumnas(),
                     "productes", prestatgeria.getProductes(),
-                    "layout", prestatgeria.getLayout()
+                    "layout", prestatgeria.getDisp()
                 );
                 String jsonPrestatgeria = gson.toJson(prestatgeriaData);
                 prestatgeriaList.add(jsonPrestatgeria);
@@ -191,6 +191,7 @@ public class CjtPrestatgeries {
             infoPrestatgeria.put("files", String.valueOf(prestatgeria.getNumFilas()));
             infoPrestatgeria.put("columnes", String.valueOf(prestatgeria.getNumColumnas()));
             infoPrestatgeria.put("productes", prestatgeria.getProductes().toString());
+            
 
             llistatPrestatgeries.put(String.valueOf(prestatgeria.getId()), infoPrestatgeria);
         }

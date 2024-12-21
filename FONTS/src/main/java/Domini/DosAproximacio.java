@@ -11,20 +11,20 @@ public class DosAproximacio implements GeneradorSolucio {
     private List<Aresta> llista_arestes;
     private int[] pare;
     private int[] mida;
-    private Producte[] prods;
+    private int[] prods;
     private double sumaSimilitud;
-    private Producte[] res_productes;
+    private int[] res_productes;
     private double[][] matS;
     private int columnes;
     private int files;
-    private Producte[][] mat_res;
+    private Integer[][] mat_res;
 
     //Constructora
 
-    public DosAproximacio(double[][] matSim, Producte[] vecPrd, int numCol) {
+    public DosAproximacio(double[][] matSim, int[] vecPrd, int numCol) {
         this.n = matSim.length;
         this.matS = matSim;
-        this.res_productes = new Producte[n];
+        this.res_productes = new int[n];
         this.llista_arestes = new ArrayList<Aresta>();
         this.pare = new int[n];
         this.mida = new int[n];
@@ -33,7 +33,7 @@ public class DosAproximacio implements GeneradorSolucio {
         this.columnes = numCol;
         if (n%columnes == 0) this.files = n/columnes;
         else this.files = n/columnes + 1;
-        this.mat_res = new Producte[files][columnes];
+        this.mat_res = new Integer[files][columnes];
 
         for(int i = 0; i < n; ++i) {
             this.pare[i] = i;
@@ -131,8 +131,76 @@ public class DosAproximacio implements GeneradorSolucio {
         }
         return mst;
     }
-
+/*
     private void calculaSuma(List<Integer> cicleEuleria, int i, int[] cont, boolean[] visitat, int[] estanteria_res, int contador) {
+        int mida = cicleEuleria.size();
+        double newSum = 0;
+        Producte[] new_producte = new Producte[n];
+    
+        while (contador < n) {
+            if (!visitat[cicleEuleria.get(i)]) {
+                if (cont[cicleEuleria.get(i)] > 1) { //hi ha repeticions d'aquest número
+                    //recurssió omitint aquest valor
+                    int auxi = i;
+                    int[] auxcont = Arrays.copyOf(cont, cont.length);
+                    boolean[] auxvisitat = Arrays.copyOf(visitat, visitat.length);
+                    int[] auxres = Arrays.copyOf(estanteria_res, estanteria_res.length);
+                    int auxcontador = contador;
+                    double sumaux = newSum;
+                    Producte[] newPaux = new_producte;
+    
+                    cont[cicleEuleria.get(i)] -= 1;
+                    i = (i + 1) % mida;
+    
+                    calculaSuma(cicleEuleria, i, cont, visitat, estanteria_res, contador);
+    
+                    i = auxi;
+                    cont = auxcont;
+                    visitat = auxvisitat;
+                    estanteria_res = auxres;
+                    contador = auxcontador;
+                    newSum = sumaux;
+                    new_producte = newPaux;
+    
+                    cont[cicleEuleria.get(i)] = 1;
+                    visitat[cicleEuleria.get(i)] = true;
+                    estanteria_res[contador] = cicleEuleria.get(i);
+                    new_producte[contador] = prods[estanteria_res[contador]];
+                    if (contador > 0) {
+                        //if (contador == n) newSum += matS[estanteria_res[0]][estanteria_res[n-1]];
+                        newSum += matS[estanteria_res[contador - 1]][cicleEuleria.get(i)];
+                    }
+                    contador++;              
+                } 
+                else { //només apareix 1 cop, l'afegim
+                    visitat[cicleEuleria.get(i)] = true;
+                    estanteria_res[contador] = cicleEuleria.get(i);
+                    new_producte[contador] = prods[estanteria_res[contador]];
+                    if (contador > 0) {
+                        //if (contador == n) newSum += matS[estanteria_res[0]][estanteria_res[n-1]];
+                        newSum += matS[estanteria_res[contador]][estanteria_res[contador - 1]];
+                    }
+                    contador++;
+                }
+            }
+            i = (i + 1) % mida;
+        }
+        newSum += matS[estanteria_res[0]][estanteria_res[n-1]];
+    /*
+        for (int k = 0; k < n; ++k) {
+            new_producte[k] = prods[estanteria_res[k]];
+            if (k == n - 1) newSum += matS[estanteria_res[k]][estanteria_res[0]];
+            else newSum += matS[estanteria_res[k]][estanteria_res[k + 1]];
+        }
+    
+        if (newSum > sumaSimilitud) { // < -> >
+            sumaSimilitud = newSum;
+            res_productes = new_producte;
+        }
+    }
+    */
+    
+     private void calculaSuma(List<Integer> cicleEuleria, int i, int[] cont, boolean[] visitat, int[] estanteria_res, int contador) {
         int mida = cicleEuleria.size();
     
         while (contador < n) {
@@ -171,7 +239,7 @@ public class DosAproximacio implements GeneradorSolucio {
         }
     
         double newSum = 0;
-        Producte[] new_producte = new Producte[n];
+       int[] new_producte = new int[n];
         for (int k = 0; k < n; ++k) {
             new_producte[k] = prods[estanteria_res[k]];
             if (k == n - 1) newSum += matS[estanteria_res[k]][estanteria_res[0]];
@@ -183,7 +251,7 @@ public class DosAproximacio implements GeneradorSolucio {
             res_productes = new_producte;
         }
     }
-    
+
 
     private List<Integer> findEuleria(List<List<Integer>> adjacencies) {
         List<Integer> cicleEuleria = new ArrayList<>();
@@ -203,7 +271,7 @@ public class DosAproximacio implements GeneradorSolucio {
         return cicleEuleria;
     }
 
-    public Producte[][] generarLayout() {
+    public Integer[][] generarLayout() {
         //Construir mst
         List<Aresta> mst = MST();
         //Construir llista d'adjacències amb doble aresta
@@ -253,7 +321,7 @@ public class DosAproximacio implements GeneradorSolucio {
 
     }
 
-    public Producte[][] getResultat() {
+    public Integer[][] getResultat() {
         return mat_res;
     }
 }

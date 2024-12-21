@@ -15,7 +15,29 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
      */
     public MenuUsuariPanel() {
         initComponents();
+       // setNomUsuari();
     }
+    
+    public void setNomUsuari(String nom) {
+        nomUser.setText(nom);
+    }
+    
+    public void mostrarMenuUsuari() {
+        /*if (actFrame != null) {
+            actFrame.dispose();
+        }
+        VistaMenuUsuari vista = new VistaMenuUsuari();
+        MenuUsuariPanel menuPanel = vista.getMenuPanel();
+        String nomUsuari = nomUsuariActual(); // Obtener el nombre del usuario actual
+        menuPanel.setNomUsuari(nomUsuari); // Establecer el nombre en el panel
+        actFrame = vista;
+        actFrame.setVisible(true);*/
+    }
+    
+   // public MenuUsuariPanel getMenuPanel() {
+      //  return MenuUsuariPanel; // Asume que el panel se llama menuUsuariPanel
+   // }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,105 +48,88 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        backgroun = new javax.swing.JPanel();
-        fotofons = new javax.swing.JLabel();
+        background = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        buttonChange = new javax.swing.JButton();
+        FotoUser = new javax.swing.JLabel();
+        nomUser = new javax.swing.JLabel();
 
-        backgroun.setPreferredSize(new java.awt.Dimension(500, 500));
+        background.setBackground(new java.awt.Color(255, 242, 239));
 
-        fotofons.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fotogrupo.png"))); // NOI18N
+        jLabel1.setText("Nom d'usuari:");
 
-        jLabel1.setText("Sóm un humil grup de terballadors amants de la informàtica i");
-        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        buttonChange.setText("Cambiar contrassenya");
+        buttonChange.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonChangeActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("la gestió de les prestatgeries. Vam crear Prestatges n' Products ");
+        FotoUser.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj2\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\personIcon.png")); // NOI18N
 
-        jLabel3.setText("perquè ens va sorgir una necessitat urgent d'organitzar i orde-");
-
-        jLabel4.setText("nar els nostres productes en prestatges circulars.");
-
-        jLabel5.setText("El nostre equip està format per, d'esquerra a dreta:");
-
-        jLabel6.setText("Hajweria Hussain, Guillem Sturlese, Ariadna Mantilla, Laura Apolzán");
-
-        jLabel7.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
-        jLabel7.setText("SOBRE NOSALTRES");
-
-        javax.swing.GroupLayout backgrounLayout = new javax.swing.GroupLayout(backgroun);
-        backgroun.setLayout(backgrounLayout);
-        backgrounLayout.setHorizontalGroup(
-            backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(backgrounLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(fotofons)
-                    .addGroup(backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel6)
-                        .addGroup(backgrounLayout.createSequentialGroup()
-                            .addGap(92, 92, 92)
-                            .addComponent(jLabel7))
-                        .addGroup(backgrounLayout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addGroup(backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel5)))))
-                .addGap(437, 437, 437))
-        );
-        backgrounLayout.setVerticalGroup(
-            backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgrounLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+        javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
+        background.setLayout(backgroundLayout);
+        backgroundLayout.setHorizontalGroup(
+            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundLayout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(FotoUser)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fotofons, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addComponent(nomUser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(buttonChange)
+                        .addGap(102, 102, 102))))
+        );
+        backgroundLayout.setVerticalGroup(
+            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundLayout.createSequentialGroup()
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(nomUser))
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonChange))
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(FotoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(331, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(backgroun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(backgroun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChangeActionPerformed
+        String newPassword = javax.swing.JOptionPane.showInputDialog(this, "Introdueix la nova contrassenya:");
+        if (newPassword != null && !newPassword.trim().isEmpty()) {
+            CtrlPresentacio ctrlPresentacio = new CtrlPresentacio(); // Instancia del controlador
+            String username = ctrlPresentacio.nomUsuariActual(); // Obtener el nombre del usuario actual
+            ctrlPresentacio.canviarContrasenya(username, newPassword); // Cambiar contraseña
+        }  
+    }//GEN-LAST:event_buttonChangeActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel backgroun;
-    private javax.swing.JLabel fotofons;
+    private javax.swing.JLabel FotoUser;
+    private javax.swing.JPanel background;
+    private javax.swing.JButton buttonChange;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel nomUser;
     // End of variables declaration//GEN-END:variables
 }
