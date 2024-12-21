@@ -78,8 +78,17 @@ public class CtrlDomini {
         cjtProductes.afegirProducte(id, nom, similituds);
     }
     
+    public int[] setIdsToVecIds(Set<Integer> productes){
+        if (productes == null || productes.isEmpty()) {
+            return new int[0]; // Devuelve un array vacío
+        }
+
+        return productes.stream().mapToInt(Integer::intValue).toArray();
+    }
+    
+    
     public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols){
-        Integer[] vecProductes = cjtProductes.getProductesPerIds(productes);
+        int[] vecProductes = setIdsToVecIds(productes);
         double[][] matSimilituds = cjtProductes.getMatriuSimilitudsPerIds(vecProductes);
 
         GeneradorSolucio generadorInicial;
@@ -94,7 +103,7 @@ public class CtrlDomini {
 
         Integer[][] solucio = generadorInicial.generarLayout();
         cjtPrestatgeries.setLayout(cjtProductes.getMatProductes(solucio), id);
-        cjtproductes necesitara hacer getmatproductes
+//        cjtproductes necesitara hacer getmatproductes
 
         for (int i = 0; i < solucio.length; i++) {
             for(int j = 0; j < solucio[0].length; ++j){
@@ -141,19 +150,15 @@ public class CtrlDomini {
             cjtProductes.getPosPrestatgeriesProducte(idProdActual1);
             cjtProductes.getPosPrestatgeriesProducte(idProdActual2);
             Integer[] idsPres = cjtPrestatgeries.getIdsPrestatgeriesSame(cjtProductes.getPosPrestatgeriesProducte(idProdActual1), 
-//                                                    cjtProductes.getPosPrestatgeriesProducte(idProdActual2) );
-             //ARREGLAR, cjtprest haura de crear funcio per a buscar estanteries en comu en un map.
-            //buscar si tienen estanterias en comun
-            // si si tiene, sacar id de la estanteria, y numcolumnas de la estanteria y 
-            if ( idsPres.length != 0){
+                                                    cjtProductes.getPosPrestatgeriesProducte(idProdActual2) );
+             
+            if( idsPres.length != 0){
                 for(Integer i : idsPres){
                     Set<Integer> productes = cjtPrestatgeries.getProductes(idsPres[i]);
                     int cols = cjtPrestatgeries.getNumCols(idsPres[i]);
                     obtenirLayout(idsPres[i], productes, bruteForce, cols);
                 }
             }
-            //volver a calcular la disposicion de todas las estanterias en que se encuentran estos productos juntos.
-            //si me devuelbve un set de ids de estanterias, pues un for que vaya llamando a obtenirlayout para todas.
             System.out.println("S'ha modificat la similitud entre el producte amb id " 
                                 + idProdActual1 + " i el producte amb id " + idProdActual2);
     	}
@@ -215,7 +220,7 @@ public class CtrlDomini {
     }
     
     public void LlegirProducteFitxer(String nom, String id, String path) {
-        List<String> prodInfo = cp.importarFitxerProducte(path));
+        List<String> prodInfo = cp.importarFitxerProducte(path);
         afegirProducteFitxer(nom, id, prodInfo);
 
     }

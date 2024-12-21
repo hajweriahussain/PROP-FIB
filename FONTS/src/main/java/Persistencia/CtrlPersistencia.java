@@ -30,7 +30,7 @@ public class CtrlPersistencia {
         return GestorUsuaris.verificarContrasenya(user,password);
     }
     
-    public List<String> importarPrestatgeria(String usuari){
+    public List<String> importarPrestatgeries(String usuari){
         return GestorCjtPrestatgeries.importarPrestatgeries(usuari);
     }
     
@@ -50,7 +50,7 @@ public class CtrlPersistencia {
         GestorCjtProductes.guardarProductes(productes, usuari);
     }
     
-    public List<String> importarFitxerProductes(String path){
+    public List<String> importarFitxerProducte(String path){
         return GestorCjtProductes.importarFitxerProducte(path);
     }
    

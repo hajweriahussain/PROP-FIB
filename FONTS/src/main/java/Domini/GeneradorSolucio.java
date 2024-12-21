@@ -1,7 +1,7 @@
 package Domini;
 
 public interface GeneradorSolucio{
-    Producte[][] generarLayout();
-    Producte[][] getResultat();
+    Integer[][] generarLayout();
+    Integer[][] getResultat();
     double getMillorSimilitud();
 }
