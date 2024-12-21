@@ -1,3 +1,9 @@
+/**
+ * La classe DosAproximacio implementa un generador de solucions utilitzant una aproximació
+ * basada en arbres generadors mínims (MST) i cicles eulerians. El seu objectiu és trobar 
+ * un layout que maximitzi la similitud basada en una matriu de similitud proporcionada.
+ */
+
 package Domini;
 
 import java.util.ArrayList;
@@ -19,8 +25,13 @@ public class DosAproximacio implements GeneradorSolucio {
     private int files;
     private Integer[][] mat_res;
 
-    //Constructora
-
+    /**
+     * Constructor de DosAproximacio.
+     *
+     * @param matSim  Matriu de similituds.
+     * @param vecPrd  Vector de productes.
+     * @param numCol  Nombre de columnes del layout.
+     */
     public DosAproximacio(double[][] matSim, int[] vecPrd, int numCol) {
         this.n = matSim.length;
         this.matS = matSim;
@@ -51,6 +62,13 @@ public class DosAproximacio implements GeneradorSolucio {
         }
     }
 
+    /**
+     * Mètode mergeSort per ordenar un array d'arestes per similitud de manera descendent.
+     *
+     * @param vec  Array d'arestes a ordenar.
+     * @param l    Índex esquerre del rang.
+     * @param r    Índex dret del rang.
+     */
     private void mergeSort(Aresta vec[], int l, int r) {
         if (l < r) {
             int centre = (l + r) / 2;
@@ -95,11 +113,23 @@ public class DosAproximacio implements GeneradorSolucio {
         }
     }
 
+    /**
+     * Troba el representant del conjunt al qual pertany un node.
+     *
+     * @param v Node del qual es busca el representant.
+     * @return El representant del node.
+     */
     private int find(int v) {
         if (pare[v] == v) return v;
         else return find(pare[v]);
     }
 
+    /**
+     * Uneix dos conjunts representats per dos nodes.
+     *
+     * @param v1 Node del primer conjunt.
+     * @param v2 Node del segon conjunt.
+     */
     private void uneix(int v1, int v2) {
         int pare1 = find(v1);
         int pare2 = find(v2);
@@ -116,6 +146,11 @@ public class DosAproximacio implements GeneradorSolucio {
         }
     }
 
+     /**
+     * Calcula l'arbre generador mínim (MST) utilitzant les arestes ordenades.
+     *
+     * @return Llista d'arestes que formen el MST.
+     */
     private List<Aresta> MST() {
         Aresta[] array_arestes = llista_arestes.toArray(new Aresta[llista_arestes.size()]);
         mergeSort(array_arestes, 0, array_arestes.length - 1);
@@ -200,6 +235,16 @@ public class DosAproximacio implements GeneradorSolucio {
     }
     */
     
+    /**
+     * Calcula la suma de similituds en un cicle eulerià i actualitza el millor resultat.
+     *
+     * @param cicleEuleria   Cicle eulerià.
+     * @param i              Índex actual en el cicle.
+     * @param cont           Comptador d'aparicions de cada node en el cicle.
+     * @param visitat        Vector que marca nodes visitats.
+     * @param estanteria_res Vector de productes en el layout temporal.
+     * @param contador       Comptador de productes col·locats.
+     */
      private void calculaSuma(List<Integer> cicleEuleria, int i, int[] cont, boolean[] visitat, int[] estanteria_res, int contador) {
         int mida = cicleEuleria.size();
     
@@ -252,7 +297,12 @@ public class DosAproximacio implements GeneradorSolucio {
         }
     }
 
-
+    /**
+     * Troba un cicle eulerià en un graf amb una llista d'adjacències.
+     *
+     * @param adjacencies Llista d'adjacències del graf.
+     * @return Llista de nodes que formen el cicle eulerià.
+     */
     private List<Integer> findEuleria(List<List<Integer>> adjacencies) {
         List<Integer> cicleEuleria = new ArrayList<>();
         Stack<Integer> pila = new Stack<>();
@@ -271,6 +321,11 @@ public class DosAproximacio implements GeneradorSolucio {
         return cicleEuleria;
     }
 
+     /**
+     * Genera el layout òptim en una matriu utilitzant el MST i el cicle eulerià.
+     *
+     * @return Matriu del layout optimitzat.
+     */
     public Integer[][] generarLayout() {
         //Construir mst
         List<Aresta> mst = MST();
@@ -316,11 +371,21 @@ public class DosAproximacio implements GeneradorSolucio {
 
     }
 
+    /**
+     * Obté la millor suma de similituds calculada.
+     *
+     * @return Millor suma de similituds.
+     */
     public double getMillorSimilitud() {
         return sumaSimilitud;
 
     }
 
+    /**
+     * Obté el layout resultant com una matriu.
+     *
+     * @return Matriu del layout resultat.
+     */
     public Integer[][] getResultat() {
         return mat_res;
     }
