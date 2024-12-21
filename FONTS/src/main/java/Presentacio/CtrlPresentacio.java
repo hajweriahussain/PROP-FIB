@@ -1,7 +1,6 @@
 package Presentacio;
 
 import Domini.CtrlDomini;
-import Exceptions.ExceptionFormat;
 
 import java.util.*;
 import javax.swing.JFrame;
@@ -93,7 +92,7 @@ public class CtrlPresentacio {
         ctrlDomini.crearProducte(Integer.parseInt(idProd), nomProd, similitudsMap);
     }
 
-    public void crearProducteFitxer(String path) throws ExceptionFormat {
+    public void crearProducteFitxer(String path) {
         ctrlDomini.LlegirProducteFitxer(path);
     }
     
@@ -128,7 +127,7 @@ public class CtrlPresentacio {
         ctrlDomini.crearPrestatgeria(Integer.parseInt(idPres), nom, Integer.parseInt(numCols), productesSet, Boolean.valueOf(bf));
     }
 
-    public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) throws ExceptionFormat {
+    public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) {
         ctrlDomini.LlegirPrestatgeriaFitxer(nom, idPres, cols, path);
     }
     

@@ -3,7 +3,6 @@ package Persistencia;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import Exceptions.ExceptionFormat;
 
 import java.io.File;
 import java.io.FileReader;
