@@ -5,7 +5,17 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Classe que representa una prestatgeria.
+ * 
+ * Aquesta classe gestiona una prestatgeria amb un layout de productes
+ * organitzats en files i columnes. Permet gestionar productes, actualitzar
+ * el layout i intercanviar productes.
+ * 
+ * @author [El teu nom]
+ * @version 1.0
+ * @since 2024
+ */
 public class Prestatgeria {
     private LinkedList<Producte[]> layout;
     private List<List<Pair<String, Integer>>> disp;
@@ -16,7 +26,15 @@ public class Prestatgeria {
     private int numColumnas;
     
 
-
+    /**
+    * Constructor per crear una prestatgeria amb les configuracions inicials.
+    * 
+    * @param id L'identificador únic de la prestatgeria.
+    * @param nom El nom de la prestatgeria.
+    * @param filas El nombre de files de la prestatgeria.
+    * @param columnas El nombre de columnes de la prestatgeria.
+    * @param productes Un conjunt d'identificadors dels productes presents a la prestatgeria.
+    */
     public Prestatgeria(int id, String nom,  int filas, int columnas, Set<Integer> productes ){
     	if (id <= 0) {
             System.out.println("Error: L'ID ha de ser un valor positiu. Assignant ID per defecte 1.");
@@ -44,6 +62,13 @@ public class Prestatgeria {
             layout.add(new Producte[this.numColumnas]);
         }
     }
+    /**
+    * Obté un prestatge (fila) de la prestatgeria.
+    * 
+    * @param indexFila L'índex de la fila que es vol obtenir.
+    * @return Un array de productes corresponent a la fila especificada,
+    *         o null si l'índex està fora de rang.
+    */
     
     public Producte[] getPrestatge(int indexFila) {
         if (indexFila < 0 || indexFila >= layout.size()) {
@@ -53,26 +78,57 @@ public class Prestatgeria {
         return layout.get(indexFila);
     }
     
+    /**
+    * Obté l'identificador únic de la prestatgeria.
+    * 
+    * @return L'ID de la prestatgeria.
+    */
     public int getId() {
         return id;
     }
     
+    /**
+    * Obté el nom de la prestatgeria.
+    * 
+    * @return El nom de la prestatgeria.
+    */
     public String getNom() {
         return nom;
     }
     
+    /**
+    * Obté el nombre de files de la prestatgeria.
+    * 
+    * @return El nombre de files.
+    */
     public int getNumFilas() {
         return numFilas;
     }
-
+    
+    /**
+     * Obté el nombre de columnes de la prestatgeria.
+     *
+     * @return El nombre de columnes.
+     */
     public int getNumColumnas() {
         return numColumnas;
     }
     
+    /**
+     * Obté el conjunt d'identificadors dels productes presents a la
+     * prestatgeria.
+     *
+     * @return Un conjunt d'IDs de productes.
+     */
     public Set<Integer> getProductes() {
         return productes;
     }
     
+    /**
+     * Obté el layout complet de la prestatgeria en forma de matriu.
+     *
+     * @return Una matriu 2D de productes que representa el layout actual.
+     */
     public Producte[][] getLayout() {
         Producte[][] disposicio = new Producte[numFilas][numColumnas];
 
@@ -87,9 +143,18 @@ public class Prestatgeria {
         return disposicio;
     }
     
+    /**
+     * Obté la disposició actual dels productes en forma de llista de llistes.
+     *
+     * Cada llista interna representa una fila de la prestatgeria, i cada parell
+     * (Pair) conté el nom del producte i el seu identificador únic.
+     *
+     * @return Una llista de llistes amb parells (nom del producte, ID).
+     */
     public List<List<Pair<String, Integer>>> getDisp() {
         return disp;
     }
+    
     
     public void setId(int id){
     	if (id <= 0) {
@@ -98,6 +163,15 @@ public class Prestatgeria {
             this.id = id;
         }
     }
+    
+    
+    
+    /**
+     * Estableix un nou layout per a la prestatgeria.
+     *
+     * @param disposicio Una matriu 2D de productes que representa el nou
+     * layout. La matriu ha de ser vàlida i no nul·la.
+     */
     public void setLayout(Producte[][] disposicio) {
         if (disposicio == null || disposicio.length == 0 || disposicio[0].length == 0) {
             System.out.println("Error: La matriz proporcionada és nul·la o buida. No es pot assignar el layout.");
@@ -135,6 +209,14 @@ public class Prestatgeria {
         System.out.println("El layout s'ha actualitzat correctament.");
     }
     
+    /**
+     * Intercanvia dos productes dins de la prestatgeria.
+     *
+     * @param filaProd1 La fila del primer producte.
+     * @param colProd1 La columna del primer producte.
+     * @param filaProd2 La fila del segon producte.
+     * @param colProd2 La columna del segon producte.
+     */
     public void intercanviarDosProductes(int filaProd1, int colProd1, int filaProd2, int colProd2) {
     	if (filaProd1 < 0 || colProd1 < 0 || filaProd1 >= numFilas || colProd1 >= numColumnas
                 || filaProd2 < 0 || colProd2 < 0 || filaProd2 >= numFilas || colProd2 >= numColumnas) {
@@ -190,7 +272,11 @@ public class Prestatgeria {
 //        numFilas--;
 //        System.out.println("Estant " + indexFila + " eliminat. Total files: " + numFilas);
 //    }
-
+    
+    /**
+     * Esborra tot el contingut de la prestatgeria, incloent-hi el layout i els
+     * productes associats.
+     */
     public void esborrarPrestatgeria() {
         layout.clear();
         disp = new ArrayList<>();
