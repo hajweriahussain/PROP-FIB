@@ -149,7 +149,7 @@
                                           <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                           <Component id="labelId" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                                          <Component id="textIdInfo" pref="98" max="32767" attributes="0"/>
+                                          <Component id="textIdInfo" pref="97" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="labelLlistaProductes" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -157,7 +157,7 @@
                               <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                                      <Component id="scrollPanePosPrestatgeries" alignment="0" pref="306" max="32767" attributes="0"/>
+                                      <Component id="scrollPanePosPrestatgeries" alignment="0" pref="302" max="32767" attributes="0"/>
                                       <Component id="scrollPaneSimilituds" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="labelSimilituds" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -389,39 +389,45 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                              <Component id="labelNouId" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="labelNouId" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textNouId" alignment="0" min="-2" pref="231" max="-2" attributes="0"/>
+                                  <Component id="labelNouNom" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textNouNom" alignment="0" min="-2" pref="231" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="457" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                              <Component id="textNouId" min="-2" pref="231" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                              <Component id="labelNouNom" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                              <Component id="textNouNom" min="-2" pref="231" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                               <Component id="scrollPaneTaulaSimilituds" min="-2" pref="231" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="615" pref="615" max="-2" attributes="0"/>
-                              <Component id="botoGuardar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="labelAlgoritmes" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="rbFB" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                                      <Component id="rbDosA" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="15" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                      <Component id="labelTitolEditar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="botoSortirEditar" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="botoGuardar" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                              <Component id="labelTitolEditar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="botoSortirEditar" min="-2" pref="35" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -443,9 +449,22 @@
                       <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                       <Component id="textNouNom" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="46" pref="46" max="-2" attributes="0"/>
-                      <Component id="scrollPaneTaulaSimilituds" min="-2" pref="184" max="-2" attributes="0"/>
-                      <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                      <Component id="botoGuardar" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="scrollPaneTaulaSimilituds" min="-2" pref="184" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="botoGuardar" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="labelAlgoritmes" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="rbFB" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rbDosA" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -531,6 +550,21 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="labelAlgoritmes">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Selecciona un algoritme per recalcular les prestatgeries:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="rbFB">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="For&#xe7;a Bruta"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="rbDosA">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Dos Aproximaci&#xf3;"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

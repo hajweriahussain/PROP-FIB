@@ -26,7 +26,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         cp = new CtrlPresentacio();
         this.setSize(700, 500);
         mostrarProductesEnJList();
-        prellenarAreaSimilituds();
+        precompletarAreaSimilituds();
         configurarBotoImportar();
     }
     
@@ -36,7 +36,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         labelErrorSimilituds.setText("");
         textId.setText("");
         textNom.setText("");
-        prellenarAreaSimilituds();
+        precompletarAreaSimilituds();
     }
     
     private Map<String, Double> parseSimilituds(String similituds) throws Exception {
@@ -67,6 +67,10 @@ public class VistaCrearProducte extends javax.swing.JPanel {
     
     private void mostrarProductesEnJList() {
         Map<String, Map<String, String>> productes = cp.mostrarProductes();
+        if (productes == null) {
+            return;
+        }
+
         DefaultListModel<String> model = new DefaultListModel<>();
 
         for (String id : productes.keySet()) {
@@ -76,8 +80,12 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         llistaProductesExistents.setModel(model);
     }
      
-    private void prellenarAreaSimilituds() {
+    private void precompletarAreaSimilituds() {
         Map<String, Map<String, String>> productes = cp.mostrarProductes();
+        if (productes == null || productes.isEmpty()) {
+            return;
+        }
+
         StringBuilder builder = new StringBuilder();
 
         for (String id : productes.keySet()) {
@@ -142,14 +150,16 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         String similituds = textAreaSims.getText().trim();
         Map<String, Map<String, String>> productes = cp.mostrarProductes();
 
-        if (productes.isEmpty()) {
-            return true;
+        if (productes == null || productes.isEmpty()) {
+            labelErrorSimilituds.setText("No hi ha altres productes registrats. Les similituds són opcionals.");
+            labelErrorSimilituds.setForeground(Color.green);
+            return true; // Permitir la creación del producto
         }
 
         try {
             Map<String, Double> similitudMap = parseSimilituds(similituds);
 
-            // Verificar si tots els IDs existents tenen una similitud
+            // Verificar si todos los IDs existentes tienen una similitud
             for (String id : productes.keySet()) {
                 if (!similitudMap.containsKey(id)) {
                     labelErrorSimilituds.setText("Error: Falta la similitud per al producte amb ID " + id);
@@ -183,7 +193,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
                 cp.crearProducteFitxer(path);
                 JOptionPane.showMessageDialog(this, "Producte importat amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
                 mostrarProductesEnJList();
-                prellenarAreaSimilituds();
+                precompletarAreaSimilituds();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error en importar el producte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -299,11 +309,6 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         labelErrorSimilituds.setForeground(new java.awt.Color(255, 255, 255));
         labelErrorSimilituds.setText("jLabel1");
 
-        llistaProductesExistents.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Producte 1", "Producte 2", "Producte 3", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         scrollPaneLlistaProductes.setViewportView(llistaProductesExistents);
 
         textAreaSims.setColumns(20);
@@ -336,7 +341,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
                             .addGroup(bgPanelLayout.createSequentialGroup()
                                 .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(labelProductesRegistrats)
-                                    .addComponent(scrollPaneLlistaProductes, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE))
+                                    .addComponent(scrollPaneLlistaProductes, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                                 .addGap(64, 64, 64)
                                 .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()

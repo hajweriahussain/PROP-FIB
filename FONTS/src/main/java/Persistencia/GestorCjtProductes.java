@@ -16,7 +16,7 @@ import com.google.gson.GsonBuilder;
 
 public class GestorCjtProductes {
 
-    public static List<String> importarProductes(String usuari) throws ExceptionFormat {
+    public static List<String> importarProductes(String usuari) {
         List<String> productes = new ArrayList<>();
         String ruta = getRuta(usuari);  // Obtenir la ruta de l'arxiu JSON corresponent a l'usuari
 
@@ -64,17 +64,17 @@ public class GestorCjtProductes {
                 }
             }
         } catch (IOException e) {
-            throw new ExceptionFormat("Error en accedir al arxiu: " + e.getMessage());
+            System.err.println("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            throw new ExceptionFormat("Error en parsear l'arxiu JSON: " + e.getMessage());
+            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            throw new ExceptionFormat("Error inesperat: " + e.getMessage());
+            System.err.println("Error inesperat: " + e.getMessage());
         }
 
         return productes;
     }
 
-    public static void guardarProductes(List<String> productes, String usuari) throws ExceptionFormat {
+    public static void guardarProductes(List<String> productes, String usuari) {
         if (productes != null) {
             Map<String, Object> jsonProductes = new LinkedHashMap<>();
             JSONParser parser = new JSONParser();
@@ -92,9 +92,9 @@ public class GestorCjtProductes {
 
                     jsonProductes.put(String.valueOf(id), producteOrdenat);
                 } catch (ParseException e) {
-                    throw new ExceptionFormat("Error al parsear el JSON: " + e.getMessage());
+                    System.err.println("Error al parsear el JSON: " + e.getMessage());
                 } catch (Exception e) {
-                    throw new ExceptionFormat("Error inesperat al guardar productes");
+                    System.err.println("Error inesperat al guardar productes");
                 }
             }
 
@@ -106,14 +106,14 @@ public class GestorCjtProductes {
                 file.write(gson.toJson(jsonProductes));
                 file.flush();
             } catch (IOException e) {
-                throw new ExceptionFormat("Error al guardar l'arxiu: " + e.getMessage());
+                System.err.println("Error al guardar l'arxiu: " + e.getMessage());
             }
         } else {
             esborrarProductes(usuari);
         }
     }
 
-    public static boolean esborrarProductes(String usuari) throws ExceptionFormat {
+    public static boolean esborrarProductes(String usuari) {
         String ruta = getRuta(usuari);
         boolean borrat = false;
 
@@ -124,13 +124,13 @@ public class GestorCjtProductes {
             }
         }
         catch (Exception e) {
-            throw new ExceptionFormat("Error inesperat al esborrar productes");
+            System.err.println("Error inesperat al esborrar productes");
         }
 
         return borrat;
     }
 
-    private static String getRuta(String usuari) throws ExceptionFormat {
+    private static String getRuta(String usuari) {
         String rutaCarpeta = "src/main/java/persistencia";
         String rutaArxiu = rutaCarpeta + "/" + usuari + "_productes.json";
 
@@ -144,38 +144,38 @@ public class GestorCjtProductes {
             try {
                 arxiu.createNewFile();  // Crea l'arxiu
             } catch (IOException e) {
-                throw new ExceptionFormat("Error en accedir al arxiu: " + e.getMessage());
+                System.err.println("Error en accedir al arxiu: " + e.getMessage());
             }
         }
 
         return rutaArxiu;
     }
     
-    public static List<String> importarFitxerProducte(String path) throws ExceptionFormat {
+    public static List<String> importarFitxerProducte(String path) {
         List<String> producteData = new ArrayList<>();
 
         try (FileReader fr = new FileReader(path);
             Scanner sc = new Scanner(fr)) {
 
             if (!sc.hasNextLine()) {
-                throw new ExceptionFormat("Error: El fitxer està buit.");
+                System.err.println("Error: El fitxer està buit.");
             }
 
             String linea = sc.nextLine();
             String[] parts = linea.split("\\s+");
 
             if (parts.length < 2) {
-                throw new ExceptionFormat("Error: La línia no conté suficients dades (ID i nom).");
+                System.err.println("Error: La línia no conté suficients dades (ID i nom).");
             }
 
             int id;
             try {
                 id = Integer.parseInt(parts[0]);
                 if (id <= 0) {
-                    throw new ExceptionFormat("Error: ID no vàlid (ha de ser major que 0): " + parts[0]);
+                    System.err.println("Error: ID no vàlid (ha de ser major que 0): " + parts[0]);
                 }
             } catch (NumberFormatException e) {
-                throw new ExceptionFormat("Error: Format incorrecte per a l'ID: " + parts[0]);
+                System.err.println("Error: Format incorrecte per a l'ID: " + parts[0]);
             }
 
             String nom = parts[1];
@@ -188,7 +188,7 @@ public class GestorCjtProductes {
                 String[] similitudParts = similitudLine.split("\\s+");
 
                 if (similitudParts.length != 2) {
-                    throw new ExceptionFormat("Error: La línia de similitud no és vàlida: " + similitudLine);
+                    System.err.println("Error: La línia de similitud no és vàlida: " + similitudLine);
                 }
 
                 try {
@@ -196,12 +196,12 @@ public class GestorCjtProductes {
                     double similitudValue = Double.parseDouble(similitudParts[1]);
 
                     if (similitudValue < 0 || similitudValue > 1) {
-                        throw new ExceptionFormat("Error: La similitud ha de ser un valor entre 0 i 1: " + similitudValue);
+                        System.err.println("Error: La similitud ha de ser un valor entre 0 i 1: " + similitudValue);
                     }
 
                     producteData.add(similitudId + ": " + similitudValue);
                 } catch (NumberFormatException e) {
-                    throw new ExceptionFormat("Error: Format incorrecte per a la similitud: " + similitudLine);
+                    System.err.println("Error: Format incorrecte per a la similitud: " + similitudLine);
                 }
             }
 
@@ -209,7 +209,7 @@ public class GestorCjtProductes {
             fr.close();
 
         } catch (IOException e) {
-            throw new ExceptionFormat("Error: No s'ha pogut llegir el fitxer: " + e.getMessage());
+            System.err.println("Error: No s'ha pogut llegir el fitxer: " + e.getMessage());
         }
 
         return producteData;

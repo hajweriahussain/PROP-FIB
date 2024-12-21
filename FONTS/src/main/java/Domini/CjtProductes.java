@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import java.util.Set;
+import Exceptions.ExceptionFormat;
 
 public class CjtProductes {
     private String usuari;
@@ -19,50 +20,44 @@ public class CjtProductes {
     }
 
 
-    public Map<Integer, Producte> getProductes(String nomUsuari) {
+    public Map<Integer, Producte> getProductes(String nomUsuari) throws ExceptionFormat {
         if (nomUsuari != null && usuari.equals(nomUsuari)) {
             return productes;
         }
-        else return null;
+        else {
+            throw new ExceptionFormat("Usuari no vàlid: " + nomUsuari);
+        }
     }
 
-    public Producte getProducte(int idProd) {
-        return productes.get(idProd);
+    public Producte getProducte(int idProd) throws ExceptionFormat {
+        Producte producte = productes.get(idProd);
+        if (producte == null) {
+            throw new ExceptionFormat("No existeix un producte amb l'ID: " + idProd);
+        }
+        return producte;
     }
     
-    public Pair<Integer, Integer> getPosProducte(int idProd, int idPres) {
+    public Pair<Integer, Integer> getPosProducte(int idProd, int idPres) throws ExceptionFormat {
         Producte prod = getProducte(idProd);
-        if (prod != null) {
-            Pair<Integer, Integer> posicio = prod.getPosPrestatgeria(idPres);
-            if (posicio != null) {
-                return posicio;
-            }
-            else return null;
+        Pair<Integer, Integer> posicio = prod.getPosPrestatgeria(idPres);
+        if (posicio == null) {
+            throw new ExceptionFormat("No hi ha posició per al producte amb ID " + idProd + " a la prestatgeria " + idPres);
         }
-        else {
-            System.out.println("Error: No existeix un producte amb l'ID " + idProd);
-            return null;
-        }
+        return posicio;
     }
     
-    public void setMapProductes(Map<Integer, Producte> prods) {
+    public void setMapProductes(Map<Integer, Producte> prods) throws ExceptionFormat {
         if (prods != null && !prods.isEmpty()) {
             this.productes = new HashMap<>(prods);
         }
         else {
-            System.out.println("Error: El map de productes és nul o buit");
+            throw new ExceptionFormat("El map de productes és nul o buit");
         }
     }
     
-    public Map<Integer, Pair<Integer, Integer>> getPosPrestatgeriesProducte(int idProd) {
+    public Map<Integer, Pair<Integer, Integer>> getPosPrestatgeriesProducte(int idProd) throws ExceptionFormat {
         Producte prod = getProducte(idProd);
-        if (prod != null) {
-            return prod.getPosPrestatgeries();
-        }
-        else {
-            System.out.println("Error: No existeix un producte amb l'ID " + idProd);
-            return null;
-        }
+        return prod.getPosPrestatgeries();
     }
 
     public Producte[] getVecProductes() {
@@ -70,130 +65,139 @@ public class CjtProductes {
         return producteList.toArray(Producte[]::new);
     }
 
-    public boolean existeixProducte(int idProd) {
+    public boolean existeixProducte(int idProd) throws ExceptionFormat {
+        if (idProd <= 0) {
+            throw new ExceptionFormat("L'ID ha de ser un nombre positiu.");
+        }
         return productes.containsKey(idProd);
     }
 
-    public void afegirProducte(int id, String nom, Map<Integer, Double> similituds) {
+    public void afegirProducte(int id, String nom, Map<Integer, Double> similituds) throws ExceptionFormat {
+        if (id <= 0) {
+            throw new ExceptionFormat("L'ID ha de ser un nombre positiu.");
+        }
+
+        if (existeixProducte(id)) {
+            throw new ExceptionFormat("Ja existeix un producte amb l'id especificat: " + id);
+        }
+
         Producte p = new Producte(id, nom, similituds);
-        if (!existeixProducte(p.getId())) { //
-            if (!p.getSimilituds().isEmpty()) {
-                productes.put(p.getId(), p);
+        productes.put(p.getId(), p);
 
-                for (Map.Entry<Integer, Double> entry : p.getSimilituds().entrySet()) {
-                    int prodVecId = entry.getKey();
-                    double similitud = entry.getValue();
+        if (similituds != null && !similituds.isEmpty()) {
+            for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
+                int prodVecId = entry.getKey();
+                double similitud = entry.getValue();
 
-                    Producte prodVec = getProducte(prodVecId);
-                    if (prodVec != null) {
-                        prodVec.afegirSimilitud(p.getId(), similitud);
-                    }
+                Producte prodVec = getProducte(prodVecId);
+                if (prodVec != null) {
+                    prodVec.afegirSimilitud(p.getId(), similitud);
                 }
-            }
-            else {
-                System.out.println("Error: El producte no té similituds associades.");
-            }
-        }
-        else {
-            System.out.println("Error: Ja existeix un producte amb l'id especificat");
-        }
-    }
-
-    public void editarProducte(Producte p) {
-        if (existeixProducte(p.getId())) {
-            Producte prod = getProducte(p.getId());
-            prod.setNom(p.getNom());
-        }
-        else {
-            System.out.println("Error: No existeix producte a editar");
-        }
-    }
-
-    public void editarIdProducte(int idProd, int nouIdProd) {
-        Producte prod = getProducte(idProd);
-        if (prod != null) {
-            if (!existeixProducte(nouIdProd)) {
-                for (Producte prod2 : productes.values()) {
-                    if (prod2.getSimilituds().containsKey(idProd)) {
-                        double similitud = prod2.getSimilitud(idProd);
-                        prod2.afegirSimilitud(nouIdProd, similitud);
-                        prod2.getSimilituds().remove(idProd);
-                    }
-                }
-
-                prod.setId(nouIdProd);
-                productes.remove(idProd);
-                productes.put(nouIdProd, prod);
-            }
-            else {
-                System.out.println("Error: Ja existeix un producte amb el nou id especificat");
-            }
-        }
-        else {
-            System.out.println("Error: No existeix producte a editar");
-        }
-    }
-
-    public void editarNomProducte(int idProd, String nouNom) {
-        Producte prod = getProducte(idProd);
-        if (prod != null) {
-            prod.setNom(nouNom);
-        }
-        else {
-            System.out.println("Error: No existeix producte a editar");
-        }
-    }
-
-    public void editarPosProducte(int idProd, int idPres, Pair<Integer, Integer> novaPos) {
-        Producte prod = getProducte(idProd);
-        if (prod != null) {
-            prod.modificarPosPrestatgeria(idPres, novaPos);
-            System.out.println("Posició del producte " + idProd + " actualitzada a la prestatgeria " + idPres);
-        } else {
-            System.out.println("Error: No existeix producte amb ID " + idProd);
-        }
-    }
-
-    public void eliminarProducte(int idProd) {
-        if (existeixProducte(idProd)) {
-            productes.remove(idProd);
-            for (Producte prod2 : productes.values()) {
-                if (prod2.getSimilituds().containsKey(idProd)) {
-                    prod2.getSimilituds().remove(idProd);
+                else {
+                    throw new ExceptionFormat("No existeix un producte amb l'ID de similitud: " + prodVecId);
                 }
             }
         }
-        else {
-            System.out.println("Error: No existeix producte a eliminar");
+    }
+
+
+    public void editarProducte(Producte p) throws ExceptionFormat {
+        if (!existeixProducte(p.getId())) {
+            throw new ExceptionFormat("No existeix producte a editar amb ID: " + p.getId());
+        }
+
+        Producte prod = getProducte(p.getId());
+        prod.setNom(p.getNom());
+    }
+
+    public void editarIdProducte(int idProd, int nouIdProd) throws ExceptionFormat {
+
+        Producte prod = getProducte(idProd);
+        if (prod == null) {
+            throw new ExceptionFormat("No existeix producte a editar amb ID: " + idProd);
+        }
+
+        if (existeixProducte(nouIdProd)) {
+            throw new ExceptionFormat("Ja existeix un producte amb el nou ID especificat: " + nouIdProd);
+        }
+
+        for (Producte prod2 : productes.values()) {
+            if (prod2.getSimilituds().containsKey(idProd)) {
+                double similitud = prod2.getSimilitud(idProd);
+                prod2.afegirSimilitud(nouIdProd, similitud);
+                prod2.getSimilituds().remove(idProd);
+            }
+        }
+
+        prod.setId(nouIdProd);
+        productes.remove(idProd);
+        productes.put(nouIdProd, prod);
+    }
+
+
+    public void editarNomProducte(int idProd, String nouNom) throws ExceptionFormat {
+        Producte prod = getProducte(idProd);
+        if (prod == null) {
+            throw new ExceptionFormat("No existeix producte a editar amb ID: " + idProd);
+        }
+
+        prod.setNom(nouNom);
+    }
+
+
+    public void editarPosProducte(int idProd, int idPres, Pair<Integer, Integer> novaPos) throws ExceptionFormat {
+        Producte prod = getProducte(idProd);
+        if (prod == null) {
+            throw new ExceptionFormat("No existeix producte amb ID: " + idProd);
+        }
+
+        prod.modificarPosPrestatgeria(idPres, novaPos);
+    }
+
+    public void eliminarProducte(int idProd) throws ExceptionFormat {
+        if (!existeixProducte(idProd)) {
+            throw new ExceptionFormat("No existeix producte a eliminar amb ID: " + idProd);
+        }
+
+        productes.remove(idProd);
+        for (Producte prod2 : productes.values()) {
+            if (prod2.getSimilituds().containsKey(idProd)) {
+                prod2.getSimilituds().remove(idProd);
+            }
         }
     }
 
-    public void modificarSimilitud(int idProd1, int idProd2, double novaSimilitud) {
+    public void modificarSimilitud(int idProd1, int idProd2, double novaSimilitud) throws ExceptionFormat {
         Producte prod1 = getProducte(idProd1);
         Producte prod2 = getProducte(idProd2);
 
-        if (prod1 != null && prod2 != null) {
-            if (prod1.getSimilituds().containsKey(idProd2)) {
-                prod1.modificarSimilitud(idProd2, novaSimilitud);
-                prod2.modificarSimilitud(idProd1, novaSimilitud);
-                System.out.println("Similitud actualitzada!");
-            }
-            else {
-                System.out.println("Error: No existeix una similitud entre els productes");
-            }
+        if (prod1 == null) {
+            throw new ExceptionFormat("No existeix producte amb ID: " + idProd1);
+        }
+
+        if (prod2 == null) {
+            throw new ExceptionFormat("No existeix producte amb ID: " + idProd2);
+        }
+
+        if (prod1.getSimilituds().containsKey(idProd2)) {
+            prod1.modificarSimilitud(idProd2, novaSimilitud);
+            prod2.modificarSimilitud(idProd1, novaSimilitud);
+            System.out.println("Similitud actualitzada!");
         }
         else {
-            System.out.println("Error: Un o ambdós productes no existeixen");
+            throw new ExceptionFormat("No existeix una similitud entre els productes amb IDs: " + idProd1 + " i " + idProd2);
         }
     }
 
-    public Map<Integer, Double> getSimilituds(int idProd) {
+    public Map<Integer, Double> getSimilituds(int idProd) throws ExceptionFormat {
         Producte prod = getProducte(idProd);
-        if (prod != null) {
-            return prod.getSimilituds();
+        if (prod == null) {
+            throw new ExceptionFormat("No existeix producte amb ID: " + idProd);
         }
-        else return null;
+
+        return prod.getSimilituds();
     }
+
 
     public double[][] getMatriuSimilituds() {
         int n = productes.size();
@@ -216,7 +220,7 @@ public class CjtProductes {
         return mat;
     }
     
-    public double[][] getMatriuSimilitudsPerIds(int[] idsProds) {
+    public double[][] getMatriuSimilitudsPerIds(int[] idsProds) throws ExceptionFormat {
         int n = idsProds.length;
         double[][] mat = new double[n][n];
 
@@ -234,7 +238,7 @@ public class CjtProductes {
         return mat;
     }
     
-    public Producte[][] getMatProductes(Integer[][] idsProds) {
+    public Producte[][] getMatProductes(Integer[][] idsProds) throws ExceptionFormat {
         if (idsProds == null) return null;
         
         int files = idsProds.length;
@@ -262,7 +266,7 @@ public class CjtProductes {
         return matProds;
     }
     
-    public Map<Integer, Producte> listToProductes(List<String> producteJsonList) {
+    public Map<Integer, Producte> listToProductes(List<String> producteJsonList) throws ExceptionFormat {
         Gson gson = new Gson();
         Map<Integer, Producte> productesMap = new HashMap<>();
 
@@ -295,27 +299,25 @@ public class CjtProductes {
 
                 productesMap.put(id, prod);
             } catch (NumberFormatException e) {
-                System.err.println("Error de format numèric en el JSON: " + jsonProducte);
+                throw new ExceptionFormat("Error de format numèric en el JSON: " + jsonProducte);
             } catch (ClassCastException e) {
-                System.err.println("Error de tipus de dades en el JSON: " + jsonProducte);
+                throw new ExceptionFormat("Error de tipus de dades en el JSON: " + jsonProducte);
             } catch (Exception e) {
-                System.err.println("Error inesperat al processar el JSON: " + jsonProducte);
-                e.printStackTrace();
+                throw new ExceptionFormat("Error inesperat al processar el JSON: " + e.getMessage());
             }
         }
 
         return productesMap;
     }
     
-    public List<String> productesToList(Map<Integer, Producte> productes) {
+    public List<String> productesToList(Map<Integer, Producte> productes) throws ExceptionFormat {
         Gson gson = new Gson();
         List<String> producteList = new ArrayList<>();
 
         if (productes != null) {
             for (Producte prod : productes.values()) {
                 if (prod == null) {
-                    System.err.println("Producte nul trobat en el mapa.");
-                    continue;
+                    throw new ExceptionFormat("Producte nul trobat en el mapa.");
                 }
                 try {
                     Map<String, Object> producteData = Map.of(
@@ -327,22 +329,20 @@ public class CjtProductes {
                     String jsonProducte = gson.toJson(producteData);
                     producteList.add(jsonProducte);
                 } catch (Exception e) {
-                    System.err.println("Error al processar el producte amb ID " + prod.getId() + ": " + e.getMessage());
-                    e.printStackTrace();
+                    throw new ExceptionFormat("Error al processar el producte amb ID " + prod.getId() + ": " + e.getMessage());
                 }
             }
         }
         return producteList;
     }
     
-    public Map<String, Map<String, String>> llistarProductesUsuari() {
+    public Map<String, Map<String, String>> llistarProductesUsuari() throws ExceptionFormat {
         Map<String, Map<String, String>> llistatProductes = new HashMap<>();
         Gson gson = new Gson();
 
         for (Producte prod : productes.values()) {
             if (prod == null) {
-                System.err.println("Producte nul trobat en el mapa.");
-                continue;
+                throw new ExceptionFormat("Producte nul trobat en el mapa.");
             }
 
             String productId = String.valueOf(prod.getId());
@@ -355,8 +355,7 @@ public class CjtProductes {
                 infoProducte.put("similituds", gson.toJson(prod.getSimilituds()));
                 infoProducte.put("posPrestatgeries", gson.toJson(prod.getPosPrestatgeries()));
             } catch (Exception e) {
-                System.err.println("Error al convertir el producte amb ID " + productId + " a JSON: " + e.getMessage());
-                continue;
+                throw new ExceptionFormat("Error al convertir el producte amb ID " + productId + " a JSON: " + e.getMessage());
             }
 
             llistatProductes.put(productId, infoProducte);

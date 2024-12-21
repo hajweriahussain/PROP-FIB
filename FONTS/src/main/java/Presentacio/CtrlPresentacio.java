@@ -78,7 +78,18 @@ public class CtrlPresentacio {
     // PRODUCTES
       
     public void crearProducte(String idProd, String nomProd, String similituds) {
-        Map<Integer, Double> similitudsMap = convertirStringAMap(similituds);
+        System.out.println("Chivato");
+
+        Map<Integer, Double> similitudsMap;
+
+        if (similituds == null || similituds.trim().isEmpty() || "{}".equals(similituds.trim())) {
+            similitudsMap = new HashMap<>(); // Crear un mapa vacío
+        } else {
+            // Convertir la cadena de similitudes a un mapa
+            similitudsMap = convertirStringAMap(similituds);
+        }
+
+        // Llamar al controlador de dominio para crear el producto
         ctrlDomini.crearProducte(Integer.parseInt(idProd), nomProd, similitudsMap);
     }
 

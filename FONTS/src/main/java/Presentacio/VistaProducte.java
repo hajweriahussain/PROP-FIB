@@ -54,8 +54,6 @@ public class VistaProducte extends javax.swing.JPanel {
         jPanelGeneral.add(infoPanel, "infoPanel");
         jPanelGeneral.add(editarPanel, "editarPanel");
         
-        vistaCrearProducte = new VistaCrearProducte();
-        vistaCrearProducte.setVistaProducte(this);
         jPanelGeneral.add(vistaCrearProducte, "crearProductePanel");
         
         cardLayout.show(jPanelGeneral, "llistaPanel");
@@ -181,8 +179,26 @@ public class VistaProducte extends javax.swing.JPanel {
         gbc.insets = new Insets(0, 25, 10, 25);
         editarPanel.add(textNouNom, gbc);
 
-        // Botó Guardar
+        // Label Algoritmes
         gbc.gridy = 6;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(15, 25, 5, 25);
+        editarPanel.add(labelAlgoritmes, gbc);
+
+        // RadioButton FB
+        gbc.gridy = 7;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 25, 10, 25);
+        editarPanel.add(rbFB, gbc);
+        
+        // RadioButton DosA
+        gbc.gridy = 8;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 25, 10, 25);
+        editarPanel.add(rbDosA, gbc);
+        
+        // Botó Guardar
+        gbc.gridy = 9;
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(20, 0, 25, 0);
@@ -435,6 +451,9 @@ public class VistaProducte extends javax.swing.JPanel {
         botoSortirEditar = new javax.swing.JButton();
         scrollPaneTaulaSimilituds = new javax.swing.JScrollPane();
         taulaSimilituds = new javax.swing.JTable();
+        labelAlgoritmes = new javax.swing.JLabel();
+        rbFB = new javax.swing.JRadioButton();
+        rbDosA = new javax.swing.JRadioButton();
 
         jPanelGeneral.setLayout(new java.awt.CardLayout());
 
@@ -577,12 +596,12 @@ public class VistaProducte extends javax.swing.JPanel {
                                     .addGap(2, 2, 2)
                                     .addComponent(labelId)
                                     .addGap(18, 18, 18)
-                                    .addComponent(textIdInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)))
+                                    .addComponent(textIdInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)))
                             .addComponent(labelLlistaProductes))
                         .addGap(66, 66, 66)
                         .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(scrollPanePosPrestatgeries, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                                .addComponent(scrollPanePosPrestatgeries, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
                                 .addComponent(scrollPaneSimilituds))
                             .addComponent(labelSimilituds)
                             .addComponent(labelPosPrestatgeries))
@@ -681,36 +700,46 @@ public class VistaProducte extends javax.swing.JPanel {
         ));
         scrollPaneTaulaSimilituds.setViewportView(taulaSimilituds);
 
+        labelAlgoritmes.setText("Selecciona un algoritme per recalcular les prestatgeries:");
+
+        rbFB.setText("Força Bruta");
+
+        rbDosA.setText("Dos Aproximació");
+
         javax.swing.GroupLayout editarPanelLayout = new javax.swing.GroupLayout(editarPanel);
         editarPanel.setLayout(editarPanelLayout);
         editarPanelLayout.setHorizontalGroup(
             editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(editarPanelLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
                 .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(labelNouId))
+                        .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelNouId)
+                            .addComponent(textNouId, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelNouNom)
+                            .addComponent(textNouNom, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(457, Short.MAX_VALUE))
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addComponent(scrollPaneTaulaSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelAlgoritmes)
+                            .addGroup(editarPanelLayout.createSequentialGroup()
+                                .addComponent(rbFB)
+                                .addGap(63, 63, 63)
+                                .addComponent(rbDosA)))
+                        .addGap(33, 33, 33))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editarPanelLayout.createSequentialGroup()
+                .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botoGuardar))
                     .addGroup(editarPanelLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(textNouId, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(labelNouNom))
-                    .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(textNouNom, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(scrollPaneTaulaSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addGap(615, 615, 615)
-                        .addComponent(botoGuardar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(editarPanelLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(labelTitolEditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelTitolEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(25, 25, 25))
         );
         editarPanelLayout.setVerticalGroup(
@@ -729,9 +758,18 @@ public class VistaProducte extends javax.swing.JPanel {
                 .addGap(12, 12, 12)
                 .addComponent(textNouNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
-                .addComponent(scrollPaneTaulaSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
-                .addComponent(botoGuardar))
+                .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addComponent(scrollPaneTaulaSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botoGuardar))
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addComponent(labelAlgoritmes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbFB)
+                            .addComponent(rbDosA))))
+                .addContainerGap())
         );
 
         jPanelGeneral.add(editarPanel, "card4");
@@ -805,6 +843,7 @@ public class VistaProducte extends javax.swing.JPanel {
     private javax.swing.JPanel editarPanel;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JPanel jPanelGeneral;
+    private javax.swing.JLabel labelAlgoritmes;
     private javax.swing.JLabel labelId;
     private javax.swing.JLabel labelLlistaProductes;
     private javax.swing.JLabel labelNom;
@@ -819,6 +858,8 @@ public class VistaProducte extends javax.swing.JPanel {
     private javax.swing.JList<String> llistaProductesExistents;
     private javax.swing.JScrollPane panelProds;
     private javax.swing.JPanel productPanel;
+    private javax.swing.JRadioButton rbDosA;
+    private javax.swing.JRadioButton rbFB;
     private javax.swing.JScrollPane scrollPanePosPrestatgeries;
     private javax.swing.JScrollPane scrollPaneProductes;
     private javax.swing.JScrollPane scrollPaneSimilituds;
