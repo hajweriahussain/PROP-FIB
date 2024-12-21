@@ -388,6 +388,7 @@ public class VistaProducte extends javax.swing.JPanel {
     // Mètode per tornar al llistaPanel
     public void mostrarLlistaPanel() {
         cardLayout.show(jPanelGeneral, "llistaPanel");
+        carregarProductesEnScrollPanel();
     }
 
     /**
