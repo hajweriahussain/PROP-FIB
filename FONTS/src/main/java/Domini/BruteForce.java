@@ -81,7 +81,10 @@ public class BruteForce implements GeneradorSolucio {
     public Integer[][] generarLayout(){
         int r = vecProductes.length - 1;
         BigInteger[] numPermutacions = {factorial(r)};
-        int[] vP = vecProductes;
+        int[] vP = new int[r+1];
+        for(int i=0;i<= r; ++i){
+            vP[i] = i;
+        }
 
         permutacions(vP,0,r,numPermutacions);
         
