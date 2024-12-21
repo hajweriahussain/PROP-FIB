@@ -103,7 +103,6 @@ public class CtrlDomini {
 
         Integer[][] solucio = generadorInicial.generarLayout();
         cjtPrestatgeries.setLayout(cjtProductes.getMatProductes(solucio), id);
-//        cjtproductes necesitara hacer getmatproductes
 
         for (int i = 0; i < solucio.length; i++) {
             for(int j = 0; j < solucio[0].length; ++j){
@@ -219,9 +218,9 @@ public class CtrlDomini {
         return UsuariActual.getUsername();
     }
     
-    public void LlegirProducteFitxer(String nom, String id, String path) {
+    public void LlegirProducteFitxer(String path) {
         List<String> prodInfo = cp.importarFitxerProducte(path);
-        afegirProducteFitxer(nom, id, prodInfo);
+        afegirProducteFitxer(prodInfo);
 
     }
     public void LlegirPrestatgeriaFitxer(String nom, String id, String cols, String path) {
@@ -230,15 +229,17 @@ public class CtrlDomini {
 
     }
     
-    private void afegirProducteFitxer(String nom, String id, List<String> sims){
-        int idProd = Integer.parseInt(id);
-        Map<Integer, Double> mapSims = sims.stream()
+    private void afegirProducteFitxer(List<String> prodInfo){
+        int idProd = Integer.parseInt(prodInfo.get(0));
+         Map<Integer, Double> mapSims = prodInfo.subList(2, prodInfo.size()).stream() // Tomar los elementos desde el índice 2
             .map(entry -> entry.split(":")) // Dividir cada elemento por ":"
             .collect(Collectors.toMap(
                 parts -> Integer.valueOf(parts[0]), // Clave: convertir la primera parte a Integer
                 parts -> Double.valueOf(parts[1])  // Valor: convertir la segunda parte a Double
             ));
-        crearProducte(idProd, nom, mapSims);
+
+        // Crear el producto con los datos procesados
+        crearProducte(idProd, prodInfo.get(1), mapSims);
        
     }
 
