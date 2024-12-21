@@ -1,16 +1,12 @@
 package Persistencia;
 
 import java.util.List;
-import Exceptions.ExceptionFormat;
 
 /**
  * Controlador de persistència que gestiona les operacions relacionades amb els usuaris, els productes 
  * i les prestatgeries.
  * Aquesta classe fa servir els gestors específics per a usuaris, productes i prestatgeries per realitzar
  * accions com crear, eliminar, modificar o importar usuaris i dades relacionades.
- * 
- * Els mètodes d'aquesta classe poden llançar excepcions del tipus {@link ExceptionFormat} si hi ha un error
- * de format o altres problemes durant la manipulació de les dades.
  */
 public class CtrlPersistencia {
 
@@ -27,9 +23,8 @@ public class CtrlPersistencia {
      * 
      * @param user El nom d'usuari a verificar.
      * @return true si l'usuari existeix, false en cas contrari.
-     * @throws ExceptionFormat Si hi ha un error amb el format de l'usuari.
      */
-    public boolean existeixUsuari(String user) throws ExceptionFormat{
+    public boolean existeixUsuari(String user) {
         return GestorUsuaris.existeixUsuari(user);
     }
     
@@ -38,9 +33,8 @@ public class CtrlPersistencia {
      * 
      * @param user El nom d'usuari a afegir.
      * @param password La contrasenya per a l'usuari.
-     * @throws ExceptionFormat Si hi ha un error amb el format dels paràmetres.
      */
-    public void afegirUsuari(String user, String password) throws ExceptionFormat{
+    public void afegirUsuari(String user, String password){
         GestorUsuaris.afegirUsuari(user,password);
     }
     
@@ -48,9 +42,8 @@ public class CtrlPersistencia {
      * Elimina un usuari del sistema. Aquesta operació també elimina les prestatgeries i els productes associats a l'usuari.
      * 
      * @param user El nom d'usuari a eliminar.
-     * @throws ExceptionFormat Si hi ha un error amb el format de l'usuari.
      */
-    public void eliminarUsuari(String user) throws ExceptionFormat{ 
+    public void eliminarUsuari(String user){ 
         GestorUsuaris.eliminarUsuari(user);
         GestorCjtProductes.esborrarProductes(user);
         GestorCjtPrestatgeries.esborrarPrestatgeriesUsuari(user);
@@ -61,9 +54,8 @@ public class CtrlPersistencia {
      * 
      * @param user El nom d'usuari per al qual es vol canviar la contrasenya.
      * @param novaPassword La nova contrasenya.
-     * @throws ExceptionFormat Si hi ha un error amb el format de les dades.
      */
-    public void canviarContrasenya(String user, String novaPassword) throws ExceptionFormat{
+    public void canviarContrasenya(String user, String novaPassword){
         GestorUsuaris.canviarContrasenya(user,novaPassword);
     }
     
@@ -73,9 +65,8 @@ public class CtrlPersistencia {
      * @param user El nom d'usuari.
      * @param password La contrasenya per verificar.
      * @return true si la contrasenya és correcta, false en cas contrari.
-     * @throws ExceptionFormat Si hi ha un error amb el format de les dades.
      */
-    public boolean verificarContrasenya(String user, String password) throws ExceptionFormat{
+    public boolean verificarContrasenya(String user, String password){
         return GestorUsuaris.verificarContrasenya(user,password);
     }
     
@@ -84,9 +75,8 @@ public class CtrlPersistencia {
      * 
      * @param usuari El nom d'usuari per al qual es volen importar les prestatgeries.
      * @return Una llista amb les prestatgeries de l'usuari.
-     * @throws ExceptionFormat Si hi ha un error amb el format de les dades.
      */
-    public List<String> importarPrestatgeries(String usuari) throws ExceptionFormat{
+    public List<String> importarPrestatgeries(String usuari){
         return GestorCjtPrestatgeries.importarPrestatgeries(usuari);
     }
     
@@ -95,9 +85,8 @@ public class CtrlPersistencia {
      * 
      * @param prestatgeries La llista de prestatgeries a desar.
      * @param usuari El nom de l'usuari per al qual es volen desar les prestatgeries.
-     * @throws ExceptionFormat Si hi ha un error amb el format de les dades.
      */
-    public void guardarPrestatgeries(List<String> prestatgeries, String usuari) throws ExceptionFormat{
+    public void guardarPrestatgeries(List<String> prestatgeries, String usuari) {
         GestorCjtPrestatgeries.guardarPrestatgeries(prestatgeries,usuari);
     }
 
@@ -106,9 +95,8 @@ public class CtrlPersistencia {
      * 
      * @param path La ruta al fitxer que conté les prestatgeries.
      * @return Una llista amb les prestatgeries importades des del fitxer.
-     * @throws ExceptionFormat Si hi ha un error amb el format del fitxer.
      */
-    public List<String> importarFitxerPrestatgeria(String path) throws ExceptionFormat{
+    public List<String> importarFitxerPrestatgeria(String path) {
         return GestorCjtPrestatgeries.importarFitxerPrestatgeria(path);
     }
     
@@ -117,9 +105,8 @@ public class CtrlPersistencia {
      * 
      * @param usuari El nom d'usuari per al qual es volen importar els productes.
      * @return Una llista amb els productes de l'usuari.
-     * @throws ExceptionFormat Si hi ha un error amb el format de les dades.
      */
-    public List<String> importarProductes(String usuari) throws ExceptionFormat{
+    public List<String> importarProductes(String usuari){
         return GestorCjtProductes.importarProductes(usuari);
     }
     
@@ -128,9 +115,8 @@ public class CtrlPersistencia {
      * 
      * @param productes La llista de productes a desar.
      * @param usuari El nom de l'usuari per al qual es volen desar els productes.
-     * @throws ExceptionFormat Si hi ha un error amb el format de les dades.
      */
-    public void guardarProductes(List<String> productes, String usuari) throws ExceptionFormat{
+    public void guardarProductes(List<String> productes, String usuari){
         GestorCjtProductes.guardarProductes(productes, usuari);
     }
     
@@ -139,9 +125,8 @@ public class CtrlPersistencia {
      * 
      * @param path La ruta al fitxer que conté els productes.
      * @return Una llista amb els productes importats des del fitxer.
-     * @throws ExceptionFormat Si hi ha un error amb el format del fitxer.
      */
-    public List<String> importarFitxerProducte(String path) throws ExceptionFormat{
+    public List<String> importarFitxerProducte(String path) {
         return GestorCjtProductes.importarFitxerProducte(path);
     }
 }

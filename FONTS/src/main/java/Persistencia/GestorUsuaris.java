@@ -5,15 +5,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.util.Iterator;
 import java.io.*;
-import Exceptions.ExceptionFormat;
 
 /**
  * Gestor d'usuaris que gestiona les operacions de creació, eliminació, verificació i modificació de les dades
  * d'usuaris emmagatzemades en un arxiu JSON. Aquesta classe permet afegir nous usuaris, eliminar-los, verificar les
  * contrasenyes i canviar-les.
- * 
- * Tots els mètodes d'aquesta classe poden llançar excepcions del tipus {@link ExceptionFormat} si hi ha un error 
- * relacionat amb l'accés a l'arxiu o amb el format de les dades.
  */
 public class GestorUsuaris {
 
@@ -22,9 +18,8 @@ public class GestorUsuaris {
      * 
      * @param user El nom d'usuari a afegir.
      * @param password La contrasenya de l'usuari.
-     * @throws ExceptionFormat Si hi ha un error en l'accés a l'arxiu o en el format de les dades.
      */
-    public static void afegirUsuari(String user, String password) throws ExceptionFormat {
+    public static void afegirUsuari(String user, String password) {
         String ruta = getRuta();
         JSONArray jsonArray = new JSONArray();
         
@@ -45,11 +40,11 @@ public class GestorUsuaris {
                 fileWriter.write(jsonArray.toJSONString());
             }    
         } catch (IOException e) {
-            throw new ExceptionFormat("Error en accedir al arxiu");
+            System.err.println("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            throw new ExceptionFormat("Error en parsear l'arxiu JSON");
+            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            throw new ExceptionFormat("Error inesperat");
+            System.err.println("Error inesperat: " + e.getMessage());
         }
     }
     
@@ -57,9 +52,8 @@ public class GestorUsuaris {
      * Elimina un usuari específic de l'arxiu JSON.
      * 
      * @param user El nom de l'usuari a eliminar.
-     * @throws ExceptionFormat Si hi ha un error en l'accés a l'arxiu o en el format de les dades.
      */
-    public static void eliminarUsuari(String user) throws ExceptionFormat {
+    public static void eliminarUsuari(String user)  {
         try {
             String ruta = getRuta();
             JSONParser parser = new JSONParser();
@@ -81,11 +75,11 @@ public class GestorUsuaris {
             }
             
         } catch (IOException e) {
-            throw new ExceptionFormat("Error en accedir al arxiu");
+            System.err.println("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            throw new ExceptionFormat("Error en parsear l'arxiu JSON");
+            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            throw new ExceptionFormat("Error inesperat");
+            System.err.println("Error inesperat: " + e.getMessage());
         }
     }
     
@@ -94,9 +88,8 @@ public class GestorUsuaris {
      * 
      * @param user El nom de l'usuari a verificar.
      * @return true si l'usuari existeix, false en cas contrari.
-     * @throws ExceptionFormat Si hi ha un error en l'accés a l'arxiu o en el format de les dades.
      */
-    public static boolean existeixUsuari(String user) throws ExceptionFormat { 
+    public static boolean existeixUsuari(String user) { 
         String ruta = getRuta();
         JSONArray usuarisJson = new JSONArray();
         
@@ -119,12 +112,13 @@ public class GestorUsuaris {
             else return false;
             
         } catch (IOException e) {
-            throw new ExceptionFormat("Error en accedir al arxiu");
+            System.err.println("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            throw new ExceptionFormat("Error en parsear l'arxiu JSON");
+            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            throw new ExceptionFormat("Error inesperat");
+            System.err.println("Error inesperat: " + e.getMessage());
         }
+
         return false;    
     }
     
@@ -134,9 +128,8 @@ public class GestorUsuaris {
      * @param user El nom de l'usuari per verificar la contrasenya.
      * @param password La contrasenya a verificar.
      * @return true si la contrasenya és correcta, false en cas contrari.
-     * @throws ExceptionFormat Si hi ha un error en l'accés a l'arxiu o en el format de les dades.
      */
-    public static boolean verificarContrasenya(String user, String password) throws ExceptionFormat {
+    public static boolean verificarContrasenya(String user, String password) {
         String ruta = getRuta();
         JSONArray usuarisJson = new JSONArray();
         
@@ -161,11 +154,11 @@ public class GestorUsuaris {
             else return false;
             
         } catch (IOException e) {
-            throw new ExceptionFormat("Error en accedir al arxiu");
+            System.err.println("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            throw new ExceptionFormat("Error en parsear l'arxiu JSON");
+            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            throw new ExceptionFormat("Error inesperat");
+            System.err.println("Error inesperat: " + e.getMessage());
         }
         return false;    
     }
@@ -177,12 +170,9 @@ public class GestorUsuaris {
      * @param novaPassword La nova contrasenya per a l'usuari.
      */
     public static void canviarContrasenya(String user, String novaPassword) {
-        try {
-            eliminarUsuari(user);
-            afegirUsuari(user, novaPassword);
-        } catch (ExceptionFormat e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        eliminarUsuari(user);
+        afegirUsuari(user, novaPassword);
+        
     }
 
     /**
