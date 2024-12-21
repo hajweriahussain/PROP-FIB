@@ -7,15 +7,29 @@ import java.util.Iterator;
 import java.io.*;
 import Exceptions.ExceptionFormat;
 
-public class GestorUsuaris{
+/**
+ * Gestor d'usuaris que gestiona les operacions de creació, eliminació, verificació i modificació de les dades
+ * d'usuaris emmagatzemades en un arxiu JSON. Aquesta classe permet afegir nous usuaris, eliminar-los, verificar les
+ * contrasenyes i canviar-les.
+ * 
+ * Tots els mètodes d'aquesta classe poden llançar excepcions del tipus {@link ExceptionFormat} si hi ha un error 
+ * relacionat amb l'accés a l'arxiu o amb el format de les dades.
+ */
+public class GestorUsuaris {
 
-    public static void afegirUsuari(String user, String password) throws ExceptionFormat{
-        
+    /**
+     * Afegeix un nou usuari amb el nom d'usuari i la contrasenya especificats a l'arxiu JSON.
+     * 
+     * @param user El nom d'usuari a afegir.
+     * @param password La contrasenya de l'usuari.
+     * @throws ExceptionFormat Si hi ha un error en l'accés a l'arxiu o en el format de les dades.
+     */
+    public static void afegirUsuari(String user, String password) throws ExceptionFormat {
         String ruta = getRuta();
         JSONArray jsonArray = new JSONArray();
         
-        try(FileReader fr = new FileReader(ruta)) {
-            if(new java.io.File(ruta).length() > 0) {
+        try (FileReader fr = new FileReader(ruta)) {
+            if (new java.io.File(ruta).length() > 0) {
                 JSONParser parser = new JSONParser();
                 Object obj = parser.parse(fr);
                 
@@ -26,7 +40,6 @@ public class GestorUsuaris{
             jsonUsuario.put("Username", user);
             jsonUsuario.put("Contrasenya", password);
             jsonArray.add(jsonUsuario);
-
 
             try (FileWriter fileWriter = new FileWriter(ruta)) {
                 fileWriter.write(jsonArray.toJSONString());
@@ -40,8 +53,13 @@ public class GestorUsuaris{
         }
     }
     
-    public static void eliminarUsuari(String user) throws ExceptionFormat{
-        
+    /**
+     * Elimina un usuari específic de l'arxiu JSON.
+     * 
+     * @param user El nom de l'usuari a eliminar.
+     * @throws ExceptionFormat Si hi ha un error en l'accés a l'arxiu o en el format de les dades.
+     */
+    public static void eliminarUsuari(String user) throws ExceptionFormat {
         try {
             String ruta = getRuta();
             JSONParser parser = new JSONParser();
@@ -52,7 +70,7 @@ public class GestorUsuaris{
                 JSONObject usuariActual = iterator.next();
                 String nomUsuariActual = (String) usuariActual.get("Username");
                 
-                if(nomUsuariActual != null && nomUsuariActual.equals(user)) {
+                if (nomUsuariActual != null && nomUsuariActual.equals(user)) {
                     iterator.remove();
                     break;
                 }
@@ -71,12 +89,19 @@ public class GestorUsuaris{
         }
     }
     
-    public static boolean existeixUsuari(String user) throws ExceptionFormat{ 
+    /**
+     * Verifica si un usuari existeix a l'arxiu JSON.
+     * 
+     * @param user El nom de l'usuari a verificar.
+     * @return true si l'usuari existeix, false en cas contrari.
+     * @throws ExceptionFormat Si hi ha un error en l'accés a l'arxiu o en el format de les dades.
+     */
+    public static boolean existeixUsuari(String user) throws ExceptionFormat { 
         String ruta = getRuta();
         JSONArray usuarisJson = new JSONArray();
         
-        try(FileReader fr = new FileReader(ruta)) {
-            if(new java.io.File(ruta).length() > 0) {
+        try (FileReader fr = new FileReader(ruta)) {
+            if (new java.io.File(ruta).length() > 0) {
                 JSONParser parser = new JSONParser();
                 Object obj = parser.parse(fr);
                 
@@ -103,12 +128,20 @@ public class GestorUsuaris{
         return false;    
     }
     
-    public static boolean verificarContrasenya(String user, String password) throws ExceptionFormat{
+    /**
+     * Verifica si la contrasenya proporcionada és correcta per a un usuari determinat.
+     * 
+     * @param user El nom de l'usuari per verificar la contrasenya.
+     * @param password La contrasenya a verificar.
+     * @return true si la contrasenya és correcta, false en cas contrari.
+     * @throws ExceptionFormat Si hi ha un error en l'accés a l'arxiu o en el format de les dades.
+     */
+    public static boolean verificarContrasenya(String user, String password) throws ExceptionFormat {
         String ruta = getRuta();
         JSONArray usuarisJson = new JSONArray();
         
-        try(FileReader fr = new FileReader(ruta)) {
-            if(new java.io.File(ruta).length() > 0) {
+        try (FileReader fr = new FileReader(ruta)) {
+            if (new java.io.File(ruta).length() > 0) {
                 JSONParser parser = new JSONParser();
                 Object obj = parser.parse(fr);
                 
@@ -120,7 +153,7 @@ public class GestorUsuaris{
 
                         if (usernameActual.equals(user)) {
                             String passwordActual = (String) usuari.get("Contrasenya");
-                            if(passwordActual.equals(password)) return true;           
+                            if (passwordActual.equals(password)) return true;           
                             else return false;
                         }
                 }   
@@ -137,7 +170,13 @@ public class GestorUsuaris{
         return false;    
     }
     
-    public static void canviarContrasenya(String user, String novaPassword){
+    /**
+     * Canvia la contrasenya d'un usuari. Primer elimina l'usuari existent i després el torna a afegir amb la nova contrasenya.
+     * 
+     * @param user El nom de l'usuari per al qual es vol canviar la contrasenya.
+     * @param novaPassword La nova contrasenya per a l'usuari.
+     */
+    public static void canviarContrasenya(String user, String novaPassword) {
         try {
             eliminarUsuari(user);
             afegirUsuari(user, novaPassword);
@@ -146,6 +185,12 @@ public class GestorUsuaris{
         }
     }
 
+    /**
+     * Obté la ruta de l'arxiu JSON que emmagatzema els usuaris.
+     * Si l'arxiu no existeix, el crea.
+     * 
+     * @return La ruta absoluta de l'arxiu JSON d'usuaris.
+     */
     private static String getRuta() {
         String rutaCarpeta = "src/main/resources/persistencia";
         String rutaArxiu = rutaCarpeta + "/usuaris.json";
