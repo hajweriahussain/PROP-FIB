@@ -9,12 +9,10 @@ public class Usuari {
         contrasenya = contra;
     }
 
-    public Usuari getUsuari(){
-        return this;
-    }
     public String getUsername(){
         return username;
     }
+    
     public String getContrasenya(){
         return contrasenya;
     }
@@ -22,6 +20,7 @@ public class Usuari {
     public void canviaUsername(String username){
         this.username = username;
     }
+    
     public void canviaContrasenya(String contra){
         contrasenya = contra;
     }

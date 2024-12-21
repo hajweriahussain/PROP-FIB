@@ -11,7 +11,6 @@ public class CtrlPresentacio {
 
     public CtrlPresentacio() {
         this.ctrlDomini = CtrlDomini.getInstance();
-        mostrarMenuInici();
     }
     
     // VISTES
@@ -83,10 +82,14 @@ public class CtrlPresentacio {
     }
 
 /*
-    public void crearProducteFitxer(int idProd, String path) throws ExceptionFormats {
-        ctrlDomini.llegirProducteFitxer(idProd, path);
+    public void crearProducteFitxer(String idProd, String nomProd, String path) throws ExceptionFormats {
+        ctrlDomini.LlegirProducteFitxer(nomProd, idProd, path);
+    }*/
+    
+    public void crearProducteFitxer(String path) throws ExceptionFormats {
+        ctrlDomini.LlegirProducteFitxer(path);
     }
-*/
+
     
     public void esborrarProducte(String idProd) {
         ctrlDomini.esborrarProducte(Integer.parseInt(idProd));

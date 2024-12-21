@@ -109,21 +109,21 @@ public class CjtProductes {
         }
     }
 
-    public void editarIdProducte(int idProd, int nou_idProd) {
+    public void editarIdProducte(int idProd, int nouIdProd) {
         Producte prod = getProducte(idProd);
         if (prod != null) {
-            if (!existeixProducte(nou_idProd)) {
+            if (!existeixProducte(nouIdProd)) {
                 for (Producte prod2 : productes.values()) {
                     if (prod2.getSimilituds().containsKey(idProd)) {
                         double similitud = prod2.getSimilitud(idProd);
-                        prod2.afegirSimilitud(nou_idProd, similitud);
+                        prod2.afegirSimilitud(nouIdProd, similitud);
                         prod2.getSimilituds().remove(idProd);
                     }
                 }
 
-                prod.setId(nou_idProd);
+                prod.setId(nouIdProd);
                 productes.remove(idProd);
-                productes.put(nou_idProd, prod);
+                productes.put(nouIdProd, prod);
             }
             else {
                 System.out.println("Error: Ja existeix un producte amb el nou id especificat");
@@ -267,17 +267,41 @@ public class CjtProductes {
         Map<Integer, Producte> productesMap = new HashMap<>();
 
         for (String jsonProducte : producteJsonList) {
-            Map<String, Object> producteData = gson.fromJson(jsonProducte, Map.class);
-            
-            int id = ((Double) producteData.get("id")).intValue();
-            String nom = (String) producteData.get("nom");
-            Map<Integer, Double> similituds = (Map<Integer, Double>) producteData.get("similituds");
-            Map<Integer, Pair<Integer, Integer>> prestatgeriesPos = (Map<Integer, Pair<Integer, Integer>>) producteData.get("posPrestatgeries");
+            try {
+                Map<String, Object> producteData = gson.fromJson(jsonProducte, Map.class);
 
-            Producte prod = new Producte(id, nom, similituds);
-            prod.setPosPrestatgeries(prestatgeriesPos);
+                int id = ((Double) producteData.get("id")).intValue();
+                String nom = (String) producteData.get("nom");
 
-            productesMap.put(id, prod);
+                Map<Integer, Double> similituds = new HashMap<>();
+                Map<String, Double> similitudsRaw = (Map<String, Double>) producteData.get("similituds");
+                for (Map.Entry<String, Double> entry : similitudsRaw.entrySet()) {
+                    Integer key = Integer.parseInt(entry.getKey());
+                    similituds.put(key, entry.getValue());
+                }
+
+                Map<Integer, Pair<Integer, Integer>> prestatgeriesPos = new HashMap<>();
+                Map<String, List<Double>> posPrestatgeriesRaw = (Map<String, List<Double>>) producteData.get("posPrestatgeries");
+                for (Map.Entry<String, List<Double>> entry : posPrestatgeriesRaw.entrySet()) {
+                    Integer key = Integer.parseInt(entry.getKey());
+                    List<Double> value = entry.getValue();
+                    if (value.size() == 2) {
+                        prestatgeriesPos.put(key, new Pair<>(value.get(0).intValue(), value.get(1).intValue()));
+                    }
+                }
+
+                Producte prod = new Producte(id, nom, similituds);
+                prod.setPosPrestatgeries(prestatgeriesPos);
+
+                productesMap.put(id, prod);
+            } catch (NumberFormatException e) {
+                System.err.println("Error de format numèric en el JSON: " + jsonProducte);
+            } catch (ClassCastException e) {
+                System.err.println("Error de tipus de dades en el JSON: " + jsonProducte);
+            } catch (Exception e) {
+                System.err.println("Error inesperat al processar el JSON: " + jsonProducte);
+                e.printStackTrace();
+            }
         }
 
         return productesMap;
@@ -289,14 +313,23 @@ public class CjtProductes {
 
         if (productes != null) {
             for (Producte prod : productes.values()) {
-                Map<String, Object> producteData = Map.of(
-                    "id", prod.getId(),
-                    "nom", prod.getNom(),
-                    "similituds", prod.getSimilituds(),
-                    "posPrestatgeries", prod.getPosPrestatgeries()
-                );
-                String jsonProducte = gson.toJson(producteData);
-                producteList.add(jsonProducte);
+                if (prod == null) {
+                    System.err.println("Producte nul trobat en el mapa.");
+                    continue;
+                }
+                try {
+                    Map<String, Object> producteData = Map.of(
+                        "id", prod.getId(),
+                        "nom", prod.getNom(),
+                        "similituds", prod.getSimilituds(),
+                        "posPrestatgeries", prod.getPosPrestatgeries()
+                    );
+                    String jsonProducte = gson.toJson(producteData);
+                    producteList.add(jsonProducte);
+                } catch (Exception e) {
+                    System.err.println("Error al processar el producte amb ID " + prod.getId() + ": " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
         }
         return producteList;
@@ -307,13 +340,26 @@ public class CjtProductes {
         Gson gson = new Gson();
 
         for (Producte prod : productes.values()) {
-            Map<String, String> infoProducte = new HashMap<>();
-            infoProducte.put("id", String.valueOf(prod.getId()));
-            infoProducte.put("nom", prod.getNom());
-            infoProducte.put("similituds", gson.toJson(prod.getSimilituds()));
-            infoProducte.put("posPrestatgeries", gson.toJson(prod.getPosPrestatgeries()));
+            if (prod == null) {
+                System.err.println("Producte nul trobat en el mapa.");
+                continue;
+            }
 
-            llistatProductes.put(String.valueOf(prod.getId()), infoProducte);
+            String productId = String.valueOf(prod.getId());
+            Map<String, String> infoProducte = new HashMap<>();
+
+            infoProducte.put("id", productId);
+            infoProducte.put("nom", prod.getNom());
+
+            try {
+                infoProducte.put("similituds", gson.toJson(prod.getSimilituds()));
+                infoProducte.put("posPrestatgeries", gson.toJson(prod.getPosPrestatgeries()));
+            } catch (Exception e) {
+                System.err.println("Error al convertir el producte amb ID " + productId + " a JSON: " + e.getMessage());
+                continue;
+            }
+
+            llistatProductes.put(productId, infoProducte);
         }
 
         return llistatProductes;

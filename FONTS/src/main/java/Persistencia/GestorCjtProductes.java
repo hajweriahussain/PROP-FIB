@@ -152,46 +152,63 @@ public class GestorCjtProductes {
     }
     
     public static List<String> importarFitxerProducte(String path) {
-        List<String> productesImportats = new ArrayList<>(); // Lista para los productos importados en formato String
+        List<String> producteData = new ArrayList<>();
 
         try {
             FileReader fr = new FileReader(path);
             Scanner sc = new Scanner(fr);
+
             if (!sc.hasNextLine()) {
                 System.out.println("Error: El fitxer està buit.");
+                return null; 
+            }
+
+            String linea = sc.nextLine();
+            String[] parts = linea.split("\\s+");
+
+            if (parts.length < 2) {
+                System.out.println("Error: La línia no conté suficients dades (ID i nom).");
                 return null;
             }
 
-            while (sc.hasNextLine()) {
-                String linea = sc.nextLine();
-                String[] parts = linea.split("\\s+"); // Divide por espacios
+            int id;
+            try {
+                id = Integer.parseInt(parts[0]);
+                if (id <= 0) {
+                    System.out.println("Error: ID no vàlid (ha de ser major que 0): " + parts[0]);
+                    return null;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Format incorrecte per a l'ID: " + parts[0]);
+                return null;
+            }
 
-                if (parts.length < 2) { // Suponiendo que cada línea debe tener al menos 2 partes: ID y nombre
-                    System.out.println("Error: La línia no conté suficients dades: " + linea);
-                    continue; // Ignorar línea inválida y continuar
+            String nom = parts[1];
+
+            producteData.add(parts[0]);
+            producteData.add(nom);
+
+            while (sc.hasNextLine()) {
+                String similitudLine = sc.nextLine();
+                String[] similitudParts = similitudLine.split("\\s+");
+
+                if (similitudParts.length != 2) {
+                    System.out.println("Error: La línia de similitud no és vàlida: " + similitudLine);
+                    continue;
                 }
 
                 try {
-                    int idProd = Integer.parseInt(parts[0]); // ID del producto
-                    String nomProd = parts[1]; // Nombre del producto
+                    int similitudId = Integer.parseInt(similitudParts[0]);
+                    double similitudValue = Double.parseDouble(similitudParts[1]);
 
-                    // Crear una representación en formato String del producto
-                    StringBuilder producteStr = new StringBuilder();
-                    producteStr.append(idProd).append(" ").append(nomProd);
-
-                    // Si hay similitudes, procesarlas (asumiendo que empiezan desde la tercera parte)
-                    if (parts.length > 2) {
-                        producteStr.append(" ");
-                        for (int i = 2; i < parts.length; i++) {
-                            producteStr.append(parts[i]).append(" ");
-                        }
+                    if (similitudValue < 0 || similitudValue > 1) {
+                        System.out.println("Error: La similitud ha de ser un valor entre 0 i 1: " + similitudValue);
+                        continue;
                     }
 
-                    // Añadir el producto en formato String a la lista
-                    productesImportats.add(producteStr.toString().trim());
-
+                    producteData.add(similitudId + ": " + similitudValue);
                 } catch (NumberFormatException e) {
-                    System.out.println("Error: Format incorrecte per a l'ID: " + linea);
+                    System.out.println("Error: Format incorrecte per a la similitud: " + similitudLine);
                 }
             }
 
@@ -204,6 +221,6 @@ public class GestorCjtProductes {
             return null;
         }
 
-        return productesImportats;
+        return producteData;
     }
 }
