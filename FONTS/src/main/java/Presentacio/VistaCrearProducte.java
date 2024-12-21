@@ -16,7 +16,7 @@ import Exceptions.ExceptionFormat;
 public class VistaCrearProducte extends javax.swing.JPanel {
     
     private CtrlPresentacio cp;
-    //private VistaProducte vistaProducte;
+    private VistaProducte vistaProducte;
 
     /**
      * Creates new form VistaCrearProducte
@@ -188,6 +188,22 @@ public class VistaCrearProducte extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Error en importar el producte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+    
+    public void setVistaProducte(VistaProducte vistaProducte) {
+        this.vistaProducte = vistaProducte;
+        configurarBotoSortir();
+    }
+
+    private void configurarBotoSortir() {
+        botoSortir.addActionListener(e -> sortir());
+    }
+
+    private void sortir() {
+        if (vistaProducte != null) {
+            vistaProducte.mostrarLlistaPanel();
+        }
+        this.setVisible(false);
     }
 
     /**
@@ -405,7 +421,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botoSortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoSortirMouseClicked
-        //this.dispose();
+        sortir();
     }//GEN-LAST:event_botoSortirMouseClicked
 
     private void botoCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoCrearMouseClicked

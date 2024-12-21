@@ -1,35 +1,393 @@
 package Presentacio;
 
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.util.HashMap;
+import java.awt.Insets;
 import java.util.Map;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author ariadna
  */
 public class VistaProducte extends javax.swing.JPanel {
-    
-    private CtrlPresentacio cp;
-    private CardLayout cardLayout;
-    private JPanel cardPanel;
-    private JPanel panelGrid;
 
+    private CardLayout cardLayout;
+    private VistaCrearProducte vistaCrearProducte;
+    private GridBagConstraints gbc;
+    private CtrlPresentacio cp;
+    
     /**
-     * Creates new form PanelPrueba
+     * Creates new form VistaProducte
      */
     public VistaProducte() {
-        initComponents();
         cp = new CtrlPresentacio();
+        initComponents();
         this.setSize(700, 500);
-        infoPanel.setVisible(false);
-        editarPanel.setVisible(false);
-        cardLayout = (CardLayout) this.getLayout();
+        llistaPanel.setSize(700, 500);
+        infoPanel.setSize(700, 500);
+        editarPanel.setSize(700,500);
+        configurarPanelGeneral();
+        initGridProds();
+        titolLlistaConstraints();
+        carregarProductesEnScrollPanel();
+        configurarBotons();
+        configurarEditarPanel();
+    }
+    
+    public void initGridProds() {
+        productPanel.setLayout(new GridLayout(0, 4, 10, 10));
+    }
+    
+    public void configurarPanelGeneral() {
+        cardLayout = new CardLayout();
+        jPanelGeneral.setLayout(cardLayout);
+
+        jPanelGeneral.add(llistaPanel, "llistaPanel");
+        jPanelGeneral.add(infoPanel, "infoPanel");
+        jPanelGeneral.add(editarPanel, "editarPanel");
+        
+        vistaCrearProducte = new VistaCrearProducte();
+        vistaCrearProducte.setVistaProducte(this);
+        jPanelGeneral.add(vistaCrearProducte, "crearProductePanel");
+        
+        cardLayout.show(jPanelGeneral, "llistaPanel");
+    }
+        
+    public void carregarProductesEnScrollPanel() {
+        Map<String, Map<String, String>> prods = cp.mostrarProductes();
+        for (String id : prods.keySet()) {
+            String nom = prods.get(id).get("nom");
+            
+            
+            JButton botoProducte = new JButton(id + "-" + nom);
+            
+            botoProducte.addActionListener(e -> {
+                String similituds = prods.get(id).get("similituds");
+                String posPrestatgeries = prods.get(id).get("posPrestatgeries");
+                textIdInfo.setText(id);
+                textNomInfo.setText(nom);
+                
+                // Convertir la cadena de similituds a un format llegible
+                StringBuilder sbSimilituds = new StringBuilder();
+                String[] similitudEntries = similituds.replace("{", "").replace("}", "").split(",");
+
+                for (String entry : similitudEntries) {
+                    String[] parts = entry.split(":");
+                    if (parts.length == 2) {
+                        String productId = parts[0].trim().replace("\"", "");
+                        String similarity = parts[1].trim();
+                        sbSimilituds.append("Producte ID: ").append(productId)
+                                    .append(", Similitud: ").append(similarity).append("\n");
+                    }
+                }
+                textAreaSimilituds.setText(sbSimilituds.toString());
+                
+                StringBuilder sbPosPrestatgeries = new StringBuilder();
+                if (posPrestatgeries.equals("{}") || posPrestatgeries.trim().isEmpty()) {
+                    sbPosPrestatgeries.append("El producte no està en cap prestatgeria.");
+                }
+                else {
+                    posPrestatgeries = posPrestatgeries.substring(1, posPrestatgeries.length() - 1);
+                    String[] prestatgeriesEntries = posPrestatgeries.split("(?<=\\]),(?=\\\")");
+
+                    for (String entry : prestatgeriesEntries) {
+                        String[] parts = entry.split(":");
+                        if (parts.length == 2) {
+                            String shelfId = parts[0].replace("\"", "").trim();
+                            String positions = parts[1].replace("[", "").replace("]", "").trim();
+                            String[] coordinates = positions.split(",");
+
+                            if (coordinates.length == 2) {
+                                int row = Integer.parseInt(coordinates[0].trim());
+                                int column = Integer.parseInt(coordinates[1].trim());
+
+                                sbPosPrestatgeries.append("Prestatgeria ID: ").append(shelfId)
+                                                  .append(", Fila: ").append(row)
+                                                  .append(", Columna: ").append(column)
+                                                  .append("\n");
+                            }
+                        }
+                    }
+                }
+                textAreaPosPrestatgeries.setText(sbPosPrestatgeries.toString());
+                
+                cardLayout.show(jPanelGeneral, "infoPanel");
+                mostrarProductesEnJList();
+            });
+            productPanel.add(botoProducte);
+        }
+        panelProds.setViewportView(productPanel);
+    }
+    
+    private void mostrarProductesEnJList() {
+        Map<String, Map<String, String>> productes = cp.mostrarProductes();
+        DefaultListModel<String> model = new DefaultListModel<>();
+
+        for (String id : productes.keySet()) {
+            model.addElement(id + " - " + productes.get(id).get("nom"));
+        }
+
+        llistaProductesExistents.setModel(model);
+    }
+
+    private void configurarEditarPanel() {
+        editarPanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+
+        // Títol
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(25, 25, 10, 0);
+        editarPanel.add(labelTitolEditar, gbc);
+
+        // Botó Sortir
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(25, 0, 10, 25);
+        editarPanel.add(botoSortirEditar, gbc);
+
+        // Label Nou ID
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(10, 25, 5, 25);
+        editarPanel.add(labelNouId, gbc);
+
+        // TextField Nou ID
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        editarPanel.add(textNouId, gbc);
+
+        // Label Nou Nom
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(15, 25, 5, 25);
+        editarPanel.add(labelNouNom, gbc);
+
+        // TextField Nou Nom
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 25, 10, 25);
+        editarPanel.add(textNouNom, gbc);
+
+        // Botó Guardar
+        gbc.gridy = 6;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(20, 0, 25, 0);
+        editarPanel.add(botoGuardar, gbc);
+    }
+
+    public void titolLlistaConstraints() {
+        llistaPanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(25, 25, 20, 0);
+        llistaPanel.add(labelTitolLlista, gbc);
+        
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
+        gbc.insets = new Insets(25, 0, 20, 25);
+        llistaPanel.add(botoCrear, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 10, 10, 10);
+        llistaPanel.add(panelProds, gbc);
+    }
+    
+    private void configurarBotons() {
+        botoCrear.addActionListener(e -> mostrarCrearProductePanel());
+        botoEditar.addActionListener(e -> {
+            cardLayout.show(jPanelGeneral, "editarPanel");
+            textNouId.setText(textIdInfo.getText());
+            textNouNom.setText(textNomInfo.getText());
+            inicialitzarTaulaSimilituds();
+        });
+        botoGuardar.addActionListener(e -> {
+            editarProducte();
+            guardarSimilitudsEditades();
+            cardLayout.show(jPanelGeneral, "infoPanel");
+        });
+        botoEliminar.addActionListener(e -> esborrarProducte());
+    }
+    
+    private void editarProducte() {
+        String idOriginal = textIdInfo.getText();
+        String nouId = textNouId.getText();
+        String nouNom = textNouNom.getText();
+        
+        boolean canvis = false;
+
+        if (!nouId.isEmpty() && !nouId.equals(idOriginal)) {
+            try {
+                int idNumeric = Integer.parseInt(nouId);
+                if (idNumeric <= 0) {
+                    JOptionPane.showMessageDialog(this, "L'ID ha de ser un número positiu", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                Map<String, Map<String, String>> prods = cp.mostrarProductes();
+                if (prods.containsKey(nouId)) {
+                    JOptionPane.showMessageDialog(this, "Aquest ID ja existeix per a un altre producte", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                cp.editarIdProducte(idOriginal, nouId);
+                canvis = true;
+                
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "L'ID ha de ser un número vàlid", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        if (!nouNom.isEmpty() && !nouNom.equals("Introdueix un nou nom") && !nouNom.equals(textNomInfo.getText())) {
+            cp.editarNomProducte(nouId.isEmpty() ? idOriginal : nouId, nouNom);
+            canvis = true;
+        }
+
+        if (canvis) {
+            actualitzarVistaProducte(nouId.isEmpty() ? idOriginal : nouId);
+            JOptionPane.showMessageDialog(this, "Canvis guardats amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void actualitzarVistaProducte(String id) {
+        Map<String, Map<String, String>> prods = cp.mostrarProductes();
+        Map<String, String> producte = prods.get(id);
+        
+        textIdInfo.setText(id);
+        textNomInfo.setText(producte.get("nom"));
+        
+        String similituds = producte.get("similituds");
+        StringBuilder sbSimilituds = new StringBuilder();
+        String[] similitudEntries = similituds.replace("{", "").replace("}", "").split(",");
+
+        for (String entry : similitudEntries) {
+            String[] parts = entry.split(":");
+            if (parts.length == 2) {
+                String productId = parts[0].trim().replace("\"", "");
+                String similarity = parts[1].trim();
+                sbSimilituds.append("Producte ID: ").append(productId)
+                        .append(", Similitud: ").append(similarity).append("\n");
+            }
+        }
+        textAreaSimilituds.setText(sbSimilituds.toString());
+        
+        carregarProductesEnScrollPanel();
+    }
+
+    private void inicialitzarTaulaSimilituds() {
+        String[] columnes = {"ID Producte", "Similitud"};
+        DefaultTableModel model = new DefaultTableModel(columnes, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 1;
+            }
+        };
+        taulaSimilituds.setModel(model);
+
+        Map<String, Map<String, String>> prods = cp.mostrarProductes();
+        String similituds = prods.get(textIdInfo.getText()).get("similituds");
+        String[] similitudEntries = similituds.replace("{", "").replace("}", "").split(",");
+
+        for (String entry : similitudEntries) {
+            String[] parts = entry.split(":");
+            if (parts.length == 2) {
+                model.addRow(new Object[]{parts[0].trim().replace("\"", ""), parts[1].trim()});
+            }
+        }
+
+        // Configuració addicional de la taula
+        taulaSimilituds.setPreferredScrollableViewportSize(new Dimension(300, 100));
+        taulaSimilituds.setFillsViewportHeight(true);
+
+        // Actualitza el JScrollPane
+        scrollPaneTaulaSimilituds.setViewportView(taulaSimilituds);
+
+        // Configura les restriccions per al JScrollPane
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 5; // Ajusta segons la posició desitjada
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(10, 25, 10, 25);
+
+        // Elimina el JScrollPane si ja existeix i torna a afegir-lo
+        editarPanel.remove(scrollPaneTaulaSimilituds);
+        editarPanel.add(scrollPaneTaulaSimilituds, gbc);
+
+        // Revalida i repinta el panel
+        editarPanel.revalidate();
+        editarPanel.repaint();
+    }
+
+
+    private void guardarSimilitudsEditades() {
+        StringBuilder sbSimilituds = new StringBuilder("{");
+        DefaultTableModel model = (DefaultTableModel) taulaSimilituds.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String id = model.getValueAt(i, 0).toString();
+            String similitud = model.getValueAt(i, 1).toString();
+            sbSimilituds.append("\"").append(id).append("\":").append(similitud);
+            if (i < model.getRowCount() - 1) {
+                sbSimilituds.append(",");
+            }
+        }
+        sbSimilituds.append("}");
+
+        String idProducte = textIdInfo.getText();
+        Map<String, Map<String, String>> prods = cp.mostrarProductes();
+        prods.get(idProducte).put("similituds", sbSimilituds.toString());
+    }
+    
+    private void esborrarProducte() {
+        String idProd = textIdInfo.getText();
+
+        int confirmacio = JOptionPane.showConfirmDialog(this,
+            "Estàs segur que vols esborrar el producte amb ID " + idProd + "?",
+            "Confirmar esborrat",
+            JOptionPane.YES_NO_OPTION);
+
+        if (confirmacio == JOptionPane.YES_OPTION) {
+            cp.esborrarProducte(idProd);
+            JOptionPane.showMessageDialog(this, "Producte esborrat amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
+            cardLayout.show(jPanelGeneral, "llistaPanel");
+            carregarProductesEnScrollPanel();
+        }
+    }
+
+
+    // Mètode per mostrar el panel de crear producte
+    public void mostrarCrearProductePanel() {
+        cardLayout.show(jPanelGeneral, "crearProductePanel");
+    }
+
+    // Mètode per tornar al llistaPanel
+    public void mostrarLlistaPanel() {
+        cardLayout.show(jPanelGeneral, "llistaPanel");
     }
 
     /**
@@ -40,158 +398,99 @@ public class VistaProducte extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
+        jPanelGeneral = new javax.swing.JPanel();
         llistaPanel = new javax.swing.JPanel();
         labelTitolLlista = new javax.swing.JLabel();
-        separatorLlista = new javax.swing.JSeparator();
-        botoEsborrarLlista = new javax.swing.JButton();
-        botoEditarLlista = new javax.swing.JButton();
         botoCrear = new javax.swing.JButton();
-        botoConsultar = new javax.swing.JButton();
-        scrollPaneLlista = new javax.swing.JScrollPane();
-        productesPanel = new javax.swing.JPanel();
+        panelProds = new javax.swing.JScrollPane();
+        productPanel = new javax.swing.JPanel();
         infoPanel = new javax.swing.JPanel();
-        labelTitolInfo = new javax.swing.JLabel();
-        labelId = new javax.swing.JLabel();
-        labelNom = new javax.swing.JLabel();
-        comboBoxPrestatgeria = new javax.swing.JComboBox<>();
-        labelSelecPres = new javax.swing.JLabel();
-        botoConsultarPosicio = new javax.swing.JButton();
-        labelSimilituds = new javax.swing.JLabel();
-        separatorInfo = new javax.swing.JSeparator();
+        labelTitol = new javax.swing.JLabel();
         botoSortir = new javax.swing.JButton();
         textIdInfo = new javax.swing.JTextField();
         textNomInfo = new javax.swing.JTextField();
         scrollPaneProductes = new javax.swing.JScrollPane();
-        llistaProductes = new javax.swing.JList<>();
-        labelSeleccionarProducte = new javax.swing.JLabel();
-        botoConsultarSimilitud = new javax.swing.JButton();
+        llistaProductesExistents = new javax.swing.JList<>();
         botoEditar = new javax.swing.JButton();
-        botoEsborrar = new javax.swing.JButton();
-        textPos = new javax.swing.JTextField();
-        labelFormat = new javax.swing.JLabel();
-        textSimilitud = new javax.swing.JTextField();
+        botoEliminar = new javax.swing.JButton();
+        scrollPaneSimilituds = new javax.swing.JScrollPane();
+        textAreaSimilituds = new javax.swing.JTextArea();
+        scrollPanePosPrestatgeries = new javax.swing.JScrollPane();
+        textAreaPosPrestatgeries = new javax.swing.JTextArea();
+        labelSimilituds = new javax.swing.JLabel();
+        labelNom = new javax.swing.JLabel();
+        labelId = new javax.swing.JLabel();
+        labelLlistaProductes = new javax.swing.JLabel();
+        labelPosPrestatgeries = new javax.swing.JLabel();
         editarPanel = new javax.swing.JPanel();
         labelTitolEditar = new javax.swing.JLabel();
-        separatorEditar = new javax.swing.JSeparator();
         labelNouId = new javax.swing.JLabel();
         labelNouNom = new javax.swing.JLabel();
         textNouId = new javax.swing.JTextField();
         textNouNom = new javax.swing.JTextField();
         botoGuardar = new javax.swing.JButton();
         botoSortirEditar = new javax.swing.JButton();
-        scrollPaneProductesEditar = new javax.swing.JScrollPane();
-        llistaProductesEditar = new javax.swing.JList<>();
-        labelSeleccionarProducteEditar = new javax.swing.JLabel();
-        labelSimilitudsEditar = new javax.swing.JLabel();
-        labelNovaSimilitud = new javax.swing.JLabel();
-        textNovaSimilitud = new javax.swing.JTextField();
-        labelInfo = new javax.swing.JLabel();
-        labelSeleccionarAlgoritme = new javax.swing.JLabel();
-        radioBotoFB = new javax.swing.JRadioButton();
-        radioBotoDosA = new javax.swing.JRadioButton();
+        scrollPaneTaulaSimilituds = new javax.swing.JScrollPane();
+        taulaSimilituds = new javax.swing.JTable();
 
-        setLayout(new java.awt.CardLayout());
+        jPanelGeneral.setLayout(new java.awt.CardLayout());
 
         llistaPanel.setBackground(new java.awt.Color(255, 255, 255));
+        llistaPanel.setPreferredSize(new java.awt.Dimension(700, 500));
+        llistaPanel.setVerifyInputWhenFocusTarget(false);
+        llistaPanel.setLayout(new java.awt.GridBagLayout());
 
         labelTitolLlista.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        labelTitolLlista.setText("LLISTA DE PRODUCTES");
+        labelTitolLlista.setText("ELS TEUS PRODUCTES");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(35, 24, 0, 0);
+        llistaPanel.add(labelTitolLlista, gridBagConstraints);
 
-        botoEsborrarLlista.setText("Esborrar");
-
-        botoEditarLlista.setText("Editar");
-
-        botoCrear.setText("Crear");
-
-        botoConsultar.setText("Consultar");
-        botoConsultar.addActionListener(new java.awt.event.ActionListener() {
+        botoCrear.setText("Crear Nou Producte");
+        botoCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botoConsultarActionPerformed(evt);
+                botoCrearActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipady = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(37, 108, 0, 0);
+        llistaPanel.add(botoCrear, gridBagConstraints);
 
-        productesPanel.setLayout(new java.awt.GridLayout());
-        scrollPaneLlista.setViewportView(productesPanel);
+        productPanel.setBackground(new java.awt.Color(255, 255, 255));
+        productPanel.setPreferredSize(new java.awt.Dimension(650, 400));
+        productPanel.setLayout(new java.awt.GridLayout(1, 0));
+        panelProds.setViewportView(productPanel);
 
-        javax.swing.GroupLayout llistaPanelLayout = new javax.swing.GroupLayout(llistaPanel);
-        llistaPanel.setLayout(llistaPanelLayout);
-        llistaPanelLayout.setHorizontalGroup(
-            llistaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, llistaPanelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(llistaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(separatorLlista)
-                    .addGroup(llistaPanelLayout.createSequentialGroup()
-                        .addGroup(llistaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelTitolLlista)
-                            .addGroup(llistaPanelLayout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(scrollPaneLlista, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                        .addGroup(llistaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(botoCrear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(botoConsultar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                            .addComponent(botoEsborrarLlista, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(botoEditarLlista, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(25, 25, 25))
-        );
-        llistaPanelLayout.setVerticalGroup(
-            llistaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(llistaPanelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(labelTitolLlista)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(separatorLlista, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addGroup(llistaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(llistaPanelLayout.createSequentialGroup()
-                        .addComponent(botoConsultar)
-                        .addGap(18, 18, 18)
-                        .addComponent(botoCrear)
-                        .addGap(18, 18, 18)
-                        .addComponent(botoEditarLlista)
-                        .addGap(208, 208, 208)
-                        .addComponent(botoEsborrarLlista))
-                    .addComponent(scrollPaneLlista, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 57, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 636;
+        gridBagConstraints.ipady = 386;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 24, 31, 24);
+        llistaPanel.add(panelProds, gridBagConstraints);
 
-        add(llistaPanel, "card3");
+        jPanelGeneral.add(llistaPanel, "card2");
 
         infoPanel.setBackground(new java.awt.Color(255, 255, 255));
+        infoPanel.setPreferredSize(new java.awt.Dimension(700, 500));
 
-        labelTitolInfo.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        labelTitolInfo.setText("INFORMACIÓ DEL PRODUCTE");
-
-        labelId.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        labelId.setText("Identificador (ID):");
-
-        labelNom.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        labelNom.setText("Nom:");
-
-        comboBoxPrestatgeria.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        comboBoxPrestatgeria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Prestatgeria 1", "Prestatgeria 2", "Prestatgeria 3", "Prestatgeria 4" }));
-        comboBoxPrestatgeria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxPrestatgeriaActionPerformed(evt);
-            }
-        });
-
-        labelSelecPres.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        labelSelecPres.setText("Selecciona una prestatgeria:");
-
-        botoConsultarPosicio.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        botoConsultarPosicio.setText("Consultar posició");
-        botoConsultarPosicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botoConsultarPosicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botoConsultarPosicioActionPerformed(evt);
-            }
-        });
-
-        labelSimilituds.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        labelSimilituds.setText("Similituds amb altres productes:");
+        labelTitol.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        labelTitol.setText("INFORMACIÓ DEL PRODUCTE");
 
         botoSortir.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.shadow"));
         botoSortir.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
@@ -206,60 +505,46 @@ public class VistaProducte extends javax.swing.JPanel {
         textIdInfo.setEditable(false);
 
         textNomInfo.setEditable(false);
-        textNomInfo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textNomInfoActionPerformed(evt);
-            }
-        });
 
-        llistaProductes.setModel(new javax.swing.AbstractListModel<String>() {
+        llistaProductesExistents.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Producte 1", "Producte 2", "Producte 3", "Producte 4", "Producte 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        llistaProductes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        scrollPaneProductes.setViewportView(llistaProductes);
-
-        labelSeleccionarProducte.setText("Selecciona un producte:");
-
-        botoConsultarSimilitud.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        botoConsultarSimilitud.setText("Consultar similitud");
-        botoConsultarSimilitud.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botoConsultarSimilitud.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botoConsultarSimilitudActionPerformed(evt);
-            }
-        });
+        llistaProductesExistents.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        scrollPaneProductes.setViewportView(llistaProductesExistents);
 
         botoEditar.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         botoEditar.setText("Editar");
         botoEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botoEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botoEditarActionPerformed(evt);
-            }
-        });
 
-        botoEsborrar.setBackground(new java.awt.Color(255, 51, 51));
-        botoEsborrar.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        botoEsborrar.setText("Esborrar");
-        botoEsborrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        botoEsborrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                botoEsborrarMouseClicked(evt);
-            }
-        });
-        botoEsborrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botoEsborrarActionPerformed(evt);
-            }
-        });
+        botoEliminar.setBackground(new java.awt.Color(255, 51, 51));
+        botoEliminar.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
+        botoEliminar.setText("Eliminar");
+        botoEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        textPos.setEditable(false);
+        textAreaSimilituds.setColumns(20);
+        textAreaSimilituds.setRows(5);
+        scrollPaneSimilituds.setViewportView(textAreaSimilituds);
 
-        labelFormat.setText("Format: Fila, Columna");
+        textAreaPosPrestatgeries.setColumns(20);
+        textAreaPosPrestatgeries.setRows(5);
+        scrollPanePosPrestatgeries.setViewportView(textAreaPosPrestatgeries);
 
-        textSimilitud.setEditable(false);
+        labelSimilituds.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        labelSimilituds.setText("Similituds amb altres productes:");
+
+        labelNom.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        labelNom.setText("Nom:");
+
+        labelId.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        labelId.setText("Identificador (ID):");
+
+        labelLlistaProductes.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        labelLlistaProductes.setText("Llista de productes:");
+
+        labelPosPrestatgeries.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        labelPosPrestatgeries.setText("Posició en prestatgeries:");
 
         javax.swing.GroupLayout infoPanelLayout = new javax.swing.GroupLayout(infoPanel);
         infoPanel.setLayout(infoPanelLayout);
@@ -269,109 +554,76 @@ public class VistaProducte extends javax.swing.JPanel {
                 .addGap(25, 25, 25)
                 .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPanelLayout.createSequentialGroup()
-                        .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(infoPanelLayout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(comboBoxPrestatgeria, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(labelSelecPres))
-                        .addGap(77, 77, 77)
-                        .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(infoPanelLayout.createSequentialGroup()
-                                .addComponent(textPos, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(labelFormat))
-                            .addComponent(botoConsultarPosicio))
-                        .addContainerGap(108, Short.MAX_VALUE))
-                    .addGroup(infoPanelLayout.createSequentialGroup()
-                        .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(infoPanelLayout.createSequentialGroup()
-                                .addComponent(scrollPaneProductes, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(textSimilitud, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(botoConsultarSimilitud)))
-                            .addComponent(labelSeleccionarProducte)
-                            .addComponent(labelSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 254, Short.MAX_VALUE))
-                    .addGroup(infoPanelLayout.createSequentialGroup()
-                        .addComponent(labelTitolInfo)
+                        .addComponent(botoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
+                        .addComponent(botoEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPanelLayout.createSequentialGroup()
-                        .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(separatorInfo)
-                            .addGroup(infoPanelLayout.createSequentialGroup()
-                                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(infoPanelLayout.createSequentialGroup()
-                                        .addComponent(labelId)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(textIdInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
-                                    .addGroup(infoPanelLayout.createSequentialGroup()
-                                        .addComponent(labelNom)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(textNomInfo)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(botoEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(botoEsborrar, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))))
-                        .addGap(25, 25, 25))))
+                        .addComponent(labelTitol)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(infoPanelLayout.createSequentialGroup()
+                        .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(scrollPaneProductes)
+                                .addGroup(infoPanelLayout.createSequentialGroup()
+                                    .addGap(1, 1, 1)
+                                    .addComponent(labelNom)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(textNomInfo))
+                                .addGroup(infoPanelLayout.createSequentialGroup()
+                                    .addGap(2, 2, 2)
+                                    .addComponent(labelId)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(textIdInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)))
+                            .addComponent(labelLlistaProductes))
+                        .addGap(66, 66, 66)
+                        .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(scrollPanePosPrestatgeries, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                                .addComponent(scrollPaneSimilituds))
+                            .addComponent(labelSimilituds)
+                            .addComponent(labelPosPrestatgeries))
+                        .addGap(66, 66, 66))))
         );
         infoPanelLayout.setVerticalGroup(
             infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(infoPanelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelTitol)
+                    .addComponent(botoSortir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
                 .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(infoPanelLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(labelTitolInfo))
+                        .addComponent(labelSimilituds)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPaneSimilituds, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(labelPosPrestatgeries)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(scrollPanePosPrestatgeries, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
                     .addGroup(infoPanelLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(separatorInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(infoPanelLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
                         .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textIdInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelId))
-                        .addGap(20, 20, 20)
+                            .addComponent(labelId)
+                            .addComponent(textIdInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
                         .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelNom)
-                            .addComponent(textNomInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(infoPanelLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(botoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(31, 31, 31)
-                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelSelecPres)
-                    .addComponent(botoConsultarPosicio))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(textNomInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42)
+                        .addComponent(labelLlistaProductes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(scrollPaneProductes, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGap(60, 60, 60)
                 .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboBoxPrestatgeria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(textPos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelFormat)))
-                .addGap(31, 31, 31)
-                .addComponent(labelSimilituds)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelSeleccionarProducte)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(infoPanelLayout.createSequentialGroup()
-                        .addComponent(scrollPaneProductes, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                        .addComponent(botoEsborrar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))
-                    .addGroup(infoPanelLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(botoConsultarSimilitud)
-                        .addGap(18, 18, 18)
-                        .addComponent(textSimilitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(botoEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
         );
 
-        add(infoPanel, "card2");
+        jPanelGeneral.add(infoPanel, "card3");
 
         editarPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -384,17 +636,23 @@ public class VistaProducte extends javax.swing.JPanel {
 
         textNouId.setForeground(new java.awt.Color(153, 153, 153));
         textNouId.setText("Introdueix un nou identificador");
-        textNouId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textNouIdActionPerformed(evt);
+        textNouId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textNouIdFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textNouIdFocusLost(evt);
             }
         });
 
         textNouNom.setForeground(new java.awt.Color(153, 153, 153));
         textNouNom.setText("Introdueix un nou nom");
-        textNouNom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textNouNomActionPerformed(evt);
+        textNouNom.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                textNouNomFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textNouNomFocusLost(evt);
             }
         });
 
@@ -409,233 +667,167 @@ public class VistaProducte extends javax.swing.JPanel {
             }
         });
 
-        llistaProductesEditar.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Producte 1", "Producte 2", "Producte 3", "Producte 4", "Producte 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        llistaProductesEditar.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        scrollPaneProductesEditar.setViewportView(llistaProductesEditar);
+        taulaSimilituds.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
 
-        labelSeleccionarProducteEditar.setText("Selecciona un producte:");
-
-        labelSimilitudsEditar.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
-        labelSimilitudsEditar.setText("Similituds amb altres productes:");
-
-        labelNovaSimilitud.setText("Nova similitud:");
-
-        textNovaSimilitud.setForeground(new java.awt.Color(153, 153, 153));
-        textNovaSimilitud.setText("Introdueix una nova similitud");
-
-        labelInfo.setText("Si modifiques una similitud, s'ha de recalcular la disposició de les prestatgeries on està! ");
-
-        labelSeleccionarAlgoritme.setText("Selecciona un algoritme:");
-
-        radioBotoFB.setText("Força Bruta");
-
-        radioBotoDosA.setText("Dos Aproximació");
+            }
+        ));
+        scrollPaneTaulaSimilituds.setViewportView(taulaSimilituds);
 
         javax.swing.GroupLayout editarPanelLayout = new javax.swing.GroupLayout(editarPanel);
         editarPanel.setLayout(editarPanelLayout);
         editarPanelLayout.setHorizontalGroup(
             editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(editarPanelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addComponent(labelTitolEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
+                        .addGap(12, 12, 12)
+                        .addComponent(labelNouId))
                     .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(editarPanelLayout.createSequentialGroup()
-                                .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(editarPanelLayout.createSequentialGroup()
-                                        .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labelSeleccionarProducteEditar)
-                                            .addComponent(scrollPaneProductesEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(labelSimilitudsEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(49, 49, 49)
-                                        .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labelNovaSimilitud)
-                                            .addComponent(textNovaSimilitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(editarPanelLayout.createSequentialGroup()
-                                        .addComponent(labelSeleccionarAlgoritme)
-                                        .addGap(36, 36, 36)
-                                        .addComponent(radioBotoFB)
-                                        .addGap(39, 39, 39)
-                                        .addComponent(radioBotoDosA))
-                                    .addComponent(labelInfo))
-                                .addContainerGap(75, Short.MAX_VALUE))
-                            .addGroup(editarPanelLayout.createSequentialGroup()
-                                .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(labelNouNom)
-                                    .addComponent(labelNouId)
-                                    .addComponent(textNouId, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(textNouNom))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(botoGuardar)
-                                .addGap(41, 41, 41))))
+                        .addGap(12, 12, 12)
+                        .addComponent(textNouId, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addComponent(separatorEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(12, 12, 12)
+                        .addComponent(labelNouNom))
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(textNouNom, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(scrollPaneTaulaSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addGap(615, 615, 615)
+                        .addComponent(botoGuardar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(editarPanelLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(labelTitolEditar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
         editarPanelLayout.setVerticalGroup(
             editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(editarPanelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(editarPanelLayout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(labelTitolEditar))
-                            .addGroup(editarPanelLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(separatorEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(labelNouId)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textNouId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(botoGuardar)))
+                    .addComponent(labelTitolEditar)
+                    .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addComponent(labelNouId)
+                .addGap(12, 12, 12)
+                .addComponent(textNouId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(labelNouNom)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
                 .addComponent(textNouNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(labelSimilitudsEditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelSeleccionarProducteEditar)
-                    .addComponent(labelNovaSimilitud))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textNovaSimilitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(scrollPaneProductesEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(labelInfo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelSeleccionarAlgoritme)
-                    .addComponent(radioBotoFB)
-                    .addComponent(radioBotoDosA))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(scrollPaneTaulaSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(botoGuardar))
         );
 
-        add(editarPanel, "card4");
+        jPanelGeneral.add(editarPanel, "card4");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botoConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoConsultarActionPerformed
-        cardLayout.show(cardPanel, "infoPanel");
-    }//GEN-LAST:event_botoConsultarActionPerformed
-
-    private void comboBoxPrestatgeriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxPrestatgeriaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboBoxPrestatgeriaActionPerformed
-
-    private void botoConsultarPosicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoConsultarPosicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botoConsultarPosicioActionPerformed
+    private void botoCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoCrearActionPerformed
+        if (vistaCrearProducte == null) {
+            vistaCrearProducte = new VistaCrearProducte();
+        }
+        vistaCrearProducte.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_botoCrearActionPerformed
 
     private void botoSortirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoSortirActionPerformed
-        //this.dispose();
+        CardLayout cardLayout = (CardLayout) jPanelGeneral.getLayout();
+        cardLayout.show(jPanelGeneral, "llistaPanel");
     }//GEN-LAST:event_botoSortirActionPerformed
 
-    private void textNomInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNomInfoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textNomInfoActionPerformed
-
-    private void botoConsultarSimilitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoConsultarSimilitudActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botoConsultarSimilitudActionPerformed
-
-    private void botoEsborrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoEsborrarMouseClicked
-        int resultat = JOptionPane.showConfirmDialog(this, "Esteu segur que voleu esborrar aquest producte?\nSi l'esborreu, s'eliminaran totes les prestatgeries on estigui aquest producte.\nInfo: Yes (Sí)", "ATENCIÓ!", JOptionPane.YES_NO_OPTION);
-        if (resultat == JOptionPane.YES_OPTION) {
-            // L'usuari confirma que vol esborrar el producte
-            //      cp.esborrarProducte(idProd);
-            //      setVisible(false);
-            //      dispose();
-            //      cp.mostraMenuUsuari();
-            JOptionPane.showMessageDialog(this, "El producte s'ha esborrat correctament.", "MISSATGE", JOptionPane.INFORMATION_MESSAGE);
+    private void textNouIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNouIdFocusGained
+        if (textNouId.getText().equals("Introdueix un nou identificador")) {
+            textNouId.setText("");
+            textNouId.setForeground(Color.black);
         }
-    }//GEN-LAST:event_botoEsborrarMouseClicked
+    }//GEN-LAST:event_textNouIdFocusGained
 
-    private void botoEsborrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoEsborrarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botoEsborrarActionPerformed
+    private void textNouIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNouIdFocusLost
+        if (textNouId.getText().isEmpty()) {
+            textNouId.setText("Introdueix un nou identificador");
+            textNouId.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_textNouIdFocusLost
 
-    private void textNouIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNouIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textNouIdActionPerformed
+    private void textNouNomFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNouNomFocusGained
+        if (textNouNom.getText().equals("Introdueix un nou nom")) {
+            textNouNom.setText("");
+            textNouNom.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_textNouNomFocusGained
 
-    private void textNouNomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNouNomActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textNouNomActionPerformed
+    private void textNouNomFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNouNomFocusLost
+        if (textNouNom.getText().isEmpty()) {
+            textNouNom.setText("Introdueix un nou nom");
+            textNouNom.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_textNouNomFocusLost
 
     private void botoSortirEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoSortirEditarActionPerformed
-        // TODO add your handling code here:
+        CardLayout cardLayout = (CardLayout) jPanelGeneral.getLayout();
+        cardLayout.show(jPanelGeneral, "infoPanel");
     }//GEN-LAST:event_botoSortirEditarActionPerformed
-
-    private void botoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoEditarActionPerformed
-        cardLayout.show(cardPanel, "editarPanel");
-    }//GEN-LAST:event_botoEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botoConsultar;
-    private javax.swing.JButton botoConsultarPosicio;
-    private javax.swing.JButton botoConsultarSimilitud;
     private javax.swing.JButton botoCrear;
     private javax.swing.JButton botoEditar;
-    private javax.swing.JButton botoEditarLlista;
-    private javax.swing.JButton botoEsborrar;
-    private javax.swing.JButton botoEsborrarLlista;
+    private javax.swing.JButton botoEliminar;
     private javax.swing.JButton botoGuardar;
     private javax.swing.JButton botoSortir;
     private javax.swing.JButton botoSortirEditar;
-    private javax.swing.JComboBox<String> comboBoxPrestatgeria;
     private javax.swing.JPanel editarPanel;
     private javax.swing.JPanel infoPanel;
-    private javax.swing.JLabel labelFormat;
+    private javax.swing.JPanel jPanelGeneral;
     private javax.swing.JLabel labelId;
-    private javax.swing.JLabel labelInfo;
+    private javax.swing.JLabel labelLlistaProductes;
     private javax.swing.JLabel labelNom;
     private javax.swing.JLabel labelNouId;
     private javax.swing.JLabel labelNouNom;
-    private javax.swing.JLabel labelNovaSimilitud;
-    private javax.swing.JLabel labelSelecPres;
-    private javax.swing.JLabel labelSeleccionarAlgoritme;
-    private javax.swing.JLabel labelSeleccionarProducte;
-    private javax.swing.JLabel labelSeleccionarProducteEditar;
+    private javax.swing.JLabel labelPosPrestatgeries;
     private javax.swing.JLabel labelSimilituds;
-    private javax.swing.JLabel labelSimilitudsEditar;
+    private javax.swing.JLabel labelTitol;
     private javax.swing.JLabel labelTitolEditar;
-    private javax.swing.JLabel labelTitolInfo;
     private javax.swing.JLabel labelTitolLlista;
     private javax.swing.JPanel llistaPanel;
-    private javax.swing.JList<String> llistaProductes;
-    private javax.swing.JList<String> llistaProductesEditar;
-    private javax.swing.JPanel productesPanel;
-    private javax.swing.JRadioButton radioBotoDosA;
-    private javax.swing.JRadioButton radioBotoFB;
-    private javax.swing.JScrollPane scrollPaneLlista;
+    private javax.swing.JList<String> llistaProductesExistents;
+    private javax.swing.JScrollPane panelProds;
+    private javax.swing.JPanel productPanel;
+    private javax.swing.JScrollPane scrollPanePosPrestatgeries;
     private javax.swing.JScrollPane scrollPaneProductes;
-    private javax.swing.JScrollPane scrollPaneProductesEditar;
-    private javax.swing.JSeparator separatorEditar;
-    private javax.swing.JSeparator separatorInfo;
-    private javax.swing.JSeparator separatorLlista;
+    private javax.swing.JScrollPane scrollPaneSimilituds;
+    private javax.swing.JScrollPane scrollPaneTaulaSimilituds;
+    private javax.swing.JTable taulaSimilituds;
+    private javax.swing.JTextArea textAreaPosPrestatgeries;
+    private javax.swing.JTextArea textAreaSimilituds;
     private javax.swing.JTextField textIdInfo;
     private javax.swing.JTextField textNomInfo;
     private javax.swing.JTextField textNouId;
     private javax.swing.JTextField textNouNom;
-    private javax.swing.JTextField textNovaSimilitud;
-    private javax.swing.JTextField textPos;
-    private javax.swing.JTextField textSimilitud;
     // End of variables declaration//GEN-END:variables
 }
