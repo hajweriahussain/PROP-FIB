@@ -21,6 +21,7 @@ public class VistaLogIn extends javax.swing.JPanel {
     public VistaLogIn() {
         initComponents();
         this.setSize(650, 450);
+        cp = new CtrlPresentacio();
         
         cl = new CardLayout();
         bg.setLayout(cl);
@@ -255,6 +256,8 @@ public class VistaLogIn extends javax.swing.JPanel {
         }
         else{
             cp.realizarLogin(usuari.getText(), String.valueOf(contrasenya.getPassword()));
+            cp.mostrarMenuInici();
+            this.setVisible(false);
         }
 
     }//GEN-LAST:event_entrarMouseClicked

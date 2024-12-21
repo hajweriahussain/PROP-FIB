@@ -22,6 +22,7 @@ public class VistaSignUp extends javax.swing.JPanel {
     public VistaSignUp() {
         initComponents();
         this.setSize(650, 450);
+        cp = new CtrlPresentacio();
         
         cl = new CardLayout();
         bg.setLayout(cl);
@@ -62,7 +63,7 @@ public class VistaSignUp extends javax.swing.JPanel {
         bg.setLayout(new java.awt.CardLayout());
 
         usuari.setForeground(new java.awt.Color(153, 153, 153));
-        usuari.setText("  Introdueix el teu nom d'usuari");
+        usuari.setText("Introdueix el teu nom d'usuari");
         usuari.setBorder(null);
         usuari.addContainerListener(new java.awt.event.ContainerAdapter() {
             public void componentAdded(java.awt.event.ContainerEvent evt) {
@@ -255,7 +256,7 @@ public class VistaSignUp extends javax.swing.JPanel {
     }//GEN-LAST:event_usuariComponentAdded
 
     private void usuariMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuariMousePressed
-        if(usuari.getText().equals("  Introdueix el teu nom d'usuari")){
+        if(usuari.getText().equals("Introdueix el teu nom d'usuari")){
             usuari.setText("");
             usuari.setForeground(Color.black);
         }
@@ -280,7 +281,7 @@ public class VistaSignUp extends javax.swing.JPanel {
             contrasenya.setForeground(Color.black);
         }
         if(usuari.getText().isEmpty()){
-            usuari.setText(" Introdueix el teu nom d'usuari");
+            usuari.setText("Introdueix el teu nom d'usuari");
             usuari.setForeground(Color.gray);
         }
         if(String.valueOf(contrasenya2.getPassword()).isEmpty()){
@@ -296,7 +297,7 @@ public class VistaSignUp extends javax.swing.JPanel {
 
     private void contrasenya2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contrasenya2MousePressed
         if(usuari.getText().isEmpty()){
-            usuari.setText(" Introdueix el teu nom d'usuari");
+            usuari.setText("Introdueix el teu nom d'usuari");
             usuari.setForeground(Color.gray);
         }
         if(String.valueOf(contrasenya.getPassword()).isEmpty()){
@@ -319,8 +320,6 @@ public class VistaSignUp extends javax.swing.JPanel {
     }//GEN-LAST:event_enrereMouseClicked
 
     private void entrar3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrar3MouseClicked
-
- 
             String contrasenya11 = new String(contrasenya.getPassword());
             String contrasenya22 = new String(contrasenya2.getPassword());
             Boolean validar = cp.existeixUsuari(usuari.getText());
@@ -333,7 +332,7 @@ public class VistaSignUp extends javax.swing.JPanel {
                 lblErrors.setText("S'han de completar tots els camps.");
             }
 
-            else if(usuari.getText().equals("  Introdueix el teu nom d'usuari") || String.valueOf(contrasenya.getPassword()).equals("********") ||
+            else if(usuari.getText().equals("Introdueix el teu nom d'usuari") || String.valueOf(contrasenya.getPassword()).equals("********") ||
                 String.valueOf(contrasenya2.getPassword()).equals("********")){
                 lblErrors.setText("S'han de completar tots els camps.");
             }
@@ -342,6 +341,8 @@ public class VistaSignUp extends javax.swing.JPanel {
             }
             else{
                 cp.registrarUsuari(usuari.getText(), contrasenya11);
+                cp.mostrarMenuInici();
+                this.setVisible(false);
             }
     }//GEN-LAST:event_entrar3MouseClicked
 
@@ -365,9 +366,6 @@ public class VistaSignUp extends javax.swing.JPanel {
     private javax.swing.JPasswordField contrasenya;
     private javax.swing.JPasswordField contrasenya2;
     private javax.swing.JButton enrere;
-    private javax.swing.JButton entrar;
-    private javax.swing.JButton entrar1;
-    private javax.swing.JButton entrar2;
     private javax.swing.JButton entrar3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
