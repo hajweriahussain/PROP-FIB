@@ -1,5 +1,0 @@
-DriverComplet: Classe on s'implementa el driver principal del sistema.
-DriverDosAproximacio: Classe on s'implementa el driver de l'algorisme DosAproximacio
-DriverBruteForce: Classe on s'implementa el driver de l'algorisme BruteForce
-DescripcioDriverComplet: Manual d'ús pel Driver Complet
-DescripcioDriverAlgoritmes: Manual d'ús pel Driver BruteForce i Driver DosAproximacio
