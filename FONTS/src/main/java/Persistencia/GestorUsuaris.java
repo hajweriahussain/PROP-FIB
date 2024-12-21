@@ -5,10 +5,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.util.Iterator;
 import java.io.*;
+import Exceptions.ExceptionFormat;
 
 public class GestorUsuaris{
 
-    public static void afegirUsuari(String user, String password) {
+    public static void afegirUsuari(String user, String password) throws ExceptionFormat{
         
         String ruta = getRuta();
         JSONArray jsonArray = new JSONArray();
@@ -31,15 +32,15 @@ public class GestorUsuaris{
                 fileWriter.write(jsonArray.toJSONString());
             }    
         } catch (IOException e) {
-            System.err.println("Error en accedir al arxiu: " + e.getMessage());
+            throw new ExceptionFormat("Error en accedir al arxiu");
         } catch (ParseException e) {
-            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new ExceptionFormat("Error en parsear l'arxiu JSON");
         } catch (Exception e) {
-            System.err.println("Error inesperat: " + e.getMessage());
+            throw new ExceptionFormat("Error inesperat");
         }
     }
     
-    public static void eliminarUsuari(String user) {
+    public static void eliminarUsuari(String user) throws ExceptionFormat{
         
         try {
             String ruta = getRuta();
@@ -62,15 +63,15 @@ public class GestorUsuaris{
             }
             
         } catch (IOException e) {
-            System.err.println("Error en accedir al arxiu: " + e.getMessage());
+            throw new ExceptionFormat("Error en accedir al arxiu");
         } catch (ParseException e) {
-            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new ExceptionFormat("Error en parsear l'arxiu JSON");
         } catch (Exception e) {
-            System.err.println("Error inesperat: " + e.getMessage());
+            throw new ExceptionFormat("Error inesperat");
         }
     }
     
-    public static boolean existeixUsuari(String user){ 
+    public static boolean existeixUsuari(String user) throws ExceptionFormat{ 
         String ruta = getRuta();
         JSONArray usuarisJson = new JSONArray();
         
@@ -93,16 +94,16 @@ public class GestorUsuaris{
             else return false;
             
         } catch (IOException e) {
-            System.err.println("Error en accedir al arxiu: " + e.getMessage());
+            throw new ExceptionFormat("Error en accedir al arxiu");
         } catch (ParseException e) {
-            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new ExceptionFormat("Error en parsear l'arxiu JSON");
         } catch (Exception e) {
-            System.err.println("Error inesperat: " + e.getMessage());
+            throw new ExceptionFormat("Error inesperat");
         }
         return false;    
     }
     
-    public static boolean verificarContrasenya(String user, String password){
+    public static boolean verificarContrasenya(String user, String password) throws ExceptionFormat{
         String ruta = getRuta();
         JSONArray usuarisJson = new JSONArray();
         
@@ -127,18 +128,22 @@ public class GestorUsuaris{
             else return false;
             
         } catch (IOException e) {
-            System.err.println("Error en accedir al arxiu: " + e.getMessage());
+            throw new ExceptionFormat("Error en accedir al arxiu");
         } catch (ParseException e) {
-            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new ExceptionFormat("Error en parsear l'arxiu JSON");
         } catch (Exception e) {
-            System.err.println("Error inesperat: " + e.getMessage());
+            throw new ExceptionFormat("Error inesperat");
         }
         return false;    
     }
     
     public static void canviarContrasenya(String user, String novaPassword){
-        eliminarUsuari(user);
-        afegirUsuari(user, novaPassword);
+        try {
+            eliminarUsuari(user);
+            afegirUsuari(user, novaPassword);
+        } catch (ExceptionFormat e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     private static String getRuta() {
@@ -159,14 +164,5 @@ public class GestorUsuaris{
        
         return rutaArxiu;
     }
- /*
-    public static void main(String[] args) {
-        afegirUsuari("Maria", "1234");
-        afegirUsuari("Laura", "1234");
-        //if(! existeixUsuari("Maria")) System.out.println("el usuario no existe");
-        if(existeixUsuari("Laura")) System.out.println("Laura existeeeeeeeeeee");
-        if(verificarContrasenya("Laura", "1234")) System.out.println("Laura SI es la contrasenya correcta");
-        canviarContrasenya("Laura", "laura la mejor");
-    }
-   */
+
 }
