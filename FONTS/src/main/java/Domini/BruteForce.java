@@ -8,7 +8,7 @@ public class BruteForce implements GeneradorSolucio {
     private int[] vecProductes;
     private double millorSimilitud;
     private int[] vecResultat; 
-    private int[][] matResultat;
+    private Integer[][] matResultat;
     private int columnes;
     private int files;
 
@@ -22,7 +22,7 @@ public class BruteForce implements GeneradorSolucio {
         vecResultat = new int[n];
         if (n%columnes == 0) this.files = n/columnes;
         else this.files = n/columnes + 1;
-        this.matResultat = new int[files][columnes];
+        this.matResultat = new Integer[files][columnes];
     }
 
     private static BigInteger factorial(int n) {
@@ -78,7 +78,7 @@ public class BruteForce implements GeneradorSolucio {
 
     }
 
-    public int[][] generarLayout(){
+    public Integer[][] generarLayout(){
         int r = vecProductes.length - 1;
         BigInteger[] numPermutacions = {factorial(r)};
         int[] vP = vecProductes;
@@ -101,7 +101,7 @@ public class BruteForce implements GeneradorSolucio {
         return matResultat;
     }
 
-    public int[][] getResultat(){
+    public Integer[][] getResultat(){
         return matResultat;
     }
 
