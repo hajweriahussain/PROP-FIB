@@ -48,10 +48,10 @@ public class CjtProductes {
      * @param idProd Identificador del producte.
      * @return El producte corresponent o null si no existeix.
      */
-    public Producte getProducte(int idProd) {
+    public Producte getProducte(int idProd) throws DominiException {
         Producte producte = productes.get(idProd);
         if (producte == null) {
-            System.err.println("No existeix un producte amb l'ID: " + idProd);
+            throw new DominiException("No existeix un producte amb l'ID: " + idProd);
         }
         return producte;
     }
@@ -62,11 +62,11 @@ public class CjtProductes {
      * @param idPres Identificador de la prestatgeria.
      * @return La posició del producte a la prestatgeria o null si no existeix.
      */
-    public Pair<Integer, Integer> getPosProducte(int idProd, int idPres) {
+    public Pair<Integer, Integer> getPosProducte(int idProd, int idPres) throws DominiException {
         Producte prod = getProducte(idProd);
         Pair<Integer, Integer> posicio = prod.getPosPrestatgeria(idPres);
         if (posicio == null) {
-            System.err.println("No hi ha posició per al producte amb ID " + idProd + " a la prestatgeria " + idPres);
+            throw new DominiException("No hi ha posició per al producte amb ID " + idProd + " a la prestatgeria " + idPres);
         }
         return posicio;
     }
@@ -84,7 +84,7 @@ public class CjtProductes {
      * @param idProd Identificador del producte.
      * @return Mapa de posicions per prestatgeria del producte.
      */
-    public Map<Integer, Pair<Integer, Integer>> getPosPrestatgeriesProducte(int idProd) {
+    public Map<Integer, Pair<Integer, Integer>> getPosPrestatgeriesProducte(int idProd) throws DominiException {
         Producte prod = getProducte(idProd);
         return prod.getPosPrestatgeries();
     }
@@ -121,15 +121,7 @@ public class CjtProductes {
      * @param nom Nom del producte.
      * @param similituds Mapa de similituds del producte amb altres productes.
      */
-    public void afegirProducte(int id, String nom, Map<Integer, Double> similituds) {
-        if (id <= 0) {
-            System.err.println("L'ID ha de ser un nombre positiu.");
-        }
-
-        if (existeixProducte(id)) {
-            System.err.println("Ja existeix un producte amb l'id especificat: " + id);
-        }
-
+    public void afegirProducte(int id, String nom, Map<Integer, Double> similituds) throws DominiException {
         Producte p = new Producte(id, nom, similituds);
         productes.put(p.getId(), p);
 
@@ -139,11 +131,7 @@ public class CjtProductes {
                 double similitud = entry.getValue();
 
                 Producte prodVec = getProducte(prodVecId);
-                if (prodVec != null) {
-                    prodVec.afegirSimilitud(p.getId(), similitud);
-                } else {
-                    System.err.println("No existeix un producte amb l'ID de similitud: " + prodVecId);
-                }
+                prodVec.afegirSimilitud(p.getId(), similitud);
             }
         }
     }
@@ -152,11 +140,7 @@ public class CjtProductes {
      * Edita un producte existent.
      * @param p Instància del producte amb les noves dades.
      */
-    public void editarProducte(Producte p) {
-        if (!existeixProducte(p.getId())) {
-            System.err.println("No existeix producte a editar amb ID: " + p.getId());
-        }
-
+    public void editarProducte(Producte p) throws DominiException {
         Producte prod = getProducte(p.getId());
         prod.setNom(p.getNom());
     }
@@ -166,15 +150,8 @@ public class CjtProductes {
      * @param idProd Identificador actual del producte.
      * @param nouIdProd Nou identificador del producte.
      */
-    public void editarIdProducte(int idProd, int nouIdProd) {
+    public void editarIdProducte(int idProd, int nouIdProd) throws DominiException {
         Producte prod = getProducte(idProd);
-        if (prod == null) {
-            System.err.println("No existeix producte a editar amb ID: " + idProd);
-        }
-
-        if (existeixProducte(nouIdProd)) {
-            System.err.println("Ja existeix un producte amb el nou ID especificat: " + nouIdProd);
-        }
 
         for (Producte prod2 : productes.values()) {
             if (prod2.getSimilituds().containsKey(idProd)) {
@@ -194,12 +171,8 @@ public class CjtProductes {
      * @param idProd Identificador del producte.
      * @param nouNom Nou nom a assignar al producte.
      */
-    public void editarNomProducte(int idProd, String nouNom) {
+    public void editarNomProducte(int idProd, String nouNom) throws DominiException {
         Producte prod = getProducte(idProd);
-        if (prod == null) {
-            System.err.println("No existeix producte a editar amb ID: " + idProd);
-        }
-
         prod.setNom(nouNom);
     }
 
@@ -209,12 +182,8 @@ public class CjtProductes {
      * @param idPres Identificador de la prestatgeria.
      * @param novaPos Nova posició a assignar.
      */
-    public void editarPosProducte(int idProd, int idPres, Pair<Integer, Integer> novaPos) {
+    public void editarPosProducte(int idProd, int idPres, Pair<Integer, Integer> novaPos) throws DominiException {
         Producte prod = getProducte(idProd);
-        if (prod == null) {
-            System.err.println("No existeix producte amb ID: " + idProd);
-        }
-
         prod.modificarPosPrestatgeria(idPres, novaPos);
     }
 
@@ -223,10 +192,6 @@ public class CjtProductes {
      * @param idProd Identificador del producte a eliminar.
      */
     public void eliminarProducte(int idProd) {
-        if (!existeixProducte(idProd)) {
-            System.err.println("No existeix producte a eliminar amb ID: " + idProd);
-        }
-
         productes.remove(idProd);
         for (Producte prod2 : productes.values()) {
             if (prod2.getSimilituds().containsKey(idProd)) {
@@ -242,25 +207,12 @@ public class CjtProductes {
      * @param idProd2 Identificador del segon producte.
      * @param novaSimilitud Nou valor de la similitud entre els productes.
      */
-    public void modificarSimilitud(int idProd1, int idProd2, double novaSimilitud) {
+    public void modificarSimilitud(int idProd1, int idProd2, double novaSimilitud) throws DominiException {
         Producte prod1 = getProducte(idProd1);
         Producte prod2 = getProducte(idProd2);
 
-        if (prod1 == null) {
-            System.err.println("No existeix producte amb ID: " + idProd1);
-        }
-
-        if (prod2 == null) {
-            System.err.println("No existeix producte amb ID: " + idProd2);
-        }
-
-        if (prod1.getSimilituds().containsKey(idProd2)) {
-            prod1.modificarSimilitud(idProd2, novaSimilitud);
-            prod2.modificarSimilitud(idProd1, novaSimilitud);
-            System.out.println("Similitud actualitzada!");
-        } else {
-            System.err.println("No existeix una similitud entre els productes amb IDs: " + idProd1 + " i " + idProd2);
-        }
+        prod1.modificarSimilitud(idProd2, novaSimilitud);
+        prod2.modificarSimilitud(idProd1, novaSimilitud);
     }
 
     /**
@@ -269,12 +221,8 @@ public class CjtProductes {
      * @param idProd Identificador del producte.
      * @return Mapa de similituds amb altres productes o null si el producte no existeix.
      */
-    public Map<Integer, Double> getSimilituds(int idProd) {
+    public Map<Integer, Double> getSimilituds(int idProd) throws DominiException {
         Producte prod = getProducte(idProd);
-        if (prod == null) {
-            System.err.println("No existeix producte amb ID: " + idProd);
-        }
-
         return prod.getSimilituds();
     }
 
@@ -309,7 +257,7 @@ public class CjtProductes {
      * @param idsProds Array d'identificadors dels productes per incloure a la matriu.
      * @return Matriu de similituds corresponent als productes especificats.
      */
-    public double[][] getMatriuSimilitudsPerIds(int[] idsProds) {
+    public double[][] getMatriuSimilitudsPerIds(int[] idsProds) throws DominiException {
         int n = idsProds.length;
         double[][] mat = new double[n][n];
 
@@ -333,7 +281,7 @@ public class CjtProductes {
      * @param idsProds Matriu d'IDs dels productes.
      * @return Matriu d'objectes Producte corresponents o null si els IDs són nuls.
      */
-    public Producte[][] getMatProductes(Integer[][] idsProds) {
+    public Producte[][] getMatProductes(Integer[][] idsProds) throws DominiException {
         if (idsProds == null) return null;
 
         int files = idsProds.length;
@@ -366,7 +314,7 @@ public class CjtProductes {
      * @param producteJsonList Llista de cadenes JSON que representen productes.
      * @return Mapa d'identificadors de productes als seus objectes Producte corresponents.
      */
-    public Map<Integer, Producte> listToProductes(List<String> producteJsonList) {
+    public Map<Integer, Producte> listToProductes(List<String> producteJsonList) throws DominiException {
         Gson gson = new Gson();
         Map<Integer, Producte> productesMap = new HashMap<>();
 
@@ -399,11 +347,11 @@ public class CjtProductes {
 
                 productesMap.put(id, prod);
             } catch (NumberFormatException e) {
-                System.err.println("Error de format numèric en el JSON: " + jsonProducte);
+                throw new DominiException("Error de format numèric en el JSON: " + jsonProducte);
             } catch (ClassCastException e) {
-                System.err.println("Error de tipus de dades en el JSON: " + jsonProducte);
+                throw new DominiException("Error de tipus de dades en el JSON: " + jsonProducte);
             } catch (Exception e) {
-                System.err.println("Error inesperat al processar el JSON: " + e.getMessage());
+                throw new DominiException("Error inesperat al processar el JSON: " + e.getMessage());
             }
         }
 
@@ -416,15 +364,12 @@ public class CjtProductes {
      * @param productes Mapa de productes a convertir.
      * @return Llista de cadenes JSON que representen els productes.
      */
-    public List<String> productesToList(Map<Integer, Producte> productes) {
+    public List<String> productesToList(Map<Integer, Producte> productes) throws DominiException {
         Gson gson = new Gson();
         List<String> producteList = new ArrayList<>();
 
         if (productes != null) {
             for (Producte prod : productes.values()) {
-                if (prod == null) {
-                    System.err.println("Producte nul trobat en el mapa.");
-                }
                 try {
                     Map<String, Object> producteData = Map.of(
                         "id", prod.getId(),
@@ -435,7 +380,7 @@ public class CjtProductes {
                     String jsonProducte = gson.toJson(producteData);
                     producteList.add(jsonProducte);
                 } catch (Exception e) {
-                    System.err.println("Error al processar el producte amb ID " + prod.getId() + ": " + e.getMessage());
+                    throw new DominiException("Error al processar el producte amb ID " + prod.getId() + ": " + e.getMessage());
                 }
             }
         }
@@ -447,15 +392,11 @@ public class CjtProductes {
      * 
      * @return Mapa amb la informació dels productes en format JSON.
      */
-    public Map<String, Map<String, String>> llistarProductesUsuari() {
+    public Map<String, Map<String, String>> llistarProductesUsuari() throws DominiException {
         Map<String, Map<String, String>> llistatProductes = new HashMap<>();
         Gson gson = new Gson();
 
         for (Producte prod : productes.values()) {
-            if (prod == null) {
-                System.err.println("Producte nul trobat en el mapa.");
-            }
-
             String productId = String.valueOf(prod.getId());
             Map<String, String> infoProducte = new HashMap<>();
 
@@ -466,7 +407,7 @@ public class CjtProductes {
                 infoProducte.put("similituds", gson.toJson(prod.getSimilituds()));
                 infoProducte.put("posPrestatgeries", gson.toJson(prod.getPosPrestatgeries()));
             } catch (Exception e) {
-                System.err.println("Error al convertir el producte amb ID " + productId + " a JSON: " + e.getMessage());
+                throw new DominiException("Error al convertir el producte amb ID " + productId + " a JSON: " + e.getMessage());
             }
 
             llistatProductes.put(productId, infoProducte);

@@ -170,10 +170,6 @@ public class Producte {
      * @param novaSimilitud nou valor de similitud.
      */
     public void modificarSimilitud(int id, double novaSimilitud) {
-        if (!similituds.containsKey(id)) {
-            System.err.println("Error: El producte amb id: " + id + " no existeix");
-        }
-
         similituds.put(id, novaSimilitud);
     }
 
@@ -226,15 +222,6 @@ public class Producte {
         }
 
         setPosPrestatgeria(idPres, novaPos);
-    }
-
-    /**
-     * Imprimeix per consola les similituds del producte amb altres productes.
-     */
-    public void imprimirSimilituds() {
-        for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
-            System.out.println("Producte id: " + entry.getKey() + ", similitud: " + entry.getValue());
-        }
     }
 
     /**
