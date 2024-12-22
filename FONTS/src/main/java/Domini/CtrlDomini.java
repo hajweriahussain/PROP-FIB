@@ -39,6 +39,7 @@ public class CtrlDomini {
    public void listToProductes(List<String> producteJsonList) throws DominiException{
         cjtProductes.setMapProductes(cjtProductes.listToProductes(producteJsonList));
    }
+   
    public void listToPrestatgeries(List<String> presJsonList) throws DominiException {
        cjtPrestatgeries.setMapPrestatgeries(cjtPrestatgeries.listToPrestatgeries(presJsonList));
        //ARREGLAR, tiene que devolver lo que devuelve la funcion de productos, y necesito un setMapPrestatgeries.
