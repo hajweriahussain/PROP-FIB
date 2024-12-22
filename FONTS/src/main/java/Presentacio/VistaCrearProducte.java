@@ -169,6 +169,13 @@ public class VistaCrearProducte extends javax.swing.JPanel {
                     labelErrorSimilituds.setForeground(Color.red);
                     return false;
                 }
+                
+                Double similitud = similitudMap.get(id);
+                if (similitud < 0 || similitud > 1) {
+                    labelErrorSimilituds.setText("Error: La similitud per al producte amb ID " + id + " ha d'estar entre 0 i 1");
+                    labelErrorSimilituds.setForeground(Color.red);
+                    return false;
+                }
             }
 
             labelErrorSimilituds.setText("Totes les similituds estan introduïdes correctament.");

@@ -31,30 +31,6 @@ public class Producte {
     private Map<Integer, Pair<Integer, Integer>> posPrestatgeries;
 
     /**
-     * Valida que l'id del producte sigui superior a 0.
-     * 
-     * @param id identificador del producte.
-     * @throws IllegalArgumentException si l'id és menor o igual a 0.
-     */
-    private void validarId(int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("Error: L'id del producte ha de ser superior a 0");
-        }
-    }
-
-    /**
-     * Valida que la similitud estigui dins del rang [0, 1].
-     * 
-     * @param similitud valor de similitud a validar.
-     * @throws IllegalArgumentException si la similitud no està dins del rang permès.
-     */
-    private void validarSimilitud(double similitud) {
-        if (similitud < 0 || similitud > 1) {
-            throw new IllegalArgumentException("Error: La similitud ha de ser un valor positiu");
-        }
-    }
-
-    /**
      * Constructor d'un producte amb id i nom.
      * 
      * @param id identificador únic del producte.
@@ -62,7 +38,6 @@ public class Producte {
      * @throws IllegalArgumentException si l'id no és vàlid.
      */
     public Producte(int id, String nom) {
-        validarId(id);
         this.id = id;
         this.nom = nom;
         this.similituds = new HashMap<>();
@@ -78,7 +53,6 @@ public class Producte {
      * @throws IllegalArgumentException si l'id o alguna similitud no és vàlida.
      */
     public Producte(int id, String nom, Map<Integer, Double> similituds) {
-        validarId(id);
         this.id = id;
         this.nom = nom;
         for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
@@ -145,7 +119,6 @@ public class Producte {
      * @throws IllegalArgumentException si l'id no és vàlid.
      */
     public void setId(int id) {
-        validarId(id);
         this.id = id;
     }
 

@@ -313,6 +313,13 @@ public class VistaProducte extends javax.swing.JPanel {
 
             try {
                 double similitudValue = Double.parseDouble(novaSimilitud);
+                
+                if (similitudValue < 0 || similitudValue > 1) {
+                    JOptionPane.showMessageDialog(this,
+                            "La similitud per al producte " + idProd2 + " ha d'estar entre 0 i 1.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 // Verificar si la similitud ha cambiado
                 Map<String, Map<String, String>> prods = cp.mostrarProductes();
@@ -321,7 +328,7 @@ public class VistaProducte extends javax.swing.JPanel {
                 if (!similitudActual.contains("\"" + idProd2 + "\":" + novaSimilitud)) {
                     // Validar selección del algoritmo solo si hay cambios en las similitudes
                     if (!validarSeleccioAlgoritme()) {
-                        return; // Salir si no se seleccionó un algoritmo
+                        return;
                     }
 
                     // Determinar qué algoritmo se ha seleccionado
