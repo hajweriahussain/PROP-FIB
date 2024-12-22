@@ -59,88 +59,96 @@ public class VistaProducte extends javax.swing.JPanel {
     }
         
     public void carregarProductesEnScrollPanel() {
-        Map<String, Map<String, String>> prods = cp.mostrarProductes();
-        
-        if (prods == null || prods.isEmpty()) {
+        try {
+            Map<String, Map<String, String>> prods = cp.mostrarProductes();
+            
+            if (prods == null || prods.isEmpty()) {
+                productPanel.removeAll();
+                return;
+            }
+
             productPanel.removeAll();
-            return;
-        }
 
-        productPanel.removeAll();
-        
-        for (String id : prods.keySet()) {
-            String nom = prods.get(id).get("nom");
-            
-            
-            JButton botoProducte = new JButton(id + "-" + nom);
-            
-            botoProducte.addActionListener(e -> {
-                String similituds = prods.get(id).get("similituds");
-                String posPrestatgeries = prods.get(id).get("posPrestatgeries");
-                textIdInfo.setText(id);
-                textNomInfo.setText(nom);
-                
-                // Convertir la cadena de similituds a un format llegible
-                StringBuilder sbSimilituds = new StringBuilder();
-                String[] similitudEntries = similituds.replace("{", "").replace("}", "").split(",");
+            for (String id : prods.keySet()) {
+                String nom = prods.get(id).get("nom");
 
-                for (String entry : similitudEntries) {
-                    String[] parts = entry.split(":");
-                    if (parts.length == 2) {
-                        String productId = parts[0].trim().replace("\"", "");
-                        String similarity = parts[1].trim();
-                        sbSimilituds.append("Producte ID: ").append(productId)
-                                    .append(", Similitud: ").append(similarity).append("\n");
-                    }
-                }
-                textAreaSimilituds.setText(sbSimilituds.toString());
-                
-                StringBuilder sbPosPrestatgeries = new StringBuilder();
-                if (posPrestatgeries.equals("{}") || posPrestatgeries.trim().isEmpty()) {
-                    sbPosPrestatgeries.append("El producte no està en cap prestatgeria.");
-                }
-                else {
-                    posPrestatgeries = posPrestatgeries.substring(1, posPrestatgeries.length() - 1);
-                    String[] prestatgeriesEntries = posPrestatgeries.split("(?<=\\]),(?=\\\")");
 
-                    for (String entry : prestatgeriesEntries) {
+                JButton botoProducte = new JButton(id + "-" + nom);
+
+                botoProducte.addActionListener(e -> {
+                    String similituds = prods.get(id).get("similituds");
+                    String posPrestatgeries = prods.get(id).get("posPrestatgeries");
+                    textIdInfo.setText(id);
+                    textNomInfo.setText(nom);
+
+                    // Convertir la cadena de similituds a un format llegible
+                    StringBuilder sbSimilituds = new StringBuilder();
+                    String[] similitudEntries = similituds.replace("{", "").replace("}", "").split(",");
+
+                    for (String entry : similitudEntries) {
                         String[] parts = entry.split(":");
                         if (parts.length == 2) {
-                            String shelfId = parts[0].replace("\"", "").trim();
-                            String positions = parts[1].replace("[", "").replace("]", "").trim();
-                            String[] coordinates = positions.split(",");
+                            String productId = parts[0].trim().replace("\"", "");
+                            String similarity = parts[1].trim();
+                            sbSimilituds.append("Producte ID: ").append(productId)
+                                        .append(", Similitud: ").append(similarity).append("\n");
+                        }
+                    }
+                    textAreaSimilituds.setText(sbSimilituds.toString());
 
-                            if (coordinates.length == 2) {
-                                int row = Integer.parseInt(coordinates[0].trim());
-                                int column = Integer.parseInt(coordinates[1].trim());
+                    StringBuilder sbPosPrestatgeries = new StringBuilder();
+                    if (posPrestatgeries.equals("{}") || posPrestatgeries.trim().isEmpty()) {
+                        sbPosPrestatgeries.append("El producte no està en cap prestatgeria.");
+                    }
+                    else {
+                        posPrestatgeries = posPrestatgeries.substring(1, posPrestatgeries.length() - 1);
+                        String[] prestatgeriesEntries = posPrestatgeries.split("(?<=\\]),(?=\\\")");
 
-                                sbPosPrestatgeries.append("Prestatgeria ID: ").append(shelfId)
-                                                  .append(", Fila: ").append(row)
-                                                  .append(", Columna: ").append(column)
-                                                  .append("\n");
+                        for (String entry : prestatgeriesEntries) {
+                            String[] parts = entry.split(":");
+                            if (parts.length == 2) {
+                                String shelfId = parts[0].replace("\"", "").trim();
+                                String positions = parts[1].replace("[", "").replace("]", "").trim();
+                                String[] coordinates = positions.split(",");
+
+                                if (coordinates.length == 2) {
+                                    int row = Integer.parseInt(coordinates[0].trim());
+                                    int column = Integer.parseInt(coordinates[1].trim());
+
+                                    sbPosPrestatgeries.append("Prestatgeria ID: ").append(shelfId)
+                                                      .append(", Fila: ").append(row)
+                                                      .append(", Columna: ").append(column)
+                                                      .append("\n");
+                                }
                             }
                         }
                     }
-                }
-                textAreaPosPrestatgeries.setText(sbPosPrestatgeries.toString());
-                
-                cardLayout.show(jPanelGeneral, "infoPanel");
-                mostrarProductesEnJList();
-            });
-            productPanel.add(botoProducte);
+                    textAreaPosPrestatgeries.setText(sbPosPrestatgeries.toString());
+
+                    cardLayout.show(jPanelGeneral, "infoPanel");
+                    mostrarProductesEnJList();
+                });
+                productPanel.add(botoProducte);
+            }
+            panelProds.setViewportView(productPanel);
+        } catch (DominiException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-        panelProds.setViewportView(productPanel);
     }
     
     private void mostrarProductesEnJList() {
-        Map<String, Map<String, String>> productes = cp.mostrarProductes();
-        DefaultListModel<String> model = new DefaultListModel<>();
+        try {
+            Map<String, Map<String, String>> productes = cp.mostrarProductes();
+            DefaultListModel<String> model = new DefaultListModel<>();
 
-        for (String id : productes.keySet()) {
-            model.addElement(id + " - " + productes.get(id).get("nom"));
+            for (String id : productes.keySet()) {
+                model.addElement(id + " - " + productes.get(id).get("nom"));
+            }
+
+            llistaProductesExistents.setModel(model);
+        } catch (DominiException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-
-        llistaProductesExistents.setModel(model);
     }
 
     private void configurarEditarPanel() {
@@ -268,7 +276,7 @@ public class VistaProducte extends javax.swing.JPanel {
         });
     }
     
-    private void editarProducte() throws DominiException {
+    private void editarProducte() {
         String idOriginal = textIdInfo.getText();
         String nouId = textNouId.getText();
         String nouNom = textNouNom.getText();
@@ -295,15 +303,22 @@ public class VistaProducte extends javax.swing.JPanel {
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "L'ID ha de ser un número vàlid", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
+            } catch (DominiException ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
+            
         }
         else {
             nouId = idOriginal; // Si no es canvia l'ID, fem servir l'original
         }
 
         if (!nouNom.isEmpty() && !nouNom.equals("Introdueix un nou nom") && !nouNom.equals(textNomInfo.getText())) {
-            cp.editarNomProducte(nouId.isEmpty() ? idOriginal : nouId, nouNom);
-            canvisGenerals = true;
+            try {
+                cp.editarNomProducte(nouId.isEmpty() ? idOriginal : nouId, nouNom);
+                canvisGenerals = true;
+            } catch (DominiException ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
         }
         
 
@@ -342,6 +357,8 @@ public class VistaProducte extends javax.swing.JPanel {
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "La similitud per al producte " + idProd2 + " ha de ser un número vàlid.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
+            } catch (DominiException ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -355,28 +372,32 @@ public class VistaProducte extends javax.swing.JPanel {
     }
 
     private void actualitzarVistaProducte(String id) {
-        Map<String, Map<String, String>> prods = cp.mostrarProductes();
-        Map<String, String> producte = prods.get(id);
-        
-        textIdInfo.setText(id);
-        textNomInfo.setText(producte.get("nom"));
-        
-        String similituds = producte.get("similituds");
-        StringBuilder sbSimilituds = new StringBuilder();
-        String[] similitudEntries = similituds.replace("{", "").replace("}", "").split(",");
+        try {
+            Map<String, Map<String, String>> prods = cp.mostrarProductes();
+            Map<String, String> producte = prods.get(id);
 
-        for (String entry : similitudEntries) {
-            String[] parts = entry.split(":");
-            if (parts.length == 2) {
-                String productId = parts[0].trim().replace("\"", "");
-                String similarity = parts[1].trim();
-                sbSimilituds.append("Producte ID: ").append(productId)
-                        .append(", Similitud: ").append(similarity).append("\n");
+            textIdInfo.setText(id);
+            textNomInfo.setText(producte.get("nom"));
+
+            String similituds = producte.get("similituds");
+            StringBuilder sbSimilituds = new StringBuilder();
+            String[] similitudEntries = similituds.replace("{", "").replace("}", "").split(",");
+
+            for (String entry : similitudEntries) {
+                String[] parts = entry.split(":");
+                if (parts.length == 2) {
+                    String productId = parts[0].trim().replace("\"", "");
+                    String similarity = parts[1].trim();
+                    sbSimilituds.append("Producte ID: ").append(productId)
+                            .append(", Similitud: ").append(similarity).append("\n");
+                }
             }
+            textAreaSimilituds.setText(sbSimilituds.toString());
+
+            carregarProductesEnScrollPanel();
+        } catch (DominiException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-        textAreaSimilituds.setText(sbSimilituds.toString());
-        
-        carregarProductesEnScrollPanel();
     }
 
     private void inicialitzarTaulaSimilituds() {
@@ -388,42 +409,46 @@ public class VistaProducte extends javax.swing.JPanel {
             }
         };
         taulaSimilituds.setModel(model);
+        
+        try {
+            Map<String, Map<String, String>> prods = cp.mostrarProductes();
+            String similituds = prods.get(textIdInfo.getText()).get("similituds");
+            String[] similitudEntries = similituds.replace("{", "").replace("}", "").split(",");
 
-        Map<String, Map<String, String>> prods = cp.mostrarProductes();
-        String similituds = prods.get(textIdInfo.getText()).get("similituds");
-        String[] similitudEntries = similituds.replace("{", "").replace("}", "").split(",");
-
-        for (String entry : similitudEntries) {
-            String[] parts = entry.split(":");
-            if (parts.length == 2) {
-                model.addRow(new Object[]{parts[0].trim().replace("\"", ""), parts[1].trim()});
+            for (String entry : similitudEntries) {
+                String[] parts = entry.split(":");
+                if (parts.length == 2) {
+                    model.addRow(new Object[]{parts[0].trim().replace("\"", ""), parts[1].trim()});
+                }
             }
+
+            // Configuració addicional de la taula
+            taulaSimilituds.setPreferredScrollableViewportSize(new Dimension(300, 100));
+            taulaSimilituds.setFillsViewportHeight(true);
+
+            // Actualitza el JScrollPane
+            scrollPaneTaulaSimilituds.setViewportView(taulaSimilituds);
+
+            // Configura les restriccions per al JScrollPane
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 5; // Ajusta segons la posició desitjada
+            gbc.gridwidth = 2;
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weightx = 1.0;
+            gbc.weighty = 1.0;
+            gbc.insets = new Insets(10, 25, 10, 25);
+
+            // Elimina el JScrollPane si ja existeix i torna a afegir-lo
+            editarPanel.remove(scrollPaneTaulaSimilituds);
+            editarPanel.add(scrollPaneTaulaSimilituds, gbc);
+
+            // Revalida i repinta el panel
+            editarPanel.revalidate();
+            editarPanel.repaint();
+        } catch (DominiException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-
-        // Configuració addicional de la taula
-        taulaSimilituds.setPreferredScrollableViewportSize(new Dimension(300, 100));
-        taulaSimilituds.setFillsViewportHeight(true);
-
-        // Actualitza el JScrollPane
-        scrollPaneTaulaSimilituds.setViewportView(taulaSimilituds);
-
-        // Configura les restriccions per al JScrollPane
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 5; // Ajusta segons la posició desitjada
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.insets = new Insets(10, 25, 10, 25);
-
-        // Elimina el JScrollPane si ja existeix i torna a afegir-lo
-        editarPanel.remove(scrollPaneTaulaSimilituds);
-        editarPanel.add(scrollPaneTaulaSimilituds, gbc);
-
-        // Revalida i repinta el panel
-        editarPanel.revalidate();
-        editarPanel.repaint();
     }
 
 
@@ -441,16 +466,17 @@ public class VistaProducte extends javax.swing.JPanel {
         sbSimilituds.append("}");
 
         String idProducte = textIdInfo.getText();
-        Map<String, Map<String, String>> prods = cp.mostrarProductes();
-        prods.get(idProducte).put("similituds", sbSimilituds.toString());
+        try {
+            Map<String, Map<String, String>> prods = cp.mostrarProductes();
+            prods.get(idProducte).put("similituds", sbSimilituds.toString());
+        } catch (DominiException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private boolean validarSeleccioAlgoritme() {
         if (!rbFB.isSelected() && !rbDosA.isSelected()) {
-            JOptionPane.showMessageDialog(this,
-                "Has de seleccionar un algoritme per a les similituds.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Has de seleccionar un algoritme per a les similituds.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
@@ -459,19 +485,19 @@ public class VistaProducte extends javax.swing.JPanel {
     private void esborrarProducte() {
         String idProd = textIdInfo.getText();
 
-        int confirmacio = JOptionPane.showConfirmDialog(this,
-            "Estàs segur que vols esborrar el producte amb ID " + idProd + "?",
-            "Confirmar esborrat",
-            JOptionPane.YES_NO_OPTION);
+        int confirmacio = JOptionPane.showConfirmDialog(this, "Estàs segur que vols esborrar el producte amb ID " + idProd + "?", "Confirmar esborrat", JOptionPane.YES_NO_OPTION);
 
         if (confirmacio == JOptionPane.YES_OPTION) {
-            cp.esborrarProducte(idProd);
-            JOptionPane.showMessageDialog(this, "Producte esborrat amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
-            cardLayout.show(jPanelGeneral, "llistaPanel");
-            carregarProductesEnScrollPanel();
+            try {
+                cp.esborrarProducte(idProd);
+                JOptionPane.showMessageDialog(this, "Producte esborrat amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
+                cardLayout.show(jPanelGeneral, "llistaPanel");
+                carregarProductesEnScrollPanel();   // Torna a carregar els botons dels productes al llistaPanel
+            } catch (DominiException ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
-
 
     // Mètode per mostrar el panel de crear producte
     public void mostrarCrearProductePanel() {

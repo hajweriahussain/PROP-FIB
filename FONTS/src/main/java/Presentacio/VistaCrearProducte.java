@@ -21,7 +21,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
      * Creates new form VistaCrearProducte
      */
     public VistaCrearProducte() {
-        initComponents();  
+        initComponents();
         cp = new CtrlPresentacio();
         this.setSize(800, 800);
         mostrarProductesEnJList();
