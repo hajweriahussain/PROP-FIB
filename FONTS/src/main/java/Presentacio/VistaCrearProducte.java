@@ -164,41 +164,41 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         String similituds = textAreaSims.getText().trim();
         try {
             Map<String, Map<String, String>> productes = cp.mostrarProductes();
-        } catch (DominiException ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-
-        if (productes == null || productes.isEmpty()) {     // El primer producte no té cap similitud associada
-            return true;
-        }
-
-        try {
-            Map<String, Double> similitudMap = parseSimilituds(similituds);
-
-            // Verificar si tots els IDs existents tenen una similitud
-            for (String id : productes.keySet()) {
-                if (!similitudMap.containsKey(id)) {
-                    labelErrorSimilituds.setText("Error: Falta la similitud per al producte amb ID " + id);
-                    labelErrorSimilituds.setForeground(Color.red);
-                    return false;
-                }
-                
-                Double similitud = similitudMap.get(id);
-                if (similitud < 0 || similitud > 1) {
-                    labelErrorSimilituds.setText("Error: La similitud per al producte amb ID " + id + " ha d'estar entre 0 i 1");
-                    labelErrorSimilituds.setForeground(Color.red);
-                    return false;
-                }
+            
+            if (productes == null || productes.isEmpty()) {     // El primer producte no té cap similitud associada
+                return true;
             }
 
-            labelErrorSimilituds.setText("Totes les similituds estan introduïdes correctament.");
-            labelErrorSimilituds.setForeground(Color.green);
-            return true;
+            try {
+                Map<String, Double> similitudMap = parseSimilituds(similituds);
 
-        } catch (Exception e) {
-            labelErrorSimilituds.setText("Error en el format de les similituds.");
-            labelErrorSimilituds.setForeground(Color.red);
-            return false;
+                // Verificar si tots els IDs existents tenen una similitud
+                for (String id : productes.keySet()) {
+                    if (!similitudMap.containsKey(id)) {
+                        labelErrorSimilituds.setText("Error: Falta la similitud per al producte amb ID " + id);
+                        labelErrorSimilituds.setForeground(Color.red);
+                        return false;
+                    }
+
+                    Double similitud = similitudMap.get(id);
+                    if (similitud < 0 || similitud > 1) {
+                        labelErrorSimilituds.setText("Error: La similitud per al producte amb ID " + id + " ha d'estar entre 0 i 1");
+                        labelErrorSimilituds.setForeground(Color.red);
+                        return false;
+                    }
+                }
+
+                labelErrorSimilituds.setText("Totes les similituds estan introduïdes correctament.");
+                labelErrorSimilituds.setForeground(Color.green);
+                return true;
+
+            } catch (Exception e) {
+                labelErrorSimilituds.setText("Error en el format de les similituds.");
+                labelErrorSimilituds.setForeground(Color.red);
+                return false;
+            }
+        } catch (DominiException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
     
