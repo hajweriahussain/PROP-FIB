@@ -53,14 +53,20 @@ public class VistaProducte extends javax.swing.JPanel {
         jPanelGeneral.add(llistaPanel, "llistaPanel");
         jPanelGeneral.add(infoPanel, "infoPanel");
         jPanelGeneral.add(editarPanel, "editarPanel");
-        
-        jPanelGeneral.add(vistaCrearProducte, "crearProductePanel");
-        
+                
         cardLayout.show(jPanelGeneral, "llistaPanel");
     }
         
     public void carregarProductesEnScrollPanel() {
         Map<String, Map<String, String>> prods = cp.mostrarProductes();
+        
+        if (prods == null || prods.isEmpty()) {
+            productPanel.removeAll();
+            return;
+        }
+
+        productPanel.removeAll();
+        
         for (String id : prods.keySet()) {
             String nom = prods.get(id).get("nom");
             
@@ -242,10 +248,23 @@ public class VistaProducte extends javax.swing.JPanel {
         });
         botoGuardar.addActionListener(e -> {
             editarProducte();
-            guardarSimilitudsEditades();
+            if (validarSeleccioAlgoritme()) {
+                guardarSimilitudsEditades();
+            }
             cardLayout.show(jPanelGeneral, "infoPanel");
         });
         botoEliminar.addActionListener(e -> esborrarProducte());
+        rbFB.addActionListener(e -> {
+            if (rbFB.isSelected()) {
+                rbDosA.setSelected(false);
+            }
+        });
+
+        rbDosA.addActionListener(e -> {
+            if (rbDosA.isSelected()) {
+                rbFB.setSelected(false);
+            }
+        });
     }
     
     private void editarProducte() {
@@ -253,7 +272,8 @@ public class VistaProducte extends javax.swing.JPanel {
         String nouId = textNouId.getText();
         String nouNom = textNouNom.getText();
         
-        boolean canvis = false;
+        boolean canvisGenerals = false;
+        boolean canvisSimilituds = false;
 
         if (!nouId.isEmpty() && !nouId.equals(idOriginal)) {
             try {
@@ -269,22 +289,60 @@ public class VistaProducte extends javax.swing.JPanel {
                     return;
                 }
                 cp.editarIdProducte(idOriginal, nouId);
-                canvis = true;
+                canvisGenerals = true;
                 
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "L'ID ha de ser un número vàlid", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         }
+        else {
+            nouId = idOriginal; // Si no es canvia l'ID, fem servir l'original
+        }
 
         if (!nouNom.isEmpty() && !nouNom.equals("Introdueix un nou nom") && !nouNom.equals(textNomInfo.getText())) {
             cp.editarNomProducte(nouId.isEmpty() ? idOriginal : nouId, nouNom);
-            canvis = true;
+            canvisGenerals = true;
+        }
+        
+
+        DefaultTableModel model = (DefaultTableModel) taulaSimilituds.getModel();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String idProd2 = model.getValueAt(i, 0).toString(); // ID del producto relacionado
+            String novaSimilitud = model.getValueAt(i, 1).toString(); // Nueva similitud
+
+            try {
+                double similitudValue = Double.parseDouble(novaSimilitud);
+
+                // Verificar si la similitud ha cambiado
+                Map<String, Map<String, String>> prods = cp.mostrarProductes();
+                String similitudActual = prods.get(idOriginal).get("similituds").replace("{", "").replace("}", "");
+
+                if (!similitudActual.contains("\"" + idProd2 + "\":" + novaSimilitud)) {
+                    // Validar selección del algoritmo solo si hay cambios en las similitudes
+                    if (!validarSeleccioAlgoritme()) {
+                        return; // Salir si no se seleccionó un algoritmo
+                    }
+
+                    // Determinar qué algoritmo se ha seleccionado
+                    String algoritmoSeleccionado = rbFB.isSelected() ? "true" : "false"; // true para força bruta, false para dos aproximació
+
+                    // Llamar al método del controlador para modificar la similitud
+                    cp.modificarSimilitudProductes(nouId, idProd2, novaSimilitud, algoritmoSeleccionado);
+                    canvisSimilituds = true;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "La similitud per al producte " + idProd2 + " ha de ser un número vàlid.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
 
-        if (canvis) {
-            actualitzarVistaProducte(nouId.isEmpty() ? idOriginal : nouId);
+        if (canvisGenerals || canvisSimilituds) {
+            actualitzarVistaProducte(nouId);
             JOptionPane.showMessageDialog(this, "Canvis guardats amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "No s'han detectat canvis", "Informació", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -377,6 +435,17 @@ public class VistaProducte extends javax.swing.JPanel {
         String idProducte = textIdInfo.getText();
         Map<String, Map<String, String>> prods = cp.mostrarProductes();
         prods.get(idProducte).put("similituds", sbSimilituds.toString());
+    }
+    
+    private boolean validarSeleccioAlgoritme() {
+        if (!rbFB.isSelected() && !rbDosA.isSelected()) {
+            JOptionPane.showMessageDialog(this,
+                "Has de seleccionar un algoritme per a les similituds.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
     
     private void esborrarProducte() {
@@ -789,9 +858,9 @@ public class VistaProducte extends javax.swing.JPanel {
     private void botoCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoCrearActionPerformed
         if (vistaCrearProducte == null) {
             vistaCrearProducte = new VistaCrearProducte();
+            jPanelGeneral.add(vistaCrearProducte, "vistaCrearProducte");
         }
-        vistaCrearProducte.setVisible(true);
-        this.setVisible(false);
+        cardLayout.show(jPanelGeneral, "vistaCrearProducte");
     }//GEN-LAST:event_botoCrearActionPerformed
 
     private void botoSortirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoSortirActionPerformed

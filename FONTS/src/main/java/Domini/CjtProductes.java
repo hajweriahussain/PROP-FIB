@@ -47,12 +47,7 @@ public class CjtProductes {
     }
     
     public void setMapProductes(Map<Integer, Producte> prods) {
-        if (prods != null && !prods.isEmpty()) {
-            this.productes = new HashMap<>(prods);
-        }
-        else {
-            System.err.println("El map de productes és nul o buit");
-        }
+        this.productes = new HashMap<>(prods);
     }
     
     public Map<Integer, Pair<Integer, Integer>> getPosPrestatgeriesProducte(int idProd) {

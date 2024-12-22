@@ -105,11 +105,17 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         }
         try {
             Map<String, Map<String, String>> productes = cp.mostrarProductes();
+
             int idNum = Integer.parseInt(id);
 
             if(idNum <= 0) {
                 labelErrorId.setText("L'id ha de ser un nombre positiu.");
                 return false;
+            }
+            else if (productes == null) {
+                labelErrorId.setText("Entrada vàlida.");
+                labelErrorId.setForeground(Color.green);
+                return true;
             }
             else if (cp.existeixProducteId(id, productes)) {
                 JOptionPane.showMessageDialog(this, "Ja existeix un producte amb aquest ID. Si us plau, introdueix un altre.", "ID Duplicat", JOptionPane.WARNING_MESSAGE);
@@ -150,15 +156,13 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         Map<String, Map<String, String>> productes = cp.mostrarProductes();
 
         if (productes == null || productes.isEmpty()) {
-            labelErrorSimilituds.setText("No hi ha altres productes registrats. Les similituds són opcionals.");
-            labelErrorSimilituds.setForeground(Color.green);
-            return true; // Permitir la creación del producto
+            return true;
         }
 
         try {
             Map<String, Double> similitudMap = parseSimilituds(similituds);
 
-            // Verificar si todos los IDs existentes tienen una similitud
+            // Verificar si tots els IDs existents tenen una similitud
             for (String id : productes.keySet()) {
                 if (!similitudMap.containsKey(id)) {
                     labelErrorSimilituds.setText("Error: Falta la similitud per al producte amb ID " + id);
@@ -435,7 +439,15 @@ public class VistaCrearProducte extends javax.swing.JPanel {
 
         if (idValid && nomValid && similitudsValides) {
             try {
-                cp.crearProducte(textId.getText().trim(), textNom.getText().trim(), textAreaSims.getText().trim());
+                String id = textId.getText().trim();
+                String nom = textNom.getText().trim();
+                String similituds = textAreaSims.getText().trim();
+
+                if (similituds.isEmpty()) {
+                    similituds = "{}";
+                }
+
+                cp.crearProducte(id, nom, similituds);
                 resetLabels();
                 JOptionPane.showMessageDialog(this, "Producte creat!", "CONFIRMACIÓ", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
