@@ -328,6 +328,7 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VistaMenuUsuari().setVisible(true);
+                
             }
         });
     }
