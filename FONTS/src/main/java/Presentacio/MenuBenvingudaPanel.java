@@ -41,7 +41,7 @@ public class MenuBenvingudaPanel extends javax.swing.JPanel {
         jTextArea1.setText("El projecte consisteix a desenvolupar un sistema per optimitzar la distribució de \nproductes en una prestatgeria circular d’un supermercat, maximitzant les compres \ngràcies a la proximitat entre productes relacionats.\n\nEl sistema inclourà funcionalitats per gestionar productes, registrar i visualitzar simi-\nlituds entre ells, i calcular distribucions òptimes utilitzant dos algorismes: força bruta\ni aproximació heurística. També permetrà modificar manualment les solucions pro-\nposades i importar/exportar dades en formats estàndards.\n\nEs podran afegir funcionalitats opcionals, com restriccions a la distribució o algoris-\nmes addicionals, assegurant un sistema flexible, eficient i adaptable.");
         jTextArea1.setBorder(null);
 
-        fotologo.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj3\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\LogoSinBordes.png")); // NOI18N
+        fotologo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/LogoSinBordes.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Benvingut/da a ...");

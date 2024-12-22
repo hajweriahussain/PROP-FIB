@@ -5,6 +5,7 @@
 package Presentacio;
 
 import java.awt.BorderLayout;
+import java.awt.event.HierarchyEvent;
 import javax.swing.JPanel;
 
 /**
@@ -26,13 +27,25 @@ public class VistaMenuInici extends javax.swing.JFrame {
     }
     
     private void ShowJPanel(JPanel p) {
+        if (content.getComponentCount() > 0) {
+            JPanel currentPanel = (JPanel) content.getComponent(0);
+            content.remove(currentPanel); // Remueve el panel actual
+            if (currentPanel instanceof AutoCloseable) {
+                try {
+                    ((AutoCloseable) currentPanel).close(); // Cierra si es necesario
+                } catch (Exception e) {
+                    System.err.println("Error al cerrar el panel: " + e.getMessage());
+                }
+            }
+        }
+
         p.setSize(450, 800);
         p.setLocation(0, 0);
-        content.removeAll();
         content.add(p, BorderLayout.CENTER);
         content.revalidate();
         content.repaint();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,7 +61,7 @@ public class VistaMenuInici extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        fotofons.setIcon(new javax.swing.ImageIcon("/home/laura/Documentos/PROP/Proyecto2BUENOO/subgrup-prop41.1/FONTS/src/main/resources/img/super22.PNG")); // NOI18N
+        fotofons.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/super22.PNG"))); // NOI18N
         fotofons.setText("jLabel2");
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);

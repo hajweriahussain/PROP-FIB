@@ -38,7 +38,7 @@ public class MenuAboutUs extends javax.swing.JPanel {
         textoo.setText("Sóm un humil grup de terballadors amants de la informàtica i\nla gestió de les prestatgeries. Vam crear Prestatges n' Products\nperquè ens va sorgir una necessitat urgent d'organitzar i orde-\nnar els nostres productes en prestatges circulars.\n\nEl nostre equip està format per, d'esquerra a dreta:\nHajweria Hussain, Guillem Sturlese, Ariadna Mantilla, Laura Apolzán");
         textoo.setBorder(null);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj3\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\fotogrupo.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fotogrupo.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Microsoft Sans Serif", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 51, 51));

@@ -255,6 +255,7 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
             "Error",
             javax.swing.JOptionPane.ERROR_MESSAGE);
         }
+        this.dispose();
         cp.mostrarMenuInici();
     }//GEN-LAST:event_botoTancarSessioActionPerformed
 
