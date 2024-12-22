@@ -35,7 +35,7 @@ public class CtrlPresentacio {
     }
     
 
-    public Map<String, Map<String, String>> mostrarProductes() {
+    public Map<String, Map<String, String>> mostrarProductes() throws DominiException {
         return ctrlDomini.llistarProductesUsuari();
     }
 
@@ -79,7 +79,7 @@ public class CtrlPresentacio {
     
     // PRODUCTES
       
-    public void crearProducte(String idProd, String nomProd, String similituds) {
+    public void crearProducte(String idProd, String nomProd, String similituds) throws DominiException {
         Map<Integer, Double> similitudsMap;
 
         if (similituds == null || similituds.trim().isEmpty() || "{}".equals(similituds.trim())) {
@@ -92,19 +92,19 @@ public class CtrlPresentacio {
         ctrlDomini.crearProducte(Integer.parseInt(idProd), nomProd, similitudsMap);
     }
 
-    public void crearProducteFitxer(String path) throws PersistenciaException {
+    public void crearProducteFitxer(String path) throws PersistenciaException, DominiException {
         ctrlDomini.LlegirProducteFitxer(path);
     }
     
-    public void esborrarProducte(String idProd) {
+    public void esborrarProducte(String idProd) throws DominiException {
         ctrlDomini.esborrarProducte(Integer.parseInt(idProd));
     }
     
-    public void editarIdProducte(String idActual, String nouId) {
+    public void editarIdProducte(String idActual, String nouId) throws DominiException {
         ctrlDomini.modificarProducte(Integer.valueOf(idActual), Integer.valueOf(nouId), "");
     }
     
-    public void editarNomProducte(String idProd, String nouNom) {
+    public void editarNomProducte(String idProd, String nouNom) throws DominiException {
         ctrlDomini.modificarProducte(Integer.valueOf(idProd), null ,nouNom);
     }
     
@@ -127,11 +127,7 @@ public class CtrlPresentacio {
         ctrlDomini.crearPrestatgeria(Integer.parseInt(idPres), nom, Integer.parseInt(numCols), productesSet, Boolean.valueOf(bf));
     }
 
-<<<<<<< Updated upstream
     public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) throws DominiException, PersistenciaException {
-=======
-    public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) throws DominiException {
->>>>>>> Stashed changes
         ctrlDomini.LlegirPrestatgeriaFitxer(nom, idPres, cols, path);
     }
     
@@ -149,11 +145,7 @@ public class CtrlPresentacio {
         return ctrlDomini.comprovarUsuari(username, pwd);
     }
 
-<<<<<<< Updated upstream
     public void realizarLogin(String username, String pwd) throws DominiException, PersistenciaException {
-=======
-    public void realizarLogin(String username, String pwd) throws DominiException{
->>>>>>> Stashed changes
         ctrlDomini.iniciarSessio(username, pwd);
     }
 
@@ -165,15 +157,11 @@ public class CtrlPresentacio {
         return ctrlDomini.getUsuariActual();
     }
 
-<<<<<<< Updated upstream
     public void registrarUsuari(String username, String pwd) throws DominiException, PersistenciaException {
-=======
-    public void registrarUsuari(String username, String pwd) throws DominiException{
->>>>>>> Stashed changes
         ctrlDomini.crearUsuari(username, pwd);
     }
 
-    public void esborrarUsuari() throws PersistenciaException {
+    public void esborrarUsuari() throws PersistenciaException, DominiException {
         ctrlDomini.esborrarUsuari();
     }
     
@@ -181,7 +169,7 @@ public class CtrlPresentacio {
         ctrlDomini.canviarContrasenya(username, pwd);
     }
 
-    public void logout() throws PersistenciaException {
+    public void logout() throws PersistenciaException, DominiException {
         ctrlDomini.tancarSessio();
     }
 
