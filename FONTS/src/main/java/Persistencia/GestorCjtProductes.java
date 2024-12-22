@@ -104,16 +104,23 @@ public class GestorCjtProductes {
 
             for (String prod : productes) {
                 try {
+                    System.out.println("Processant producte: " + prod);
                     JSONObject jsonProducte = (JSONObject) parser.parse(prod);
                     String id = jsonProducte.get("id").toString();
 
                     Map<String, Object> producteOrdenat = new LinkedHashMap<>();
-                    producteOrdenat.put("id", jsonProducte.get("id"));
+                    producteOrdenat.put("id", id);
                     producteOrdenat.put("nom", jsonProducte.get("nom"));
-                    producteOrdenat.put("similituds", jsonProducte.get("similituds"));
-                    producteOrdenat.put("posPrestatgeries", jsonProducte.get("posPrestatgeries"));
+                    
+                    // Manejo específico para similituds y posPrestatgeries
+                    Object similituds = jsonProducte.get("similituds");
+                    producteOrdenat.put("similituds", (similituds instanceof JSONObject) ? similituds : new JSONObject());
 
-                    jsonProductes.put(String.valueOf(id), producteOrdenat);
+                    Object posPrestatgeries = jsonProducte.get("posPrestatgeries");
+                    producteOrdenat.put("posPrestatgeries", (posPrestatgeries instanceof JSONObject) ? posPrestatgeries : new JSONObject());
+
+                    jsonProductes.put(id, producteOrdenat);
+                    System.out.println("Producte processat correctament: " + id); // Log para depuración
                 } catch (ParseException e) {
                     throw new PersistenciaException("Error al parsear el JSON: " + e.getMessage());
                 } catch (Exception e) {
@@ -121,17 +128,18 @@ public class GestorCjtProductes {
                 }
             }
 
-            esborrarProductes(usuari);
             String ruta = getRuta(usuari);
-
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            
             try (FileWriter file = new FileWriter(ruta)) {
-                file.write(gson.toJson(jsonProductes));
+                String jsonString = gson.toJson(jsonProductes);
+                file.write(jsonString);
                 file.flush();
             } catch (IOException e) {
                 throw new PersistenciaException("Error al guardar l'arxiu: " + e.getMessage());
             }
         } else {
+            System.out.println("No hi ha productes per guardar. S'esborrarà l'arxiu existent."); // Log para depuración
             esborrarProductes(usuari);
         }
     }
