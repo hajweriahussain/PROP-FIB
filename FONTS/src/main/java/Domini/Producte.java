@@ -55,9 +55,6 @@ public class Producte {
     public Producte(int id, String nom, Map<Integer, Double> similituds) {
         this.id = id;
         this.nom = nom;
-        for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
-            validarSimilitud(entry.getValue());
-        }
         this.similituds = similituds;
         this.posPrestatgeries = new HashMap<>();
     }
@@ -138,9 +135,6 @@ public class Producte {
      * @throws IllegalArgumentException si alguna similitud no és vàlida.
      */
     public void setSimilituds(Map<Integer, Double> similituds) {
-        for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
-            validarSimilitud(entry.getValue());
-        }
         this.similituds = similituds;
     }
 
@@ -171,7 +165,6 @@ public class Producte {
      * @throws IllegalArgumentException si la similitud no és vàlida.
      */
     public void afegirSimilitud(int id, double similitud) {
-        validarSimilitud(similitud);
         similituds.put(id, similitud);
     }
 
@@ -183,7 +176,6 @@ public class Producte {
      * @throws IllegalArgumentException si la similitud no és vàlida.
      */
     public void modificarSimilitud(int id, double novaSimilitud) {
-        validarSimilitud(novaSimilitud);
         if (!similituds.containsKey(id)) {
             System.err.println("Error: El producte amb id: " + id + " no existeix");
         }
