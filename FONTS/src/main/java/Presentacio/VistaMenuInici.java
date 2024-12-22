@@ -4,9 +4,12 @@
  */
 package Presentacio;
 
+import com.formdev.flatlaf.intellijthemes.FlatLightFlatIJTheme;
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.HierarchyEvent;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 /**
  *
@@ -126,7 +129,15 @@ public class VistaMenuInici extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+        FlatLightFlatIJTheme.setup();
+        UIManager.put( "Button.arc", 20 );
+        UIManager.put( "Component.arc", 20 );
+        UIManager.put( "CheckBox.arc", 2 );
+        UIManager.put( "TextComponent.arc", 20 );
+        UIManager.put( "Component.arrowType", "triangle" );
+       // UIManager.put("Label.font", new Font("Roboto", Font.BOLD, 22));
+       // UIManager.put("TextField.font", new Font("Roboto", Font.PLAIN, 12));
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
