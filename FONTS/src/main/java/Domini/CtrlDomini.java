@@ -36,7 +36,7 @@ public class CtrlDomini {
         return singletonObject;
     }
     
-   public void listToProductes(List<String> producteJsonList){
+   public void listToProductes(List<String> producteJsonList) throws DominiException{
         cjtProductes.setMapProductes(cjtProductes.listToProductes(producteJsonList));
    }
    public void listToPrestatgeries(List<String> presJsonList) {
@@ -44,7 +44,7 @@ public class CtrlDomini {
        //ARREGLAR, tiene que devolver lo que devuelve la funcion de productos, y necesito un setMapPrestatgeries.
    }
 
-    public void iniciarSessio(String username, String pwd)throws PersistenciaException{
+    public void iniciarSessio(String username, String pwd) throws PersistenciaException, DominiException{
         cjtProductes = new CjtProductes(username);
         listToProductes(cp.importarProductes(username));
         cjtPrestatgeries = new CjtPrestatgeries(username);
@@ -52,12 +52,12 @@ public class CtrlDomini {
         UsuariActual = new Usuari(username, pwd);
     }
 
-    public void crearUsuari(String name, String pwd) throws PersistenciaException{
+    public void crearUsuari(String name, String pwd) throws PersistenciaException, DominiException{
     	cp.afegirUsuari(name, pwd);
         iniciarSessio(name, pwd);
     }
     
-    public Map<String, Map<String,String>> llistarProductesUsuari(){
+    public Map<String, Map<String,String>> llistarProductesUsuari() throws DominiException{
     	if (cjtProductes == null) {
             System.out.println("Error: No hi ha cap conjunt de productes associat a l'usuari.");
             return null;
@@ -73,7 +73,7 @@ public class CtrlDomini {
         return cjtPrestatgeries.llistarPrestatgeriesUsuari();
     }
     
-    public void crearProducte(int id, String nom, Map<Integer, Double> similituds){
+    public void crearProducte(int id, String nom, Map<Integer, Double> similituds) throws DominiException{
     	if (id <= 0 || nom == null) {
             System.out.println("Error: Dades del producte no vàlides.");
             return;
@@ -90,7 +90,7 @@ public class CtrlDomini {
     }
     
     
-    public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols){
+    public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols) throws DominiException{
         int[] vecProductes = setIdsToVecIds(productes);
         double[][] matSimilituds = cjtProductes.getMatriuSimilitudsPerIds(vecProductes);
 
@@ -115,7 +115,7 @@ public class CtrlDomini {
         }
     }
 
-    public void crearPrestatgeria(int id, String nom, int numCols, Set<Integer> productes, Boolean bruteForce){
+    public void crearPrestatgeria(int id, String nom, int numCols, Set<Integer> productes, Boolean bruteForce) throws DominiException{
     	if (cjtProductes == null || cjtProductes.getVecProductes().length == 0) {
             System.out.println("Error: No hi ha productes per crear la prestatgeria.");
             return;
@@ -127,7 +127,7 @@ public class CtrlDomini {
         obtenirLayout(id, productes,bruteForce, numCols);
     }
 
-    public void modificarProducte(Integer idProdActual1, Integer nouId, String nouNom) {
+    public void modificarProducte(Integer idProdActual1, Integer nouId, String nouNom) throws DominiException{
         if (cjtProductes.getProducte(idProdActual1) != null) {
             
             if (nouId != null) {
@@ -145,7 +145,7 @@ public class CtrlDomini {
         }
     }
     
-    public void modificarSimilituds(Integer idProdActual1, Integer idProdActual2, double novaSim, Boolean bruteForce) {
+    public void modificarSimilituds(Integer idProdActual1, Integer idProdActual2, double novaSim, Boolean bruteForce) throws DominiException {
     	if (cjtProductes.getProducte(idProdActual1) != null && cjtProductes.getProducte(idProdActual2) != null) {
             cjtProductes.modificarSimilitud(idProdActual1, idProdActual2, novaSim);
             
@@ -181,7 +181,7 @@ public class CtrlDomini {
         cjtProductes.editarPosProducte(id, idp2, pos1);
     }
 
-    public void esborrarProducte(int id){
+    public void esborrarProducte(int id) throws DominiException{
         cjtProductes.eliminarProducte(id);
         Map<Integer, Pair<Integer, Integer>> pres = cjtProductes.getPosPrestatgeriesProducte(id);
         for (Map.Entry<Integer, Pair<Integer, Integer>> entry : pres.entrySet()) {
@@ -199,7 +199,7 @@ public class CtrlDomini {
     }
 
 
-    public void esborrarUsuari() throws PersistenciaException{
+    public void esborrarUsuari() throws PersistenciaException, DominiException{
     	if (UsuariActual == null) {
             System.out.println("No hi ha usuari actual.");
             return;
@@ -221,18 +221,18 @@ public class CtrlDomini {
         return UsuariActual.getUsername();
     }
     
-    public void LlegirProducteFitxer(String path) throws PersistenciaException{
+    public void LlegirProducteFitxer(String path) throws PersistenciaException, DominiException{
         List<String> prodInfo = cp.importarFitxerProducte(path);
         afegirProducteFitxer(prodInfo);
 
     }
-    public void LlegirPrestatgeriaFitxer(String nom, String id, String cols, String path) throws PersistenciaException{
+    public void LlegirPrestatgeriaFitxer(String nom, String id, String cols, String path) throws PersistenciaException, DominiException{
         List<String> pres = cp.importarFitxerPrestatgeria(path);
         afegirPrestatgeriaFitxer(nom, id, cols, pres);
 
     }
     
-    private void afegirProducteFitxer(List<String> prodInfo){
+    private void afegirProducteFitxer(List<String> prodInfo) throws DominiException{
         int idProd = Integer.parseInt(prodInfo.get(0));
          Map<Integer, Double> mapSims = prodInfo.subList(2, prodInfo.size()).stream() // Tomar los elementos desde el índice 2
             .map(entry -> entry.split(":")) // Dividir cada elemento por ":"
@@ -241,13 +241,13 @@ public class CtrlDomini {
                 parts -> Double.valueOf(parts[1])  // Valor: convertir la segunda parte a Double
             ));
         
-        cjtProductes.comprovarMapSims(mapSims);
+        cjtProductes.comprovarSims(mapSims);
         // Crear el producto con los datos procesados
         crearProducte(idProd, prodInfo.get(1), mapSims);
        
     }
 
-    private void afegirPrestatgeriaFitxer(String nomPres, String id, String cols, List<String> pres) {
+    private void afegirPrestatgeriaFitxer(String nomPres, String id, String cols, List<String> pres) throws DominiException{
         int idPres = Integer.parseInt(id);
         int numCols = Integer.parseInt(cols);
         Set<Integer> prods = pres.stream()
@@ -257,7 +257,7 @@ public class CtrlDomini {
         crearPrestatgeria(idPres, nomPres, numCols, prods, true);
     }
     
-    public List<String> productesToList(){
+    public List<String> productesToList() throws DominiException{
         return cjtProductes.productesToList(cjtProductes.getProductes(UsuariActual.getUsername()));
     }
     
@@ -270,7 +270,7 @@ public class CtrlDomini {
         cp.canviarContrasenya(username, novaContra);
     }
 
-    public void tancarSessio() throws PersistenciaException{
+    public void tancarSessio() throws PersistenciaException, DominiException{
         List<String> prestatgeries =  prestatgeriesToList();
         List<String> productes = productesToList();
         cp.guardarPrestatgeries(prestatgeries, UsuariActual.getUsername());

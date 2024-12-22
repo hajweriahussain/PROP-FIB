@@ -34,12 +34,11 @@ public class CjtProductes {
      * @param nomUsuari Nom de l'usuari que sol·licita el mapa.
      * @return Mapa de productes o null si l'usuari no és vàlid.
      */
-    public Map<Integer, Producte> getProductes(String nomUsuari) {
+    public Map<Integer, Producte> getProductes(String nomUsuari) throws DominiException {
         if (nomUsuari != null && usuari.equals(nomUsuari)) {
             return productes;
         } else {
-            System.err.println("Usuari no vàlid: " + nomUsuari);
-            return null;
+            throw new DominiException("Usuari no vàlid: " + nomUsuari);
         }
     }
 
