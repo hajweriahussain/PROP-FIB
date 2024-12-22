@@ -1,6 +1,8 @@
 package Presentacio;
 
 import Domini.CtrlDomini;
+import Exceptions.DominiException;
+import Exceptions.PersistenciaException;
 
 import java.util.*;
 import javax.swing.JFrame;
@@ -89,7 +91,7 @@ public class CtrlPresentacio {
         ctrlDomini.crearProducte(Integer.parseInt(idProd), nomProd, similitudsMap);
     }
 
-    public void crearProducteFitxer(String path) {
+    public void crearProducteFitxer(String path) throws PersistenciaException {
         ctrlDomini.LlegirProducteFitxer(path);
     }
     
@@ -105,11 +107,11 @@ public class CtrlPresentacio {
         ctrlDomini.modificarProducte(Integer.valueOf(idProd), null ,nouNom);
     }
     
-    public void modificarSimilitudProductes(String idProd1, String idProd2, String novaSimilitud, String bf) {
+    public void modificarSimilitudProductes(String idProd1, String idProd2, String novaSimilitud, String bf) throws DominiException {
         ctrlDomini.modificarSimilituds(Integer.valueOf(idProd1), Integer.valueOf(idProd2), Double.parseDouble(novaSimilitud), Boolean.valueOf(bf));
     }
     
-    public void modificarPosicioProductes(String idPres, String idProd1, String idProd2) {
+    public void modificarPosicioProductes(String idPres, String idProd1, String idProd2) throws DominiException {
         ctrlDomini.modificarPrestatgeria(Integer.parseInt(idPres), Integer.parseInt(idProd1), Integer.parseInt(idProd2));
     }
 
@@ -119,12 +121,12 @@ public class CtrlPresentacio {
     
     // PRESTATGERIES
 
-    public void crearPrestatgeria(String idPres, String nom, String numCols, String productes, String bf) {
+    public void crearPrestatgeria(String idPres, String nom, String numCols, String productes, String bf) throws DominiException {
         Set<Integer> productesSet = convertirStringASet(productes);
         ctrlDomini.crearPrestatgeria(Integer.parseInt(idPres), nom, Integer.parseInt(numCols), productesSet, Boolean.valueOf(bf));
     }
 
-    public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) {
+    public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) throws DominiException, PersistenciaException {
         ctrlDomini.LlegirPrestatgeriaFitxer(nom, idPres, cols, path);
     }
     
@@ -138,15 +140,15 @@ public class CtrlPresentacio {
     
     // USUARI
 
-    public boolean validarLogin(String username, String pwd) {
+    public boolean validarLogin(String username, String pwd) throws PersistenciaException {
         return ctrlDomini.comprovarUsuari(username, pwd);
     }
 
-    public void realizarLogin(String username, String pwd) {
+    public void realizarLogin(String username, String pwd) throws DominiException, PersistenciaException {
         ctrlDomini.iniciarSessio(username, pwd);
     }
 
-    public boolean existeixUsuari(String username) {
+    public boolean existeixUsuari(String username) throws PersistenciaException {
         return ctrlDomini.existeixUsuari(username);
     }
 
@@ -154,19 +156,19 @@ public class CtrlPresentacio {
         return ctrlDomini.getUsuariActual();
     }
 
-    public void registrarUsuari(String username, String pwd) {
+    public void registrarUsuari(String username, String pwd) throws DominiException, PersistenciaException {
         ctrlDomini.crearUsuari(username, pwd);
     }
 
-    public void esborrarUsuari() {
+    public void esborrarUsuari() throws PersistenciaException {
         ctrlDomini.esborrarUsuari();
     }
     
-    public void canviarContrasenya(String username, String pwd) {
+    public void canviarContrasenya(String username, String pwd) throws PersistenciaException {
         ctrlDomini.canviarContrasenya(username, pwd);
     }
 
-    public void logout() {
+    public void logout() throws PersistenciaException {
         ctrlDomini.tancarSessio();
     }
 

@@ -31,38 +31,12 @@ public class Producte {
     private Map<Integer, Pair<Integer, Integer>> posPrestatgeries;
 
     /**
-     * Valida que l'id del producte sigui superior a 0.
-     * 
-     * @param id identificador del producte.
-     * @throws IllegalArgumentException si l'id és menor o igual a 0.
-     */
-    private void validarId(int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("Error: L'id del producte ha de ser superior a 0");
-        }
-    }
-
-    /**
-     * Valida que la similitud estigui dins del rang [0, 1].
-     * 
-     * @param similitud valor de similitud a validar.
-     * @throws IllegalArgumentException si la similitud no està dins del rang permès.
-     */
-    private void validarSimilitud(double similitud) {
-        if (similitud < 0 || similitud > 1) {
-            throw new IllegalArgumentException("Error: La similitud ha de ser un valor positiu");
-        }
-    }
-
-    /**
      * Constructor d'un producte amb id i nom.
      * 
      * @param id identificador únic del producte.
      * @param nom nom del producte.
-     * @throws IllegalArgumentException si l'id no és vàlid.
      */
     public Producte(int id, String nom) {
-        validarId(id);
         this.id = id;
         this.nom = nom;
         this.similituds = new HashMap<>();
@@ -75,15 +49,10 @@ public class Producte {
      * @param id identificador únic del producte.
      * @param nom nom del producte.
      * @param similituds mapa de similituds del producte.
-     * @throws IllegalArgumentException si l'id o alguna similitud no és vàlida.
      */
     public Producte(int id, String nom, Map<Integer, Double> similituds) {
-        validarId(id);
         this.id = id;
         this.nom = nom;
-        for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
-            validarSimilitud(entry.getValue());
-        }
         this.similituds = similituds;
         this.posPrestatgeries = new HashMap<>();
     }
@@ -142,10 +111,8 @@ public class Producte {
      * Estableix un nou id per al producte.
      * 
      * @param id nou identificador del producte.
-     * @throws IllegalArgumentException si l'id no és vàlid.
      */
     public void setId(int id) {
-        validarId(id);
         this.id = id;
     }
 
@@ -162,12 +129,8 @@ public class Producte {
      * Estableix un nou mapa de similituds per al producte.
      * 
      * @param similituds nou mapa de similituds.
-     * @throws IllegalArgumentException si alguna similitud no és vàlida.
      */
     public void setSimilituds(Map<Integer, Double> similituds) {
-        for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
-            validarSimilitud(entry.getValue());
-        }
         this.similituds = similituds;
     }
 
@@ -195,10 +158,8 @@ public class Producte {
      * 
      * @param id identificador del producte amb el qual es relaciona.
      * @param similitud valor de similitud.
-     * @throws IllegalArgumentException si la similitud no és vàlida.
      */
     public void afegirSimilitud(int id, double similitud) {
-        validarSimilitud(similitud);
         similituds.put(id, similitud);
     }
 
@@ -207,14 +168,8 @@ public class Producte {
      * 
      * @param id identificador del producte amb el qual es relaciona.
      * @param novaSimilitud nou valor de similitud.
-     * @throws IllegalArgumentException si la similitud no és vàlida.
      */
     public void modificarSimilitud(int id, double novaSimilitud) {
-        validarSimilitud(novaSimilitud);
-        if (!similituds.containsKey(id)) {
-            System.err.println("Error: El producte amb id: " + id + " no existeix");
-        }
-
         similituds.put(id, novaSimilitud);
     }
 
@@ -267,15 +222,6 @@ public class Producte {
         }
 
         setPosPrestatgeria(idPres, novaPos);
-    }
-
-    /**
-     * Imprimeix per consola les similituds del producte amb altres productes.
-     */
-    public void imprimirSimilituds() {
-        for (Map.Entry<Integer, Double> entry : similituds.entrySet()) {
-            System.out.println("Producte id: " + entry.getKey() + ", similitud: " + entry.getValue());
-        }
     }
 
     /**

@@ -13,6 +13,8 @@ import java.util.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Exceptions.PersistenciaException;
+
 /**
  * Aquesta classe gestiona les operacions relacionades amb el conjunt de productes 
  * d'un usuari, incloent la importació, l'emmagatzematge i l'esborrat dels productes 
@@ -29,7 +31,7 @@ public class GestorCjtProductes {
      * @param usuari El nom de l'usuari per al qual es vol importar el conjunt de productes.
      * @return Una llista de cadenes JSON que representen els productes importats.
      */
-    public static List<String> importarProductes(String usuari) {
+    public static List<String> importarProductes(String usuari) throws PersistenciaException {
         List<String> productes = new ArrayList<>();
         String ruta = getRuta(usuari);  // Obtenir la ruta de l'arxiu JSON corresponent a l'usuari
 
@@ -77,11 +79,11 @@ public class GestorCjtProductes {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error en accedir al arxiu: " + e.getMessage());
+            throw new PersistenciaException("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new PersistenciaException("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error inesperat: " + e.getMessage());
+            throw new PersistenciaException("Error inesperat: " + e.getMessage());
         }
 
         return productes;
@@ -95,7 +97,7 @@ public class GestorCjtProductes {
      *                  cadena JSON.
      * @param usuari El nom de l'usuari associat a l'arxiu.
      */
-    public static void guardarProductes(List<String> productes, String usuari) {
+    public static void guardarProductes(List<String> productes, String usuari) throws PersistenciaException {
         if (productes != null) {
             Map<String, Object> jsonProductes = new LinkedHashMap<>();
             JSONParser parser = new JSONParser();
@@ -113,9 +115,9 @@ public class GestorCjtProductes {
 
                     jsonProductes.put(String.valueOf(id), producteOrdenat);
                 } catch (ParseException e) {
-                    System.err.println("Error al parsear el JSON: " + e.getMessage());
+                    throw new PersistenciaException("Error al parsear el JSON: " + e.getMessage());
                 } catch (Exception e) {
-                    System.err.println("Error inesperat al guardar productes");
+                    throw new PersistenciaException("Error inesperat al guardar productes");
                 }
             }
 
@@ -127,7 +129,7 @@ public class GestorCjtProductes {
                 file.write(gson.toJson(jsonProductes));
                 file.flush();
             } catch (IOException e) {
-                System.err.println("Error al guardar l'arxiu: " + e.getMessage());
+                throw new PersistenciaException("Error al guardar l'arxiu: " + e.getMessage());
             }
         } else {
             esborrarProductes(usuari);
@@ -141,7 +143,7 @@ public class GestorCjtProductes {
      * @param usuari El nom de l'usuari per al qual es vol eliminar l'arxiu.
      * @return Un valor booleà que indica si l'arxiu s'ha esborrat correctament.
      */
-    public static boolean esborrarProductes(String usuari) {
+    public static boolean esborrarProductes(String usuari) throws PersistenciaException {
         String ruta = getRuta(usuari);
         boolean borrat = false;
 
@@ -152,7 +154,7 @@ public class GestorCjtProductes {
             }
         }
         catch (Exception e) {
-            System.err.println("Error inesperat al esborrar productes");
+            throw new PersistenciaException("Error inesperat al esborrar productes");
         }
 
         return borrat;
@@ -165,8 +167,8 @@ public class GestorCjtProductes {
      * @param usuari El nom de l'usuari per al qual es vol obtenir la ruta.
      * @return La ruta completa de l'arxiu JSON associat a l'usuari.
      */
-    private static String getRuta(String usuari) {
-        String rutaCarpeta = "src/main/java/persistencia";
+    private static String getRuta(String usuari) throws PersistenciaException {
+        String rutaCarpeta = "src/main/resources/persistencia";
         String rutaArxiu = rutaCarpeta + "/" + usuari + "_productes.json";
 
         File carpeta = new File(rutaCarpeta);
@@ -179,7 +181,7 @@ public class GestorCjtProductes {
             try {
                 arxiu.createNewFile();  // Crea l'arxiu
             } catch (IOException e) {
-                System.err.println("Error en accedir al arxiu: " + e.getMessage());
+                throw new PersistenciaException("Error en accedir al arxiu: " + e.getMessage());
             }
         }
 
@@ -194,31 +196,31 @@ public class GestorCjtProductes {
      * @param path La ruta del fitxer a importar.
      * @return Una llista amb les dades del producte.
      */
-    public static List<String> importarFitxerProducte(String path) {
+    public static List<String> importarFitxerProducte(String path) throws PersistenciaException {
         List<String> producteData = new ArrayList<>();
 
         try (FileReader fr = new FileReader(path);
             Scanner sc = new Scanner(fr)) {
 
             if (!sc.hasNextLine()) {
-                System.err.println("Error: El fitxer està buit.");
+                throw new PersistenciaException("Error: El fitxer està buit.");
             }
 
             String linea = sc.nextLine();
             String[] parts = linea.split("\\s+");
 
             if (parts.length < 2) {
-                System.err.println("Error: La línia no conté suficients dades (ID i nom).");
+                throw new PersistenciaException("Error: La línia no conté suficients dades (ID i nom).");
             }
 
             int id;
             try {
                 id = Integer.parseInt(parts[0]);
                 if (id <= 0) {
-                    System.err.println("Error: ID no vàlid (ha de ser major que 0): " + parts[0]);
+                    throw new PersistenciaException("Error: ID no vàlid (ha de ser major que 0): " + parts[0]);
                 }
             } catch (NumberFormatException e) {
-                System.err.println("Error: Format incorrecte per a l'ID: " + parts[0]);
+                throw new PersistenciaException("Error: Format incorrecte per a l'ID: " + parts[0]);
             }
 
             String nom = parts[1];
@@ -231,7 +233,7 @@ public class GestorCjtProductes {
                 String[] similitudParts = similitudLine.split("\\s+");
 
                 if (similitudParts.length != 2) {
-                    System.err.println("Error: La línia de similitud no és vàlida: " + similitudLine);
+                    throw new PersistenciaException("Error: La línia de similitud no és vàlida: " + similitudLine);
                 }
 
                 try {
@@ -239,12 +241,12 @@ public class GestorCjtProductes {
                     double similitudValue = Double.parseDouble(similitudParts[1]);
 
                     if (similitudValue < 0 || similitudValue > 1) {
-                        System.err.println("Error: La similitud ha de ser un valor entre 0 i 1: " + similitudValue);
+                        throw new PersistenciaException("Error: La similitud ha de ser un valor entre 0 i 1: " + similitudValue);
                     }
 
                     producteData.add(similitudId + ": " + similitudValue);
                 } catch (NumberFormatException e) {
-                    System.err.println("Error: Format incorrecte per a la similitud: " + similitudLine);
+                    throw new PersistenciaException("Error: Format incorrecte per a la similitud: " + similitudLine);
                 }
             }
 
@@ -252,7 +254,7 @@ public class GestorCjtProductes {
             fr.close();
 
         } catch (IOException e) {
-            System.err.println("Error: No s'ha pogut llegir el fitxer: " + e.getMessage());
+            throw new PersistenciaException("Error: No s'ha pogut llegir el fitxer: " + e.getMessage());
         }
 
         return producteData;

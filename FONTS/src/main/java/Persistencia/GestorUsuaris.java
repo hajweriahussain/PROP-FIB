@@ -1,5 +1,6 @@
 package Persistencia;
 
+import Exceptions.PersistenciaException;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -42,7 +43,7 @@ public class GestorUsuaris {
         } catch (IOException e) {
             throw new PersistenciaException("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            throw new PersistenciaExceptionn("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new PersistenciaException("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
             throw new PersistenciaException("Error inesperat: " + e.getMessage());
         }
@@ -77,7 +78,7 @@ public class GestorUsuaris {
         } catch (IOException e) {
             throw new PersistenciaException("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            throw new PersistenciaExceptionn("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new PersistenciaException("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
             throw new PersistenciaException("Error inesperat: " + e.getMessage());
         }
@@ -114,7 +115,7 @@ public class GestorUsuaris {
         } catch (IOException e) {
             throw new PersistenciaException("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            throw new PersistenciaExceptionn("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new PersistenciaException("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
             throw new PersistenciaException("Error inesperat: " + e.getMessage());
         }
@@ -156,7 +157,7 @@ public class GestorUsuaris {
         } catch (IOException e) {
             throw new PersistenciaException("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            throw new PersistenciaExceptionn("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new PersistenciaException("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
             throw new PersistenciaException("Error inesperat: " + e.getMessage());
         }

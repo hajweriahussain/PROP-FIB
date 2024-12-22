@@ -23,7 +23,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
     public VistaCrearProducte() {
         initComponents();  
         cp = new CtrlPresentacio();
-        this.setSize(700, 500);
+        this.setSize(800, 800);
         mostrarProductesEnJList();
         precompletarAreaSimilituds();
         configurarBotoImportar();
@@ -155,7 +155,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         String similituds = textAreaSims.getText().trim();
         Map<String, Map<String, String>> productes = cp.mostrarProductes();
 
-        if (productes == null || productes.isEmpty()) {
+        if (productes == null || productes.isEmpty()) {     // El primer producte no té cap similitud associada
             return true;
         }
 
@@ -166,6 +166,13 @@ public class VistaCrearProducte extends javax.swing.JPanel {
             for (String id : productes.keySet()) {
                 if (!similitudMap.containsKey(id)) {
                     labelErrorSimilituds.setText("Error: Falta la similitud per al producte amb ID " + id);
+                    labelErrorSimilituds.setForeground(Color.red);
+                    return false;
+                }
+                
+                Double similitud = similitudMap.get(id);
+                if (similitud < 0 || similitud > 1) {
+                    labelErrorSimilituds.setText("Error: La similitud per al producte amb ID " + id + " ha d'estar entre 0 i 1");
                     labelErrorSimilituds.setForeground(Color.red);
                     return false;
                 }
@@ -429,6 +436,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botoSortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoSortirMouseClicked
+        resetLabels();
         sortir();
     }//GEN-LAST:event_botoSortirMouseClicked
 
