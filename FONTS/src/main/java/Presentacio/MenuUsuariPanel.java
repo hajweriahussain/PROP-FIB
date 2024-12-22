@@ -4,6 +4,10 @@
  */
 package Presentacio;
 
+import Exceptions.PersistenciaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author guill
@@ -104,7 +108,14 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
         String newPassword = javax.swing.JOptionPane.showInputDialog(this, "Introdueix la nova contrassenya:");
         if (newPassword != null && !newPassword.trim().isEmpty()) {
             String username = cp.nomUsuariActual();
-            cp.canviarContrasenya(username, newPassword);
+            try {
+                cp.canviarContrasenya(username, newPassword);
+            } catch (PersistenciaException ex) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                "Ha ocurrido un error inesperado: " + ex.getMessage(),
+                "Error Desconocido",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
         } 
     }//GEN-LAST:event_jButton1ActionPerformed
 
