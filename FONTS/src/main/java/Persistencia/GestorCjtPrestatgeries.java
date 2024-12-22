@@ -1,5 +1,6 @@
 package Persistencia;
 
+import Exceptions.PersistenciaException;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileReader;
@@ -20,7 +21,7 @@ import org.json.simple.parser.ParseException;
  * @author hajweria
  */
 public class GestorCjtPrestatgeries {
-    public static List<String> importarPrestatgeries(String usuari) {
+    public static List<String> importarPrestatgeries(String usuari) throws PersistenciaException{
         List<String> prestatgeries = new ArrayList<>();
         String ruta = getRuta(usuari);
         try(FileReader fr = new FileReader(ruta)) {
@@ -66,15 +67,18 @@ public class GestorCjtPrestatgeries {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error al leer el archivo de prestatgeries: " + e.getMessage());
+            throw new PersistenciaException("Error al leer el archivo de prestatgeries: " + e.getMessage());
         } catch (ParseException e) {
-            System.err.println("Error al parsear el archivo JSON de prestatgeries: " + e.getMessage());
+            throw new PersistenciaException("Error al parsear el archivo JSON de prestatgeries: " + e.getMessage());
+        }
+        catch(Exception e) {
+            throw new PersistenciaException("Error inesperat: " + e.getMessage());
         }
         return prestatgeries;
 
     }
     
-    public static void guardarPrestatgeries(List<String> prestatgeries, String usuari) {
+    public static void guardarPrestatgeries(List<String> prestatgeries, String usuari) throws PersistenciaException {
         if (prestatgeries != null) {
             JSONObject jsonPrestatgeries = new JSONObject();
 
@@ -105,8 +109,12 @@ public class GestorCjtPrestatgeries {
 
                     jsonPrestatgeries.put(id, jsonPres);
                 } catch (ParseException e) {
-                    System.err.println("Error al parsear una prestatgeria en formato JSON: " + e.getMessage());
+                    throw new PersistenciaException("Error al parsear una prestatgeria en formato JSON: " + e.getMessage());
                 }
+                catch (Exception e) {
+                    throw new PersistenciaException("Error inesperat: " + e.getMessage());
+                }
+                
             }
 
             esborrarPrestatgeriesUsuari(usuari);
@@ -115,14 +123,17 @@ public class GestorCjtPrestatgeries {
                 file.write(jsonPrestatgeries.toJSONString());
                 file.flush();
             } catch (IOException e) {
-                System.err.println("Error al guardar el archivo de prestatgeries: " + e.getMessage());
+                throw new PersistenciaException("Error al guardar el archivo de prestatgeries: " + e.getMessage());
+            }
+            catch (Exception e) {
+                throw new PersistenciaException("Error inesperat: " + e.getMessage());
             }
         } else {
             esborrarPrestatgeriesUsuari(usuari);
         }
 }
     
-    public static boolean esborrarPrestatgeriesUsuari(String usuari) {
+    public static boolean esborrarPrestatgeriesUsuari(String usuari) throws PersistenciaException{
 
        String ruta = getRuta(usuari);
 
@@ -134,13 +145,13 @@ public class GestorCjtPrestatgeries {
             }
         }
         catch (Exception e) {
-            System.err.println("Error al intentar borrar el archivo de prestatgeries: " + e.getMessage());
+            throw new PersistenciaException("Error al intentar borrar el archivo de prestatgeries: " + e.getMessage());
         }
         return borrat;
     }
 
     
-    private static String getRuta(String usuari) {
+    private static String getRuta(String usuari) throws PersistenciaException{
         String rutaCarpeta ="src/main/resources/persistencia";
         String rutaArxiu = rutaCarpeta + "/" + usuari + "_prestatgeries.json";
 
@@ -156,28 +167,26 @@ public class GestorCjtPrestatgeries {
             try {
                 arxiu.createNewFile(); // Crea l'arxiu
             } catch (IOException e) {
-                System.err.println("Error en crear el archivo: " + e.getMessage());
+                throw new PersistenciaException("Error en crear el archivo: " + e.getMessage());
             }
         }
 
         return rutaArxiu;
     }
     
-    public static List<String> importarFitxerPrestatgeria(String path) {
+    public static List<String> importarFitxerPrestatgeria(String path) throws PersistenciaException{
        List<String> idsEstanteria = new ArrayList<>(); // Lista para los IDs válidos (como Strings)
 
         try {
             FileReader fr = new FileReader(path);
             Scanner sc = new Scanner(fr);
             if (!sc.hasNextLine()) {
-                System.err.println("Error: El archivo está vacío.");
-                return null; 
+                throw new PersistenciaException("Error: El archivo está vacío.");
             }
             String linea = sc.nextLine();
 
             if (sc.hasNextLine()) {
-                System.err.println("Error: El archivo contiene más de una línea.");
-                return null;
+                throw new PersistenciaException("Error: El archivo contiene más de una línea.");
             }
 
             String[] numeros = linea.split("\\s+"); // Divide por espacios
@@ -188,12 +197,10 @@ public class GestorCjtPrestatgeries {
                     if (id > 0) { 
                         idsEstanteria.add(num); // Añadir el ID válido como String
                     } else {
-                        System.err.println("Error: ID no válido (no es mayor que 0): " + num);
-                        return null; // Si hay un ID no válido, se detiene
+                        throw new PersistenciaException("Error: ID no válido (no es mayor que 0): " + num);
                     }
                 } catch (NumberFormatException e) {
-                    System.err.println("Error: Formato incorrecto para el ID: " + num);
-                    return null; // Si no es un número, se detiene
+                    throw new PersistenciaException("Error: Formato incorrecto para el ID: " + num + e.getMessage());
                 }
             }
 
@@ -201,8 +208,7 @@ public class GestorCjtPrestatgeries {
             fr.close();
 
         } catch (IOException e) {
-            System.err.println("Error: No se pudo leer el archivo: " + e.getMessage());
-            return null;
+            throw new PersistenciaException("Error: No se pudo leer el archivo: " + e.getMessage());
         }
 
         return idsEstanteria; // Devuelve la lista de IDs válidos como Strings

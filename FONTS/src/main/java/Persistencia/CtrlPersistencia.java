@@ -1,5 +1,6 @@
 package Persistencia;
 
+import Exceptions.PersistenciaException;
 import java.util.List;
 
 /**
