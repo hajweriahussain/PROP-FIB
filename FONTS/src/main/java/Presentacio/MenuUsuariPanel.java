@@ -19,19 +19,6 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
         titulo.setText(cp.nomUsuariActual());
     }
     
-    
-    public void mostrarMenuUsuari() {
-        /*if (actFrame != null) {
-            actFrame.dispose();
-        }
-        VistaMenuUsuari vista = new VistaMenuUsuari();
-        MenuUsuariPanel menuPanel = vista.getMenuPanel();
-        String nomUsuari = nomUsuariActual(); // Obtener el nombre del usuario actual
-        menuPanel.setNomUsuari(nomUsuari); // Establecer el nombre en el panel
-        actFrame = vista;
-        actFrame.setVisible(true);*/
-    }
-    
    // public MenuUsuariPanel getMenuPanel() {
       //  return MenuUsuariPanel; // Asume que el panel se llama menuUsuariPanel
    // }
@@ -51,7 +38,7 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
         perfil = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
-        backgroun.setBackground(new java.awt.Color(255, 255, 255));
+        backgroun.setBackground(new java.awt.Color(255, 255, 204));
         backgroun.setPreferredSize(new java.awt.Dimension(500, 500));
 
         titulo.setBackground(new java.awt.Color(255, 255, 255));
@@ -72,57 +59,53 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
         backgrounLayout.setHorizontalGroup(
             backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgrounLayout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(perfil)
+                .addGap(322, 322, 322)
                 .addGroup(backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgrounLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(perfil)
+                        .addGap(17, 17, 17))
                     .addGroup(backgrounLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(titulo))
-                    .addGroup(backgrounLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addContainerGap(194, Short.MAX_VALUE))
+                        .addGap(34, 34, 34)
+                        .addComponent(titulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap(344, Short.MAX_VALUE))
         );
         backgrounLayout.setVerticalGroup(
             backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgrounLayout.createSequentialGroup()
-                .addGroup(backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(backgrounLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(perfil))
-                    .addGroup(backgrounLayout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(titulo)
-                        .addGap(36, 36, 36)
-                        .addComponent(jButton1)))
-                .addContainerGap(356, Short.MAX_VALUE))
+                .addGap(66, 66, 66)
+                .addComponent(perfil)
+                .addGap(18, 18, 18)
+                .addComponent(titulo)
+                .addGap(68, 68, 68)
+                .addComponent(jButton1)
+                .addContainerGap(500, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(backgroun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(backgroun, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(backgroun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(backgroun, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChangeActionPerformed
-        String newPassword = javax.swing.JOptionPane.showInputDialog(this, "Introdueix la nova contrassenya:");
-        if (newPassword != null && !newPassword.trim().isEmpty()) {
-            CtrlPresentacio ctrlPresentacio = new CtrlPresentacio(); // Instancia del controlador
-            String username = ctrlPresentacio.nomUsuariActual(); // Obtener el nombre del usuario actual
-            ctrlPresentacio.canviarContrasenya(username, newPassword); // Cambiar contraseña
-        }  
+  
     }//GEN-LAST:event_buttonChangeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        String newPassword = javax.swing.JOptionPane.showInputDialog(this, "Introdueix la nova contrassenya:");
+        if (newPassword != null && !newPassword.trim().isEmpty()) {
+            String username = cp.nomUsuariActual();
+            cp.canviarContrasenya(username, newPassword);
+        } 
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

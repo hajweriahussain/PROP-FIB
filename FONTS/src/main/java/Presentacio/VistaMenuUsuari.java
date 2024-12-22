@@ -35,7 +35,7 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
     }
     
     private void ShowJPanel(JPanel p) {
-        p.setSize(500, 500);
+        p.setSize(800, 800);
         p.setLocation(0, 0);
         content.removeAll();
         content.add(p, BorderLayout.CENTER);
@@ -58,7 +58,8 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(1100, 800));
 
         leftPanel.setBackground(new java.awt.Color(200, 255, 200));
 
@@ -77,7 +78,13 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
 
         logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         logoLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj3\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\LogoSinBordes2.png")); // NOI18N
+        logoLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logoLabel.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        logoLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoLabelMouseClicked(evt);
+            }
+        });
 
         botoEstanterias.setBackground(new java.awt.Color(200, 255, 200));
         botoEstanterias.setFont(new java.awt.Font("Microsoft JhengHei UI", 0, 18)); // NOI18N
@@ -121,10 +128,22 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
         titol1.setFont(new java.awt.Font("Microsoft YaHei", 1, 23)); // NOI18N
         titol1.setForeground(new java.awt.Color(240, 171, 68));
         titol1.setText("PRESTATGERIES");
+        titol1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        titol1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                titol1MouseClicked(evt);
+            }
+        });
 
         titol2.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
         titol2.setForeground(new java.awt.Color(69, 155, 107));
         titol2.setText("N' PRODUCTS");
+        titol2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        titol2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                titol2MouseClicked(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(200, 255, 200));
         jButton1.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
@@ -181,14 +200,16 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botoTancarSessio, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(306, Short.MAX_VALUE))
         );
+
+        content.setPreferredSize(new java.awt.Dimension(800, 800));
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,9 +221,10 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(content, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,6 +274,14 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
     private void botoEstanteriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoEstanteriasActionPerformed
         ShowJPanel (new VistaPrestatgeria());
     }//GEN-LAST:event_botoEstanteriasActionPerformed
+
+    private void titol1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titol1MouseClicked
+        ShowJPanel(new MenuBenvingudaPanel());
+    }//GEN-LAST:event_titol1MouseClicked
+
+    private void titol2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titol2MouseClicked
+        ShowJPanel(new MenuBenvingudaPanel());
+    }//GEN-LAST:event_titol2MouseClicked
 
     /**
      * @param args the command line arguments
