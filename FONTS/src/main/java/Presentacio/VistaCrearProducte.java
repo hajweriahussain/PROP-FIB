@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import Exceptions.DominiException;
 
 /**
  *
@@ -65,33 +66,41 @@ public class VistaCrearProducte extends javax.swing.JPanel {
     }
     
     private void mostrarProductesEnJList() {
-        Map<String, Map<String, String>> productes = cp.mostrarProductes();
-        if (productes == null) {
-            return;
+        try {
+            Map<String, Map<String, String>> productes = cp.mostrarProductes();
+            if (productes == null) {
+                return;
+            }
+
+            DefaultListModel<String> model = new DefaultListModel<>();
+
+            for (String id : productes.keySet()) {
+                model.addElement(id + " - " + productes.get(id).get("nom"));
+            }
+
+            llistaProductesExistents.setModel(model);
+        } catch (DominiException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-
-        DefaultListModel<String> model = new DefaultListModel<>();
-
-        for (String id : productes.keySet()) {
-            model.addElement(id + " - " + productes.get(id).get("nom"));
-        }
-
-        llistaProductesExistents.setModel(model);
     }
      
     private void precompletarAreaSimilituds() {
-        Map<String, Map<String, String>> productes = cp.mostrarProductes();
-        if (productes == null || productes.isEmpty()) {
-            return;
+        try {
+            Map<String, Map<String, String>> productes = cp.mostrarProductes();
+            if (productes == null || productes.isEmpty()) {
+                return;
+            }
+
+            StringBuilder builder = new StringBuilder();
+
+            for (String id : productes.keySet()) {
+                builder.append(id).append(": ").append("\n");
+            }
+
+            textAreaSims.setText(builder.toString());
+        } catch (DominiException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-
-        StringBuilder builder = new StringBuilder();
-
-        for (String id : productes.keySet()) {
-            builder.append(id).append(": ").append("\n");
-        }
-
-        textAreaSims.setText(builder.toString());
     }
 
     
@@ -134,6 +143,8 @@ public class VistaCrearProducte extends javax.swing.JPanel {
             labelErrorId.setText("Error inesperat: " + e.getMessage());
             labelErrorId.setForeground(Color.red);
             return false;
+        } catch (DominiException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
     
