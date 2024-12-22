@@ -8,27 +8,45 @@ import java.util.Map;
 import com.google.gson.Gson;
 import java.util.Set;
 
+/**
+ * Classe que representa un conjunt de productes gestionats per un usuari.
+ */
 public class CjtProductes {
+
+    /** Nom de l'usuari que gestiona el conjunt de productes. */
     private String usuari;
+
+    /** Mapa d'identificadors únics de producte a les seves instàncies corresponents. */
     private Map<Integer, Producte> productes;
 
-
+    /**
+     * Constructor de la classe CjtProductes.
+     * @param usuari Nom de l'usuari gestor del conjunt de productes.
+     */
     public CjtProductes(String usuari) {
         this.usuari = usuari;
         this.productes = new HashMap<>();
     }
 
-
+    /**
+     * Retorna el mapa de productes si el nom d'usuari és vàlid.
+     * @param nomUsuari Nom de l'usuari que sol·licita el mapa.
+     * @return Mapa de productes o null si l'usuari no és vàlid.
+     */
     public Map<Integer, Producte> getProductes(String nomUsuari) {
         if (nomUsuari != null && usuari.equals(nomUsuari)) {
             return productes;
-        }
-        else {
+        } else {
             System.err.println("Usuari no vàlid: " + nomUsuari);
             return null;
         }
     }
 
+    /**
+     * Obté un producte específic pel seu identificador.
+     * @param idProd Identificador del producte.
+     * @return El producte corresponent o null si no existeix.
+     */
     public Producte getProducte(int idProd) {
         Producte producte = productes.get(idProd);
         if (producte == null) {
@@ -36,7 +54,13 @@ public class CjtProductes {
         }
         return producte;
     }
-    
+
+    /**
+     * Obté la posició d'un producte en una prestatgeria específica.
+     * @param idProd Identificador del producte.
+     * @param idPres Identificador de la prestatgeria.
+     * @return La posició del producte a la prestatgeria o null si no existeix.
+     */
     public Pair<Integer, Integer> getPosProducte(int idProd, int idPres) {
         Producte prod = getProducte(idProd);
         Pair<Integer, Integer> posicio = prod.getPosPrestatgeria(idPres);
@@ -45,21 +69,39 @@ public class CjtProductes {
         }
         return posicio;
     }
-    
+
+    /**
+     * Defineix el mapa de productes.
+     * @param prods Mapa de productes a assignar.
+     */
     public void setMapProductes(Map<Integer, Producte> prods) {
         this.productes = new HashMap<>(prods);
     }
-    
+
+    /**
+     * Obté les posicions de totes les prestatgeries associades a un producte.
+     * @param idProd Identificador del producte.
+     * @return Mapa de posicions per prestatgeria del producte.
+     */
     public Map<Integer, Pair<Integer, Integer>> getPosPrestatgeriesProducte(int idProd) {
         Producte prod = getProducte(idProd);
         return prod.getPosPrestatgeries();
     }
 
+    /**
+     * Converteix els productes en un array.
+     * @return Array de productes del conjunt.
+     */
     public Producte[] getVecProductes() {
         List<Producte> producteList = new ArrayList<>(productes.values());
         return producteList.toArray(Producte[]::new);
     }
 
+    /**
+     * Comprova si existeix un producte donat el seu identificador.
+     * @param idProd Identificador del producte.
+     * @return Cert si el producte existeix, fals altrament.
+     */
     public boolean existeixProducte(int idProd) {
         if (idProd <= 0) {
             System.err.println("L'ID ha de ser un nombre positiu.");
@@ -67,6 +109,12 @@ public class CjtProductes {
         return productes.containsKey(idProd);
     }
 
+    /**
+     * Afegeix un nou producte al conjunt.
+     * @param id Identificador del producte.
+     * @param nom Nom del producte.
+     * @param similituds Mapa de similituds del producte amb altres productes.
+     */
     public void afegirProducte(int id, String nom, Map<Integer, Double> similituds) {
         if (id <= 0) {
             System.err.println("L'ID ha de ser un nombre positiu.");
@@ -87,15 +135,17 @@ public class CjtProductes {
                 Producte prodVec = getProducte(prodVecId);
                 if (prodVec != null) {
                     prodVec.afegirSimilitud(p.getId(), similitud);
-                }
-                else {
+                } else {
                     System.err.println("No existeix un producte amb l'ID de similitud: " + prodVecId);
                 }
             }
         }
     }
 
-
+    /**
+     * Edita un producte existent.
+     * @param p Instància del producte amb les noves dades.
+     */
     public void editarProducte(Producte p) {
         if (!existeixProducte(p.getId())) {
             System.err.println("No existeix producte a editar amb ID: " + p.getId());
@@ -105,8 +155,12 @@ public class CjtProductes {
         prod.setNom(p.getNom());
     }
 
+    /**
+     * Modifica l'identificador d'un producte.
+     * @param idProd Identificador actual del producte.
+     * @param nouIdProd Nou identificador del producte.
+     */
     public void editarIdProducte(int idProd, int nouIdProd) {
-
         Producte prod = getProducte(idProd);
         if (prod == null) {
             System.err.println("No existeix producte a editar amb ID: " + idProd);
@@ -129,7 +183,11 @@ public class CjtProductes {
         productes.put(nouIdProd, prod);
     }
 
-
+    /**
+     * Modifica el nom d'un producte.
+     * @param idProd Identificador del producte.
+     * @param nouNom Nou nom a assignar al producte.
+     */
     public void editarNomProducte(int idProd, String nouNom) {
         Producte prod = getProducte(idProd);
         if (prod == null) {
@@ -139,7 +197,12 @@ public class CjtProductes {
         prod.setNom(nouNom);
     }
 
-
+    /**
+     * Modifica la posició d'un producte en una prestatgeria.
+     * @param idProd Identificador del producte.
+     * @param idPres Identificador de la prestatgeria.
+     * @param novaPos Nova posició a assignar.
+     */
     public void editarPosProducte(int idProd, int idPres, Pair<Integer, Integer> novaPos) {
         Producte prod = getProducte(idProd);
         if (prod == null) {
@@ -149,6 +212,10 @@ public class CjtProductes {
         prod.modificarPosPrestatgeria(idPres, novaPos);
     }
 
+    /**
+     * Elimina un producte del conjunt.
+     * @param idProd Identificador del producte a eliminar.
+     */
     public void eliminarProducte(int idProd) {
         if (!existeixProducte(idProd)) {
             System.err.println("No existeix producte a eliminar amb ID: " + idProd);
@@ -162,6 +229,13 @@ public class CjtProductes {
         }
     }
 
+    /**
+     * Modifica la similitud entre dos productes especificats pels seus identificadors.
+     * 
+     * @param idProd1 Identificador del primer producte.
+     * @param idProd2 Identificador del segon producte.
+     * @param novaSimilitud Nou valor de la similitud entre els productes.
+     */
     public void modificarSimilitud(int idProd1, int idProd2, double novaSimilitud) {
         Producte prod1 = getProducte(idProd1);
         Producte prod2 = getProducte(idProd2);
@@ -178,12 +252,17 @@ public class CjtProductes {
             prod1.modificarSimilitud(idProd2, novaSimilitud);
             prod2.modificarSimilitud(idProd1, novaSimilitud);
             System.out.println("Similitud actualitzada!");
-        }
-        else {
+        } else {
             System.err.println("No existeix una similitud entre els productes amb IDs: " + idProd1 + " i " + idProd2);
         }
     }
 
+    /**
+     * Retorna les similituds associades a un producte donat el seu identificador.
+     * 
+     * @param idProd Identificador del producte.
+     * @return Mapa de similituds amb altres productes o null si el producte no existeix.
+     */
     public Map<Integer, Double> getSimilituds(int idProd) {
         Producte prod = getProducte(idProd);
         if (prod == null) {
@@ -193,7 +272,11 @@ public class CjtProductes {
         return prod.getSimilituds();
     }
 
-
+    /**
+     * Genera una matriu de similituds per a tots els productes gestionats.
+     * 
+     * @return Matriu de similituds on cada element [i][j] representa la similitud entre dos productes.
+     */
     public double[][] getMatriuSimilituds() {
         int n = productes.size();
         double[][] mat = new double[n][n];
@@ -204,8 +287,7 @@ public class CjtProductes {
             for (Producte prod2 : productes.values()) {
                 if (prod.getId() == prod2.getId()) {
                     mat[idx][idx] = 0.0;
-                }
-                else {
+                } else {
                     mat[idx][colx] = prod.getSimilitud(prod2.getId());
                 }
                 ++colx;
@@ -214,7 +296,13 @@ public class CjtProductes {
         }
         return mat;
     }
-    
+
+    /**
+     * Genera una matriu de similituds per a un conjunt específic de productes identificats pels seus IDs.
+     * 
+     * @param idsProds Array d'identificadors dels productes per incloure a la matriu.
+     * @return Matriu de similituds corresponent als productes especificats.
+     */
     public double[][] getMatriuSimilitudsPerIds(int[] idsProds) {
         int n = idsProds.length;
         double[][] mat = new double[n][n];
@@ -232,10 +320,16 @@ public class CjtProductes {
         }
         return mat;
     }
-    
+
+    /**
+     * Converteix un array bidimensional d'IDs de productes en una matriu d'objectes Producte.
+     * 
+     * @param idsProds Matriu d'IDs dels productes.
+     * @return Matriu d'objectes Producte corresponents o null si els IDs són nuls.
+     */
     public Producte[][] getMatProductes(Integer[][] idsProds) {
         if (idsProds == null) return null;
-        
+
         int files = idsProds.length;
         Producte[][] matProds = new Producte[files][];
 
@@ -251,8 +345,7 @@ public class CjtProductes {
             for (int j = 0; j < columnes; j++) {
                 if (idsProds[i][j] != null) {
                     matProds[i][j] = getProducte(idsProds[i][j]);
-                }
-                else {
+                } else {
                     matProds[i][j] = null;
                 }
             }
@@ -260,7 +353,13 @@ public class CjtProductes {
 
         return matProds;
     }
-    
+
+    /**
+     * Converteix una llista de JSONs de productes en un mapa d'objectes Producte.
+     * 
+     * @param producteJsonList Llista de cadenes JSON que representen productes.
+     * @return Mapa d'identificadors de productes als seus objectes Producte corresponents.
+     */
     public Map<Integer, Producte> listToProductes(List<String> producteJsonList) {
         Gson gson = new Gson();
         Map<Integer, Producte> productesMap = new HashMap<>();
@@ -304,7 +403,13 @@ public class CjtProductes {
 
         return productesMap;
     }
-    
+
+    /**
+     * Converteix un mapa de productes en una llista de cadenes JSON.
+     * 
+     * @param productes Mapa de productes a convertir.
+     * @return Llista de cadenes JSON que representen els productes.
+     */
     public List<String> productesToList(Map<Integer, Producte> productes) {
         Gson gson = new Gson();
         List<String> producteList = new ArrayList<>();
@@ -330,7 +435,12 @@ public class CjtProductes {
         }
         return producteList;
     }
-    
+
+    /**
+     * Llista tots els productes d'un usuari en format JSON.
+     * 
+     * @return Mapa amb la informació dels productes en format JSON.
+     */
     public Map<String, Map<String, String>> llistarProductesUsuari() {
         Map<String, Map<String, String>> llistatProductes = new HashMap<>();
         Gson gson = new Gson();

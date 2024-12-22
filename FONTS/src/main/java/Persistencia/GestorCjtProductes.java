@@ -13,8 +13,22 @@ import java.util.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/**
+ * Aquesta classe gestiona les operacions relacionades amb el conjunt de productes 
+ * d'un usuari, incloent la importació, l'emmagatzematge i l'esborrat dels productes 
+ * en un arxiu JSON. També permet la manipulació de dades de productes des d'un fitxer 
+ * extern, com la seva lectura i validació.
+ */
 public class GestorCjtProductes {
 
+    /**
+     * Importa els productes d'un usuari des d'un arxiu JSON. Cada producte es desa com a 
+     * una cadena JSON que conté la seva informació detallada, incloent-hi les similituds 
+     * i la posició a les prestatgeries.
+     *
+     * @param usuari El nom de l'usuari per al qual es vol importar el conjunt de productes.
+     * @return Una llista de cadenes JSON que representen els productes importats.
+     */
     public static List<String> importarProductes(String usuari) {
         List<String> productes = new ArrayList<>();
         String ruta = getRuta(usuari);  // Obtenir la ruta de l'arxiu JSON corresponent a l'usuari
@@ -73,6 +87,14 @@ public class GestorCjtProductes {
         return productes;
     }
 
+    /**
+     * Desa la llista de productes en un arxiu JSON associat a l'usuari. Si ja existeix 
+     * un arxiu, es sobrescriurà. En cas que la llista sigui null, l'arxiu es borraran.
+     *
+     * @param productes La llista de productes a desar, cada producte representat com a 
+     *                  cadena JSON.
+     * @param usuari El nom de l'usuari associat a l'arxiu.
+     */
     public static void guardarProductes(List<String> productes, String usuari) {
         if (productes != null) {
             Map<String, Object> jsonProductes = new LinkedHashMap<>();
@@ -112,6 +134,13 @@ public class GestorCjtProductes {
         }
     }
 
+    /**
+     * Elimina l'arxiu de productes associat a un usuari. Retorna true si s'ha pogut 
+     * esborrar correctament.
+     *
+     * @param usuari El nom de l'usuari per al qual es vol eliminar l'arxiu.
+     * @return Un valor booleà que indica si l'arxiu s'ha esborrat correctament.
+     */
     public static boolean esborrarProductes(String usuari) {
         String ruta = getRuta(usuari);
         boolean borrat = false;
@@ -129,6 +158,13 @@ public class GestorCjtProductes {
         return borrat;
     }
 
+    /**
+     * Obté la ruta de l'arxiu associat a l'usuari per emmagatzemar els productes.
+     * Si l'arxiu o la carpeta no existeixen, els crea.
+     *
+     * @param usuari El nom de l'usuari per al qual es vol obtenir la ruta.
+     * @return La ruta completa de l'arxiu JSON associat a l'usuari.
+     */
     private static String getRuta(String usuari) {
         String rutaCarpeta = "src/main/java/persistencia";
         String rutaArxiu = rutaCarpeta + "/" + usuari + "_productes.json";
@@ -150,6 +186,14 @@ public class GestorCjtProductes {
         return rutaArxiu;
     }
     
+    /**
+     * Importa les dades d'un producte des d'un fitxer extern. La primera línia del fitxer 
+     * ha de contenir l'ID i el nom del producte, i les línies següents les similituds 
+     * amb altres productes.
+     *
+     * @param path La ruta del fitxer a importar.
+     * @return Una llista amb les dades del producte.
+     */
     public static List<String> importarFitxerProducte(String path) {
         List<String> producteData = new ArrayList<>();
 
