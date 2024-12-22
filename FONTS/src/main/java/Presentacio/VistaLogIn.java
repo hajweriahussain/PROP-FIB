@@ -16,10 +16,12 @@ public class VistaLogIn extends javax.swing.JPanel {
     private CtrlPresentacio cp;
     private CardLayout cl;
     private VistaSignUp vistaSU;
+    private VistaMenuInici parentMenu;
     /**
      * Creates new form VistaLogIn
+     * @param parent
      */
-    public VistaLogIn() {
+    public VistaLogIn(VistaMenuInici parent) {
         initComponents();
         this.setSize(650, 800);
         cp = new CtrlPresentacio();
@@ -28,6 +30,7 @@ public class VistaLogIn extends javax.swing.JPanel {
         bg.setLayout(cl);
         bg.add(LogIn, "logIn");
         cl.show(bg, "logIn");
+        this.parentMenu = parent;
     }
 
     /**
@@ -262,6 +265,7 @@ public class VistaLogIn extends javax.swing.JPanel {
                 cp.realizarLogin(usuari.getText(), String.valueOf(contrasenya.getPassword()));
                 cp.mostrarMenuUsuari();
                 this.setVisible(false);
+                parentMenu.dispose();
             }
         }
         catch(Exception e){
@@ -324,7 +328,7 @@ public class VistaLogIn extends javax.swing.JPanel {
 
     private void registreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registreActionPerformed
         if(vistaSU == null){
-            vistaSU = new VistaSignUp();
+            vistaSU = new VistaSignUp(parentMenu);
             bg.add(vistaSU, "vistaSignUp");
         }
         cl.show(bg, "vistaSignUp");

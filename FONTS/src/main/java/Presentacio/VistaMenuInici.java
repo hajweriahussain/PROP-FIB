@@ -23,7 +23,7 @@ public class VistaMenuInici extends javax.swing.JFrame {
     }
     
     private void initContent() {
-        ShowJPanel(new VistaLogIn());
+        ShowJPanel(new VistaLogIn(this));
     }
     
     private void ShowJPanel(JPanel p) {

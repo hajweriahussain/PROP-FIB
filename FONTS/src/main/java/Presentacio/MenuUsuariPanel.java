@@ -49,7 +49,7 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
         titulo.setFont(new java.awt.Font("Microsoft JhengHei UI", 1, 18)); // NOI18N
         titulo.setText("Usuari");
 
-        perfil.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj3\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\personIcon.png")); // NOI18N
+        perfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/personIcon.png"))); // NOI18N
 
         jButton1.setText("Canvi Contrasenya");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

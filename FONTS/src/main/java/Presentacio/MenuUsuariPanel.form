@@ -86,7 +86,7 @@
         <Component class="javax.swing.JLabel" name="perfil">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\guill\Desktop\Cosas_Uni\Prop\proj3\subgrup-prop41.1\FONTS\src\main\resources\img\personIcon.png"/>
+              <Image iconType="3" name="/img/personIcon.png"/>
             </Property>
           </Properties>
         </Component>

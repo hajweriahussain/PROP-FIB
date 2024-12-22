@@ -18,8 +18,9 @@ public class VistaSignUp extends javax.swing.JPanel {
     private CtrlPresentacio cp;
     private CardLayout cl;
     private VistaLogIn vistaLI;
+    private VistaMenuInici parentMenu;
     
-    public VistaSignUp() {
+    public VistaSignUp(VistaMenuInici parent) {
         initComponents();
         this.setSize(650, 800);
         cp = new CtrlPresentacio();
@@ -28,6 +29,7 @@ public class VistaSignUp extends javax.swing.JPanel {
         bg.setLayout(cl);
         bg.add(SignUp, "signUp");
         cl.show(bg, "signUp");
+        this.parentMenu = parent;
     }
 
     /**
@@ -352,6 +354,7 @@ public class VistaSignUp extends javax.swing.JPanel {
                 
                 cp.mostrarMenuUsuari();
                 this.setVisible(false);
+                parentMenu.dispose();
             }
             }
             catch(Exception e){
@@ -367,7 +370,7 @@ public class VistaSignUp extends javax.swing.JPanel {
     private void enrereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrereActionPerformed
         // TODO add your handling code here:
         if(vistaLI == null){
-            vistaLI = new VistaLogIn();
+            vistaLI = new VistaLogIn(parentMenu);
             bg.add(vistaLI, "vistaLogIn");
         }
         cl.show(bg, "vistaLogIn");
