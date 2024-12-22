@@ -143,8 +143,6 @@ public class VistaCrearProducte extends javax.swing.JPanel {
             labelErrorId.setText("Error inesperat: " + e.getMessage());
             labelErrorId.setForeground(Color.red);
             return false;
-        } catch (DominiException ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -164,7 +162,11 @@ public class VistaCrearProducte extends javax.swing.JPanel {
 
     private boolean validarSimilituds() {
         String similituds = textAreaSims.getText().trim();
-        Map<String, Map<String, String>> productes = cp.mostrarProductes();
+        try {
+            Map<String, Map<String, String>> productes = cp.mostrarProductes();
+        } catch (DominiException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
 
         if (productes == null || productes.isEmpty()) {     // El primer producte no té cap similitud associada
             return true;
