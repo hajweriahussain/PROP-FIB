@@ -234,6 +234,9 @@
             <Component class="javax.swing.JLabel" name="logoFoto">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="/home/laura/Documentos/PROP/Proyecto2BUENOO/subgrup-prop41.1/FONTS/src/main/resources/img/logo3.png"/>
+                </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="logo1">
