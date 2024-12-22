@@ -53,10 +53,13 @@ public class GestorCjtProductes {
                     JSONObject similitudsObj = (JSONObject) jsonProducte.get("similituds");
                     Map<String, Double> similitudsMap = new HashMap<>();
 
-                    for (Object simKey : similitudsObj.keySet()) {
-                        String simId = (String) simKey;
-                        Double simValue = Double.parseDouble(similitudsObj.get(simId).toString());
-                        similitudsMap.put(simId, simValue);
+                    // Si similituds está vacío, simplemente se queda vacío el mapa
+                    if (similitudsObj != null && !similitudsObj.isEmpty()) {
+                        for (Object simKey : similitudsObj.keySet()) {
+                            String simId = (String) simKey;
+                            Double simValue = Double.parseDouble(similitudsObj.get(simId).toString());
+                            similitudsMap.put(simId, simValue);
+                        }
                     }
                     producteInfo.put("similituds", similitudsMap);
 
@@ -64,17 +67,20 @@ public class GestorCjtProductes {
                     JSONObject posPrestatgeriesObj = (JSONObject) jsonProducte.get("posPrestatgeries");
                     Map<String, Pair<Integer, Integer>> posPrestatgeriesMap = new HashMap<>();
 
-                    for (Object posKey : posPrestatgeriesObj.keySet()) {
-                        String posId = (String) posKey;
-                        JSONArray posArray = (JSONArray) posPrestatgeriesObj.get(posId);
-                        if (posArray.size() == 2) { // Asegúrate de que hay dos elementos
-                            int fila = Integer.parseInt(posArray.get(0).toString());
-                            int columna = Integer.parseInt(posArray.get(1).toString());
-                            posPrestatgeriesMap.put(posId, new Pair<>(fila, columna));
+                    // Si posPrestatgeries está vacío, simplemente se queda vacío el mapa
+                    if (posPrestatgeriesObj != null && !posPrestatgeriesObj.isEmpty()) {
+                        for (Object posKey : posPrestatgeriesObj.keySet()) {
+                            String posId = (String) posKey;
+                            JSONArray posArray = (JSONArray) posPrestatgeriesObj.get(posId);
+                            if (posArray.size() == 2) { // Asegúrate de que hay dos elementos
+                                int fila = Integer.parseInt(posArray.get(0).toString());
+                                int columna = Integer.parseInt(posArray.get(1).toString());
+                                posPrestatgeriesMap.put(posId, new Pair<>(fila, columna));
+                            }
                         }
                     }
                     producteInfo.put("posPrestatgeries", posPrestatgeriesMap);
-                    
+
                     Gson gson = new Gson();
                     String producteJSON = gson.toJson(producteInfo);
                     productes.add(producteJSON);

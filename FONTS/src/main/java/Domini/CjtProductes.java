@@ -321,23 +321,28 @@ public class CjtProductes {
             try {
                 Map<String, Object> producteData = gson.fromJson(jsonProducte, Map.class);
 
-                int id = ((Double) producteData.get("id")).intValue();
+                int id = Integer.parseInt((String) producteData.get("id"));
                 String nom = (String) producteData.get("nom");
 
                 Map<Integer, Double> similituds = new HashMap<>();
                 Map<String, Double> similitudsRaw = (Map<String, Double>) producteData.get("similituds");
-                for (Map.Entry<String, Double> entry : similitudsRaw.entrySet()) {
-                    Integer key = Integer.parseInt(entry.getKey());
-                    similituds.put(key, entry.getValue());
+                if (similitudsRaw != null) {
+                    for (Map.Entry<String, Double> entry : similitudsRaw.entrySet()) {
+                        Integer key = Integer.parseInt(entry.getKey());
+                        similituds.put(key, entry.getValue());
+                    }
                 }
+
 
                 Map<Integer, Pair<Integer, Integer>> prestatgeriesPos = new HashMap<>();
                 Map<String, List<Double>> posPrestatgeriesRaw = (Map<String, List<Double>>) producteData.get("posPrestatgeries");
-                for (Map.Entry<String, List<Double>> entry : posPrestatgeriesRaw.entrySet()) {
-                    Integer key = Integer.parseInt(entry.getKey());
-                    List<Double> value = entry.getValue();
-                    if (value.size() == 2) {
-                        prestatgeriesPos.put(key, new Pair<>(value.get(0).intValue(), value.get(1).intValue()));
+                if (posPrestatgeriesRaw != null) {
+                    for (Map.Entry<String, List<Double>> entry : posPrestatgeriesRaw.entrySet()) {
+                        Integer key = Integer.parseInt(entry.getKey());
+                        List<Double> value = entry.getValue();
+                        if (value.size() == 2) {
+                            prestatgeriesPos.put(key, new Pair<>(value.get(0).intValue(), value.get(1).intValue()));
+                        }
                     }
                 }
 
