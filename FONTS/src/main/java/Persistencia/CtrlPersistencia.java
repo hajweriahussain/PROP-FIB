@@ -24,7 +24,7 @@ public class CtrlPersistencia {
      * @param user El nom d'usuari a verificar.
      * @return true si l'usuari existeix, false en cas contrari.
      */
-    public boolean existeixUsuari(String user) {
+    public boolean existeixUsuari(String user)  throws PersistenciaException{
         return GestorUsuaris.existeixUsuari(user);
     }
     
@@ -34,7 +34,7 @@ public class CtrlPersistencia {
      * @param user El nom d'usuari a afegir.
      * @param password La contrasenya per a l'usuari.
      */
-    public void afegirUsuari(String user, String password){
+    public void afegirUsuari(String user, String password) throws PersistenciaException{
         GestorUsuaris.afegirUsuari(user,password);
     }
     
@@ -43,7 +43,7 @@ public class CtrlPersistencia {
      * 
      * @param user El nom d'usuari a eliminar.
      */
-    public void eliminarUsuari(String user){ 
+    public void eliminarUsuari(String user) throws PersistenciaException{ 
         GestorUsuaris.eliminarUsuari(user);
         GestorCjtProductes.esborrarProductes(user);
         GestorCjtPrestatgeries.esborrarPrestatgeriesUsuari(user);
@@ -55,7 +55,7 @@ public class CtrlPersistencia {
      * @param user El nom d'usuari per al qual es vol canviar la contrasenya.
      * @param novaPassword La nova contrasenya.
      */
-    public void canviarContrasenya(String user, String novaPassword){
+    public void canviarContrasenya(String user, String novaPassword) throws PersistenciaException{
         GestorUsuaris.canviarContrasenya(user,novaPassword);
     }
     
@@ -66,7 +66,7 @@ public class CtrlPersistencia {
      * @param password La contrasenya per verificar.
      * @return true si la contrasenya és correcta, false en cas contrari.
      */
-    public boolean verificarContrasenya(String user, String password){
+    public boolean verificarContrasenya(String user, String password) throws PersistenciaException{
         return GestorUsuaris.verificarContrasenya(user,password);
     }
     
@@ -76,7 +76,7 @@ public class CtrlPersistencia {
      * @param usuari El nom d'usuari per al qual es volen importar les prestatgeries.
      * @return Una llista amb les prestatgeries de l'usuari.
      */
-    public List<String> importarPrestatgeries(String usuari){
+    public List<String> importarPrestatgeries(String usuari) throws PersistenciaException{
         return GestorCjtPrestatgeries.importarPrestatgeries(usuari);
     }
     
@@ -86,7 +86,7 @@ public class CtrlPersistencia {
      * @param prestatgeries La llista de prestatgeries a desar.
      * @param usuari El nom de l'usuari per al qual es volen desar les prestatgeries.
      */
-    public void guardarPrestatgeries(List<String> prestatgeries, String usuari) {
+    public void guardarPrestatgeries(List<String> prestatgeries, String usuari) throws PersistenciaException{
         GestorCjtPrestatgeries.guardarPrestatgeries(prestatgeries,usuari);
     }
 
@@ -96,7 +96,7 @@ public class CtrlPersistencia {
      * @param path La ruta al fitxer que conté les prestatgeries.
      * @return Una llista amb les prestatgeries importades des del fitxer.
      */
-    public List<String> importarFitxerPrestatgeria(String path) {
+    public List<String> importarFitxerPrestatgeria(String path) throws PersistenciaException{
         return GestorCjtPrestatgeries.importarFitxerPrestatgeria(path);
     }
     
@@ -106,7 +106,7 @@ public class CtrlPersistencia {
      * @param usuari El nom d'usuari per al qual es volen importar els productes.
      * @return Una llista amb els productes de l'usuari.
      */
-    public List<String> importarProductes(String usuari){
+    public List<String> importarProductes(String usuari) throws PersistenciaException{
         return GestorCjtProductes.importarProductes(usuari);
     }
     
@@ -116,7 +116,7 @@ public class CtrlPersistencia {
      * @param productes La llista de productes a desar.
      * @param usuari El nom de l'usuari per al qual es volen desar els productes.
      */
-    public void guardarProductes(List<String> productes, String usuari){
+    public void guardarProductes(List<String> productes, String usuari) throws PersistenciaException{
         GestorCjtProductes.guardarProductes(productes, usuari);
     }
     
@@ -126,7 +126,7 @@ public class CtrlPersistencia {
      * @param path La ruta al fitxer que conté els productes.
      * @return Una llista amb els productes importats des del fitxer.
      */
-    public List<String> importarFitxerProducte(String path) {
+    public List<String> importarFitxerProducte(String path) throws PersistenciaException{
         return GestorCjtProductes.importarFitxerProducte(path);
     }
 }

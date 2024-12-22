@@ -45,44 +45,39 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="logoFoto" min="-2" pref="68" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="logo1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="logo2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jSeparator2" alignment="0" min="-2" pref="401" max="-2" attributes="0"/>
-                                          <Component id="contrasenya" alignment="0" min="-2" pref="401" max="-2" attributes="0"/>
-                                          <Component id="lblContrasenya" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblUsuari" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblIniciSessio" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="usuari" alignment="0" min="-2" pref="401" max="-2" attributes="0"/>
-                                          <Component id="jSeparator1" alignment="0" min="-2" pref="401" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <Component id="logo1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="logo2" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
-                              <Component id="entrar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblErrors" min="-2" pref="452" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblRegistrar" min="-2" max="-2" attributes="0"/>
+                                  <Component id="registre" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="lblRegistrar" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="registre" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="lblContrasenya" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lblErrors" min="-2" pref="452" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jSeparator2" min="-2" pref="401" max="-2" attributes="0"/>
+                                  <Component id="entrar" min="-2" max="-2" attributes="0"/>
+                                  <Component id="contrasenya" alignment="0" min="-2" pref="401" max="-2" attributes="0"/>
+                                  <Component id="jSeparator1" alignment="0" min="-2" pref="401" max="-2" attributes="0"/>
+                                  <Component id="usuari" alignment="0" min="-2" pref="401" max="-2" attributes="0"/>
+                                  <Component id="lblUsuari" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblIniciSessio" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -100,32 +95,38 @@
                               <Component id="logo1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="logo2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="lblIniciSessio" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Component id="lblUsuari" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="usuari" min="-2" pref="26" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="lblContrasenya" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="contrasenya" min="-2" pref="24" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace pref="78" max="32767" attributes="0"/>
+                      <Component id="lblIniciSessio" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="lblUsuari" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblErrors" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="entrar" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                      <Component id="lblRegistrar" min="-2" max="-2" attributes="0"/>
+                      <Component id="usuari" min="-2" pref="26" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lblErrors" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                              <Component id="lblContrasenya" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Component id="contrasenya" min="-2" pref="24" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="entrar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      <Component id="lblRegistrar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="registre" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="408" max="32767" attributes="0"/>
+                      <EmptySpace pref="322" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

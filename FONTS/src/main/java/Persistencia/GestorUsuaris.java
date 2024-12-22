@@ -19,7 +19,7 @@ public class GestorUsuaris {
      * @param user El nom d'usuari a afegir.
      * @param password La contrasenya de l'usuari.
      */
-    public static void afegirUsuari(String user, String password) {
+    public static void afegirUsuari(String user, String password) throws PersistenciaException {
         String ruta = getRuta();
         JSONArray jsonArray = new JSONArray();
         
@@ -40,11 +40,11 @@ public class GestorUsuaris {
                 fileWriter.write(jsonArray.toJSONString());
             }    
         } catch (IOException e) {
-            System.err.println("Error en accedir al arxiu: " + e.getMessage());
+            throw new PersistenciaException("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new PersistenciaExceptionn("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error inesperat: " + e.getMessage());
+            throw new PersistenciaException("Error inesperat: " + e.getMessage());
         }
     }
     
@@ -53,7 +53,7 @@ public class GestorUsuaris {
      * 
      * @param user El nom de l'usuari a eliminar.
      */
-    public static void eliminarUsuari(String user)  {
+    public static void eliminarUsuari(String user) throws PersistenciaException{
         try {
             String ruta = getRuta();
             JSONParser parser = new JSONParser();
@@ -75,11 +75,11 @@ public class GestorUsuaris {
             }
             
         } catch (IOException e) {
-            System.err.println("Error en accedir al arxiu: " + e.getMessage());
+            throw new PersistenciaException("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new PersistenciaExceptionn("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error inesperat: " + e.getMessage());
+            throw new PersistenciaException("Error inesperat: " + e.getMessage());
         }
     }
     
@@ -89,7 +89,7 @@ public class GestorUsuaris {
      * @param user El nom de l'usuari a verificar.
      * @return true si l'usuari existeix, false en cas contrari.
      */
-    public static boolean existeixUsuari(String user) { 
+    public static boolean existeixUsuari(String user) throws PersistenciaException{ 
         String ruta = getRuta();
         JSONArray usuarisJson = new JSONArray();
         
@@ -112,11 +112,11 @@ public class GestorUsuaris {
             else return false;
             
         } catch (IOException e) {
-            System.err.println("Error en accedir al arxiu: " + e.getMessage());
+            throw new PersistenciaException("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new PersistenciaExceptionn("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error inesperat: " + e.getMessage());
+            throw new PersistenciaException("Error inesperat: " + e.getMessage());
         }
 
         return false;    
@@ -129,7 +129,7 @@ public class GestorUsuaris {
      * @param password La contrasenya a verificar.
      * @return true si la contrasenya és correcta, false en cas contrari.
      */
-    public static boolean verificarContrasenya(String user, String password) {
+    public static boolean verificarContrasenya(String user, String password) throws PersistenciaException{
         String ruta = getRuta();
         JSONArray usuarisJson = new JSONArray();
         
@@ -154,11 +154,11 @@ public class GestorUsuaris {
             else return false;
             
         } catch (IOException e) {
-            System.err.println("Error en accedir al arxiu: " + e.getMessage());
+            throw new PersistenciaException("Error en accedir al arxiu: " + e.getMessage());
         } catch (ParseException e) {
-            System.err.println("Error en parsear l'arxiu JSON: " + e.getMessage());
+            throw new PersistenciaExceptionn("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error inesperat: " + e.getMessage());
+            throw new PersistenciaException("Error inesperat: " + e.getMessage());
         }
         return false;    
     }
@@ -169,9 +169,15 @@ public class GestorUsuaris {
      * @param user El nom de l'usuari per al qual es vol canviar la contrasenya.
      * @param novaPassword La nova contrasenya per a l'usuari.
      */
-    public static void canviarContrasenya(String user, String novaPassword) {
-        eliminarUsuari(user);
-        afegirUsuari(user, novaPassword);
+    public static void canviarContrasenya(String user, String novaPassword) throws PersistenciaException{
+        try{
+            eliminarUsuari(user);
+            afegirUsuari(user, novaPassword);
+        }
+        catch (Exception e) {
+            throw new PersistenciaException("Error, no s'ha pogut canviar la contrsenya: " + e.getMessage());
+        }
+        
         
     }
 
@@ -181,7 +187,7 @@ public class GestorUsuaris {
      * 
      * @return La ruta absoluta de l'arxiu JSON d'usuaris.
      */
-    private static String getRuta() {
+    private static String getRuta() throws PersistenciaException{
         String rutaCarpeta = "src/main/resources/persistencia";
         String rutaArxiu = rutaCarpeta + "/usuaris.json";
 
@@ -193,7 +199,7 @@ public class GestorUsuaris {
             try {
                 arxiu.createNewFile(); // Crea l'arxiu
             } catch (IOException e) {
-                System.err.println("Error en crear l'arxiu: " + e.getMessage());
+                throw new PersistenciaException("Error en crear l'arxiu: " + e.getMessage());
             }
         }
        

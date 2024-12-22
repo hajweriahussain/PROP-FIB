@@ -20,7 +20,7 @@ public class VistaLogIn extends javax.swing.JPanel {
      */
     public VistaLogIn() {
         initComponents();
-        this.setSize(650, 450);
+        this.setSize(650, 800);
         cp = new CtrlPresentacio();
         
         cl = new CardLayout();
@@ -159,32 +159,29 @@ public class VistaLogIn extends javax.swing.JPanel {
                     .addGroup(LogInLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(logoFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(LogInLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(logo1)
-                                    .addComponent(logo2)))
-                            .addGroup(LogInLayout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(contrasenya, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblContrasenya)
-                                    .addComponent(lblUsuari)
-                                    .addComponent(lblIniciSessio)
-                                    .addComponent(usuari, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(LogInLayout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(entrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblErrors, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(logo1)
+                            .addComponent(logo2)))
                     .addGroup(LogInLayout.createSequentialGroup()
                         .addGap(225, 225, 225)
-                        .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblRegistrar)
-                            .addComponent(registre))))
+                            .addComponent(registre)))
+                    .addGroup(LogInLayout.createSequentialGroup()
+                        .addGap(103, 103, 103)
+                        .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(LogInLayout.createSequentialGroup()
+                                .addComponent(lblContrasenya)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblErrors, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(entrar)
+                            .addComponent(contrasenya, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(usuari, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblUsuari)
+                            .addComponent(lblIniciSessio))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         LogInLayout.setVerticalGroup(
@@ -196,30 +193,34 @@ public class VistaLogIn extends javax.swing.JPanel {
                         .addGap(11, 11, 11)
                         .addComponent(logo1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(logo2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblIniciSessio)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblUsuari)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(usuari, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblContrasenya)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(contrasenya, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(logo2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addComponent(lblIniciSessio)
+                .addGap(26, 26, 26)
+                .addComponent(lblUsuari)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblErrors)
-                    .addComponent(entrar))
-                .addGap(29, 29, 29)
-                .addComponent(lblRegistrar)
+                .addComponent(usuari, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LogInLayout.createSequentialGroup()
+                        .addComponent(lblErrors)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LogInLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(lblContrasenya)
+                        .addGap(18, 18, 18)))
+                .addComponent(contrasenya, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(entrar)
+                .addGap(8, 8, 8)
+                .addComponent(lblRegistrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(registre)
-                .addContainerGap(408, Short.MAX_VALUE))
+                .addContainerGap(322, Short.MAX_VALUE))
         );
 
         bg.add(LogIn, "card2");
@@ -256,7 +257,7 @@ public class VistaLogIn extends javax.swing.JPanel {
         }
         else{
             cp.realizarLogin(usuari.getText(), String.valueOf(contrasenya.getPassword()));
-            cp.mostrarMenuInici();
+            cp.mostrarMenuUsuari();
             this.setVisible(false);
         }
 

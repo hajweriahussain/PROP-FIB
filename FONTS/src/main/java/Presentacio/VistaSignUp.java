@@ -21,7 +21,7 @@ public class VistaSignUp extends javax.swing.JPanel {
     
     public VistaSignUp() {
         initComponents();
-        this.setSize(650, 450);
+        this.setSize(650, 800);
         cp = new CtrlPresentacio();
         
         cl = new CardLayout();
@@ -341,7 +341,7 @@ public class VistaSignUp extends javax.swing.JPanel {
             }
             else{
                 cp.registrarUsuari(usuari.getText(), contrasenya11);
-                cp.mostrarMenuInici();
+                cp.mostrarMenuUsuari();
                 this.setVisible(false);
             }
     }//GEN-LAST:event_entrar3MouseClicked
