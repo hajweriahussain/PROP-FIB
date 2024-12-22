@@ -239,27 +239,33 @@ public class VistaLogIn extends javax.swing.JPanel {
 
     private void entrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrarMouseClicked
 
-        Boolean valid = cp.validarLogin(usuari.getText(), String.valueOf(contrasenya.getPassword()));
-        if(String.valueOf(contrasenya.getPassword()).isEmpty() || usuari.getText().isEmpty()){
-            lblErrors.setText("S'han de completar tots els camps.");
-        }
-        else if(usuari.getText().equals("Introdueix el teu nom d'usuari") || String.valueOf(contrasenya.getPassword()).equals("********")){
-            lblErrors.setText("S'han de completar tots els camps.");
-        }
-        else if(!valid){
-            boolean existeix = cp.existeixUsuari(usuari.getText());
-            if(!existeix){
-                javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nIntent d'inici de sessió incorrecte.\nComprova el teu username.\nNo existeix cap compte amb aquest usuari.\nSi no tens compte registra't!");
+        try{
+            Boolean valid = cp.validarLogin(usuari.getText(), String.valueOf(contrasenya.getPassword()));
+            if(String.valueOf(contrasenya.getPassword()).isEmpty() || usuari.getText().isEmpty()){
+                lblErrors.setText("S'han de completar tots els camps.");
+            }
+            else if(usuari.getText().equals("Introdueix el teu nom d'usuari") || String.valueOf(contrasenya.getPassword()).equals("********")){
+                lblErrors.setText("S'han de completar tots els camps.");
+            }
+            else if(!valid){
+                boolean existeix = cp.existeixUsuari(usuari.getText());
+                if(!existeix){
+                    javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nIntent d'inici de sessió incorrecte.\nComprova el teu username.\nNo existeix cap compte amb aquest usuari.\nSi no tens compte registra't!");
+                }
+                else{
+                    javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nIntent d'inici de sessió incorrecte.\nLa contrasenya NO és correcta!");
+                }
             }
             else{
-                javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nIntent d'inici de sessió incorrecte.\nLa contrasenya NO és correcta!");
+                cp.realizarLogin(usuari.getText(), String.valueOf(contrasenya.getPassword()));
+                cp.mostrarMenuUsuari();
+                this.setVisible(false);
             }
         }
-        else{
-            cp.realizarLogin(usuari.getText(), String.valueOf(contrasenya.getPassword()));
-            cp.mostrarMenuUsuari();
-            this.setVisible(false);
+        catch(Exception e){
+            javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nNo s'ha pogut fer l'inici de sessió");
         }
+        
 
     }//GEN-LAST:event_entrarMouseClicked
 

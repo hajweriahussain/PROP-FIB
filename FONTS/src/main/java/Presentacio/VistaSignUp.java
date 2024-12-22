@@ -322,8 +322,10 @@ public class VistaSignUp extends javax.swing.JPanel {
     private void entrar3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrar3MouseClicked
             String contrasenya11 = new String(contrasenya.getPassword());
             String contrasenya22 = new String(contrasenya2.getPassword());
-            Boolean validar = cp.existeixUsuari(usuari.getText());
-            if(!contrasenya11.equals(contrasenya22)){
+            Boolean validar;
+            try{
+                validar = cp.existeixUsuari(usuari.getText());
+                if(!contrasenya11.equals(contrasenya22)){
                 lblErrors.setText("Les contrasenyes no coincideixen.");
             }
 
@@ -340,10 +342,21 @@ public class VistaSignUp extends javax.swing.JPanel {
                 lblErrors.setText("Ja existeix aquest nom d'usuari.");
             }
             else{
-                cp.registrarUsuari(usuari.getText(), contrasenya11);
+                try{
+                    cp.registrarUsuari(usuari.getText(), contrasenya11);
+                }
+                catch(Exception e){
+                    javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nNo s'ha pogut fer l'inici de sessió");
+                }
+                
                 cp.mostrarMenuUsuari();
                 this.setVisible(false);
             }
+            }
+            catch(Exception e){
+                javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nNo s'ha pogut fer l'inici de sessió");
+            }
+            
     }//GEN-LAST:event_entrar3MouseClicked
 
     private void entrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrar3ActionPerformed
