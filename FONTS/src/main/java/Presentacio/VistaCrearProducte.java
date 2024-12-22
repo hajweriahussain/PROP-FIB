@@ -429,6 +429,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botoSortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoSortirMouseClicked
+        resetLabels();
         sortir();
     }//GEN-LAST:event_botoSortirMouseClicked
 

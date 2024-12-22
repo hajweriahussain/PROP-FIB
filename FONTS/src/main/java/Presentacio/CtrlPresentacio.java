@@ -1,6 +1,7 @@
 package Presentacio;
 
 import Domini.CtrlDomini;
+import Exceptions.DominiException;
 
 import java.util.*;
 import javax.swing.JFrame;
@@ -105,11 +106,11 @@ public class CtrlPresentacio {
         ctrlDomini.modificarProducte(Integer.valueOf(idProd), null ,nouNom);
     }
     
-    public void modificarSimilitudProductes(String idProd1, String idProd2, String novaSimilitud, String bf) {
+    public void modificarSimilitudProductes(String idProd1, String idProd2, String novaSimilitud, String bf) throws DominiException {
         ctrlDomini.modificarSimilituds(Integer.valueOf(idProd1), Integer.valueOf(idProd2), Double.parseDouble(novaSimilitud), Boolean.valueOf(bf));
     }
     
-    public void modificarPosicioProductes(String idPres, String idProd1, String idProd2) {
+    public void modificarPosicioProductes(String idPres, String idProd1, String idProd2) throws DominiException {
         ctrlDomini.modificarPrestatgeria(Integer.parseInt(idPres), Integer.parseInt(idProd1), Integer.parseInt(idProd2));
     }
 
@@ -119,12 +120,12 @@ public class CtrlPresentacio {
     
     // PRESTATGERIES
 
-    public void crearPrestatgeria(String idPres, String nom, String numCols, String productes, String bf) {
+    public void crearPrestatgeria(String idPres, String nom, String numCols, String productes, String bf) throws DominiException {
         Set<Integer> productesSet = convertirStringASet(productes);
         ctrlDomini.crearPrestatgeria(Integer.parseInt(idPres), nom, Integer.parseInt(numCols), productesSet, Boolean.valueOf(bf));
     }
 
-    public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) {
+    public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) throws DominiException {
         ctrlDomini.LlegirPrestatgeriaFitxer(nom, idPres, cols, path);
     }
     
@@ -142,7 +143,7 @@ public class CtrlPresentacio {
         return ctrlDomini.comprovarUsuari(username, pwd);
     }
 
-    public void realizarLogin(String username, String pwd) {
+    public void realizarLogin(String username, String pwd) throws DominiException {
         ctrlDomini.iniciarSessio(username, pwd);
     }
 
@@ -154,7 +155,7 @@ public class CtrlPresentacio {
         return ctrlDomini.getUsuariActual();
     }
 
-    public void registrarUsuari(String username, String pwd) {
+    public void registrarUsuari(String username, String pwd) throws DominiException {
         ctrlDomini.crearUsuari(username, pwd);
     }
 

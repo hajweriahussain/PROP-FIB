@@ -166,7 +166,7 @@ public class GestorCjtProductes {
      * @return La ruta completa de l'arxiu JSON associat a l'usuari.
      */
     private static String getRuta(String usuari) {
-        String rutaCarpeta = "src/main/java/persistencia";
+        String rutaCarpeta = "src/main/resources/persistencia";
         String rutaArxiu = rutaCarpeta + "/" + usuari + "_productes.json";
 
         File carpeta = new File(rutaCarpeta);

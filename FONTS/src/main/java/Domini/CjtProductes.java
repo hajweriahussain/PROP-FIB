@@ -103,9 +103,6 @@ public class CjtProductes {
      * @return Cert si el producte existeix, fals altrament.
      */
     public boolean existeixProducte(int idProd) {
-        if (idProd <= 0) {
-            System.err.println("L'ID ha de ser un nombre positiu.");
-        }
         return productes.containsKey(idProd);
     }
 
