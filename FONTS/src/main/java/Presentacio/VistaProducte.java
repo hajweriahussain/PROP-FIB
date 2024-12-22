@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -130,6 +131,8 @@ public class VistaProducte extends javax.swing.JPanel {
                 });
                 productPanel.add(botoProducte);
             }
+            productPanel.revalidate();
+            productPanel.repaint();
             panelProds.setViewportView(productPanel);
         } catch (DominiException ex) {
             javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -322,8 +325,9 @@ public class VistaProducte extends javax.swing.JPanel {
             }
         }
         
-
         DefaultTableModel model = (DefaultTableModel) taulaSimilituds.getModel();
+        Map<String, String> similitudsModificades = new HashMap<>();
+        
         for (int i = 0; i < model.getRowCount(); i++) {
             String idProd2 = model.getValueAt(i, 0).toString(); // ID del producto relacionado
             String novaSimilitud = model.getValueAt(i, 1).toString(); // Nueva similitud
@@ -332,9 +336,7 @@ public class VistaProducte extends javax.swing.JPanel {
                 double similitudValue = Double.parseDouble(novaSimilitud);
                 
                 if (similitudValue < 0 || similitudValue > 1) {
-                    JOptionPane.showMessageDialog(this,
-                            "La similitud per al producte " + idProd2 + " ha d'estar entre 0 i 1.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "La similitud per al producte " + idProd2 + " ha d'estar entre 0 i 1.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -343,16 +345,7 @@ public class VistaProducte extends javax.swing.JPanel {
                 String similitudActual = prods.get(idOriginal).get("similituds").replace("{", "").replace("}", "");
 
                 if (!similitudActual.contains("\"" + idProd2 + "\":" + novaSimilitud)) {
-                    // Validar selección del algoritmo solo si hay cambios en las similitudes
-                    if (!validarSeleccioAlgoritme()) {
-                        return;
-                    }
-
-                    // Determinar qué algoritmo se ha seleccionado
-                    String algoritmoSeleccionado = rbFB.isSelected() ? "true" : "false"; // true para força bruta, false para dos aproximació
-
-                    // Llamar al método del controlador para modificar la similitud
-                    cp.modificarSimilitudProductes(nouId, idProd2, novaSimilitud, algoritmoSeleccionado);
+                    similitudsModificades.put(idProd2, novaSimilitud);
                     canvisSimilituds = true;
                 }
             } catch (NumberFormatException e) {
@@ -360,6 +353,23 @@ public class VistaProducte extends javax.swing.JPanel {
                 return;
             } catch (DominiException ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        // Validar selección del algoritmo solo si hay cambios en las similitudes
+        if (canvisSimilituds) {
+            if (!validarSeleccioAlgoritme()) {
+                return;
+            }
+            String algoritmoSeleccionado = rbFB.isSelected() ? "true" : "false";
+
+            // Aplicar los cambios de similitudes
+            for (Map.Entry<String, String> entry : similitudsModificades.entrySet()) {
+                try {
+                    cp.modificarSimilitudProductes(nouId, entry.getKey(), entry.getValue(), algoritmoSeleccionado);
+                } catch (DominiException ex) {
+                    JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
         }
 
@@ -576,6 +586,7 @@ public class VistaProducte extends javax.swing.JPanel {
         llistaPanel.add(labelTitolLlista, gridBagConstraints);
 
         botoCrear.setText("Crear Nou Producte");
+        botoCrear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botoCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botoCrearActionPerformed(evt);
@@ -781,10 +792,12 @@ public class VistaProducte extends javax.swing.JPanel {
         });
 
         botoGuardar.setText("Guardar");
+        botoGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         botoSortirEditar.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.shadow"));
         botoSortirEditar.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         botoSortirEditar.setText("X");
+        botoSortirEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         botoSortirEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botoSortirEditarActionPerformed(evt);
