@@ -200,6 +200,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         } catch (DominiException ex) {
             javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
     
     private void configurarBotoImportar() {
