@@ -278,3 +278,4 @@ public class CtrlDomini {
         UsuariActual = new Usuari(null, null);
     }
 }
+    
