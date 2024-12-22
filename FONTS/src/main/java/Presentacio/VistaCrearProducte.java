@@ -472,6 +472,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
                 cp.crearProducte(id, nom, similituds);
                 resetLabels();
                 JOptionPane.showMessageDialog(this, "Producte creat!", "CONFIRMACIÓ", JOptionPane.INFORMATION_MESSAGE);
+                sortir();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error en crear el producte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }

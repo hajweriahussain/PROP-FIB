@@ -260,6 +260,7 @@ public class VistaProducte extends javax.swing.JPanel {
             if (validarSeleccioAlgoritme()) {
                 guardarSimilitudsEditades();
             }
+            mostrarProductesEnJList();
             cardLayout.show(jPanelGeneral, "infoPanel");
         });
         botoEliminar.addActionListener(e -> esborrarProducte());
