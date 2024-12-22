@@ -6,6 +6,7 @@ package Presentacio;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -141,6 +142,7 @@ public class VistaLogIn extends javax.swing.JPanel {
         });
 
         logoFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoFoto.setIcon(new javax.swing.ImageIcon("/home/laura/Documentos/PROP/Proyecto2BUENOO/subgrup-prop41.1/FONTS/src/main/resources/img/logo3.png")); // NOI18N
 
         logo1.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         logo1.setText("PRESTATGERIES");
@@ -263,7 +265,10 @@ public class VistaLogIn extends javax.swing.JPanel {
             }
         }
         catch(Exception e){
-            javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nNo s'ha pogut fer l'inici de sessió");
+            javax.swing.JOptionPane.showMessageDialog(this, "No s'ha pogut fer l'inici de sessió: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            
+            
+            
         }
         
 

@@ -55,7 +55,7 @@ tasks.named('javadoc') {
 sourceSets {
     main {
         resources {
-            srcDirs = ['Persistencia'] // Agrega tu carpeta actual como carpeta de recursos
+            srcDirs = ['src/main/resources'] // Agrega tu carpeta actual como carpeta de recursos
         }
     }
 }
