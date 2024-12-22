@@ -51,7 +51,7 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
 
         perfil.setIcon(new javax.swing.ImageIcon("C:\\Users\\guill\\Desktop\\Cosas_Uni\\Prop\\proj3\\subgrup-prop41.1\\FONTS\\src\\main\\resources\\img\\personIcon.png")); // NOI18N
 
-        jButton1.setText("Canvi Contrassenya");
+        jButton1.setText("Canvi Contrasenya");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -66,7 +66,6 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
                 .addGap(322, 322, 322)
                 .addGroup(backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgrounLayout.createSequentialGroup()
-                        .addGap(17, 17, 17)
                         .addComponent(perfil)
                         .addGap(17, 17, 17))
                     .addGroup(backgrounLayout.createSequentialGroup()
@@ -112,8 +111,8 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
                 cp.canviarContrasenya(username, newPassword);
             } catch (PersistenciaException ex) {
                 javax.swing.JOptionPane.showMessageDialog(this,
-                "Ha ocurrido un error inesperado: " + ex.getMessage(),
-                "Error Desconocido",
+                "Error al canviar la contrasenya",
+                "Error",
                 javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         } 

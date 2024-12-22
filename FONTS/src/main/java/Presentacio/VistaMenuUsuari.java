@@ -251,8 +251,8 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
             cp.logout();
         } catch (PersistenciaException | DominiException ex) {
             javax.swing.JOptionPane.showMessageDialog(this,
-            "Ha ocurrido un error inesperado: " + ex.getMessage(),
-            "Error Desconocido",
+            "Error al tancar la sessió :(",
+            "Error",
             javax.swing.JOptionPane.ERROR_MESSAGE);
         }
         cp.mostrarMenuInici();
