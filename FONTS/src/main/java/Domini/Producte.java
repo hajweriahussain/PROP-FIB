@@ -35,7 +35,6 @@ public class Producte {
      * 
      * @param id identificador únic del producte.
      * @param nom nom del producte.
-     * @throws IllegalArgumentException si l'id no és vàlid.
      */
     public Producte(int id, String nom) {
         this.id = id;
@@ -50,7 +49,6 @@ public class Producte {
      * @param id identificador únic del producte.
      * @param nom nom del producte.
      * @param similituds mapa de similituds del producte.
-     * @throws IllegalArgumentException si l'id o alguna similitud no és vàlida.
      */
     public Producte(int id, String nom, Map<Integer, Double> similituds) {
         this.id = id;
@@ -113,7 +111,6 @@ public class Producte {
      * Estableix un nou id per al producte.
      * 
      * @param id nou identificador del producte.
-     * @throws IllegalArgumentException si l'id no és vàlid.
      */
     public void setId(int id) {
         this.id = id;
@@ -132,7 +129,6 @@ public class Producte {
      * Estableix un nou mapa de similituds per al producte.
      * 
      * @param similituds nou mapa de similituds.
-     * @throws IllegalArgumentException si alguna similitud no és vàlida.
      */
     public void setSimilituds(Map<Integer, Double> similituds) {
         this.similituds = similituds;
@@ -162,7 +158,6 @@ public class Producte {
      * 
      * @param id identificador del producte amb el qual es relaciona.
      * @param similitud valor de similitud.
-     * @throws IllegalArgumentException si la similitud no és vàlida.
      */
     public void afegirSimilitud(int id, double similitud) {
         similituds.put(id, similitud);
@@ -173,7 +168,6 @@ public class Producte {
      * 
      * @param id identificador del producte amb el qual es relaciona.
      * @param novaSimilitud nou valor de similitud.
-     * @throws IllegalArgumentException si la similitud no és vàlida.
      */
     public void modificarSimilitud(int id, double novaSimilitud) {
         if (!similituds.containsKey(id)) {

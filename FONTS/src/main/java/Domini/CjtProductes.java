@@ -1,5 +1,6 @@
 package Domini;
 
+import Exceptions.DominiException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -104,6 +105,14 @@ public class CjtProductes {
      */
     public boolean existeixProducte(int idProd) {
         return productes.containsKey(idProd);
+    }
+    
+    public void comprovarSims(Map<Integer, Double> mapSims) throws DominiException {
+        for (Integer id : productes.keySet()) {
+            if (!mapSims.containsKey(id)) {
+                throw new DominiException("Error: el map de similituds no conté la similitud amb l'ID: " + id);
+            }
+        }
     }
 
     /**
