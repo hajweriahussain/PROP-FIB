@@ -1,5 +1,6 @@
 package Domini;
 
+import Exceptions.DominiException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -35,29 +36,35 @@ public class Prestatgeria {
     * @param columnas El nombre de columnes de la prestatgeria.
     * @param productes Un conjunt d'identificadors dels productes presents a la prestatgeria.
     */
-    public Prestatgeria(int id, String nom,  int filas, int columnas, Set<Integer> productes ){
+    public Prestatgeria(int id, String nom,  int filas, int columnas, Set<Integer> productes) throws DominiException{
     	if (id <= 0) {
-            System.out.println("Error: L'ID ha de ser un valor positiu. Assignant ID per defecte 1.");
-            this.id = 1;
-        } else this.id = id;
-        
-    	if (numFilas <= 0) {
-            System.out.println("Error: El número de files ha de ser major que zero. Assignant 1 fila per defecte.");
-            this.numFilas = 1;
-        } else {
-            this.numFilas = filas;
+            throw new DominiException("L'ID ha de ser un valor positiu.");
+        }
+        if (filas <= 0) {
+            throw new DominiException("El número de files ha de ser major que zero.");
+        }
+        if (columnas <= 0) {
+            throw new DominiException("El número de columnes ha de ser major que zero.");
+        }
+        if (productes == null) {
+            throw new IllegalArgumentException("El conjunt de productes no pot ser null.");
+        }
+        if (nom == null || nom.trim().isEmpty() || nom.length() <= 4) {
+            throw new DominiException("El nom de la prestatgeria no pot estar buit.");
+        }
+        if (productes.isEmpty()) {
+            throw new DominiException("Hi ha d'haver al menys 1 producte a afegir a la prestatgeria");
         }
 
-        if (numColumnas <= 0) {
-            System.out.println("Error: El número de columnes ha de ser major que zero. Assignant 1 columna per defecte.");
-            this.numColumnas = 1;
-        } else {
-            this.numColumnas = columnas;
-        }
+        this.id = id;
+        this.numFilas = filas;
+        this.numColumnas = columnas;
         this.nom = nom;
         this.productes = productes;
+
+        // Inicialización de layout
         this.layout = new LinkedList<>();
-        disp = new ArrayList<>();
+        this.disp = new ArrayList<>();
         for (int i = 0; i < this.numFilas; i++) {
             layout.add(new Producte[this.numColumnas]);
         }
@@ -172,10 +179,9 @@ public class Prestatgeria {
      * @param disposicio Una matriu 2D de productes que representa el nou
      * layout. La matriu ha de ser vàlida i no nul·la.
      */
-    public void setLayout(Producte[][] disposicio) {
+    public void setLayout(Producte[][] disposicio) throws DominiException {
         if (disposicio == null || disposicio.length == 0 || disposicio[0].length == 0) {
-            System.out.println("Error: La matriz proporcionada és nul·la o buida. No es pot assignar el layout.");
-            return;
+            throw new DominiException("La matriu proporcionada és nul·la o buida. No es pot assignar el layout.");
         }
 
         int novesFiles = disposicio.length;
@@ -183,30 +189,29 @@ public class Prestatgeria {
         this.numFilas = novesFiles;
         this.numColumnas = novesColumnes;
 
+        // Actualizar layout
         layout.clear();
         for (int i = 0; i < novesFiles; i++) {
             Producte[] novaFila = new Producte[novesColumnes];
             System.arraycopy(disposicio[i], 0, novaFila, 0, novesColumnes);
             layout.add(novaFila);
         }
-        
-        disp = new ArrayList<>();
 
-        
+        // Actualizar disposició (disp)
+        disp = new ArrayList<>();
         for (int i = 0; i < novesFiles; i++) {
             List<Pair<String, Integer>> fila = new ArrayList<>();
             for (int j = 0; j < novesColumnes; j++) {
                 Producte producte = disposicio[i][j];
                 Pair<Integer, Integer> p = new Pair<>(i, j);
-                producte.afegirPosPrestatgeria(id, p);
+
                 if (producte != null) {
+                    producte.afegirPosPrestatgeria(id, p); // Asignar posición del producto en prestatgería
                     fila.add(new Pair<>(producte.getNom(), producte.getId()));
                 }
             }
             disp.add(fila);
         }
-        
-        System.out.println("El layout s'ha actualitzat correctament.");
     }
     
     /**
@@ -217,24 +222,23 @@ public class Prestatgeria {
      * @param filaProd2 La fila del segon producte.
      * @param colProd2 La columna del segon producte.
      */
-    public void intercanviarDosProductes(int filaProd1, int colProd1, int filaProd2, int colProd2) {
+    public void intercanviarDosProductes(int filaProd1, int colProd1, int filaProd2, int colProd2) throws DominiException {
     	if (filaProd1 < 0 || colProd1 < 0 || filaProd1 >= numFilas || colProd1 >= numColumnas
                 || filaProd2 < 0 || colProd2 < 0 || filaProd2 >= numFilas || colProd2 >= numColumnas) {
-            System.out.println("Posicions fora de rang");
-            return;
+            throw new DominiException("Posicions fora de rang.");
         }
 
+        // Validación de posiciones iguales
         if (filaProd1 == filaProd2 && colProd1 == colProd2) {
-            System.out.println("Les posicions són iguals, no es realitza l'intercanvi");
-            return;
+            throw new DominiException("Les posicions són iguals, no es pot realitzar l'intercanvi.");
         }
-        
+
+        // Obtener prestatges y validar productos no nulos
         Producte[] prestatge1 = layout.get(filaProd1);
         Producte[] prestatge2 = layout.get(filaProd2);
 
-        if (layout.get(filaProd1)[colProd1] == null || layout.get(filaProd2)[colProd2] == null) {
-            System.out.println("Un o ambdós productes són null, no es pot realitzar l'intercanvi.");
-            return;
+        if (prestatge1[colProd1] == null || prestatge2[colProd2] == null) {
+            throw new DominiException("Un o ambdós productes són null, no es pot realitzar l'intercanvi.");
         }
 
         Producte temp = prestatge1[colProd1];
@@ -253,8 +257,6 @@ public class Prestatgeria {
         Pair<String, Integer> tempDisp = fila1.get(colProd1);
         fila1.set(colProd1, fila2.get(colProd2));
         fila2.set(colProd2, tempDisp);
-
-        System.out.println("S'han intercanviat els productes de " + filaProd1 + "," + colProd1 + " i " + filaProd2 + "," + colProd2);
     }
 //    public void afegirPrestatge() {
 //        layout.add(new Producte[numColumnas]);
@@ -282,7 +284,6 @@ public class Prestatgeria {
         disp = new ArrayList<>();
         numFilas = 0;
         numColumnas = 0;
-        System.out.println("Prestatgeria esborrada.");
     }
 
 

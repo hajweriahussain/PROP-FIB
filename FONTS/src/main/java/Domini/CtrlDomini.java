@@ -1,6 +1,7 @@
 package Domini;
 
 
+import Exceptions.DominiException;
 import Persistencia.CtrlPersistencia;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -33,15 +34,16 @@ public class CtrlDomini {
         }
         return singletonObject;
     }
-   public void listToProductes(List<String> producteJsonList) {
+    
+   public void listToProductes(List<String> producteJsonList){
         cjtProductes.setMapProductes(cjtProductes.listToProductes(producteJsonList));
-}
-   public void listToPrestatgeries(List<String> presJsonList){
+   }
+   public void listToPrestatgeries(List<String> presJsonList) throws DominiException{
        cjtPrestatgeries.setMapPrestatgeries(cjtPrestatgeries.listToPrestatgeries(presJsonList));
        //ARREGLAR, tiene que devolver lo que devuelve la funcion de productos, y necesito un setMapPrestatgeries.
    }
 
-    public void iniciarSessio(String username, String pwd){
+    public void iniciarSessio(String username, String pwd)throws DominiException{
         cjtProductes = new CjtProductes(username);
         listToProductes(cp.importarProductes(username));
         cjtPrestatgeries = new CjtPrestatgeries(username);
@@ -49,12 +51,12 @@ public class CtrlDomini {
         UsuariActual = new Usuari(username, pwd);
     }
 
-    public void crearUsuari(String name, String pwd){
+    public void crearUsuari(String name, String pwd) throws DominiException{
     	cp.afegirUsuari(name, pwd);
         iniciarSessio(name, pwd);
     }
     
-    public Map<String, Map<String,String>> llistarProductesUsuari() {
+    public Map<String, Map<String,String>> llistarProductesUsuari(){
     	if (cjtProductes == null) {
             System.out.println("Error: No hi ha cap conjunt de productes associat a l'usuari.");
             return null;
@@ -87,7 +89,7 @@ public class CtrlDomini {
     }
     
     
-    public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols){
+    public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols) throws DominiException{
         int[] vecProductes = setIdsToVecIds(productes);
         double[][] matSimilituds = cjtProductes.getMatriuSimilitudsPerIds(vecProductes);
 
@@ -112,7 +114,7 @@ public class CtrlDomini {
         }
     }
 
-    public void crearPrestatgeria(int id, String nom, int numCols, Set<Integer> productes, Boolean bruteForce){
+    public void crearPrestatgeria(int id, String nom, int numCols, Set<Integer> productes, Boolean bruteForce) throws DominiException{
     	if (cjtProductes == null || cjtProductes.getVecProductes().length == 0) {
             System.out.println("Error: No hi ha productes per crear la prestatgeria.");
             return;
@@ -142,7 +144,7 @@ public class CtrlDomini {
         }
     }
     
-    public void modificarSimilituds(Integer idProdActual1, Integer idProdActual2, double novaSim, Boolean bruteForce) {
+    public void modificarSimilituds(Integer idProdActual1, Integer idProdActual2, double novaSim, Boolean bruteForce) throws DominiException{
     	if (cjtProductes.getProducte(idProdActual1) != null && cjtProductes.getProducte(idProdActual2) != null) {
             cjtProductes.modificarSimilitud(idProdActual1, idProdActual2, novaSim);
             
@@ -166,7 +168,7 @@ public class CtrlDomini {
         }
     }
 
-    public void modificarPrestatgeria(int id, int idp1, int idp2){
+    public void modificarPrestatgeria(int id, int idp1, int idp2) throws DominiException{
         if (cjtPrestatgeries == null) {
             System.out.println("Error: No hi ha cap prestatgeria per modificar.");
             return;
@@ -223,7 +225,7 @@ public class CtrlDomini {
         afegirProducteFitxer(prodInfo);
 
     }
-    public void LlegirPrestatgeriaFitxer(String nom, String id, String cols, String path) {
+    public void LlegirPrestatgeriaFitxer(String nom, String id, String cols, String path) throws DominiException{
         List<String> pres = cp.importarFitxerPrestatgeria(path);
         afegirPrestatgeriaFitxer(nom, id, cols, pres);
 
@@ -243,7 +245,7 @@ public class CtrlDomini {
        
     }
 
-    private void afegirPrestatgeriaFitxer(String nomPres, String id, String cols, List<String> pres) {
+    private void afegirPrestatgeriaFitxer(String nomPres, String id, String cols, List<String> pres) throws DominiException{
         int idPres = Integer.parseInt(id);
         int numCols = Integer.parseInt(cols);
         Set<Integer> prods = pres.stream()
