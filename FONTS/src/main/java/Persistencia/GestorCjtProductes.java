@@ -1,5 +1,6 @@
 package Persistencia;
 
+import Domini.Pair;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -48,31 +49,32 @@ public class GestorCjtProductes {
                     producteInfo.put("id", idProd);
                     producteInfo.put("nom", jsonProducte.get("nom"));
 
-                    JSONArray similitudsArray = (JSONArray) jsonProducte.get("similituds");
-                    List<Map<String, Object>> similituds = new ArrayList<>();
+                    // Manejo de similituds
+                    JSONObject similitudsObj = (JSONObject) jsonProducte.get("similituds");
+                    Map<String, Double> similitudsMap = new HashMap<>();
 
-                    for (Object obj : similitudsArray) {
-                        JSONObject entry = (JSONObject) obj;
-                        Map<String, Object> objData = new HashMap<>();
-                        objData.put("id", entry.get("id"));   // ID del producte
-                        objData.put("similitud", entry.get("similitud"));   // Similitud amb aquest producte
-                        similituds.add(objData);
+                    for (Object simKey : similitudsObj.keySet()) {
+                        String simId = (String) simKey;
+                        Double simValue = Double.parseDouble(similitudsObj.get(simId).toString());
+                        similitudsMap.put(simId, simValue);
                     }
-                    producteInfo.put("similituds", similituds);
+                    producteInfo.put("similituds", similitudsMap);
 
-                    JSONArray posPrestatgeriesArray = (JSONArray) jsonProducte.get("posPrestatgeries");
-                    List<Map<String, Object>> posPrestatgeries = new ArrayList<>();
+                    // Manejo de posPrestatgeries
+                    JSONObject posPrestatgeriesObj = (JSONObject) jsonProducte.get("posPrestatgeries");
+                    Map<String, Pair<Integer, Integer>> posPrestatgeriesMap = new HashMap<>();
 
-                    for (Object obj : posPrestatgeriesArray) {
-                        JSONObject pos = (JSONObject) obj;
-                        Map<String, Object> posData = new HashMap<>();
-                        posData.put("id", pos.get("id"));
-                        posData.put("fila", pos.get("fila"));
-                        posData.put("columna", pos.get("columna"));
-                        posPrestatgeries.add(posData);
+                    for (Object posKey : posPrestatgeriesObj.keySet()) {
+                        String posId = (String) posKey;
+                        JSONArray posArray = (JSONArray) posPrestatgeriesObj.get(posId);
+                        if (posArray.size() == 2) { // Asegúrate de que hay dos elementos
+                            int fila = Integer.parseInt(posArray.get(0).toString());
+                            int columna = Integer.parseInt(posArray.get(1).toString());
+                            posPrestatgeriesMap.put(posId, new Pair<>(fila, columna));
+                        }
                     }
-                    producteInfo.put("posPrestatgeries", posPrestatgeries);
-
+                    producteInfo.put("posPrestatgeries", posPrestatgeriesMap);
+                    
                     Gson gson = new Gson();
                     String producteJSON = gson.toJson(producteInfo);
                     productes.add(producteJSON);

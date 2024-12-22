@@ -46,21 +46,17 @@ public class CtrlPresentacio {
     // AUX
     
     private Map<Integer, Double> convertirStringAMap(String input) {
-        Map<Integer, Double> map = new HashMap<>();
-
-        String trimmed = input.substring(1, input.length() - 1);
-
-        String[] pairs = trimmed.split(", ");
-
+        Map<Integer, Double> similitudMap = new HashMap<>();
+        String[] pairs = input.split("\n");
         for (String pair : pairs) {
             String[] keyValue = pair.split(":");
-            Integer key = Integer.valueOf(keyValue[0]);
-            Double value = Double.valueOf(keyValue[1]);
-
-            map.put(key, value);
+            if (keyValue.length == 2) {
+                int key = Integer.parseInt(keyValue[0].trim());
+                double value = Double.parseDouble(keyValue[1].trim());
+                similitudMap.put(key, value);
+            }
         }
-
-        return map;
+        return similitudMap;
     }
     
     private Set<Integer> convertirStringASet(String input) {

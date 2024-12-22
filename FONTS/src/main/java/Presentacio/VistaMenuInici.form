@@ -46,7 +46,7 @@
     <Component class="javax.swing.JLabel" name="fotofons">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="/home/laura/Documentos/PROP/Proyecto2BUENOO/subgrup-prop41.1/FONTS/src/main/resources/img/super22.PNG"/>
+          <Image iconType="2" name="/home/ariadna/Documents/uni/Q5/PROP/PROP_PROYECTO3/subgrup-prop41.1/FONTS/src/main/resources/img/super22.PNG"/>
         </Property>
         <Property name="text" type="java.lang.String" value="jLabel2"/>
       </Properties>

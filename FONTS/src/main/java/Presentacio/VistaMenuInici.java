@@ -48,7 +48,7 @@ public class VistaMenuInici extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        fotofons.setIcon(new javax.swing.ImageIcon("/home/laura/Documentos/PROP/Proyecto2BUENOO/subgrup-prop41.1/FONTS/src/main/resources/img/super22.PNG")); // NOI18N
+        fotofons.setIcon(new javax.swing.ImageIcon("/home/ariadna/Documents/uni/Q5/PROP/PROP_PROYECTO3/subgrup-prop41.1/FONTS/src/main/resources/img/super22.PNG")); // NOI18N
         fotofons.setText("jLabel2");
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
