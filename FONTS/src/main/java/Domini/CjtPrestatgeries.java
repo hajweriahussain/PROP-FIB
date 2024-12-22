@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import com.google.gson.Gson;
+import Exceptions.DominiException;
 
 public class CjtPrestatgeries {
     private String user;
@@ -73,7 +74,7 @@ public class CjtPrestatgeries {
      * @param columnas Nombre de columnes del layout.
      * @param setProds Conjunt d'IDs de productes assignats a la prestatgeria.
      */
-    public void crearPrestatgeria(int id, String nom, int filas, int columnas, Set<Integer> setProds) {
+    public void crearPrestatgeria(int id, String nom, int filas, int columnas, Set<Integer> setProds) throws DominiException{
         if (!map_prest.containsKey(id)) map_prest.put(id, new Prestatgeria(id, nom, filas, columnas, setProds));
         else System.out.println("Error: L'usuari ja té una prestatgeria amb aquest ID.");
     }
@@ -87,7 +88,7 @@ public class CjtPrestatgeries {
      * @param columnas Nou nombre de columnes.
      * @param setP  Nou conjunt d'IDs de productes.
      */
-    public void editarPrestatgeria(int id, String nom, int filas, int columnas, Set<Integer> setP) {
+    public void editarPrestatgeria(int id, String nom, int filas, int columnas, Set<Integer> setP) throws DominiException {
         if (map_prest.containsKey(id))map_prest.put(id, new Prestatgeria(id, nom, filas, columnas, setP));
         else System.out.println("Error: L'usuari no té una prestatgeria amb aquest ID.");
     }
@@ -114,7 +115,7 @@ public class CjtPrestatgeries {
      * @param mat           Nova matriu de productes.
      * @param prestatgeID   ID de la prestatgeria.
      */
-    public void setLayout(Producte[][] mat, Integer prestatgeID) {
+    public void setLayout(Producte[][] mat, Integer prestatgeID) throws DominiException {
         Prestatgeria prestatgeria = getPrestatgeria(prestatgeID);
         if (prestatgeria != null) prestatgeria.setLayout(mat);
         else System.out.println("Error: No hi ha una prestatgeria amb aquest id.");
@@ -179,7 +180,7 @@ public class CjtPrestatgeries {
      * @param filaProd2   Fila del segon producte.
      * @param colProd2    Columna del segon producte.
      */
-    public void intercanviarDosProductes(int prestatgeID, int filaProd1, int colProd1, int filaProd2, int colProd2) {
+    public void intercanviarDosProductes(int prestatgeID, int filaProd1, int colProd1, int filaProd2, int colProd2) throws DominiException{
         Prestatgeria prestatgeria = getPrestatgeria(prestatgeID);
         if (prestatgeria != null) prestatgeria.intercanviarDosProductes(filaProd1, colProd1, filaProd2, colProd2);
         else System.out.println("Error: No es pot intercanviar productes.");
@@ -241,7 +242,7 @@ public class CjtPrestatgeries {
      * @param presJsonList Llista de JSONs amb les dades de prestatgeries.
      * @return Mapa d'ID a prestatgeria.
      */
-    public Map<Integer, Prestatgeria> listToPrestatgeries(List<String> presJsonList) {
+    public Map<Integer, Prestatgeria> listToPrestatgeries(List<String> presJsonList) throws DominiException {
         Gson gson = new Gson();
         Map<Integer, Prestatgeria> prestatgeriesMap = new HashMap<>();
 

@@ -6,6 +6,7 @@ import Exceptions.PersistenciaException;
 
 import java.util.*;
 import javax.swing.JFrame;
+import Exceptions.DominiException;
 
 public class CtrlPresentacio {
     private CtrlDomini ctrlDomini;
@@ -126,7 +127,11 @@ public class CtrlPresentacio {
         ctrlDomini.crearPrestatgeria(Integer.parseInt(idPres), nom, Integer.parseInt(numCols), productesSet, Boolean.valueOf(bf));
     }
 
+<<<<<<< Updated upstream
     public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) throws DominiException, PersistenciaException {
+=======
+    public void crearPrestatgeriaFitxer(String nom, String idPres, String cols, String path) throws DominiException {
+>>>>>>> Stashed changes
         ctrlDomini.LlegirPrestatgeriaFitxer(nom, idPres, cols, path);
     }
     
@@ -144,7 +149,11 @@ public class CtrlPresentacio {
         return ctrlDomini.comprovarUsuari(username, pwd);
     }
 
+<<<<<<< Updated upstream
     public void realizarLogin(String username, String pwd) throws DominiException, PersistenciaException {
+=======
+    public void realizarLogin(String username, String pwd) throws DominiException{
+>>>>>>> Stashed changes
         ctrlDomini.iniciarSessio(username, pwd);
     }
 
@@ -156,7 +165,11 @@ public class CtrlPresentacio {
         return ctrlDomini.getUsuariActual();
     }
 
+<<<<<<< Updated upstream
     public void registrarUsuari(String username, String pwd) throws DominiException, PersistenciaException {
+=======
+    public void registrarUsuari(String username, String pwd) throws DominiException{
+>>>>>>> Stashed changes
         ctrlDomini.crearUsuari(username, pwd);
     }
 
