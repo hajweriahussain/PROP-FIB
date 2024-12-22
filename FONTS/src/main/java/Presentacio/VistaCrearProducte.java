@@ -23,7 +23,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
     public VistaCrearProducte() {
         initComponents();  
         cp = new CtrlPresentacio();
-        this.setSize(700, 500);
+        this.setSize(800, 800);
         mostrarProductesEnJList();
         precompletarAreaSimilituds();
         configurarBotoImportar();
@@ -155,7 +155,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         String similituds = textAreaSims.getText().trim();
         Map<String, Map<String, String>> productes = cp.mostrarProductes();
 
-        if (productes == null || productes.isEmpty()) {
+        if (productes == null || productes.isEmpty()) {     // El primer producte no té cap similitud associada
             return true;
         }
 
