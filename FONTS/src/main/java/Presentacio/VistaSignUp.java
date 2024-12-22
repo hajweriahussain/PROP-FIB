@@ -147,7 +147,7 @@ public class VistaSignUp extends javax.swing.JPanel {
         lblConfirmacioContrasenya.setText("Confima la contrasenya");
 
         logoFoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        logoFoto.setIcon(new javax.swing.ImageIcon("/home/laura/Documentos/PROP/Proyecto2BUENOO/subgrup-prop41.1/FONTS/src/main/resources/img/logo3.png")); // NOI18N
+        logoFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo3.png"))); // NOI18N
 
         logo1.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         logo1.setText("PRESTATGERIES");
