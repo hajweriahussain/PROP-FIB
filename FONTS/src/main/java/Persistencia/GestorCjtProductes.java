@@ -31,6 +31,8 @@ public class GestorCjtProductes {
      *
      * @param usuari El nom de l'usuari per al qual es vol importar el conjunt de productes.
      * @return Una llista de cadenes JSON que representen els productes importats.
+     * @throws PersistenciaException Si hi ha un error en accedir a l'arxiu, en parsejar el JSON,
+     *                               o qualsevol altre error inesperat durant el procés d'importació.
      */
     public static List<String> importarProductes(String usuari) throws PersistenciaException {
         List<String> productes = new ArrayList<>();
@@ -104,6 +106,9 @@ public class GestorCjtProductes {
      * @param productes La llista de productes a desar, cada producte representat com a 
      *                  cadena JSON.
      * @param usuari El nom de l'usuari associat a l'arxiu.
+     * @throws PersistenciaException Si hi ha un error en parsejar el JSON dels productes,
+     *                               en escriure l'arxiu, o qualsevol altre error inesperat
+     *                               durant el procés de guardar els productes.
      */
     public static void guardarProductes(List<String> productes, String usuari) throws PersistenciaException {
         if (productes != null) {
@@ -158,6 +163,7 @@ public class GestorCjtProductes {
      *
      * @param usuari El nom de l'usuari per al qual es vol eliminar l'arxiu.
      * @return Un valor booleà que indica si l'arxiu s'ha esborrat correctament.
+     * @throws PersistenciaException Si hi ha un error inesperat durant el procés d'esborrat de l'arxiu.
      */
     public static boolean esborrarProductes(String usuari) throws PersistenciaException {
         String ruta = getRuta(usuari);
@@ -182,6 +188,7 @@ public class GestorCjtProductes {
      *
      * @param usuari El nom de l'usuari per al qual es vol obtenir la ruta.
      * @return La ruta completa de l'arxiu JSON associat a l'usuari.
+     * @throws PersistenciaException Si hi ha un error en crear l'arxiu o la carpeta.
      */
     private static String getRuta(String usuari) throws PersistenciaException {
         String rutaCarpeta = "src/main/resources/persistencia";
@@ -211,6 +218,9 @@ public class GestorCjtProductes {
      *
      * @param path La ruta del fitxer a importar.
      * @return Una llista amb les dades del producte.
+     * @throws PersistenciaException Si hi ha errors en el format del fitxer, en la lectura de les dades,
+     *                               o si les dades no compleixen amb els requisits esperats (per exemple,
+     *                               ID no vàlid, similituds fora de rang, etc.).
      */
     public static List<String> importarFitxerProducte(String path) throws PersistenciaException {
         List<String> producteData = new ArrayList<>();

@@ -496,7 +496,7 @@ public class VistaProducte extends javax.swing.JPanel {
     private void esborrarProducte() {
         String idProd = textIdInfo.getText();
 
-        int confirmacio = JOptionPane.showConfirmDialog(this, "Estàs segur que vols esborrar el producte amb ID " + idProd + "?", "Confirmar esborrat", JOptionPane.YES_NO_OPTION);
+        int confirmacio = JOptionPane.showConfirmDialog(this, "Estàs segur que vols esborrar el producte amb ID " + idProd + "?\nSi esborres aquest producte, s'eliminaran totes les prestatgeries on es troba aquest producte!", "Confirmar esborrat", JOptionPane.YES_NO_OPTION);
 
         if (confirmacio == JOptionPane.YES_OPTION) {
             try {
@@ -517,8 +517,8 @@ public class VistaProducte extends javax.swing.JPanel {
 
     // Mètode per tornar al llistaPanel
     public void mostrarLlistaPanel() {
-        cardLayout.show(jPanelGeneral, "llistaPanel");
         carregarProductesEnScrollPanel();
+        cardLayout.show(jPanelGeneral, "llistaPanel");
     }
 
     /**
@@ -691,7 +691,7 @@ public class VistaProducte extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPanelLayout.createSequentialGroup()
                         .addComponent(botoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botoEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botoEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPanelLayout.createSequentialGroup()
                         .addComponent(labelTitol)
