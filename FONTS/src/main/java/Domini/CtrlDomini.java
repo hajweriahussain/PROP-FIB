@@ -424,7 +424,7 @@ public class CtrlDomini {
                                         .map(Integer::valueOf) 
                                         .collect(Collectors.toSet());
         
-        crearPrestatgeria(id, presInfo.get(1), numCols, prods, true);
+        crearPrestatgeria(id, presInfo.get(1), numCols, prods, false);
     }
     
     /**

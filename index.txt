@@ -2,3 +2,4 @@ DOCS: Els documents ja descrits en el contingut de la primera entrega més els d
 i tercera netrega. Aquest directori no conté cap codi.
 FONTS: Classes implementades fins al moment. Els subdirectoris segueixen l’estructura de packages. S’ha inclòs un makefile per compilar el projecte.
 EXE: Executables per provar les classes o funcionalitats implementades i jocs de proves.
+JAVADOC: COnte la documentació Javadoc del projecte.

@@ -1,16 +1,20 @@
-JUNIT_JAR="lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar"
+#!/bin/bash
 
-echo "Compilant classes del domini..."
-javac --release 22 Domini/*.java
-mv Domini/*.class ../EXE/Domini
+# Construcción del proyecto
+echo "Ejecutando ./gradlew build..."
+./gradlew build
+if [ $? -ne 0 ]; then
+  echo "Error durante la construcción. Revisa los logs."
+  exit 1
+fi
 
-echo "Compilant Drivers..."
-javac --release 22 Drivers/*.java
-mv Drivers/*.class ../EXE/Drivers
+# Ejecución de la aplicación
+echo "Ejecutando ./gradlew run..."
+./gradlew run
+if [ $? -ne 0 ]; then
+  echo "Error durante la ejecución. Revisa los logs."
+  exit 1
+fi
 
-
-echo "Compilant tests unitaris JUnit..."
-javac --release 22 -classpath $JUNIT_JAR:../EXE/Domini: JUnit/*.java
-mv JUnit/*.class ../EXE/JUnit
-mv Domini/*.class ../EXE/Domini
+echo "Aplicación ejecutada correctamente."
 

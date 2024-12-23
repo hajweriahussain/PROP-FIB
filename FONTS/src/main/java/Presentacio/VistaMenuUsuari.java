@@ -15,8 +15,7 @@ import javax.swing.UIManager;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 /**
- *
- * @author guill
+ * La classe VistaMenuUsuari es la pantalla que apareix una vegada l'usuari ha iniciat sessió i li permet navegar per l'aplicació 
  */
 public class VistaMenuUsuari extends javax.swing.JFrame {
 

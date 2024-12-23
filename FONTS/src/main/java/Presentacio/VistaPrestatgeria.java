@@ -26,17 +26,15 @@ import javax.swing.SwingConstants;
  * de l'aplicació. Aquesta interfície permet veure, crear, modificar, intercanviar 
  * productes i eliminar prestatgeries.
  * 
- * <p>Extén {@link javax.swing.JPanel} i implementa una interfície visual amb la qual 
+ * Extén {@link javax.swing.JPanel} i implementa una interfície visual amb la qual 
  * l'usuari pot interactuar amb les prestatgeries. Utilitza un {@code CardLayout} 
- * per alternar entre diferents pàgines dins de la mateixa vista.</p>
+ * per alternar entre diferents pàgines dins de la mateixa vista.
  * 
- * <h3>Funcionalitats principals:</h3>
- * <ul>
- *   <li>Visualització de totes les prestatgeries disponibles.</li>
- *   <li>Creació d'una nova prestatgeria amb els productes seleccionats.</li>
- *   <li>Intercanvi de productes dins d'una prestatgeria.</li>
- *   <li>Eliminació de prestatgeries existents.</li>
- * </ul>
+ * Funcionalitats principals:
+ *   Visualització de totes les prestatgeries disponibles.
+ *   Creació d'una nova prestatgeria amb els productes seleccionats.
+ *   Intercanvi de productes dins d'una prestatgeria.
+ *   Eliminació de prestatgeries existents.
  * 
  * @author hajweriahussain
  */

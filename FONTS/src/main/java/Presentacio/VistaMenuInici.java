@@ -12,9 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 /**
- *
- * @author guill
+ * La classe VistaMenuInici es la pantalla d'inici per registrar-se o iniciar sessió
  */
+
 public class VistaMenuInici extends javax.swing.JFrame {
 
     /**

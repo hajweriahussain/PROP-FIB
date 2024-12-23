@@ -1,8 +1,4 @@
-/**
- * La classe DosAproximacio implementa un generador de solucions utilitzant una aproximació
- * basada en arbres generadors mínims (MST) i cicles eulerians. El seu objectiu és trobar 
- * un layout que maximitzi la similitud basada en una matriu de similitud proporcionada.
- */
+
 
 package Domini;
 
@@ -11,6 +7,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
+
+/**
+ * La classe DosAproximacio implementa un generador de solucions utilitzant una aproximació
+ * basada en arbres generadors mínims (MST) i cicles eulerians. El seu objectiu és trobar 
+ * un layout que maximitzi la similitud basada en una matriu de similitud proporcionada.
+ */
 
 public class DosAproximacio implements GeneradorSolucio {
     private int n;

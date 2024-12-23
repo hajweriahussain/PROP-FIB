@@ -6,8 +6,8 @@ construcció utilitzada per gestionar les dependències i processos de construcc
 
 JAVADOC: Conté la documentació generada automàticament del codi font en format HTML. 
 
-lib: Aquesta carpeta conté les llibreries externes utilitzades pel projecte.
-
 src: Conté el codi font del projecte. És on es troben les classes, mètodes i funcions.
+
+make.sh: Make per compilar i executar el projecte
 
 

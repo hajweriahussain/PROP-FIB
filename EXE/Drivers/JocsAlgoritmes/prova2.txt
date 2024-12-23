@@ -1,6 +1,0 @@
-Número de productes: 2
-1 A
-2 B
-Matriu similituds:
-0.00000 0.35807
-0.35807 0.00000

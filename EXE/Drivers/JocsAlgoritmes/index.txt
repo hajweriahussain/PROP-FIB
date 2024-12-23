@@ -1,9 +1,0 @@
-Els jocs de prova dels algoritmes s'anomenen provaX.txt, on la X fa referència al nombre de productes que conté la prova.
-
-Per crear aquests jocs de prova, hem utilitzat un programa en python anomenat generadorProves.py, que genera les proves de forma aleatòria en funció del nombre de productes que volem provar i ho guarda en un arxiu anomenat provaX.txt.
-
-Si es vol fer servir el programa cal escriure a la consola:
-
-> python generadorProves.py
-
-Es pot cambiar el número de nodes i el nom del fitxer accedint a l'arxiu .py i cambiant-ho.

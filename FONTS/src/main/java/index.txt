@@ -5,3 +5,5 @@ Exceptions: Conté les classes que defineixen les excepcions personalitzades que
 Persistencia: Aquesta subcarpeta conté les classes relacionades amb l'emmagatzematge i la recuperació de dades.
 
 Presentacio: Conté les classes relacionades amb la interfície d'usuari i la presentació de dades.
+
+Main: Main que executa la aplicacio

@@ -26,15 +26,13 @@ import javax.swing.JPanel;
  * nombre de columnes i seleccionar productes i algoritmes per a la creació d'una prestatgeria.
  * També inclou funcionalitats per importar prestatgeries des d'un fitxer.
  * 
- * <p>Extén {@link javax.swing.JPanel} i forma part de la capa de presentació de l'aplicació.</p>
+ * Extén {@link javax.swing.JPanel} i forma part de la capa de presentació de l'aplicació.
  * 
- * <h3>Funcionalitats principals:</h3>
- * <ul>
- *   <li>Validació de camps com l'identificador, nom i nombre de columnes.</li>
- *   <li>Selecció de productes per afegir a la prestatgeria.</li>
- *   <li>Opció d'escollir entre diferents algoritmes per gestionar la prestatgeria.</li>
- *   <li>Importació de prestatgeries des d'un fitxer extern.</li>
- * </ul>
+ * Funcionalitats principals:
+ *   Validació de camps com l'identificador, nom i nombre de columnes.
+ *   Selecció de productes per afegir a la prestatgeria.
+ *   Opció d'escollir entre diferents algoritmes per gestionar la prestatgeria.
+ *   Importació de prestatgeries des d'un fitxer extern.
  * 
  * @author hajweriahussain
  */

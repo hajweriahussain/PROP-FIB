@@ -1,8 +1,4 @@
-/**
- * La classe CjtPrestatgeries gestiona un conjunt de prestatgeries associades a un usuari.
- * Permet crear, editar, consultar, i eliminar prestatgeries, així com gestionar
- * els seus layouts i els productes que contenen.
- */
+
 package Domini;
 
 import java.util.ArrayList;
@@ -16,6 +12,12 @@ import Exceptions.DominiException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.util.stream.Collectors;
+
+/**
+ * La classe CjtPrestatgeries gestiona un conjunt de prestatgeries associades a un usuari.
+ * Permet crear, editar, consultar, i eliminar prestatgeries, així com gestionar
+ * els seus layouts i els productes que contenen.
+ */
 
 public class CjtPrestatgeries {
     private String user;

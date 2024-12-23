@@ -14,7 +14,7 @@ import javax.swing.UIManager;
  */
 public class Main {
 	public static void main(String[] args) {
-        	System.out.println("Hola, mundo!");
+        	System.out.println("Hola, benvingut a Prestatgeries and Products!");
         	CtrlPresentacio ctrlPresentacio = new CtrlPresentacio();
                  FlatLightFlatIJTheme.setup();
                 UIManager.put( "Button.arc", 20 );
@@ -23,7 +23,6 @@ public class Main {
                 UIManager.put( "TextComponent.arc", 20 );
                 UIManager.put( "Component.arrowType", "triangle" );
 
-            // Llama a un método del controlador (reemplaza 'iniciarAplicacion' por el método adecuado)
             ctrlPresentacio.mostrarMenuInici();
 	
         }

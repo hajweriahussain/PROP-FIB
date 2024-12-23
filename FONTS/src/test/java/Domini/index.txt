@@ -5,14 +5,6 @@ Arxius:
 BruteForceTest
 Tests per a la classe BruteForce. Verifica que l'algoritme de BruteForce funciona correctament.
 
-CjtProductesTest
-Tests per a la classe CjtProductes. Assegura que el comportament de les operacions relacionades amb el conjunt de productes sigui adequada.
-
-DosAproximacioTest
-Tests per a la classe DosAproximacio. Verifica que l'algoritme de DosAproximacio funciona correctament.
-
 ProducteTest
 Tests per a la classe Producte. Evalua que la gestió d'un producte es realitza correctament.
 
-PrestatgeriaTest
-Tests per a la classe Prestatgeria. Evalua que la gestió de la disposició de la prestatgeria es realitza correctament.
