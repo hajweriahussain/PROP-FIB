@@ -205,7 +205,6 @@ public class VistaCrearProducte extends javax.swing.JPanel {
             try {
                 Map<String, Double> similitudMap = parseSimilituds(similituds);
 
-                // Verificar si tots els IDs existents tenen una similitud
                 for (String id : productes.keySet()) {
                     if (!similitudMap.containsKey(id)) {
                         labelErrorSimilituds.setText("Error: Falta la similitud per al producte amb ID " + id);

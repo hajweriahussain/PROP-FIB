@@ -322,7 +322,7 @@ public class CtrlPresentacio {
     public void logout() throws PersistenciaException, DominiException {
         try{
             ctrlDomini.tancarSessio();
-        }catch(DominiException e){
+        } catch(DominiException e){
             throw new DominiException("Error al guardar la estanteria presen " + e.getMessage());
         }
     }

@@ -91,4 +91,21 @@ public class Pair<T1, T2> {
     public String toString() {
         return "(" + clau.toString() + "," + valor.toString() + ')';
     }
+    
+    /**
+    * Comprova si aquest objecte és igual a un altre objecte.
+    * 
+    * @param obj L'objecte amb el qual es vol comparar.
+    * @return true si aquest objecte és equivalent a l'objecte especificat; false en cas contrari.
+    */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Pair<?, ?> pair = (Pair<?, ?>) obj;
+
+        if (clau != null ? !clau.equals(pair.clau) : pair.clau != null) return false;
+        return valor != null ? valor.equals(pair.valor) : pair.valor == null;
+    }
 }

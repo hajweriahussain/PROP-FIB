@@ -156,16 +156,6 @@ public class CjtProductes {
     }
 
     /**
-     * Edita un producte existent.
-     * @param p Instància del producte amb les noves dades.
-     * @throws DominiException Si el producte a editar no existeix.
-     */
-    public void editarProducte(Producte p) throws DominiException {
-        Producte prod = getProducte(p.getId());
-        prod.setNom(p.getNom());
-    }
-
-    /**
      * Modifica l'identificador d'un producte.
      * @param idProd Identificador actual del producte.
      * @param nouIdProd Nou identificador del producte.
