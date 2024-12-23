@@ -43,64 +43,54 @@
                           <Component id="labelTitol" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="botoSortir" min="-2" pref="46" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
+                      <Component id="separator" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="labelProductesRegistrats" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="scrollPaneLlistaProductes" alignment="0" pref="241" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="separator" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="labelProductesRegistrats" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="scrollPaneLlistaProductes" alignment="0" pref="241" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                                  <Component id="botoImportar" min="-2" pref="90" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="botoCrear" min="-2" pref="90" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="labelNom" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="textNom" max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="labelErrorId" alignment="0" max="32767" attributes="0"/>
+                              <Component id="textId" alignment="0" max="32767" attributes="0"/>
+                              <Component id="scrollPaneSimilituds" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="labelErrorNom" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="labelErrorSimilituds" alignment="0" pref="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="botoImportar" min="-2" pref="90" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="botoCrear" min="-2" pref="90" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="labelNom" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="textNom" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Component id="labelErrorId" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="textId" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="scrollPaneSimilituds" alignment="0" max="32767" attributes="0"/>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <Component id="labelErrorNom" max="32767" attributes="0"/>
-                                          <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="labelErrorSimilituds" alignment="0" pref="0" max="32767" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="labelSimilituds" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="labelId" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="0" pref="108" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="labelSimilituds" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelId" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <EmptySpace min="0" pref="108" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace min="25" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="25" pref="25" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="labelTitol" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="botoSortir" min="-2" pref="28" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="labelTitol" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="botoSortir" alignment="0" min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="separator" min="-2" pref="10" max="-2" attributes="0"/>

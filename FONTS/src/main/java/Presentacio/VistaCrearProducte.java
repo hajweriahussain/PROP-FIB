@@ -13,13 +13,20 @@ import Exceptions.DominiException;
  *
  * @author ariadna
  */
+
+/**
+ * Classe que representa la vista per crear un nou producte dins de l'aplicació.
+ * Aquesta classe gestiona la interfície d'usuari per introduir les dades del producte,
+ * validar-les i gestionar la seva creació.
+ */
 public class VistaCrearProducte extends javax.swing.JPanel {
     
     private CtrlPresentacio cp;
     private VistaProducte vistaProducte;
 
     /**
-     * Creates new form VistaCrearProducte
+     * Constructor de la classe VistaCrearProducte.
+     * Inicialitza els components de la vista i configura els botons.
      */
     public VistaCrearProducte() {
         initComponents();
@@ -30,6 +37,9 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         configurarBotons();
     }
     
+    /**
+     * Reinicia els etiquetatges d'error i els camps d'entrada.
+     */
     private void resetLabels() {
         labelErrorId.setText("");
         labelErrorNom.setText("");
@@ -39,6 +49,12 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         precompletarAreaSimilituds();
     }
     
+    /**
+     * Analitza una cadena de similituds i la converteix en un mapa.
+     * @param similituds La cadena que conté les similituds.
+     * @return Un mapa amb les similituds associades als IDs dels productes.
+     * @throws Exception Si el format és incorrecte o si hi ha IDs duplicats.
+     */
     private Map<String, Double> parseSimilituds(String similituds) throws Exception {
         Map<String, Double> similitudMap = new HashMap<>();
 
@@ -65,6 +81,9 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         return similitudMap;
     }
     
+    /**
+     * Mostra els productes existents en una JList.
+     */
     private void mostrarProductesEnJList() {
         try {
             Map<String, Map<String, String>> productes = cp.mostrarProductes();
@@ -83,7 +102,10 @@ public class VistaCrearProducte extends javax.swing.JPanel {
             javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
-     
+    
+    /**
+     * Precompleta l'àrea de similituds amb els IDs dels productes existents.
+     */
     private void precompletarAreaSimilituds() {
         try {
             Map<String, Map<String, String>> productes = cp.mostrarProductes();
@@ -103,7 +125,10 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         }
     }
 
-    
+    /**
+     * Valida l'ID introduït pel usuari.
+     * @return true si l'ID és vàlid, false altrament.
+     */
     private boolean validarId() {
         String id = textId.getText().trim();
 
@@ -146,6 +171,10 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Valida el nom introduït pel usuari.
+     * @return true si el nom és vàlid, false altrament.
+     */
     private boolean validarNom() {
         String nom = textNom.getText().trim();
 
@@ -160,6 +189,10 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         return true;
     }
 
+    /**
+     * Valida les similituds introduïdes pel usuari.
+     * @return true si les similituds són vàlides, false altrament.
+     */
     private boolean validarSimilituds() {
         String similituds = textAreaSims.getText().trim();
         try {
@@ -203,11 +236,17 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         return false;
     }
     
+    /**
+     * Configura els botons de la vista.
+     */
     private void configurarBotons() {
         botoImportar.addActionListener(e -> importarProducteDesdeFitxer());
         botoSortir.addActionListener(e -> sortir());
     }
     
+    /**
+     * Permet a l'usuari importar un producte des d'un fitxer extern.
+     */
     private void importarProducteDesdeFitxer() {
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(this);
@@ -225,6 +264,9 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Tanca la vista actual i torna a la vista anterior.
+     */
     private void sortir() {
         if (vistaProducte != null) {
             vistaProducte.mostrarLlistaPanel();
@@ -352,49 +394,43 @@ public class VistaCrearProducte extends javax.swing.JPanel {
                     .addGroup(bgPanelLayout.createSequentialGroup()
                         .addComponent(labelTitol)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelLayout.createSequentialGroup()
+                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(separator)
+                    .addGroup(bgPanelLayout.createSequentialGroup()
+                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelProductesRegistrats)
+                            .addComponent(scrollPaneLlistaProductes, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))
+                        .addGap(64, 64, 64)
                         .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(separator, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
-                                .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelProductesRegistrats)
-                                    .addComponent(scrollPaneLlistaProductes, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))
-                                .addGap(64, 64, 64)
+                                .addComponent(botoImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
+                                .addComponent(labelNom)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textNom))
+                            .addComponent(labelErrorId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textId, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(scrollPaneSimilituds, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(bgPanelLayout.createSequentialGroup()
+                                .addComponent(labelErrorNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(69, 69, 69))
+                            .addComponent(labelErrorSimilituds, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
                                 .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
-                                        .addComponent(botoImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(botoCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
-                                        .addComponent(labelNom)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(textNom))
-                                    .addComponent(labelErrorId, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(textId, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(scrollPaneSimilituds, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(bgPanelLayout.createSequentialGroup()
-                                        .addComponent(labelErrorNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(69, 69, 69))
-                                    .addComponent(labelErrorSimilituds, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, bgPanelLayout.createSequentialGroup()
-                                        .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(labelSimilituds, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labelId, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addGap(0, 108, Short.MAX_VALUE)))))
-                        .addGap(25, 25, 25))))
+                                    .addComponent(labelSimilituds, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelId, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(0, 108, Short.MAX_VALUE)))))
+                .addGap(25, 25, 25))
         );
         bgPanelLayout.setVerticalGroup(
             bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgPanelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(bgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(bgPanelLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(labelTitol))
-                    .addGroup(bgPanelLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(labelTitol)
+                    .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(separator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
@@ -439,11 +475,19 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+    * Mètode que gestiona l'esdeveniment del clic al botó sortida,
+    * reinicia els etiquetatges i tanca la vista actual.
+    */
     private void botoSortirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoSortirMouseClicked
         resetLabels();
         sortir();
     }//GEN-LAST:event_botoSortirMouseClicked
 
+    /**
+    * Mètode que gestiona l'esdeveniment del clic al botó crear,
+    * valida les entrades i crea un nou producte si tot és correcte.
+    */
     private void botoCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botoCrearMouseClicked
         boolean idValid = validarId();
         boolean nomValid = validarNom();
@@ -469,10 +513,18 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_botoCrearMouseClicked
 
+    /**
+    * Mètode que gestiona l'esdeveniment del clic al text area de similituds,
+    * canviant el color del text quan es fa clic.
+    */
     private void textAreaSimsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textAreaSimsMousePressed
         textAreaSims.setForeground(Color.black);
     }//GEN-LAST:event_textAreaSimsMousePressed
 
+    /**
+    * Mètode que gestiona l'esdeveniment quan es guanya focus al camp ID,
+    * esborra el text per defecte si és necessari.
+    */
     private void textIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textIdFocusGained
         if (textId.getText().equals("Introdueix un identificador numèric")) {
             textId.setText("");
@@ -480,6 +532,10 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_textIdFocusGained
 
+    /**
+    * Mètode que gestiona l'esdeveniment quan es perd focus al camp ID,
+    * torna a mostrar el text per defecte si està buit.
+    */
     private void textIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textIdFocusLost
         if ((textId.getText()).isEmpty()) {
             textId.setText("Introdueix un identificador numèric");
@@ -487,6 +543,10 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_textIdFocusLost
 
+    /**
+    * Mètode que gestiona l'esdeveniment quan es guanya focus al camp Nom,
+    * esborra el text per defecte si és necessari.
+    */
     private void textNomFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNomFocusGained
         if (textNom.getText().equals("Introdueix un nom")) {
             textNom.setText("");
@@ -494,6 +554,10 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_textNomFocusGained
 
+    /**
+    * Mètode que gestiona l'esdeveniment quan es perd focus al camp Nom,
+    * torna a mostrar el text per defecte si està buit.
+    */
     private void textNomFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNomFocusLost
         if ((textNom.getText()).isEmpty()) {
             textNom.setText("Introdueix un nom");

@@ -19,6 +19,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ariadna
  */
+
+/**
+ * Classe que representa la vista dels productes dins de l'aplicació.
+ * Aquesta classe gestiona la interfície d'usuari per mostrar, crear, editar
+ * i esborrar productes, així com per gestionar les similituds i les prestatgeries.
+ */
 public class VistaProducte extends javax.swing.JPanel {
 
     private CardLayout cardLayout;
@@ -27,7 +33,8 @@ public class VistaProducte extends javax.swing.JPanel {
     private CtrlPresentacio cp;
     
     /**
-     * Creates new form VistaProducte
+     * Constructor de la classe VistaProducte.
+     * Inicialitza els components de la vista i configura els panells.
      */
     public VistaProducte() {
         cp = new CtrlPresentacio();
@@ -44,10 +51,16 @@ public class VistaProducte extends javax.swing.JPanel {
         configurarEditarPanel();
     }
     
+    /**
+     * Inicialitza el layout del panell de productes.
+     */
     public void initGridProds() {
         productPanel.setLayout(new GridLayout(0, 4, 10, 10));
     }
     
+    /**
+     * Configura el panell general amb el CardLayout.
+     */
     public void configurarPanelGeneral() {
         cardLayout = new CardLayout();
         jPanelGeneral.setLayout(cardLayout);
@@ -59,6 +72,10 @@ public class VistaProducte extends javax.swing.JPanel {
         cardLayout.show(jPanelGeneral, "llistaPanel");
     }
         
+    /**
+     * Carrega els productes en el panell de desplaçament.
+     * Actualitza la interfície d'usuari amb la informació dels productes existents.
+     */
     public void carregarProductesEnScrollPanel() {
         try {
             Map<String, Map<String, String>> prods = cp.mostrarProductes();
@@ -138,6 +155,9 @@ public class VistaProducte extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Mostra els productes existents en una JList.
+     */
     private void mostrarProductesEnJList() {
         try {
             Map<String, Map<String, String>> productes = cp.mostrarProductes();
@@ -153,6 +173,9 @@ public class VistaProducte extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Configura el panell d'edició del producte amb un layout GridBag.
+     */
     private void configurarEditarPanel() {
         editarPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -212,6 +235,9 @@ public class VistaProducte extends javax.swing.JPanel {
         editarPanel.add(botoGuardar, gbc);
     }
 
+    /**
+     * Configura les constraints per al títol de la llista de productes.
+     */
     public void titolLlistaConstraints() {
         llistaPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -239,6 +265,9 @@ public class VistaProducte extends javax.swing.JPanel {
         llistaPanel.add(panelProds, gbc);
     }
     
+    /**
+    * Configura els botons de la vista.
+    */
     private void configurarBotons() {
         botoCrear.addActionListener(e -> mostrarCrearProductePanel());
         
@@ -272,6 +301,10 @@ public class VistaProducte extends javax.swing.JPanel {
         });
     }
     
+    /**
+    * Mètode per editar un producte existent segons els valors introduïts per l'usuari.
+    * Permet modificar l'ID, el nom i les similituds del producte.
+    */
     private void editarProducte() {
         String idOriginal = textIdInfo.getText();
         String nouId = textNouId.getText();
@@ -374,6 +407,10 @@ public class VistaProducte extends javax.swing.JPanel {
         }
     }
 
+    /**
+    * Mètode per actualitzar la vista d'un producte després d'editar-lo.
+    * @param id Identificador del producte a actualitzar.
+    */
     private void actualitzarVistaProducte(String id) {
         try {
             Map<String, Map<String, String>> prods = cp.mostrarProductes();
@@ -403,6 +440,9 @@ public class VistaProducte extends javax.swing.JPanel {
         }
     }
 
+    /**
+    * Mètode per inicialitzar la taula de similituds.
+    */
     private void inicialitzarTaulaSimilituds() {
         String[] columnes = {"ID Producte", "Similitud"};
         DefaultTableModel model = new DefaultTableModel(columnes, 0) {
@@ -449,6 +489,14 @@ public class VistaProducte extends javax.swing.JPanel {
         }
     }
     
+    /**
+    * Valida si s'ha seleccionat un algoritme per al càlcul de la disposició de les prestatgeries.
+    * 
+    * Aquest mètode comprova si un dels dos botons de selecció d'algoritmes (Força Bruta o Dos Aproximació)
+    * està seleccionat. Si no ho està, mostra un missatge d'error i retorna `false`.
+    *
+    * @return `true` si s'ha seleccionat un algoritme, `false` altrament.
+    */
     private boolean validarSeleccioAlgoritme() {
         if (!rbFB.isSelected() && !rbDosA.isSelected()) {
             JOptionPane.showMessageDialog(this, "Has de seleccionar un algoritme per a recalcular la disposició de les prestatgeries.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -457,6 +505,9 @@ public class VistaProducte extends javax.swing.JPanel {
         return true;
     }
     
+    /**
+    * Mètode per esborrar un producte existent.
+    */
     private void esborrarProducte() {
         String idProd = textIdInfo.getText();
 
@@ -474,10 +525,16 @@ public class VistaProducte extends javax.swing.JPanel {
         }
     }
 
+    /**
+    * Mètode per mostrar el panell de creació de productes.
+    */
     public void mostrarCrearProductePanel() {
         cardLayout.show(jPanelGeneral, "crearProductePanel");
     }
 
+    /**
+    * Mètode per mostrar el panell de llista de productes.
+    */
     public void mostrarLlistaPanel() {
         cardLayout.show(jPanelGeneral, "llistaPanel");
         carregarProductesEnScrollPanel();
@@ -870,6 +927,10 @@ public class VistaProducte extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+    * Acció del botó "Crear".
+    * Mostra el panell de creació de productes. Si no existeix la vista de creació, la inicialitza i l'afegeix al panell general.
+    */
     private void botoCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoCrearActionPerformed
         if (vistaCrearProducte == null) {
             vistaCrearProducte = new VistaCrearProducte();
@@ -878,11 +939,19 @@ public class VistaProducte extends javax.swing.JPanel {
         cardLayout.show(jPanelGeneral, "vistaCrearProducte");
     }//GEN-LAST:event_botoCrearActionPerformed
 
+    /**
+    * Acció del botó "Sortir".
+    * Torna al panell de llista de productes.
+    */
     private void botoSortirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoSortirActionPerformed
         CardLayout cardLayout = (CardLayout) jPanelGeneral.getLayout();
         cardLayout.show(jPanelGeneral, "llistaPanel");
     }//GEN-LAST:event_botoSortirActionPerformed
 
+    /**
+    * Acció quan el camp de text per al nou identificador guanya el focus.
+    * Neteja el text predeterminat i canvia el color del text a negre.
+    */
     private void textNouIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNouIdFocusGained
         if (textNouId.getText().equals("Introdueix un nou identificador")) {
             textNouId.setText("");
@@ -890,6 +959,10 @@ public class VistaProducte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_textNouIdFocusGained
 
+    /**
+    * Acció quan el camp de text per al nou identificador perd el focus.
+    * Si el camp està buit, torna a mostrar el text predeterminat i canvia el color a gris.
+    */
     private void textNouIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNouIdFocusLost
         if (textNouId.getText().isEmpty()) {
             textNouId.setText("Introdueix un nou identificador");
@@ -897,6 +970,10 @@ public class VistaProducte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_textNouIdFocusLost
 
+    /**
+    * Acció quan el camp de text per al nou nom guanya el focus.
+    * Neteja el text predeterminat i canvia el color del text a negre.
+    */
     private void textNouNomFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNouNomFocusGained
         if (textNouNom.getText().equals("Introdueix un nou nom")) {
             textNouNom.setText("");
@@ -904,6 +981,10 @@ public class VistaProducte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_textNouNomFocusGained
 
+    /**
+    * Acció quan el camp de text per al nou nom perd el focus.
+    * Si el camp està buit, torna a mostrar el text predeterminat i canvia el color a gris.
+    */
     private void textNouNomFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textNouNomFocusLost
         if (textNouNom.getText().isEmpty()) {
             textNouNom.setText("Introdueix un nou nom");
@@ -911,6 +992,10 @@ public class VistaProducte extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_textNouNomFocusLost
 
+    /**
+    * Acció del botó "Sortir" en l'editar panel.
+    * Torna al panell d'informació del producte després d'editar-lo.
+    */
     private void botoSortirEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoSortirEditarActionPerformed
         CardLayout cardLayout = (CardLayout) jPanelGeneral.getLayout();
         cardLayout.show(jPanelGeneral, "infoPanel");

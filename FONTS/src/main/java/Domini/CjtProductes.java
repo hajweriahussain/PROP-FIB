@@ -222,6 +222,18 @@ public class CjtProductes {
             }
         }
     }
+    
+    /**
+     * Elimina la posició d'una prestatgeria específica associada a un producte.
+     * 
+     * @param idPres Identificador de la prestatgeria.
+     * @param idProd Identificador del producte.
+     * @throws DominiException Si el producte no existeix o si hi ha un error inesperat.
+     */
+    public void esborrarPosPrestatgeria(int idPres, int idProd) throws DominiException {
+        Producte prod = getProducte(idProd);
+        prod.esborrarPosPrestatgeria(idPres);
+    }
 
     /**
      * Modifica la similitud entre dos productes especificats pels seus identificadors.

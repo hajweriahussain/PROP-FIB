@@ -223,6 +223,15 @@ public class Producte {
 
         setPosPrestatgeria(idPres, novaPos);
     }
+    
+    /**
+     * Elimina la posició d'una prestatgeria específica associada a aquest producte.
+     * 
+     * @param idPres Identificador de la prestatgeria a eliminar.
+     */
+    public void esborrarPosPrestatgeria(int idPres) {
+        posPrestatgeries.remove(idPres);
+    }
 
     /**
      * Retorna una representació textual del producte.
