@@ -1,6 +1,3 @@
-DriverBruteForce.sh: Executable del driver de l'algoritme BruteForce per linux i macOS
-DriverComplet.sh: Executable del driver principal per linux i macOS
-DriverDosAproximacio.sh: Executable del driver de l'algoritme DosAproximacio per linux i macOS
 JUnit.sh: Executable dels JUnits per linux i macOS
 Domini: Directori on es guardaran els executables de les classes que es troben al directori FONTS/Domini
 Drivers: Directori on es guardaran els executables de les classes que es troben al directori FONTS/Drivers

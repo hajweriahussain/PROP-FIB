@@ -1,0 +1,3 @@
+java: Aquesta subcarpeta conté les classes Java que implementen la lògica principal del projecte.
+
+resources: Conté els recursos estàtics utilitzats pel projecte, com ara arxius JSON i imatges.

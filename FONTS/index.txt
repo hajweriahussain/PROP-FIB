@@ -1,9 +1,13 @@
-Domini: Directori on es troben les classes del domini d'aquesta entrega.
+build: Conté els fitxers relacionats amb la configuració i la construcció del projecte,
+incloent-hi els scripts per a la creació de l'arxiu final del projecte.
 
-Drivers: Directori on es troben els drivers, el driver principal, el driver de l'algorisme BruteForce i l'algoritme DosAproximacio
+gradle: Aquesta carpeta conté fitxers de configuració de Gradle, que és l'eina de 
+construcció utilitzada per gestionar les dependències i processos de construcció del projecte.
 
-JUnit: Directori on es troben els tests unitaris de les classes importants com BruteForce, DosAproximacio, Producte, CJtProductes i Prestatgeria.
+JAVADOC: Conté la documentació generada automàticament del codi font en format HTML. 
 
-lib: Directori on es troben les llibreries que hem hagut de fer servir per fer els tests unitaris.
+lib: Aquesta carpeta conté les llibreries externes utilitzades pel projecte.
 
-make.sh: Executable que compila el projecte per linux i macOS.
+src: Conté el codi font del projecte. És on es troben les classes, mètodes i funcions.
+
+

@@ -1,0 +1,3 @@
+img: es troben les imatges que hem utilitzat en les vistes del projecte
+
+persistencia: conté els arxius JSON

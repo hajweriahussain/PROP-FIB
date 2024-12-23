@@ -1,0 +1,4 @@
+CtrlPersistencia: Aquesta classe es on s'implementa el controlador de persistencia que es comunica amb la resta de la persistencia i el CtrlDomini
+GestorCjtPrestatgeries: Aquesta classe es l'encarregada de guardar i importar les prestatgeries que un usuari pugui tenir
+GestorCjtProductes: Aquesta classe es l'encarregada de guardar i importar els productes que un usuari pugui tenir
+GestorUsuaris: Aquesta classe es l'encarregada de guardar tots els usuaris que es resgistrin

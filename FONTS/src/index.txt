@@ -1,0 +1,3 @@
+main: Conté el codi principal del projecte, les classes i funcionalitats que implementen la lògica del projecte. 
+
+test: Conté les classes de prova per garantir que el codi funciona correctament. 

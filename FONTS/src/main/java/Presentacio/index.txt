@@ -1,0 +1,15 @@
+VistaMenuInici: Representa la vista del menú inicial, punt d'entrada per a l'usuari dins de l'aplicació.
+
+VistaLogIn: Permet a l'usuari iniciar sessió al sistema mitjançant les seves credencials.
+
+VistaSignUp: Permet a l'usuari registrar-se al sistema mitjançant un formulari de creació de compte.
+
+VistaMenuUsuari: Representa el menú principal per als usuaris autenticats, amb accés a diverses funcionalitats.
+
+VistaProducte: Permet la visualització i gestió dels productes dins del sistema.
+
+VistaCrearProducte: Permet a l'usuari crear nous productes a través d'un formulari.
+
+VistaPrestatgeria: Permet a l'usuari veure i gestionar les prestatgeries dins del sistema.
+
+VistaCrearPrestatgeria: Permet la creació d'una nova prestatgeria dins del sistema.

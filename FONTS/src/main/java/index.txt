@@ -1,0 +1,7 @@
+Domini: Conté les classes que representen el model de dades i la lògica del projecte.
+
+Exceptions: Conté les classes que defineixen les excepcions personalitzades que s'utilitzen per gestionar errors específics dins del projecte.
+
+Persistencia: Aquesta subcarpeta conté les classes relacionades amb l'emmagatzematge i la recuperació de dades.
+
+Presentacio: Conté les classes relacionades amb la interfície d'usuari i la presentació de dades.

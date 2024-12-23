@@ -1,13 +1,12 @@
-AlgoritmesIEstructuresDeDades: Arxiu on estan explicades les estructures de dades i els algorismes implementats en el sistema.
-
 ClassesImplementades: Arxiu on es troben les relacions de les classes que ha implementat cada membre del grup.
 
-ConsideracionsDelSistema: Arxiu on hem comentat les consideracions de disseny d'aquesta entrega i diferents consideracions de la implementacio.
-
-Descripcio dels casos d'us: Arxiu on es troba la descripcio dels casos d'us del nostre sistema.
-
-DescripcioClasses: Arxiu on es troba la descripcio de les classes implementades en aquesta entrega.
+Documentació PROP41.1: documentació general de tot el projecte, on està explicat: descripció de casos d'us, algoritmes
+i estructura de dades, descripció de les classes...
 
 Diagrama casos d'us: Imatge png on es troba el diagrama de casos d'us del nostre sistema.
 
 Diagrama de classes: Imatge png on es troba el diagrama de classes del nostre sistema.
+
+Diagrama de vistes: Imatge png on es troba el diagrama de vistes del nostre sistema.
+
+Diagrama de persistencia: Imatge png on es troba el diagrama de persistencia del nostre sistema.
