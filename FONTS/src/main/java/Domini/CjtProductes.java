@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
-import java.util.Set;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 
 /**
  * Classe que representa un conjunt de productes gestionats per un usuari.
@@ -30,10 +31,11 @@ public class CjtProductes {
     }
 
     /**
-     * Retorna el mapa de productes si el nom d'usuari és vàlid.
-     * @param nomUsuari Nom de l'usuari que sol·licita el mapa.
-     * @return Mapa de productes o null si l'usuari no és vàlid.
-     */
+    * Retorna el mapa de productes si el nom d'usuari és vàlid.
+    * @param nomUsuari Nom de l'usuari que sol·licita el mapa.
+    * @return Mapa de productes.
+    * @throws DominiException Si l'usuari no és vàlid.
+    */
     public Map<Integer, Producte> getProductes(String nomUsuari) throws DominiException {
         if (nomUsuari != null && usuari.equals(nomUsuari)) {
             return productes;
@@ -45,7 +47,8 @@ public class CjtProductes {
     /**
      * Obté un producte específic pel seu identificador.
      * @param idProd Identificador del producte.
-     * @return El producte corresponent o null si no existeix.
+     * @return El producte corresponent.
+     * @throws DominiException Si no existeix un producte amb l'identificador especificat.
      */
     public Producte getProducte(int idProd) throws DominiException {
         Producte producte = productes.get(idProd);
@@ -59,7 +62,8 @@ public class CjtProductes {
      * Obté la posició d'un producte en una prestatgeria específica.
      * @param idProd Identificador del producte.
      * @param idPres Identificador de la prestatgeria.
-     * @return La posició del producte a la prestatgeria o null si no existeix.
+     * @return La posició del producte a la prestatgeria.
+     * @throws DominiException Si el producte no existeix o no té una posició assignada a la prestatgeria especificada.
      */
     public Pair<Integer, Integer> getPosProducte(int idProd, int idPres) throws DominiException {
         Producte prod = getProducte(idProd);
@@ -82,6 +86,7 @@ public class CjtProductes {
      * Obté les posicions de totes les prestatgeries associades a un producte.
      * @param idProd Identificador del producte.
      * @return Mapa de posicions per prestatgeria del producte.
+     * @throws DominiException Si el producte amb l'identificador especificat no existeix.
      */
     public Map<Integer, Pair<Integer, Integer>> getPosPrestatgeriesProducte(int idProd) throws DominiException {
         Producte prod = getProducte(idProd);
@@ -106,6 +111,18 @@ public class CjtProductes {
         return productes.containsKey(idProd);
     }
     
+    /**
+    * Comprova si el mapa de similituds conté tots els productes existents.
+    * 
+    * Aquest mètode verifica que per a cada producte del sistema, existeixi una entrada
+    * corresponent al mapa de similituds proporcionat. Si falta alguna similitud,
+    * es llança una excepció.
+    *
+    * @param mapSims Un mapa que conté les similituds entre productes. 
+    *                La clau és l'ID del producte i el valor és la similitud.
+    * @throws DominiException Si falta la similitud per a algun producte existent al sistema.
+    *                         El missatge de l'excepció inclourà l'ID del producte que falta.
+    */
     public void comprovarSims(Map<Integer, Double> mapSims) throws DominiException {
         for (Integer id : productes.keySet()) {
             if (!mapSims.containsKey(id)) {
@@ -116,10 +133,13 @@ public class CjtProductes {
 
     /**
      * Afegeix un nou producte al conjunt.
-     * @param id Identificador del producte.
-     * @param nom Nom del producte.
-     * @param similituds Mapa de similituds del producte amb altres productes.
-     */
+    * També actualitza les similituds dels altres productes amb aquest nou producte.
+    *
+    * @param id Identificador del producte.
+    * @param nom Nom del producte.
+    * @param similituds Mapa de similituds del producte amb altres productes.
+    * @throws DominiException Si hi ha un error en afegir el producte o actualitzar les similituds.
+    */
     public void afegirProducte(int id, String nom, Map<Integer, Double> similituds) throws DominiException {
         Producte p = new Producte(id, nom, similituds);
         productes.put(p.getId(), p);
@@ -138,6 +158,7 @@ public class CjtProductes {
     /**
      * Edita un producte existent.
      * @param p Instància del producte amb les noves dades.
+     * @throws DominiException Si el producte a editar no existeix.
      */
     public void editarProducte(Producte p) throws DominiException {
         Producte prod = getProducte(p.getId());
@@ -148,6 +169,7 @@ public class CjtProductes {
      * Modifica l'identificador d'un producte.
      * @param idProd Identificador actual del producte.
      * @param nouIdProd Nou identificador del producte.
+     * @throws DominiException Si el producte original no existeix o si el nou ID ja està en ús.
      */
     public void editarIdProducte(int idProd, int nouIdProd) throws DominiException {
         Producte prod = getProducte(idProd);
@@ -169,6 +191,7 @@ public class CjtProductes {
      * Modifica el nom d'un producte.
      * @param idProd Identificador del producte.
      * @param nouNom Nou nom a assignar al producte.
+     * @throws DominiException Si el producte amb l'identificador especificat no existeix.
      */
     public void editarNomProducte(int idProd, String nouNom) throws DominiException {
         Producte prod = getProducte(idProd);
@@ -180,6 +203,7 @@ public class CjtProductes {
      * @param idProd Identificador del producte.
      * @param idPres Identificador de la prestatgeria.
      * @param novaPos Nova posició a assignar.
+     * @throws DominiException Si el producte no existeix o si hi ha un error en modificar la posició.
      */
     public void editarPosProducte(int idProd, int idPres, Pair<Integer, Integer> novaPos) throws DominiException {
         Producte prod = getProducte(idProd);
@@ -205,6 +229,7 @@ public class CjtProductes {
      * @param idProd1 Identificador del primer producte.
      * @param idProd2 Identificador del segon producte.
      * @param novaSimilitud Nou valor de la similitud entre els productes.
+     * @throws DominiException Si algun dels productes especificats no existeix.
      */
     public void modificarSimilitud(int idProd1, int idProd2, double novaSimilitud) throws DominiException {
         Producte prod1 = getProducte(idProd1);
@@ -218,8 +243,9 @@ public class CjtProductes {
      * Retorna les similituds associades a un producte donat el seu identificador.
      * 
      * @param idProd Identificador del producte.
-     * @return Mapa de similituds amb altres productes o null si el producte no existeix.
-     */
+     * @return Mapa de similituds amb altres productes.
+     * @throws DominiException Si el producte amb l'identificador especificat no existeix.
+    */
     public Map<Integer, Double> getSimilituds(int idProd) throws DominiException {
         Producte prod = getProducte(idProd);
         return prod.getSimilituds();
@@ -255,6 +281,7 @@ public class CjtProductes {
      * 
      * @param idsProds Array d'identificadors dels productes per incloure a la matriu.
      * @return Matriu de similituds corresponent als productes especificats.
+     * @throws DominiException Si algun dels IDs proporcionats no correspon a un producte existent.
      */
     public double[][] getMatriuSimilitudsPerIds(int[] idsProds) throws DominiException {
         int n = idsProds.length;
@@ -278,7 +305,8 @@ public class CjtProductes {
      * Converteix un array bidimensional d'IDs de productes en una matriu d'objectes Producte.
      * 
      * @param idsProds Matriu d'IDs dels productes.
-     * @return Matriu d'objectes Producte corresponents o null si els IDs són nuls.
+     * @return Matriu d'objectes Producte corresponents.
+     * @throws DominiException Si algun dels IDs proporcionats no correspon a un producte existent.
      */
     public Producte[][] getMatProductes(Integer[][] idsProds) throws DominiException {
         if (idsProds == null) return null;
@@ -312,6 +340,7 @@ public class CjtProductes {
      * 
      * @param producteJsonList Llista de cadenes JSON que representen productes.
      * @return Mapa d'identificadors de productes als seus objectes Producte corresponents.
+     * @throws DominiException Si hi ha un error en el format o en processar el JSON.
      */
     public Map<Integer, Producte> listToProductes(List<String> producteJsonList) throws DominiException {
         Gson gson = new Gson();
@@ -319,7 +348,8 @@ public class CjtProductes {
 
         for (String jsonProducte : producteJsonList) {
             try {
-                Map<String, Object> producteData = gson.fromJson(jsonProducte, Map.class);
+                Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
+                Map<String, Object> producteData = gson.fromJson(jsonProducte, mapType);
 
                 int id = Integer.parseInt((String) producteData.get("id"));
                 String nom = (String) producteData.get("nom");
@@ -367,6 +397,7 @@ public class CjtProductes {
      * 
      * @param productes Mapa de productes a convertir.
      * @return Llista de cadenes JSON que representen els productes.
+     * @throws DominiException Si hi ha un error en la conversió d'algun producte a JSON.
      */
     public List<String> productesToList(Map<Integer, Producte> productes) throws DominiException {
         Gson gson = new Gson();
@@ -395,6 +426,7 @@ public class CjtProductes {
      * Llista tots els productes d'un usuari en format JSON.
      * 
      * @return Mapa amb la informació dels productes en format JSON.
+     * @throws DominiException Si hi ha un error en la conversió d'algun producte a JSON.
      */
     public Map<String, Map<String, String>> llistarProductesUsuari() throws DominiException {
         Map<String, Map<String, String>> llistatProductes = new HashMap<>();
