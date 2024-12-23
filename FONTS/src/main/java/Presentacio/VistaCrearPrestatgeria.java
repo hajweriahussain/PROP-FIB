@@ -343,6 +343,11 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         });
 
         btnBF.setText("Força Bruta");
+        btnBF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBFActionPerformed(evt);
+            }
+        });
 
         panelGrid.setBackground(new java.awt.Color(255, 255, 255));
         panelGrid.setLayout(new java.awt.GridLayout(1, 0));
@@ -561,6 +566,10 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
             colstxt.setForeground(Color.GRAY);
         }
     }//GEN-LAST:event_colstxtFocusLost
+
+    private void btnBFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBFActionPerformed
+        JOptionPane.showMessageDialog(this, "Si us plau tingues en compte que l'algoritme de força bruta funciona eficientment només per a prestatgeries amb menys de 13 productes", "ID Duplicat", JOptionPane.WARNING_MESSAGE);
+    }//GEN-LAST:event_btnBFActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

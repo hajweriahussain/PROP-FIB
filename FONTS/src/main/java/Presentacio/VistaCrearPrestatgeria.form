@@ -287,6 +287,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="For&#xe7;a Bruta"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBFActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="panelProductos">
 

@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import com.google.gson.Gson;
 import Exceptions.DominiException;
+import java.util.stream.Collectors;
 
 public class CjtPrestatgeries {
     private String user;
@@ -215,22 +216,44 @@ public class CjtPrestatgeries {
      * @param prestatgeriesMap Mapa d'ID a prestatgeria.
      * @return Llista de JSONs amb les dades de les prestatgeries.
      */
-    public List<String> prestatgeriesToList(Map<Integer, Prestatgeria> prestatgeriesMap) {
+    public List<String> prestatgeriesToList(Map<Integer, Prestatgeria> prestatgeriesMap) throws DominiException {
         Gson gson = new Gson();
         List<String> prestatgeriaList = new ArrayList<>();
 
         if (prestatgeriesMap != null) {
             for (Prestatgeria prestatgeria : prestatgeriesMap.values()) {
-                Map<String, Object> prestatgeriaData = Map.of(
-                    "id", prestatgeria.getId(),
-                    "nom", prestatgeria.getNom(),
-                    "numFilas", prestatgeria.getNumFilas(),
-                    "numColumnas", prestatgeria.getNumColumnas(),
-                    "productes", prestatgeria.getProductes(),
-                    "layout", prestatgeria.getDisp()
-                );
-                String jsonPrestatgeria = gson.toJson(prestatgeriaData);
-                prestatgeriaList.add(jsonPrestatgeria);
+                try {
+                    // Convertir productes a una lista de Strings
+                    Set<String> productesAsString = prestatgeria.getProductes()
+                            .stream()
+                            .map(String::valueOf) // Convertir cada producto a String
+                            .collect(Collectors.toSet());
+
+                    // Convertir disp a una lista serializable correctamente
+                    List<List<Map<String, String>>> dispAsString = prestatgeria.getDisp()
+                            .stream()
+                            .map(fila -> fila.stream()
+                            .map(pair -> Map.of(
+                            "key", pair.clau, // key como String
+                            "value", String.valueOf(pair.valor) // value como String
+                    )).collect(Collectors.toList())).collect(Collectors.toList());
+
+                    // Crear el mapa con los datos de la prestatgeria
+                    Map<String, Object> prestatgeriaData = Map.of(
+                            "id", String.valueOf(prestatgeria.getId()), // Asegurar que id sea String
+                            "nom", prestatgeria.getNom(),
+                            "numFilas", prestatgeria.getNumFilas(),
+                            "numColumnas", prestatgeria.getNumColumnas(),
+                            "productes", productesAsString,
+                            "layout", dispAsString
+                    );
+
+                    // Convertir el mapa a JSON
+                    String jsonPrestatgeria = gson.toJson(prestatgeriaData);
+                    prestatgeriaList.add(jsonPrestatgeria);
+                }catch (Exception e) {
+                    throw new DominiException("Error al guardar la prestatgeria amb ID " + prestatgeria.getId() + ": " + e.getMessage());
+                }
             }
         }
         return prestatgeriaList;

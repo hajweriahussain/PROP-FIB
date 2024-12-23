@@ -447,8 +447,13 @@ public class CtrlDomini {
      *
      * @return Llista de cadenes JSON representant les prestatgeries.
      */
-    public List<String> prestatgeriesToList(){
-        return cjtPrestatgeries.prestatgeriesToList(cjtPrestatgeries.getConjPrestatges(UsuariActual.getUsername()));
+    public List<String> prestatgeriesToList() {
+        try{
+            return cjtPrestatgeries.prestatgeriesToList(cjtPrestatgeries.getConjPrestatges(UsuariActual.getUsername()));
+        } catch (DominiException e){
+            System.out.println("Error al guardar les prestatgeris del usuari.");
+        }
+        return new ArrayList<>();
     }
     
     /**

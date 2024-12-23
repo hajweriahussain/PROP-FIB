@@ -228,7 +228,6 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
             selectedLabel2 = label;
             label.setBackground(Color.YELLOW); // Marcar como seleccionada
         } else {
-            // Deseleccionar si ya están ambas seleccionadas
             if (label == selectedLabel1) {
                 selectedLabel1.setBackground(new Color(0xf3d9b1));
                 selectedLabel1 = null;
@@ -247,9 +246,6 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
             String idProducto1 = (texto1.split(":")[1]);
             String idProducto2 = (texto2.split(":")[1]);
             String idPrestatgeria = idPres.getText();
-//            // Intercambiar texto
-//            selectedLabel1.setText(texto2);
-//            selectedLabel2.setText(texto1);
 
             // Resetear selección
             selectedLabel1.setBackground(new Color(0xf3d9b1));
@@ -429,7 +425,6 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        // TODO add your handling code here:
 //        if (vistaCrear == null) {
 //            vistaCrear = new VistaCrearPrestatgeria(); // Instancia de tu JPanel externo
 //            bg.add(vistaCrear, "VistaCrear");          // Agregar al CardLayout
@@ -439,26 +434,27 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
 //        cardLayout.show(bg, "VistaCrear");
 
         try{
-            if (cp.mostrarProductes() != null){
+            if (cp.mostrarProductes() != null && !cp.mostrarProductes().isEmpty()){
                 if (vistaCrear == null) {
                     vistaCrear = new VistaCrearPrestatgeria();
                     bg.add(vistaCrear, "vistaCrear");
                 }
                 cardLayout.show(bg, "vistaCrear");
+                
+            }else {
+                 JOptionPane.showMessageDialog(this, "No hi ha productes disponibles. Si us plau, crea un producte per a poder crear una prestatgeria.", "No tens productes" , JOptionPane.WARNING_MESSAGE);
             }
         }
         catch(DominiException e){
-             JOptionPane.showMessageDialog(this, "No hi ha productes disponibles. Si us plau, crea un producte per a poder crear una prestatgeria.", "No tens productes" + e.getMessage(), JOptionPane.WARNING_MESSAGE);
+             JOptionPane.showMessageDialog(this, "S'ha produit un error.", "." + e.getMessage(), JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
         cardLayout.show(bg, "Page1");
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
         String id = idPres.getText();
 
         int confirmacio = JOptionPane.showConfirmDialog(this, "Estàs segur que vols esborrar la prestatgeria amb ID " + id + "?", "Confirmar esborrat", JOptionPane.YES_NO_OPTION);
@@ -476,7 +472,6 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnIntercambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIntercambiarActionPerformed
-        // TODO add your handling code here:
         intercanviarDosProductes();
     }//GEN-LAST:event_btnIntercambiarActionPerformed
 
