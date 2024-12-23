@@ -32,7 +32,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="leftPanel" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="content" pref="802" max="32767" attributes="0"/>
+              <Component id="content" pref="803" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -41,7 +41,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="leftPanel" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
-              <Component id="content" pref="809" max="32767" attributes="0"/>
+              <Component id="content" pref="834" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -63,7 +63,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="titol2" max="32767" attributes="0"/>
-                      <Component id="titol1" pref="196" max="32767" attributes="0"/>
+                      <Component id="titol1" pref="198" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <Component id="botoEstanterias" alignment="0" max="32767" attributes="0"/>
@@ -98,7 +98,7 @@
                   <Component id="jButton1" min="-2" pref="70" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="botoTancarSessio" min="-2" pref="63" max="-2" attributes="0"/>
-                  <EmptySpace pref="321" max="32767" attributes="0"/>
+                  <EmptySpace pref="346" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -251,7 +251,7 @@
               <Color blue="c8" green="ff" red="c8" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Microsoft JhengHei UI" size="18" style="1"/>
+              <Font name="Microsoft JhengHei UI" size="18" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/user3.png"/>
@@ -281,7 +281,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="802" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="803" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">

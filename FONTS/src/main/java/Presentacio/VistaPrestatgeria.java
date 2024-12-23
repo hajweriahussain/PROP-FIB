@@ -129,7 +129,6 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
             }
 
         panelGrid.removeAll();
-//        try{
         if(pres != null) {
             for (String id : pres.keySet()) {
                 String nom = pres.get(id).get("nom"); 
@@ -149,9 +148,6 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
             panelGrid.repaint();
             panelPres.setViewportView(panelGrid);
         }
-//        }catch (DominiException e) {
-//            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + e.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
-//        }
     }
     
     public void mostrarDispEnPage2(String layout) {
@@ -384,18 +380,20 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
                     .addGroup(page2Layout.createSequentialGroup()
                         .addGroup(page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(page2Layout.createSequentialGroup()
-                                .addComponent(title2)
-                                .addGap(18, 18, 18)
-                                .addComponent(idPres))
-                            .addComponent(gridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 788, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(gridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 788, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(page2Layout.createSequentialGroup()
+                                .addComponent(btnBack)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnIntercambiar)
+                                .addGap(55, 55, 55)
+                                .addComponent(btnEliminar)))
+                        .addGap(6, 6, 6))
                     .addGroup(page2Layout.createSequentialGroup()
-                        .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnIntercambiar)
-                        .addGap(55, 55, 55)
-                        .addComponent(btnEliminar)))
-                .addGap(6, 6, 6))
+                        .addComponent(title2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(idPres)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         page2Layout.setVerticalGroup(
             page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,12 +403,12 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
                     .addComponent(btnBack)
                     .addComponent(btnEliminar)
                     .addComponent(btnIntercambiar))
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(title2)
                     .addComponent(idPres))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(gridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
