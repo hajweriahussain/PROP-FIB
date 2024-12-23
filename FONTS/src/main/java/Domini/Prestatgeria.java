@@ -13,9 +13,8 @@ import java.util.Set;
  * organitzats en files i columnes. Permet gestionar productes, actualitzar
  * el layout i intercanviar productes.
  * 
- * @author [El teu nom]
+ * @author [hajweria.hussain]
  * @version 1.0
- * @since 2024
  */
 public class Prestatgeria {
     private LinkedList<Producte[]> layout;
@@ -28,14 +27,14 @@ public class Prestatgeria {
     
 
     /**
-    * Constructor per crear una prestatgeria amb les configuracions inicials.
-    * 
-    * @param id L'identificador únic de la prestatgeria.
-    * @param nom El nom de la prestatgeria.
-    * @param filas El nombre de files de la prestatgeria.
-    * @param columnas El nombre de columnes de la prestatgeria.
-    * @param productes Un conjunt d'identificadors dels productes presents a la prestatgeria.
-    */
+     * Constructor per crear una prestatgeria amb les configuracions inicials.
+     * 
+     * @param id         L'identificador únic de la prestatgeria.
+     * @param nom        El nom de la prestatgeria.
+     * @param filas      El nombre de files de la prestatgeria.
+     * @param columnas   El nombre de columnes de la prestatgeria.
+     * @param productes  Un conjunt d'identificadors dels productes presents a la prestatgeria.
+     */
     public Prestatgeria(int id, String nom,  int filas, int columnas, Set<Integer> productes){
     	if (id <= 0) {
             System.out.println("L'ID ha de ser un valor positiu.");
@@ -69,14 +68,14 @@ public class Prestatgeria {
             layout.add(new Producte[this.numColumnas]);
         }
     }
-    /**
-    * Obté un prestatge (fila) de la prestatgeria.
-    * 
-    * @param indexFila L'índex de la fila que es vol obtenir.
-    * @return Un array de productes corresponent a la fila especificada,
-    *         o null si l'índex està fora de rang.
-    */
     
+    /**
+     * Obté un prestatge (fila) de la prestatgeria.
+     * 
+     * @param indexFila L'índex de la fila que es vol obtenir.
+     * @return Un array de productes corresponent a la fila especificada,
+     *         o null si l'índex està fora de rang.
+     */
     public Producte[] getPrestatge(int indexFila) {
         if (indexFila < 0 || indexFila >= layout.size()) {
             System.out.println("Error: Índex fora de rang.");
@@ -86,10 +85,10 @@ public class Prestatgeria {
     }
     
     /**
-    * Obté l'identificador únic de la prestatgeria.
-    * 
-    * @return L'ID de la prestatgeria.
-    */
+     * Obté l'identificador únic de la prestatgeria.
+     * 
+     * @return L'ID de la prestatgeria.
+     */
     public int getId() {
         return id;
     }

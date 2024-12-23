@@ -12,6 +12,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Classe CtrlDomini
+ * 
+ * Aquesta classe actua com a controlador principal per a la gestió de la lògica de domini
+ * de l'aplicació. Gestiona usuaris, productes i prestatgeries, i coordina la comunicació
+ * amb la capa de persistència. Implementa el patró Singleton.
+ * @author [hajweria.hussain]
+ * @version 1.0
+ */
+
 public class CtrlDomini {
     private Usuari UsuariActual;
     private CjtProductes cjtProductes;
@@ -110,20 +120,24 @@ public class CtrlDomini {
 
         for (int i = 0; i < solucio.length; i++) {
             for(int j = 0; j < solucio[0].length; ++j){
-                Pair<Integer, Integer> p = new Pair<>(i, j);
-                cjtProductes.editarPosProducte(solucio[i][j], id, p);
+                if(solucio[i][j] != null){
+                    Pair<Integer, Integer> p = new Pair<>(i, j);
+                    cjtProductes.editarPosProducte(solucio[i][j], id, p);
+                }
             }
         }
     }
 
     public void crearPrestatgeria(int id, String nom, int numCols, Set<Integer> productes, Boolean bruteForce) throws DominiException{
-    	if (cjtProductes == null || cjtProductes.getVecProductes().length == 0) {
-            System.out.println("Error: No hi ha productes per crear la prestatgeria.");
-            return;
+    	if (productes.isEmpty()){
+            throw new DominiException("Error: No s'han seleccionat productes");
         }
         
         int numProductes = productes.size();
         int numFilas = numProductes / numCols;
+        if (numFilas == 0){
+            if (numCols != numProductes) throw new DominiException("Error: Num columnes no valid");
+        }
         cjtPrestatgeries.crearPrestatgeria(id, nom, numFilas, numCols, productes);
         obtenirLayout(id, productes,bruteForce, numCols);
     }
@@ -243,7 +257,6 @@ public class CtrlDomini {
             ));
         
         cjtProductes.comprovarSims(mapSims);
-        // Crear el producto con los datos procesados
         crearProducte(idProd, prodInfo.get(1), mapSims);
        
     }
@@ -263,7 +276,6 @@ public class CtrlDomini {
     }
     
     public List<String> prestatgeriesToList(){
-        //   ARREGLAR, FALTA FUNCION
         return cjtPrestatgeries.prestatgeriesToList(cjtPrestatgeries.getConjPrestatges(UsuariActual.getUsername()));
     }
     
