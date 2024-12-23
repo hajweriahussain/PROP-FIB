@@ -1,0 +1,94 @@
+{
+  "8": {
+    "id": "8",
+    "nom": "choco",
+    "similituds": {
+      "6": 0.1,
+      "7": 0.4,
+      "9": 0.4
+    },
+    "posPrestatgeries": {
+      "3": {
+        "clau": 1,
+        "valor": 0
+      },
+      "4": {
+        "clau": 0,
+        "valor": 1
+      },
+      "9": {
+        "clau": 0,
+        "valor": 0
+      }
+    }
+  },
+  "9": {
+    "id": "9",
+    "nom": "agua",
+    "similituds": {
+      "6": 0.3,
+      "7": 0.3,
+      "8": 0.4
+    },
+    "posPrestatgeries": {
+      "3": {
+        "clau": 0,
+        "valor": 1
+      },
+      "4": {
+        "clau": 1,
+        "valor": 1
+      },
+      "9": {
+        "clau": 0,
+        "valor": 1
+      }
+    }
+  },
+  "6": {
+    "id": "6",
+    "nom": "patats",
+    "similituds": {
+      "7": 0.1,
+      "8": 0.1,
+      "9": 0.3
+    },
+    "posPrestatgeries": {
+      "3": {
+        "clau": 1,
+        "valor": 0
+      },
+      "4": {
+        "clau": 1,
+        "valor": 0
+      },
+      "9": {
+        "clau": 0,
+        "valor": 0
+      }
+    }
+  },
+  "7": {
+    "id": "7",
+    "nom": "calabaza",
+    "similituds": {
+      "6": 0.1,
+      "8": 0.4,
+      "9": 0.3
+    },
+    "posPrestatgeries": {
+      "3": {
+        "clau": 0,
+        "valor": 0
+      },
+      "4": {
+        "clau": 0,
+        "valor": 0
+      },
+      "9": {
+        "clau": 1,
+        "valor": 0
+      }
+    }
+  }
+}

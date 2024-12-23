@@ -72,7 +72,11 @@ public class CtrlDomini {
      * @throws DominiException Si ocorre un error en el procés.
      */
     public void listToPrestatgeries(List<String> presJsonList) throws DominiException {
-        cjtPrestatgeries.setMapPrestatgeries(cjtPrestatgeries.listToPrestatgeries(presJsonList));
+        try{
+            cjtPrestatgeries.setMapPrestatgeries(cjtPrestatgeries.listToPrestatgeries(presJsonList));
+        }catch(DominiException e){
+            throw new DominiException("Error al guarda la estanteria " + e.getMessage());
+        }
         //ARREGLAR, tiene que devolver lo que devuelve la funcion de productos, y necesito un setMapPrestatgeries.
     }
     
@@ -87,7 +91,11 @@ public class CtrlDomini {
         cjtProductes = new CjtProductes(username);
         listToProductes(cp.importarProductes(username));
         cjtPrestatgeries = new CjtPrestatgeries(username);
-        listToPrestatgeries(cp.importarPrestatgeries(username)); //ARREGLAR es importar prestatgeries, PLURAL
+        try{
+            listToPrestatgeries(cp.importarPrestatgeries(username)); //ARREGLAR es importar prestatgeries, PLURAL
+        }catch(DominiException e){
+            throw new DominiException("Error al guardarrrrr la estanteria " + e.getMessage());
+        }
         UsuariActual = new Usuari(username, pwd);
     }
     
@@ -295,11 +303,12 @@ public class CtrlDomini {
             System.out.println("Error: No hi ha cap prestatgeria per modificar.");
             return;
         }
-        Pair<Integer, Integer> pos1 = cjtProductes.getPosProducte(id, idp1);
-        Pair<Integer, Integer> pos2 = cjtProductes.getPosProducte(id, idp2);
+        Pair<Integer, Integer> pos1 = cjtProductes.getPosProducte(idp1, id);
+        Pair<Integer, Integer> pos2 = cjtProductes.getPosProducte(idp2, id);
+        System.out.println("pos1 " + pos1 + " " + " pos2 " + pos2);
         cjtPrestatgeries.intercanviarDosProductes(id, pos1.clau, pos1.valor, pos2.clau, pos2.valor);
-        cjtProductes.editarPosProducte(id, idp1, pos2);
-        cjtProductes.editarPosProducte(id, idp2, pos1);
+//        cjtProductes.editarPosProducte(idp1, id, pos2);
+//        cjtProductes.editarPosProducte(idp2, id, pos1);
     }
     
     /**
@@ -447,13 +456,12 @@ public class CtrlDomini {
      *
      * @return Llista de cadenes JSON representant les prestatgeries.
      */
-    public List<String> prestatgeriesToList() {
+    public List<String> prestatgeriesToList() throws DominiException{
         try{
             return cjtPrestatgeries.prestatgeriesToList(cjtPrestatgeries.getConjPrestatges(UsuariActual.getUsername()));
         } catch (DominiException e){
-            System.out.println("Error al guardar les prestatgeris del usuari.");
+            throw new DominiException("Error al guardar les prestatgeries del usuari." + e.getMessage());
         }
-        return new ArrayList<>();
     }
     
     /**

@@ -73,10 +73,12 @@ public class GestorCjtProductes {
                     if (posPrestatgeriesObj != null && !posPrestatgeriesObj.isEmpty()) {
                         for (Object posKey : posPrestatgeriesObj.keySet()) {
                             String posId = (String) posKey;
-                            JSONArray posArray = (JSONArray) posPrestatgeriesObj.get(posId);
-                            if (posArray.size() == 2) { // Asegúrate de que hay dos elementos
-                                int fila = Integer.parseInt(posArray.get(0).toString());
-                                int columna = Integer.parseInt(posArray.get(1).toString());
+                            JSONObject posObject = (JSONObject) posPrestatgeriesObj.get(posId);
+
+                            // Asegúrate de que contiene las claves "clau" y "valor"
+                            if (posObject.containsKey("clau") && posObject.containsKey("valor")) {
+                                int fila = Integer.parseInt(posObject.get("clau").toString());
+                                int columna = Integer.parseInt(posObject.get("valor").toString());
                                 posPrestatgeriesMap.put(posId, new Pair<>(fila, columna));
                             }
                         }
@@ -93,7 +95,7 @@ public class GestorCjtProductes {
         } catch (ParseException e) {
             throw new PersistenciaException("Error en parsear l'arxiu JSON: " + e.getMessage());
         } catch (Exception e) {
-            throw new PersistenciaException("Error inesperat: " + e.getMessage());
+            throw new PersistenciaException("Error inesperatttttttttt: " + e.getMessage());
         }
 
         return productes;

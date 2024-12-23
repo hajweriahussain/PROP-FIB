@@ -217,9 +217,9 @@ public class Producte {
      * @param novaPos nova parella (x, y) de coordenades.
      */
     public void modificarPosPrestatgeria(int idPres, Pair<Integer, Integer> novaPos) {
-        if (!posPrestatgeries.containsKey(idPres)) {
-            System.err.println("Error: El producte no es troba a la prestatgeria amb id: " + idPres);
-        }
+//        if (!posPrestatgeries.containsKey(idPres)) {
+//            System.err.println("Error: El producte no es troba a la prestatgeria amb id: " + idPres);
+//        }
 
         setPosPrestatgeria(idPres, novaPos);
     }

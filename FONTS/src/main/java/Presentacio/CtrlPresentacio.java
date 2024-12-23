@@ -264,7 +264,11 @@ public class CtrlPresentacio {
      * @throws PersistenciaException Si hi ha un error de persistència.
      */
     public void realizarLogin(String username, String pwd) throws DominiException, PersistenciaException {
-        ctrlDomini.iniciarSessio(username, pwd);
+        try{
+            ctrlDomini.iniciarSessio(username, pwd);
+        } catch(DominiException e){
+            throw new DominiException("Error al carregar la estanteria en presentacion " + e.getMessage());
+        }
     }
 
     /**
@@ -321,7 +325,11 @@ public class CtrlPresentacio {
      * @throws DominiException Si hi ha un error en tancar la sessió.
      */
     public void logout() throws PersistenciaException, DominiException {
-        ctrlDomini.tancarSessio();
+        try{
+            ctrlDomini.tancarSessio();
+        }catch(DominiException e){
+            throw new DominiException("Error al guardar la estanteria presen " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {

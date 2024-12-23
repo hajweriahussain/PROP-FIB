@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import com.google.gson.Gson;
 import Exceptions.DominiException;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import java.util.stream.Collectors;
 
 public class CjtPrestatgeries {
@@ -216,7 +218,7 @@ public class CjtPrestatgeries {
      * @param prestatgeriesMap Mapa d'ID a prestatgeria.
      * @return Llista de JSONs amb les dades de les prestatgeries.
      */
-    public List<String> prestatgeriesToList(Map<Integer, Prestatgeria> prestatgeriesMap) throws DominiException {
+    public static List<String> prestatgeriesToList(Map<Integer, Prestatgeria> prestatgeriesMap) throws DominiException {
         Gson gson = new Gson();
         List<String> prestatgeriaList = new ArrayList<>();
 
@@ -251,7 +253,7 @@ public class CjtPrestatgeries {
                     // Convertir el mapa a JSON
                     String jsonPrestatgeria = gson.toJson(prestatgeriaData);
                     prestatgeriaList.add(jsonPrestatgeria);
-                }catch (Exception e) {
+                } catch (Exception e) {
                     throw new DominiException("Error al guardar la prestatgeria amb ID " + prestatgeria.getId() + ": " + e.getMessage());
                 }
             }
@@ -270,35 +272,57 @@ public class CjtPrestatgeries {
         Map<Integer, Prestatgeria> prestatgeriesMap = new HashMap<>();
 
         for (String jsonPrestatgeria : presJsonList) {
-            Map<String, Object> prestatgeriaData = gson.fromJson(jsonPrestatgeria, Map.class);
+            try {
+                // Convertir el JSON a un Map
+                Map<String, Object> prestatgeriaData = gson.fromJson(jsonPrestatgeria, Map.class);
 
-            int id = ((Double) prestatgeriaData.get("id")).intValue();
-            String nom = (String) prestatgeriaData.get("nom");
-            int numFilas = ((Double) prestatgeriaData.get("numFilas")).intValue();
-            int numColumnas = ((Double) prestatgeriaData.get("numColumnas")).intValue();
-            Set<Integer> setP = new HashSet<>();
-            
-            Prestatgeria prestatgeria = new Prestatgeria(id, nom, numFilas, numColumnas, setP);
-            List<List<Map<String, Object>>> dispData = (List<List<Map<String, Object>>>) prestatgeriaData.get("layout");
-            if (dispData != null) {
-                Producte[][] layout = new Producte[numFilas][numColumnas];
-                for (int i = 0; i < dispData.size(); i++) {
-                    List<Map<String, Object>> filaData = dispData.get(i);
-                    for (int j = 0; j < filaData.size(); j++) {
-                        Map<String, Object> prodData = filaData.get(j);
-                        if (prodData != null) {
-                            int prodId = ((Double) prodData.get("id")).intValue();
-                            String prodNom = (String) prodData.get("nom");
-                            Producte producte = new Producte(prodId, prodNom);
-                            layout[i][j] = producte;
-                            setP.add(prodId);
+                // Extraer datos básicos
+                int id = Integer.parseInt((String) prestatgeriaData.get("id")); // El ID viene como String
+                String nom = (String) prestatgeriaData.get("nom");
+                int numFilas = ((Double) prestatgeriaData.get("numFilas")).intValue(); // numFilas como Double
+                int numColumnas = ((Double) prestatgeriaData.get("numColumnas")).intValue(); // numColumnas como Double
+
+                // Convertir la lista de productos a un conjunto de enteros
+                Set<Integer> setP = new HashSet<>();
+                List<String> productesRaw = (List<String>) prestatgeriaData.get("productes");
+                if (productesRaw != null) { // Validar que no sea null
+                    setP = productesRaw.stream()
+                            .map(Integer::valueOf)
+                            .collect(Collectors.toSet());
+                }
+
+                // Crear la prestatgeria
+                Prestatgeria prestatgeria = new Prestatgeria(id, nom, numFilas, numColumnas, setP);
+
+                // Procesar el layout
+                List<List<Map<String, String>>> dispData = (List<List<Map<String, String>>>) prestatgeriaData.get("layout");
+                if (dispData != null) {
+                    Producte[][] layout = new Producte[numFilas][numColumnas];
+                    for (int i = 0; i < dispData.size(); i++) {
+                        List<Map<String, String>> filaData = dispData.get(i);
+                        for (int j = 0; j < filaData.size(); j++) {
+                            Map<String, String> prodData = filaData.get(j);
+                            if (prodData != null) {
+                                // Extraer datos del producto
+                                int prodId = Integer.parseInt(prodData.get("value"));
+                                String prodNom = prodData.get("key");
+
+                                // Crear y añadir el producto al layout
+                                Producte producte = new Producte(prodId, prodNom);
+                                layout[i][j] = producte;
+                            }
                         }
                     }
+                    prestatgeria.setLayout(layout);
                 }
-                prestatgeria.setLayout(layout);
+
+                // Añadir la prestatgeria al mapa
+                prestatgeriesMap.put(id, prestatgeria);
+            } catch (Exception e) {
+                throw new DominiException("Error al convertir la prestatgeria: " + e.getMessage());
             }
-            prestatgeriesMap.put(id, prestatgeria);
         }
+
         return prestatgeriesMap;
     }
     
@@ -322,12 +346,39 @@ public class CjtPrestatgeries {
             infoPrestatgeria.put("files", String.valueOf(prestatgeria.getNumFilas()));
             infoPrestatgeria.put("columnes", String.valueOf(prestatgeria.getNumColumnas()));
             infoPrestatgeria.put("productes", prestatgeria.getProductes().toString());
-            infoPrestatgeria.put("layout", prestatgeria.getDisp().toString());
+            infoPrestatgeria.put("layout", convertirLayoutToString(prestatgeria.getDisp()));
             
             llistatPrestatgeries.put(String.valueOf(prestatgeria.getId()), infoPrestatgeria);
         }
 
         return llistatPrestatgeries;
+    }
+    
+    private String convertirLayoutToString(List<List<Pair<String, Integer>>> disp) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < disp.size(); i++) { // Iterar por filas
+            sb.append("Fila ").append(i + 1).append(": ");
+            List<Pair<String, Integer>> fila = disp.get(i);
+            for (int j = 0; j < fila.size(); j++) { // Iterar por columnas
+                Pair<String, Integer> celda = fila.get(j);
+                if (celda != null) {
+                    sb.append("(")
+                      .append(celda.clau).append(", ")
+                      .append(celda.valor).append(")");
+                } else {
+                    sb.append("(null, null)"); // Para celdas vacías
+                }
+                if (j < fila.size() - 1) {
+                    sb.append(", "); // Separar columnas
+                }
+            }
+            if (i < disp.size() - 1) {
+                sb.append(" | "); // Separar filas
+            }
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -348,4 +399,7 @@ public class CjtPrestatgeries {
         if (map_prest.containsKey(id)) map_prest.remove(id);
         else System.out.println("Error: L'usuari no té una prestatgeria amb aquest ID.");
     }
+    
+    
+    
 }

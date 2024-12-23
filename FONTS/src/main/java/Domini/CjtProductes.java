@@ -365,17 +365,18 @@ public class CjtProductes {
 
 
                 Map<Integer, Pair<Integer, Integer>> prestatgeriesPos = new HashMap<>();
-                Map<String, List<Double>> posPrestatgeriesRaw = (Map<String, List<Double>>) producteData.get("posPrestatgeries");
+                Map<String, Map<String, Double>> posPrestatgeriesRaw = (Map<String, Map<String, Double>>) producteData.get("posPrestatgeries");
                 if (posPrestatgeriesRaw != null) {
-                    for (Map.Entry<String, List<Double>> entry : posPrestatgeriesRaw.entrySet()) {
+                    for (Map.Entry<String, Map<String, Double>> entry : posPrestatgeriesRaw.entrySet()) {
                         Integer key = Integer.parseInt(entry.getKey());
-                        List<Double> value = entry.getValue();
-                        if (value.size() == 2) {
-                            prestatgeriesPos.put(key, new Pair<>(value.get(0).intValue(), value.get(1).intValue()));
+                        Map<String, Double> value = entry.getValue();
+                        if (value.containsKey("clau") && value.containsKey("valor")) {
+                            int clau = value.get("clau").intValue();
+                            int valor = value.get("valor").intValue();
+                            prestatgeriesPos.put(key, new Pair<>(clau, valor));
                         }
                     }
                 }
-
                 Producte prod = new Producte(id, nom, similituds);
                 prod.setPosPrestatgeries(prestatgeriesPos);
 

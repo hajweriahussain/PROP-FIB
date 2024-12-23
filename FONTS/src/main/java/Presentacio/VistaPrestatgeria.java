@@ -161,6 +161,10 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
 
         // Dividir el layout en filas
         String[] filas = layout.split("\\|");
+        if (filas == null || filas.length == 0) {
+            System.out.println("El layout está vacío o es nulo.");
+            return;
+        }
         int numFilas = filas.length;
         int numColumnas = 0; // Suponemos que las filas tienen el mismo número de columnas
 
