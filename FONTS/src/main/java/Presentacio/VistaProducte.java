@@ -119,25 +119,33 @@ public class VistaProducte extends javax.swing.JPanel {
                     }
                     else {
                         posPrestatgeries = posPrestatgeries.substring(1, posPrestatgeries.length() - 1);
-                        String[] prestatgeriesEntries = posPrestatgeries.split("(?<=\\]),(?=\\\")");
 
-                        for (String entry : prestatgeriesEntries) {
-                            String[] parts = entry.split(":");
-                            if (parts.length == 2) {
-                                String shelfId = parts[0].replace("\"", "").trim();
-                                String positions = parts[1].replace("[", "").replace("]", "").trim();
-                                String[] coordinates = positions.split(",");
+                        String[] entries = posPrestatgeries.split("},");
 
-                                if (coordinates.length == 2) {
-                                    int row = Integer.parseInt(coordinates[0].trim());
-                                    int column = Integer.parseInt(coordinates[1].trim());
+                        for (String entry : entries) {
+                            entry = entry.trim();
+                            String shelfId = entry.split(":")[0].replace("\"", "").trim();
 
-                                    sbPosPrestatgeries.append("Prestatgeria ID: ").append(shelfId)
-                                                      .append(", Fila: ").append(row)
-                                                      .append(", Columna: ").append(column)
-                                                      .append("\n");
+                            String values = entry.substring(entry.indexOf("{") + 1, entry.length()).replace("}", "").trim();
+                            String[] keyValuePairs = values.split(",");
+
+                            int clau = 0;
+                            int valor = 0;
+
+                            for (String pair : keyValuePairs) {
+                                String[] keyValue = pair.split(":");
+                                if (keyValue[0].trim().equals("\"clau\"")) {
+                                    clau = Integer.parseInt(keyValue[1].trim());
+                                }
+                                else if (keyValue[0].trim().equals("\"valor\"")) {
+                                    valor = Integer.parseInt(keyValue[1].trim());
                                 }
                             }
+
+                            sbPosPrestatgeries.append("Producte ID: ").append(shelfId)
+                                    .append(" Fila: ").append(clau)
+                                    .append(" Columna: ").append(valor)
+                                    .append("\n");
                         }
                     }
                     textAreaPosPrestatgeries.setText(sbPosPrestatgeries.toString());
