@@ -219,7 +219,7 @@ public class CtrlDomini {
             if (numCols != numProductes) throw new DominiException("Error: Num columnes no valid");
         }
         cjtPrestatgeries.crearPrestatgeria(id, nom, numFilas, numCols, productes);
-        obtenirLayout(id, productes,bruteForce, numCols);
+        obtenirLayout(id, productes, bruteForce, numCols);
     }
     
     /**

@@ -80,7 +80,6 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(1120, 840));
 
         leftPanel.setBackground(new java.awt.Color(200, 255, 200));
 
@@ -142,7 +141,7 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
             }
         });
 
-        titol1.setFont(new java.awt.Font("Microsoft YaHei", 1, 23)); // NOI18N
+        titol1.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         titol1.setForeground(new java.awt.Color(240, 171, 68));
         titol1.setText("PRESTATGERIES");
         titol1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -152,7 +151,7 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
             }
         });
 
-        titol2.setFont(new java.awt.Font("Microsoft YaHei", 1, 24)); // NOI18N
+        titol2.setFont(new java.awt.Font("Microsoft YaHei", 1, 18)); // NOI18N
         titol2.setForeground(new java.awt.Color(69, 155, 107));
         titol2.setText("N' PRODUCTS");
         titol2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -183,8 +182,10 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
                 .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(titol2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(titol1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, Short.MAX_VALUE)))
+                    .addComponent(titol2, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addGroup(leftPanelLayout.createSequentialGroup()
+                        .addComponent(titol1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
             .addComponent(botoEstanterias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(botoProductes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(botoSobreNosaltres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

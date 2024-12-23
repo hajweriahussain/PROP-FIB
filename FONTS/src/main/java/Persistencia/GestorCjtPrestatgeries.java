@@ -213,33 +213,60 @@ public class GestorCjtPrestatgeries {
      * @return Llista d'IDs de prestatgeries vàlids.
      * @throws PersistenciaException Si ocorre un error durant la lectura o el processament del fitxer.
      */
-    public static List<String> importarFitxerPrestatgeria(String path) throws PersistenciaException{
-       List<String> idsEstanteria = new ArrayList<>(); // Lista para los IDs válidos (como Strings)
+    public static List<String> importarFitxerPrestatgeria(String path) throws PersistenciaException {
+        List<String> prestatgeriaInfo = new ArrayList<>();
 
         try {
             FileReader fr = new FileReader(path);
             Scanner sc = new Scanner(fr);
             if (!sc.hasNextLine()) {
-                throw new PersistenciaException("Error: El archivo está vacío.");
+                throw new PersistenciaException("Error: El fitxer està buit.");
             }
             String linea = sc.nextLine();
 
             if (sc.hasNextLine()) {
-                throw new PersistenciaException("Error: El archivo contiene más de una línea.");
+                throw new PersistenciaException("Error: El fitxer conté més d'una línia.");
             }
 
-            String[] numeros = linea.split("\\s+"); // Divide por espacios
+            String[] parts = linea.split("\\s+"); 
 
-            for (String num : numeros) {
+            if (parts.length < 3) {
+                throw new PersistenciaException("Error: El fitxer no té prou dades. Format esperat: ID Nom NumColumnes Productes...");
+            }
+
+            try {
+                int id = Integer.parseInt(parts[0]); 
+                if (id <= 0) {
+                    throw new PersistenciaException("Error: L'ID ha de ser un enter positiu.");
+                }
+                prestatgeriaInfo.add(String.valueOf(id));
+
+            } catch (NumberFormatException e) {
+                throw new PersistenciaException("Error: El camp ID no és vàlid: " + parts[0]);
+            }
+
+            prestatgeriaInfo.add(parts[1]);
+
+            try {
+                int numCols = Integer.parseInt(parts[2]); 
+                if (numCols <= 0) {
+                    throw new PersistenciaException("Error: El nombre de columnes ha de ser un enter positiu.");
+                }
+                prestatgeriaInfo.add(String.valueOf(numCols)); 
+
+            } catch (NumberFormatException e) {
+                throw new PersistenciaException("Error: El camp nombre de columnes no és vàlid: " + parts[2]);
+            }
+
+            for (int i = 3; i < parts.length; i++) {
                 try {
-                    int id = Integer.parseInt(num);
-                    if (id > 0) { 
-                        idsEstanteria.add(num); // Añadir el ID válido como String
-                    } else {
-                        throw new PersistenciaException("Error: ID no válido (no es mayor que 0): " + num);
+                    int producteId = Integer.parseInt(parts[i]);
+                    if (producteId <= 0) {
+                        throw new PersistenciaException("Error: L'ID del producte ha de ser un enter positiu: " + parts[i]);
                     }
+                    prestatgeriaInfo.add(String.valueOf(producteId)); 
                 } catch (NumberFormatException e) {
-                    throw new PersistenciaException("Error: Formato incorrecto para el ID: " + num + e.getMessage());
+                    throw new PersistenciaException("Error: Format d'ID de producte no vàlid: " + parts[i]);
                 }
             }
 
@@ -247,10 +274,10 @@ public class GestorCjtPrestatgeries {
             fr.close();
 
         } catch (IOException e) {
-            throw new PersistenciaException("Error: No se pudo leer el archivo: " + e.getMessage());
+            throw new PersistenciaException("Error: No s'ha pogut llegir el fitxer: " + e.getMessage());
         }
 
-        return idsEstanteria; // Devuelve la lista de IDs válidos como Strings
+        return prestatgeriaInfo; 
     }
-    
+
 }

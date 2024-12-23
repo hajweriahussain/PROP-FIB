@@ -79,7 +79,7 @@ public class CjtPrestatgeries {
      */
     public void crearPrestatgeria(int id, String nom, int filas, int columnas, Set<Integer> setProds) throws DominiException{
         if (!map_prest.containsKey(id)) map_prest.put(id, new Prestatgeria(id, nom, filas, columnas, setProds));
-        else System.out.println("Error: L'usuari ja té una prestatgeria amb aquest ID.");
+        else throw new DominiException("Error: L'usuari ja té una prestatgeria amb aquest ID.");
     }
 
     /**
@@ -111,6 +111,7 @@ public class CjtPrestatgeries {
           return null;
         }
     }
+   
     
     /**
      * Estableix un nou layout de productes per a una prestatgeria.
@@ -334,10 +335,8 @@ public class CjtPrestatgeries {
         Map<String, Map<String, String>> llistatPrestatgeries = new HashMap<>();
 
         if (map_prest.isEmpty()) {
-            System.out.println("No hi ha prestatgeries per a l'usuari.");
             return llistatPrestatgeries;
         }
-
         for (Prestatgeria prestatgeria : map_prest.values()) {
             Map<String, String> infoPrestatgeria = new HashMap<>();
             infoPrestatgeria.put("id", String.valueOf(prestatgeria.getId()));

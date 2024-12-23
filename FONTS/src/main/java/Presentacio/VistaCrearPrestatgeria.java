@@ -114,7 +114,8 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
             }
             panelGrid.setLayout(new GridLayout(0, 4, 10, 10));
             for (String id : productes.keySet()) {
-                JCheckBox checkBox = new JCheckBox((id));
+                String nom = productes.get(id).get("nom"); 
+                JCheckBox checkBox = new JCheckBox((id + "-" + nom));
                 panelGrid.add(checkBox); 
             }
             panelProductos.setViewportView(panelGrid);
@@ -263,7 +264,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
      * @return Una cadena amb els productes seleccionats en format llista.
      */
     public String parseaProductes() {
-        StringBuilder productesBuilder = new StringBuilder();
+         StringBuilder productesBuilder = new StringBuilder();
         for (java.awt.Component comp : panelGrid.getComponents()) {
             if (comp instanceof JCheckBox) {
                 JCheckBox checkBox = (JCheckBox) comp;
@@ -271,7 +272,9 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                     if (productesBuilder.length() > 0) {
                         productesBuilder.append(", ");
                     }
-                    productesBuilder.append(checkBox.getText());
+                    // Extraer el ID del texto del JCheckBox (parte antes del guion)
+                    String id = checkBox.getText().split("-")[0].trim();
+                    productesBuilder.append(id);
                 }
             }
         }
@@ -456,38 +459,37 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Idtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(IdLabel)
-                                    .addComponent(errorId, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(38, 38, 38)
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(algoritmeLabel)
-                                    .addGroup(bgLayout.createSequentialGroup()
-                                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(btnImportar)
-                                            .addComponent(btnBF))
-                                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(bgLayout.createSequentialGroup()
-                                                .addGap(18, 18, 18)
-                                                .addComponent(btnDosAp))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
-                                                .addComponent(btnCrear))))))
-                            .addGroup(bgLayout.createSequentialGroup()
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(labelTitol)
                                     .addComponent(btnEnrere)
                                     .addComponent(colstxt, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(productesLabel)
-                                    .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(panelProductos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
-                                        .addComponent(errorNcols, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(errorNcols, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(nomtxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(errorNom, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(nomLabel))
                                     .addComponent(nColsLabel))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(bgLayout.createSequentialGroup()
+                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Idtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(IdLabel)
+                                    .addComponent(errorId, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(panelProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
+                                        .addComponent(btnImportar)
+                                        .addGap(60, 60, 60)
+                                        .addComponent(btnCrear))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
+                                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(algoritmeLabel)
+                                            .addGroup(bgLayout.createSequentialGroup()
+                                                .addComponent(btnBF)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnDosAp)))
+                                        .addGap(8, 8, 8)))))))
                 .addContainerGap())
         );
         bgLayout.setVerticalGroup(
@@ -522,8 +524,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(productesLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67))
+                        .addComponent(panelProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
                     .addGroup(bgLayout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(algoritmeLabel)
@@ -534,8 +535,8 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(14, 14, 14))))
+                            .addComponent(btnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(14, 14, 14))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
