@@ -197,8 +197,8 @@ public class CtrlDomini {
     }
 
     public void esborrarProducte(int id) throws DominiException{
-        cjtProductes.eliminarProducte(id);
         Map<Integer, Pair<Integer, Integer>> pres = cjtProductes.getPosPrestatgeriesProducte(id);
+        cjtProductes.eliminarProducte(id);
         for (Map.Entry<Integer, Pair<Integer, Integer>> entry : pres.entrySet()) {
             Integer key = entry.getKey();
             esborrarPrestatgeria(key);
