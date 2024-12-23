@@ -120,7 +120,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
             panelProductos.setViewportView(panelGrid);
         }
         catch (DominiException ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat al mostrar els productes: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -223,6 +223,37 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
             errorNcols.setForeground(Color.RED);
             return false;
         }
+    }
+    
+    /**
+     * Valida que es seleccioni almenys un producte per l'usuari.
+     * Comprova si s'ha seleccionat un producte almenys.
+     * 
+     * @return {@code true} si s'ha seleccionat almenys un producte; {@code false} en cas contrari.
+     */
+    private Boolean validarProductesNoBuit(String productes){
+        if (productes.equals("[]")){
+            JOptionPane.showMessageDialog(this, "Si us plau selecciona al menys un producte per crear la prestatgeria.", "Productes no seleccionats", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        else return true;
+    }
+    
+    /**
+     * Valida que es seleccioni almenys un algoritme per l'usuari.
+     * Comprova si s'ha seleccionat un algoritme almenys.
+     * 
+     * @return {@code true} si s'ha seleccionat almenys un algoritme; {@code false} en cas contrari.
+     */
+    private Boolean validarAlgoritme(){
+        if (!btnBF.isSelected() && !btnDosAp.isSelected()) {
+            JOptionPane.showMessageDialog(this, 
+                "Si us plau, selecciona un algoritme (Força Bruta o Dos Aproximació).", 
+                "Algoritme no seleccionat", 
+                JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
     }
     
     /**
@@ -538,20 +569,25 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
     private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnImportarActionPerformed
-
+    /**
+     * Acció que es duu a terme quan es prem el botó "Crear".
+     * Valida totes les entrades del formulari i, si són vàlides,
+     * crida el controlador per crear una nova prestatgeria.
+     * 
+     * @param evt l'event d'acció del botó.
+     */
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         boolean idValid = validarID();
         boolean nomValid = validarNom();
         boolean columnesValid = validarNumColumnes();
-
-        if (idValid && nomValid && columnesValid) {
+        String productes = parseaProductes();
+        if (idValid && nomValid && columnesValid && validarProductesNoBuit(productes) && validarAlgoritme()) {
             try {
                 String id = Idtxt.getText().trim();
                 String nom = nomtxt.getText().trim();
                 String cols = colstxt.getText().trim();
-                String productes = parseaProductes();
                 String bruteForce = btnBF.isSelected() ? "true" : "false";
-
+                
                 cp.crearPrestatgeria(id, nom, cols, productes, bruteForce);
                 JOptionPane.showMessageDialog(this, "Prestatgeria creada!", "CONFIRMACIÓ", JOptionPane.INFORMATION_MESSAGE);
                 sortir();
@@ -560,7 +596,12 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnCrearActionPerformed
-
+    /**
+     * Acció que es duu a terme quan es prem el botó "Enrere".
+     * Tanca la vista actual i retorna a la pantalla anterior.
+     * 
+     * @param evt l'event d'acció del botó.
+     */
     private void btnEnrereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnrereActionPerformed
         sortir();
     }//GEN-LAST:event_btnEnrereActionPerformed
@@ -606,9 +647,14 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
             colstxt.setForeground(Color.GRAY);
         }
     }//GEN-LAST:event_colstxtFocusLost
-
+    /**
+     * Acció que es duu a terme quan es prem el botó "Força Bruta".
+     * Mostra un missatge d'advertència sobre l'eficiència de l'algoritme de força bruta.
+     * 
+     * @param evt l'event d'acció del botó.
+     */
     private void btnBFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBFActionPerformed
-        JOptionPane.showMessageDialog(this, "Si us plau tingues en compte que l'algoritme de força bruta funciona eficientment només per a prestatgeries amb menys de 13 productes", "ID Duplicat", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Si us plau tingues en compte que l'algoritme de força bruta funciona eficientment només per a prestatgeries amb menys de 13 productes", "Eficiencia Brute Force", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnBFActionPerformed
 
 

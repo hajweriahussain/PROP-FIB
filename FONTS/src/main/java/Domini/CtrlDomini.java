@@ -75,9 +75,8 @@ public class CtrlDomini {
         try{
             cjtPrestatgeries.setMapPrestatgeries(cjtPrestatgeries.listToPrestatgeries(presJsonList));
         }catch(DominiException e){
-            throw new DominiException("Error al guarda la estanteria " + e.getMessage());
+            throw new DominiException("Error al guardar la prestategria " + e.getMessage());
         }
-        //ARREGLAR, tiene que devolver lo que devuelve la funcion de productos, y necesito un setMapPrestatgeries.
     }
     
      /**
@@ -186,10 +185,8 @@ public class CtrlDomini {
 
         if (bruteForce) {
             generadorInicial = new BruteForce(matSimilituds, vecProductes, numCols);
-            System.out.println("Creant prestatgeria amb algoritme de força bruta.");
         } else {
             generadorInicial = new DosAproximacio(matSimilituds, vecProductes, numCols);
-            System.out.println("Creant prestatgeria amb algoritme de 2-Aproximació.");
         }
 
         Integer[][] solucio = generadorInicial.generarLayout();
@@ -216,10 +213,6 @@ public class CtrlDomini {
      * @throws DominiException Si ocorre un error de domini.
      */
     public void crearPrestatgeria(int id, String nom, int numCols, Set<Integer> productes, Boolean bruteForce) throws DominiException{
-    	if (productes.isEmpty()){
-            throw new DominiException("Error: No s'han seleccionat productes");
-        }
-        
         int numProductes = productes.size();
         int numFilas = numProductes / numCols;
         if (numFilas == 0){
@@ -238,20 +231,12 @@ public class CtrlDomini {
      * @throws DominiException Si ocorre un error de domini.
      */
     public void modificarProducte(Integer idProdActual1, Integer nouId, String nouNom) throws DominiException{
-        if (cjtProductes.getProducte(idProdActual1) != null) {
-            
-            if (nouId != null) {
-                cjtProductes.editarIdProducte(idProdActual1, nouId);
-                System.out.println("S'ha modificat el id del producte amb id " + idProdActual1);
-            }
+        if (nouId != null) {
+            cjtProductes.editarIdProducte(idProdActual1, nouId);
+        }
 
-            if (nouNom != "-") {
-                cjtProductes.editarNomProducte(idProdActual1, nouNom);
-                System.out.println("S'ha modificat el nom del producte amb id " + idProdActual1);
-            }
-            
-        } else {
-            System.out.println("No existeix producte amb id = " + idProdActual1);
+        if (nouNom != "-") {
+            cjtProductes.editarNomProducte(idProdActual1, nouNom);
         }
     }
     
@@ -307,8 +292,6 @@ public class CtrlDomini {
         Pair<Integer, Integer> pos2 = cjtProductes.getPosProducte(idp2, id);
         System.out.println("pos1 " + pos1 + " " + " pos2 " + pos2);
         cjtPrestatgeries.intercanviarDosProductes(id, pos1.clau, pos1.valor, pos2.clau, pos2.valor);
-//        cjtProductes.editarPosProducte(idp1, id, pos2);
-//        cjtProductes.editarPosProducte(idp2, id, pos1);
     }
     
     /**
@@ -422,11 +405,11 @@ public class CtrlDomini {
     
     private void afegirProducteFitxer(List<String> prodInfo) throws DominiException{
         int idProd = Integer.parseInt(prodInfo.get(0));
-         Map<Integer, Double> mapSims = prodInfo.subList(2, prodInfo.size()).stream() // Tomar los elementos desde el índice 2
-            .map(entry -> entry.split(":")) // Dividir cada elemento por ":"
+         Map<Integer, Double> mapSims = prodInfo.subList(2, prodInfo.size()).stream() 
+            .map(entry -> entry.split(":")) 
             .collect(Collectors.toMap(
-                parts -> Integer.valueOf(parts[0]), // Clave: convertir la primera parte a Integer
-                parts -> Double.valueOf(parts[1])  // Valor: convertir la segunda parte a Double
+                parts -> Integer.valueOf(parts[0]),
+                parts -> Double.valueOf(parts[1])  
             ));
         
         cjtProductes.comprovarSims(mapSims);
@@ -438,7 +421,7 @@ public class CtrlDomini {
         int id = Integer.parseInt(presInfo.get(0));
         int numCols = Integer.parseInt(presInfo.get(2));
         Set<Integer> prods = presInfo.subList(3, presInfo.size()).stream()
-                                        .map(Integer::valueOf) // Convertir cada String a Integer
+                                        .map(Integer::valueOf) 
                                         .collect(Collectors.toSet());
         
         crearPrestatgeria(id, presInfo.get(1), numCols, prods, true);

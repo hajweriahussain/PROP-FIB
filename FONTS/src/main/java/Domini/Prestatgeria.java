@@ -36,24 +36,6 @@ public class Prestatgeria {
      * @param productes  Un conjunt d'identificadors dels productes presents a la prestatgeria.
      */
     public Prestatgeria(int id, String nom,  int filas, int columnas, Set<Integer> productes){
-    	if (id <= 0) {
-            System.out.println("L'ID ha de ser un valor positiu.");
-        }
-        if (filas <= 0) {
-            System.out.println("El número de files ha de ser major que zero.");
-        }
-        if (columnas <= 0) {
-            System.out.println("El número de columnes ha de ser major que zero.");
-        }
-        if (productes == null) {
-            System.out.println("El conjunt de productes no pot ser null.");
-        }
-        if (nom == null || nom.trim().isEmpty() || nom.length() <= 4) {
-            System.out.println("El nom de la prestatgeria no pot estar buit.");
-        }
-        if (productes.isEmpty()) {
-            System.out.println("Hi ha d'haver al menys 1 producte a afegir a la prestatgeria");
-        }
 
         this.id = id;
         this.numFilas = filas;
@@ -188,7 +170,6 @@ public class Prestatgeria {
         this.numFilas = novesFiles;
         this.numColumnas = novesColumnes;
 
-        // Actualizar layout
         layout.clear();
         for (int i = 0; i < novesFiles; i++) {
             Producte[] novaFila = new Producte[novesColumnes];
@@ -196,7 +177,6 @@ public class Prestatgeria {
             layout.add(novaFila);
         }
 
-        // Actualizar disposició (disp)
         disp = new ArrayList<>();
         for (int i = 0; i < novesFiles; i++) {
             List<Pair<String, Integer>> fila = new ArrayList<>();
@@ -228,8 +208,6 @@ public class Prestatgeria {
         }
 
         if (filaProd1 == filaProd2 && colProd1 == colProd2) {
-//            System.out.println("Posicio producte 1: " + filaProd1 + ", " + colProd1);
-//            System.out.println("Posicio producte 2: " + filaProd2 + ", " + colProd2);
             throw new DominiException("Les posicions són iguals, no es pot realitzar l'intercanvi");
         }
 
@@ -257,22 +235,6 @@ public class Prestatgeria {
         fila1.set(colProd1, fila2.get(colProd2));
         fila2.set(colProd2, tempDisp);
     }
-//    public void afegirPrestatge() {
-//        layout.add(new Producte[numColumnas]);
-//        numFilas++;
-//        System.out.println("S'ha afegit un nou estant. Total files: " + numFilas);
-//    }
-
-//    public void esborrarPrestatge(int indexFila) {
-//        if (indexFila < 0 || indexFila >= layout.size()) {
-//            System.out.println("Error: Índex d'estant fora de rang.");
-//            return;
-//        }
-//            
-//        layout.remove(indexFila);
-//        numFilas--;
-//        System.out.println("Estant " + indexFila + " eliminat. Total files: " + numFilas);
-//    }
     
     /**
      * Esborra tot el contingut de la prestatgeria, incloent-hi el layout i els
