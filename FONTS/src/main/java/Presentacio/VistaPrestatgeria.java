@@ -22,7 +22,22 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
- *
+ * La classe {@code VistaPrestatgeria} representa la vista per gestionar les prestatgeries 
+ * de l'aplicació. Aquesta interfície permet veure, crear, modificar, intercanviar 
+ * productes i eliminar prestatgeries.
+ * 
+ * <p>Extén {@link javax.swing.JPanel} i implementa una interfície visual amb la qual 
+ * l'usuari pot interactuar amb les prestatgeries. Utilitza un {@code CardLayout} 
+ * per alternar entre diferents pàgines dins de la mateixa vista.</p>
+ * 
+ * <h3>Funcionalitats principals:</h3>
+ * <ul>
+ *   <li>Visualització de totes les prestatgeries disponibles.</li>
+ *   <li>Creació d'una nova prestatgeria amb els productes seleccionats.</li>
+ *   <li>Intercanvi de productes dins d'una prestatgeria.</li>
+ *   <li>Eliminació de prestatgeries existents.</li>
+ * </ul>
+ * 
  * @author hajweriahussain
  */
 public class VistaPrestatgeria extends javax.swing.JPanel {
@@ -30,11 +45,17 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
     private CtrlPresentacio cp;
     private VistaCrearPrestatgeria vistaCrear;
     private GridBagConstraints gbc;
-    private JLabel selectedLabel1 = null; // Para almacenar el primer JLabel seleccionado
+    private JLabel selectedLabel1 = null; 
     private JLabel selectedLabel2 = null;
-        // Declara la vista
+    
     /**
-     * Creates new form VistaPrestatgeria
+     * Constructor de la classe {@code VistaPrestatgeria}.
+     * Inicialitza els components de la interfície i configura les funcionalitats principals:
+     * <ul>
+     *   <li>Alternança entre pàgines mitjançant un {@code CardLayout}.</li>
+     *   <li>Configuració del disseny de la vista principal i el panell de prestatgeries.</li>
+     *   <li>Càrrega de les prestatgeries disponibles en un panell de desplaçament.</li>
+     * </ul>
      */
     public VistaPrestatgeria() {
         cp = new CtrlPresentacio();
@@ -49,25 +70,41 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
         
     }
     
+      /**
+     * Mostra la pàgina de creació d'una nova prestatgeria.
+     * Utilitza el {@code CardLayout} per alternar a la vista corresponent.
+     */
     public void mostrarCrearPrestatgeriaPanel() {
         cardLayout.show(bg, "crearPrestatgeriaPanel");
     }
     
+    /**
+     * Inicialitza la graella del panell de prestatgeries.
+     * Configura un {@code GridLayout} amb espaiat entre elements per presentar les prestatgeries.
+     */
     public void initGridPres(){
-        panelGrid.setLayout(new GridLayout(0, 4, 10, 10)); // Espaciado de 10px
+        panelGrid.setLayout(new GridLayout(0, 4, 10, 10)); 
     }
     
+    /**
+     * Configura el {@code CardLayout} per alternar entre les diferents pàgines 
+     * (llista de prestatgeries, detalls d'una prestatgeria, creació de prestatgeria, etc.).
+     */
     public void cardInit(){
         cardLayout = new CardLayout();
-        bg.setLayout(cardLayout); // Asignar el CardLayout al JPanel 'bg'
+        bg.setLayout(cardLayout);
 
         bg.add(page1, "Page1");
         bg.add(page2, "Page2");
 
-         // Mostrar Page1 por defecto
          cardLayout.show(bg, "Page1");
     }
     
+    /**
+     * Configura els constrenyiments del disseny de la primera pàgina utilitzant 
+     * {@code GridBagConstraints}.
+     * Aquesta pàgina mostra la llista de prestatgeries disponibles i el botó per crear-ne de noves.
+     */
     public void page1Constraints() {
         page1.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -96,33 +133,13 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
         btnCrear.addActionListener(e -> mostrarCrearPrestatgeriaPanel());
     }
     
-    public Map<String, Map<String, String>> crearEjemploPrestatgeries() {
-        Map<String, Map<String, String>> prestatgeries = new HashMap<>();
-        
-        Map<String, String> prestatgeria1 = new HashMap<>();
-        prestatgeria1.put("id", "1");
-        prestatgeria1.put("nom", "Estanteria Principal");
-        prestatgeria1.put("files", "5");
-        prestatgeria1.put("columnes", "3");
-        prestatgeria1.put("productes", "[1,2,3,4,5,6]");
-        prestatgeria1.put("layout", "Fila 0: (A1, 1), (K2, 2) | Fila 1: (B1, 3), (B2, 4) | Fila 2: (C1, 5), (C2, 6)");
-
-        
-        for ( int i = 0; i < 13; ++i){
-            prestatgeries.put(Integer.toString(i), prestatgeria1);
-        }
-
-        
-
-        return prestatgeries;
-    }
-    
+    /**
+     * Carrega les prestatgeries disponibles al panell de desplaçament.
+     * Cada prestatgeria es mostra com un botó que, en ser seleccionat, 
+     * permet veure els detalls i el disseny de la prestatgeria.
+     */
     public void cargarPrestatgeriesEnScrollPanel(){
-        Map<String, Map<String,String>> pres = cp.mostrarPrestatgeries();
-        
-
-//        Map<String, Map<String,String>> pres = crearEjemploPrestatgeries();
-        
+        Map<String, Map<String,String>> pres = cp.mostrarPrestatgeries();        
         if (pres == null || pres.isEmpty()) {
                 panelGrid.removeAll();
                 return;
@@ -150,8 +167,15 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Mostra el disseny d'una prestatgeria específica a la segona pàgina.
+     * Processa el layout en format text i genera etiquetes per representar 
+     * les posicions dels productes dins de la prestatgeria.
+     * 
+     * @param layout El disseny de la prestatgeria en format de cadena.
+     */
     public void mostrarDispEnPage2(String layout) {
-        gridPanel.removeAll(); // Limpia el panel antes de añadir nuevos componentes
+        gridPanel.removeAll(); 
         gridPanel.revalidate();
         gridPanel.repaint();
 
@@ -162,32 +186,29 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
             return;
         }
         int numFilas = filas.length;
-        int numColumnas = 0; // Suponemos que las filas tienen el mismo número de columnas
+        int numColumnas = 0; 
 
-        // Contar el número de columnas (de la primera fila)
         if (numFilas > 0) {
-            String primeraFila = filas[0].split(":")[1].trim(); // Obtener solo las posiciones
+            String primeraFila = filas[0].split(":")[1].trim(); 
             numColumnas = primeraFila.split(",").length;
         }
 
-        // Configurar el GridLayout dinámicamente
-        gridPanel.setLayout(new GridLayout(numFilas, numColumnas, 10, 10)); // Espaciado de 10px entre celdas
+        gridPanel.setLayout(new GridLayout(numFilas, numColumnas, 10, 10)); 
 
         // Procesar cada fila
         for (String fila : filas) {
-            String[] partes = fila.split(":"); // Separar "Fila X" de las posiciones
+            String[] partes = fila.split(":"); 
             if (partes.length < 2) {
                 continue;
             }
 
-            String posiciones = partes[1].trim(); // Obtener posiciones
-            String[] elementos = posiciones.split("\\),\\s*"); // Divide entre cada par de posiciones
+            String posiciones = partes[1].trim(); 
+            String[] elementos = posiciones.split("\\),\\s*"); 
 
             for (String elemento : elementos) {
                 elemento = elemento.replace("(", "").replace(")", "").trim();
                 String[] claveValor = elemento.split(",\\s*");
 
-                // Verificar que el elemento está bien formado
                 if (claveValor.length != 2) {
                     System.out.println("Formato incorrecto: " + elemento);
                     continue;
@@ -196,7 +217,6 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
                 String clave = claveValor[0];
                 String valor = claveValor[1];
 
-                // Crear JLabel para la clave-valor
                 JLabel label = new JLabel(clave + ":" + valor);
                 label.setBackground(new Color(0xf3d9b1));
                 label.setPreferredSize(new Dimension(150, 50));
@@ -214,19 +234,25 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
             }
         }
 
-        // Actualizar el panel después de añadir los componentes
         gridPanel.revalidate();
         gridPanel.repaint();
 
     }
     
+    /**
+     * Gestiona la selecció de dos productes dins d'una prestatgeria.
+     * Quan es seleccionen dues etiquetes, es marquen visualment per preparar l'intercanvi.
+     * Si una etiqueta ja està seleccionada, desmarca la selecció.
+     * 
+     * @param label El JLabel seleccionat per l'usuari.
+     */
     private void manejarSeleccion(JLabel label) {
         if (selectedLabel1 == null) {
             selectedLabel1 = label;
-            label.setBackground(Color.YELLOW); // Marcar como seleccionada
+            label.setBackground(Color.YELLOW);
         } else if (selectedLabel2 == null && label != selectedLabel1) {
             selectedLabel2 = label;
-            label.setBackground(Color.YELLOW); // Marcar como seleccionada
+            label.setBackground(Color.YELLOW);
         } else {
             if (label == selectedLabel1) {
                 selectedLabel1.setBackground(new Color(0xf3d9b1));
@@ -238,6 +264,11 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Intercanvia dos productes seleccionats dins d'una prestatgeria.
+     * Si l'operació és exitosa, actualitza la prestatgeria i torna a la pàgina inicial.
+     * Si hi ha un error, mostra un missatge d'error.
+     */
     public void intercanviarDosProductes(){
         if (selectedLabel1 != null && selectedLabel2 != null) {
             String texto1 = selectedLabel1.getText();
@@ -247,7 +278,6 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
             String idProducto2 = (texto2.split(":")[1]);
             String idPrestatgeria = idPres.getText();
 
-            // Resetear selección
             selectedLabel1.setBackground(new Color(0xf3d9b1));
             selectedLabel2.setBackground(new Color(0xf3d9b1));
             selectedLabel1 = null;
@@ -266,6 +296,10 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Mostra la llista de prestatgeries a la pàgina inicial.
+     * Torna a carregar les prestatgeries disponibles i les actualitza al panell de desplaçament.
+     */
     public void mostrarPrestatgeries() {
         cardLayout.show(bg, "Page1");
         cargarPrestatgeriesEnScrollPanel();
@@ -425,16 +459,12 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
             .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Gestiona l'acció per crear una nova prestatgeria.
+     * Si no hi ha productes disponibles, mostra un missatge d'advertència.
+     * Altrament, alterna a la pàgina de creació.
+     */
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-//        if (vistaCrear == null) {
-//            vistaCrear = new VistaCrearPrestatgeria(); // Instancia de tu JPanel externo
-//            bg.add(vistaCrear, "VistaCrear");          // Agregar al CardLayout
-//        }
-//
-//    // Mostrar la vista 'VistaCrear'
-//        cardLayout.show(bg, "VistaCrear");
-
         try{
             if (cp.mostrarProductes() != null && !cp.mostrarProductes().isEmpty()){
                 if (vistaCrear == null) {
@@ -451,11 +481,17 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
              JOptionPane.showMessageDialog(this, "S'ha produit un error.", "." + e.getMessage(), JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnCrearActionPerformed
-
+    
+    /**
+     * Torna a la pàgina inicial de la vista de prestatgeries.
+     */
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         cardLayout.show(bg, "Page1");
     }//GEN-LAST:event_btnBackActionPerformed
-
+    /**
+     * Elimina una prestatgeria seleccionada per l'usuari.
+     * Pregunta confirmació abans de procedir amb l'eliminació i actualitza la vista després.
+     */
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         String id = idPres.getText();
 
@@ -466,13 +502,16 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
                 cp.esborrarPrestatgeria(id);
                 JOptionPane.showMessageDialog(this, "Prestatgeria esborrada amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
                 cardLayout.show(bg, "Page1");
-                mostrarPrestatgeries();   // Torna a carregar els botons dels productes al llistaPanel
+                mostrarPrestatgeries();   
             } catch (DominiException ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat al esborrar la prestatgeria: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
-
+    
+    /**
+     * Gestiona l'acció per intercanviar dos productes.
+     */
     private void btnIntercambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIntercambiarActionPerformed
         intercanviarDosProductes();
     }//GEN-LAST:event_btnIntercambiarActionPerformed

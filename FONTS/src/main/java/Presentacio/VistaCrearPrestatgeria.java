@@ -21,18 +21,34 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- *
+ * La classe {@code VistaCrearPrestatgeria} representa la vista per crear una prestatgeria a l'aplicació.
+ * Aquesta interfície permet a l'usuari introduir dades com l'identificador, nom, 
+ * nombre de columnes i seleccionar productes i algoritmes per a la creació d'una prestatgeria.
+ * També inclou funcionalitats per importar prestatgeries des d'un fitxer.
+ * 
+ * <p>Extén {@link javax.swing.JPanel} i forma part de la capa de presentació de l'aplicació.</p>
+ * 
+ * <h3>Funcionalitats principals:</h3>
+ * <ul>
+ *   <li>Validació de camps com l'identificador, nom i nombre de columnes.</li>
+ *   <li>Selecció de productes per afegir a la prestatgeria.</li>
+ *   <li>Opció d'escollir entre diferents algoritmes per gestionar la prestatgeria.</li>
+ *   <li>Importació de prestatgeries des d'un fitxer extern.</li>
+ * </ul>
+ * 
  * @author hajweriahussain
  */
 public class VistaCrearPrestatgeria extends javax.swing.JPanel {
-    /**
-     * Creates new form vistaCrearPrestatgeria
-     * 
-     */
+    
         private CardLayout cl;
         private VistaPrestatgeria vp;
         private CtrlPresentacio cp;
-        
+     
+    /**
+     * Constructor de la classe {@code VistaCrearPrestatgeria}.
+     * Inicialitza els components de la interfície, configura els botons d'acció 
+     * i carrega els productes disponibles al panell corresponent.
+     */
     public VistaCrearPrestatgeria() {
         
         initComponents();
@@ -44,10 +60,19 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         configurarBotoImportar();
     }
     
+    /**
+     * Configura el botó per importar prestatgeries des d'un fitxer.
+     * Aquest mètode assigna un {@code ActionListener} al botó d'importació.
+     */
     private void configurarBotoImportar() {
         btnImportar.addActionListener(e -> importarPrestatgeriaDesdeFitxer());
     }
     
+    /**
+     * Obre un diàleg per importar una prestatgeria des d'un fitxer extern.
+     * Si la importació és exitosa, mostra un missatge d'èxit. Si hi ha un error, 
+     * mostra un missatge d'error.
+     */
     private void importarPrestatgeriaDesdeFitxer() {
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(this);
@@ -64,18 +89,24 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         }
     }
     
+    /**
+     * Agrupa els botons de selecció d'algorisme dins d'un {@code ButtonGroup}.
+     * Permet que només un algorisme sigui seleccionat a la vegada.
+     */
     public void buttongroup(){
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        // Asociar los botones al grupo
         buttonGroup.add(btnBF);
         buttonGroup.add(btnDosAp);
     }
     
+    /**
+     * Carrega els productes disponibles dins d'un {@code JScrollPane}.
+     * Els productes es mostren com una llista de {@code JCheckBox} perquè 
+     * l'usuari pugui seleccionar els productes a afegir a la prestatgeria.
+     */
+
     public void cargarProductosEnScrollPane(){
-//        Set<Integer> idsProductos = new HashSet<>(Arrays.asList(101, 102, 103, 104, 105, 106, 107, 
-//                                                    108, 109, 110, 111, 112, 113, 114, 115, 116, 117,
-//                                                    118, 119, 120, 121, 122, 123, 124, 125));
         try{
             Map<String, Map<String, String>> productes = cp.mostrarProductes();
             if (productes == null) {
@@ -86,12 +117,6 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                 JCheckBox checkBox = new JCheckBox((id));
                 panelGrid.add(checkBox); 
             }
-    //        for (Integer id : idsProductos) {
-    //            JCheckBox checkBox = new JCheckBox(String.valueOf(id)); // Usa el ID como texto
-    //            panelGrid.add(checkBox);           // Añade el checkbox al panel
-    //        }
-
-            // Añadir el panel al JScrollPane
             panelProductos.setViewportView(panelGrid);
         }
         catch (DominiException ex) {
@@ -99,7 +124,13 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         }
     }
     
-    
+    /**
+     * Valida el camp de l'identificador introduït per l'usuari.
+     * Comprova si el camp no està buit, si conté un número vàlid 
+     * i si l'identificador ja existeix en una altra prestatgeria.
+     * 
+     * @return {@code true} si l'identificador és vàlid; {@code false} en cas contrari.
+     */
     private Boolean validarID() {
         String textoId = Idtxt.getText().trim();
 //
@@ -109,9 +140,9 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         }
         try {
             Map<String, Map<String, String>> pres = cp.mostrarPrestatgeries();
-            int id = Integer.parseInt(textoId); // Intenta convertir a número
+            int id = Integer.parseInt(textoId);
             
-            if (id <= 0) { // Opcional: verifica si es un número positivo
+            if (id <= 0) { 
                 errorId.setText("Error: El identificador ha de ser un número positiu.");
                 return false;
             }
@@ -125,12 +156,12 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                 return false;
             }
             else {
-                errorId.setText("Entrada válida."); // Todo está bien
-                errorId.setForeground(Color.GREEN); // Cambia el color si es válido
+                errorId.setText("Entrada válida."); 
+                errorId.setForeground(Color.GREEN); 
             }
         } catch (NumberFormatException e) {
             errorId.setText("Error: Introdueix un número vàlid.");
-            errorId.setForeground(Color.RED); // Asegura el color de error
+            errorId.setForeground(Color.RED); 
             return false;
         }catch (Exception e) {
             errorId.setText("Error inesperat: " + e.getMessage());
@@ -141,7 +172,12 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         return true;
     }
     
-    
+    /**
+     * Valida el camp del nom introduït per l'usuari.
+     * Comprova si el camp no està buit.
+     * 
+     * @return {@code true} si el nom és vàlid; {@code false} en cas contrari.
+     */
     private Boolean validarNom() {
         String texto = nomtxt.getText().trim();
 
@@ -151,12 +187,17 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
             return false;
         }
 
-        // Si el texto es válido (es un nombre), se limpia el mensaje de error
         errorNom.setText("Entrada vàlida.");
         errorNom.setForeground(Color.GREEN);
         return true;
     }
     
+    /**
+     * Valida el camp del nombre de columnes introduït per l'usuari.
+     * Comprova si el camp conté un número enter positiu.
+     * 
+     * @return {@code true} si el nombre de columnes és vàlid; {@code false} en cas contrari.
+     */
     private Boolean validarNumColumnes() {
         String texto = colstxt.getText().trim();
 
@@ -167,8 +208,8 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         }
 
         try {
-            int numColumnas = Integer.parseInt(texto); // Intenta convertir a un número
-            if (numColumnas <= 0) { // Verifica que sea un número positivo
+            int numColumnas = Integer.parseInt(texto); 
+            if (numColumnas <= 0) { 
                 errorNcols.setText("Error: El número de files ha de ser major que 0.");
                 errorNcols.setForeground(Color.RED);
                 return false;
@@ -183,7 +224,13 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
             return false;
         }
     }
-
+    
+    /**
+     * Recull els productes seleccionats per l'usuari al panell de productes.
+     * Converteix la selecció a un format de cadena per al seu posterior processament.
+     * 
+     * @return Una cadena amb els productes seleccionats en format llista.
+     */
     public String parseaProductes() {
         StringBuilder productesBuilder = new StringBuilder();
         for (java.awt.Component comp : panelGrid.getComponents()) {
@@ -198,22 +245,15 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
             }
         }
 
-        // Convierte la lista de productos seleccionados a un formato de String
         String productes = "[" + productesBuilder.toString() + "]";
         return productes;
     }
     
-    public void mostrarVistaPres(){
-//        if (vp == null) {
-//            vp = new VistaPrestatgeria(); // Instancia de tu JPanel externo
-//            bg.add(vp, "VistaPrestatgeria");          // Agregar al CardLayout
-//        }
-//        vp.validate();
-//        cl.show(bg, "VistaPrestatgeria");
-//        bg.revalidate();
-//        bg.repaint();
-    }
-    
+    /**
+     * Tanca la vista actual i retorna a la vista de prestatgeries.
+     * Si la vista de prestatgeries està disponible, l'actualitza per reflectir 
+     * els canvis realitzats.
+     */
     private void sortir() {
         if (vp != null) {
             vp.mostrarPrestatgeries();
