@@ -237,7 +237,7 @@ public class CtrlDomini {
                 System.out.println("S'ha modificat el id del producte amb id " + idProdActual1);
             }
 
-            if (nouNom == "-") {
+            if (nouNom != "-") {
                 cjtProductes.editarNomProducte(idProdActual1, nouNom);
                 System.out.println("S'ha modificat el nom del producte amb id " + idProdActual1);
             }

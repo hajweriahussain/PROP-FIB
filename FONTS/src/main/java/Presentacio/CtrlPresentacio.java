@@ -153,7 +153,7 @@ public class CtrlPresentacio {
      * @throws DominiException Si hi ha un error en editar l'identificador.
      */
     public void editarIdProducte(String idActual, String nouId) throws DominiException {
-        ctrlDomini.modificarProducte(Integer.valueOf(idActual), Integer.valueOf(nouId), "");
+        ctrlDomini.modificarProducte(Integer.valueOf(idActual), Integer.valueOf(nouId), "-");
     }
     
     /**

@@ -200,7 +200,7 @@ public class VistaProducte extends javax.swing.JPanel {
         // Label Algoritmes
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.NONE;
-        gbc.insets = new Insets(15, 25, 5, 25);
+        gbc.insets = new Insets(15, 25, 10, 25);
         editarPanel.add(labelAlgoritmes, gbc);
 
         // RadioButton FB
@@ -256,13 +256,12 @@ public class VistaProducte extends javax.swing.JPanel {
             cardLayout.show(jPanelGeneral, "editarPanel");
             textNouId.setText(textIdInfo.getText());
             textNouNom.setText(textNomInfo.getText());
+            rbFB.setSelected(false);
+            rbDosA.setSelected(false);
             inicialitzarTaulaSimilituds();
         });
         botoGuardar.addActionListener(e -> {
             editarProducte();
-            if (validarSeleccioAlgoritme()) {
-                guardarSimilitudsEditades();
-            }
             mostrarProductesEnJList();
             cardLayout.show(jPanelGeneral, "infoPanel");
         });
@@ -309,8 +308,8 @@ public class VistaProducte extends javax.swing.JPanel {
                 return;
             } catch (DominiException ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
             }
-            
         }
         else {
             nouId = idOriginal; // Si no es canvia l'ID, fem servir l'original
@@ -318,10 +317,11 @@ public class VistaProducte extends javax.swing.JPanel {
 
         if (!nouNom.isEmpty() && !nouNom.equals("Introdueix un nou nom") && !nouNom.equals(textNomInfo.getText())) {
             try {
-                cp.editarNomProducte(nouId.isEmpty() ? idOriginal : nouId, nouNom);
+                cp.editarNomProducte(nouId, nouNom);
                 canvisGenerals = true;
             } catch (DominiException ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
         
@@ -329,8 +329,8 @@ public class VistaProducte extends javax.swing.JPanel {
         Map<String, String> similitudsModificades = new HashMap<>();
         
         for (int i = 0; i < model.getRowCount(); i++) {
-            String idProd2 = model.getValueAt(i, 0).toString(); // ID del producto relacionado
-            String novaSimilitud = model.getValueAt(i, 1).toString(); // Nueva similitud
+            String idProd2 = model.getValueAt(i, 0).toString();
+            String novaSimilitud = model.getValueAt(i, 1).toString();
 
             try {
                 double similitudValue = Double.parseDouble(novaSimilitud);
@@ -340,7 +340,6 @@ public class VistaProducte extends javax.swing.JPanel {
                     return;
                 }
 
-                // Verificar si la similitud ha cambiado
                 Map<String, Map<String, String>> prods = cp.mostrarProductes();
                 String similitudActual = prods.get(nouId).get("similituds").replace("{", "").replace("}", "");
 
@@ -353,16 +352,18 @@ public class VistaProducte extends javax.swing.JPanel {
                 return;
             } catch (DominiException ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
             }
         }
-        // Validar selección del algoritmo solo si hay cambios en las similitudes
+        
+        // Validar selecció de l'algoritme només si hi ha canvis en les similituds
         if (canvisSimilituds) {
             if (!validarSeleccioAlgoritme()) {
                 return;
             }
             String algoritmoSeleccionado = rbFB.isSelected() ? "true" : "false";
 
-            // Aplicar los cambios de similitudes
+            // Aplicar els canvis de similituds
             for (Map.Entry<String, String> entry : similitudsModificades.entrySet()) {
                 try {
                     cp.modificarSimilitudProductes(nouId, entry.getKey(), entry.getValue(), algoritmoSeleccionado);
@@ -372,7 +373,7 @@ public class VistaProducte extends javax.swing.JPanel {
                 }
             }
         }
-
+        
         if (canvisGenerals || canvisSimilituds) {
             actualitzarVistaProducte(nouId);
             JOptionPane.showMessageDialog(this, "Canvis guardats amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
@@ -487,7 +488,7 @@ public class VistaProducte extends javax.swing.JPanel {
     
     private boolean validarSeleccioAlgoritme() {
         if (!rbFB.isSelected() && !rbDosA.isSelected()) {
-            JOptionPane.showMessageDialog(this, "Has de seleccionar un algoritme per a les similituds.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Has de seleccionar un algoritme per a recalcular la disposició de les prestatgeries.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
@@ -496,7 +497,7 @@ public class VistaProducte extends javax.swing.JPanel {
     private void esborrarProducte() {
         String idProd = textIdInfo.getText();
 
-        int confirmacio = JOptionPane.showConfirmDialog(this, "Estàs segur que vols esborrar el producte amb ID " + idProd + "?\nSi esborres aquest producte, s'eliminaran totes les prestatgeries on es troba aquest producte!", "Confirmar esborrat", JOptionPane.YES_NO_OPTION);
+        int confirmacio = JOptionPane.showConfirmDialog(this, "Estàs segur que vols esborrar el producte amb ID " + idProd + "?\nSi esborres aquest producte, s'eliminaran totes les prestatgeries on es troba!", "Confirmar esborrat", JOptionPane.YES_NO_OPTION);
 
         if (confirmacio == JOptionPane.YES_OPTION) {
             try {
@@ -658,10 +659,12 @@ public class VistaProducte extends javax.swing.JPanel {
         botoEliminar.setText("Eliminar");
         botoEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+        textAreaSimilituds.setEditable(false);
         textAreaSimilituds.setColumns(20);
         textAreaSimilituds.setRows(5);
         scrollPaneSimilituds.setViewportView(textAreaSimilituds);
 
+        textAreaPosPrestatgeries.setEditable(false);
         textAreaPosPrestatgeries.setColumns(20);
         textAreaPosPrestatgeries.setRows(5);
         scrollPanePosPrestatgeries.setViewportView(textAreaPosPrestatgeries);
@@ -696,7 +699,7 @@ public class VistaProducte extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPanelLayout.createSequentialGroup()
                         .addComponent(labelTitol)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))
                     .addGroup(infoPanelLayout.createSequentialGroup()
                         .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -711,12 +714,12 @@ public class VistaProducte extends javax.swing.JPanel {
                                     .addGap(2, 2, 2)
                                     .addComponent(labelId)
                                     .addGap(18, 18, 18)
-                                    .addComponent(textIdInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)))
+                                    .addComponent(textIdInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)))
                             .addComponent(labelLlistaProductes))
                         .addGap(66, 66, 66)
                         .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(scrollPanePosPrestatgeries, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                                .addComponent(scrollPanePosPrestatgeries, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
                                 .addComponent(scrollPaneSimilituds))
                             .addComponent(labelSimilituds)
                             .addComponent(labelPosPrestatgeries))
@@ -798,6 +801,7 @@ public class VistaProducte extends javax.swing.JPanel {
         botoSortirEditar.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         botoSortirEditar.setText("X");
         botoSortirEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        botoSortirEditar.setPreferredSize(new java.awt.Dimension(40, 30));
         botoSortirEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botoSortirEditarActionPerformed(evt);
@@ -817,7 +821,7 @@ public class VistaProducte extends javax.swing.JPanel {
         ));
         scrollPaneTaulaSimilituds.setViewportView(taulaSimilituds);
 
-        labelAlgoritmes.setText("Selecciona un algoritme per recalcular les prestatgeries:");
+        labelAlgoritmes.setText("Si modifiques alguna similitud, selecciona un algoritme per recalcular les prestatgeries:");
 
         rbFB.setText("Força Bruta");
 
@@ -828,65 +832,67 @@ public class VistaProducte extends javax.swing.JPanel {
         editarPanelLayout.setHorizontalGroup(
             editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(editarPanelLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
                 .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelNouId)
-                            .addComponent(textNouId, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelNouNom)
-                            .addComponent(textNouNom, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(457, Short.MAX_VALUE))
+                        .addGap(25, 25, 25)
+                        .addComponent(labelNouId))
                     .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addComponent(scrollPaneTaulaSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelAlgoritmes)
-                            .addGroup(editarPanelLayout.createSequentialGroup()
-                                .addComponent(rbFB)
-                                .addGap(63, 63, 63)
-                                .addComponent(rbDosA)))
-                        .addGap(33, 33, 33))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editarPanelLayout.createSequentialGroup()
-                .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(25, 25, 25)
+                        .addComponent(textNouId, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botoGuardar))
+                        .addGap(25, 25, 25)
+                        .addComponent(labelNouNom))
                     .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(labelTitolEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(25, 25, 25)
+                        .addComponent(textNouNom, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(scrollPaneTaulaSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(labelAlgoritmes))
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(rbFB)
+                        .addGap(37, 37, 37)
+                        .addComponent(rbDosA))
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addGap(591, 591, 591)
+                        .addComponent(botoGuardar)))
+                .addGap(25, 25, 25))
+            .addGroup(editarPanelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(labelTitolEditar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
         editarPanelLayout.setVerticalGroup(
             editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(editarPanelLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(labelTitolEditar)
-                    .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                    .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addComponent(labelNouId)
                 .addGap(12, 12, 12)
                 .addComponent(textNouId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addComponent(labelNouNom)
                 .addGap(12, 12, 12)
                 .addComponent(textNouNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
+                .addComponent(scrollPaneTaulaSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(labelAlgoritmes)
+                .addGap(16, 16, 16)
                 .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addComponent(scrollPaneTaulaSimilituds, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botoGuardar))
-                    .addGroup(editarPanelLayout.createSequentialGroup()
-                        .addComponent(labelAlgoritmes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(editarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(rbFB)
-                            .addComponent(rbDosA))))
-                .addContainerGap())
+                    .addComponent(rbFB)
+                    .addComponent(rbDosA))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(botoGuardar)
+                .addGap(25, 25, 25))
         );
 
         jPanelGeneral.add(editarPanel, "card4");
