@@ -38,7 +38,7 @@ public class MenuBenvingudaPanel extends javax.swing.JPanel {
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextArea1.setRows(5);
-        jTextArea1.setText("El projecte consisteix a desenvolupar un sistema per optimitzar la distribució de \nproductes en una prestatgeria circular d’un supermercat, maximitzant les compres \ngràcies a la proximitat entre productes relacionats.\n\nEl sistema inclourà funcionalitats per gestionar productes, registrar i visualitzar simi-\nlituds entre ells, i calcular distribucions òptimes utilitzant dos algorismes: força bruta\ni aproximació heurística. També permetrà modificar manualment les solucions pro-\nposades i importar/exportar dades en formats estàndards.\n\nEs podran afegir funcionalitats opcionals, com restriccions a la distribució o algoris-\nmes addicionals, assegurant un sistema flexible, eficient i adaptable.");
+        jTextArea1.setText("Benvingut/da a Prestatgeries n' Products la nostra aplicació de distribució de productes en \nsupermercats! Aquesta eina ha estat creada amb l'objectiu d'optimitzar la disposició dels\nproductes en prestatgeries circulars, millorant així l'experiència de compra i afavorint la \ncompra conjunta. El sistema analitza les similituds entre els diferents productes i propo-\nsa distribucions que fomenten la interacció entre ells, buscant la millor manera de pre-\nsentar-los.\n\nAmb aquesta aplicació, podràs gestionar els productes i les seves relacions, definint tant\nels productes disponibles com el grau de similitud entre ells. També et permetrà calcular\nles distribucions òptimes, utilitzant algorismes avançats com la força bruta o altres apro-\nximacions per obtenir la millor configuració possible. Si ho necessites, podràs personalit-\nzar i ajustar manualment les distribucions proposades, adaptant-les a les teves necessitats.\n\nA més, l'aplicació facilita la importació i exportació de dades, per treballar amb llistes de \nproductes mitjançant arxius de text, oferint una gran flexibilitat i comoditat. El nostre ob-\njectiu és que aquesta eina sigui no només eficient, sinó també fàcil d'utilitzar, proporcio-\nnant-te les eines necessàries per millorar la presentació dels productes i, per tant, l'expe-\nriència de compra dels teus clients.");
         jTextArea1.setBorder(null);
 
         fotologo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/LogoSinBordes.png"))); // NOI18N
@@ -74,13 +74,13 @@ public class MenuBenvingudaPanel extends javax.swing.JPanel {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,9 +92,9 @@ public class MenuBenvingudaPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(fotologo, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(37, 37, 37)
-                .addComponent(jTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(104, 104, 104))
+                .addGap(2, 2, 2)
+                .addComponent(jTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
         );
     }// </editor-fold>//GEN-END:initComponents
 

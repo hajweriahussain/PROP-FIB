@@ -38,10 +38,23 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
 
+    /**
+    * initContent
+    * 
+    * Configura el contingut inicial mostrant el panell de benvinguda.
+    */
     private void initContent() {
         ShowJPanel(new MenuBenvingudaPanel());
     }
 
+    /**
+    * ShowJPanel
+    * 
+    * Mostra un nou panell dins de la finestra principal.
+    * Elimina el contingut anterior i afegeix el nou panell a la interfície.
+    * 
+    * @param p el panell a mostrar.
+    */
     private void ShowJPanel(JPanel p) {
         p.setSize(800, 800);
         p.setLocation(0, 0);
@@ -67,7 +80,7 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(1120, 830));
+        setPreferredSize(new java.awt.Dimension(1120, 840));
 
         leftPanel.setBackground(new java.awt.Color(200, 255, 200));
 
@@ -171,7 +184,7 @@ public class VistaMenuUsuari extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(titol2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(titol1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, Short.MAX_VALUE)))
+                    .addComponent(titol1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)))
             .addComponent(botoEstanterias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(botoProductes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(botoSobreNosaltres, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

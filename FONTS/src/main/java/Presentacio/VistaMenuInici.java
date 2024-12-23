@@ -25,10 +25,23 @@ public class VistaMenuInici extends javax.swing.JFrame {
         initContent();
     }
     
+     /**
+     * initContent
+     * 
+     * Configura el contingut inicial mostrant el panell de login.
+     */
     private void initContent() {
         ShowJPanel(new VistaLogIn(this));
     }
     
+     /**
+     * ShowJPanel
+     * 
+     * Mostra un nou panell dins de la finestra principal.
+     * Elimina el contingut anterior, el tanca si cal, i afegeix el nou panell a la interfície.
+     * 
+     * @param p el panell a mostrar.
+     */
     private void ShowJPanel(JPanel p) {
         if (content.getComponentCount() > 0) {
             JPanel currentPanel = (JPanel) content.getComponent(0);

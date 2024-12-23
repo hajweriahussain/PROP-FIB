@@ -63,28 +63,27 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
         backgrounLayout.setHorizontalGroup(
             backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgrounLayout.createSequentialGroup()
-                .addGap(322, 322, 322)
+                .addGap(110, 110, 110)
                 .addGroup(backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgrounLayout.createSequentialGroup()
-                        .addComponent(perfil)
-                        .addGap(17, 17, 17))
+                    .addComponent(jButton1)
                     .addGroup(backgrounLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(titulo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addComponent(perfil)
+                        .addGap(48, 48, 48)
+                        .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(344, Short.MAX_VALUE))
         );
         backgrounLayout.setVerticalGroup(
             backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgrounLayout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addComponent(perfil)
-                .addGap(18, 18, 18)
-                .addComponent(titulo)
-                .addGap(68, 68, 68)
+                .addGap(108, 108, 108)
+                .addGroup(backgrounLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(perfil)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgrounLayout.createSequentialGroup()
+                        .addComponent(titulo)
+                        .addGap(38, 38, 38)))
+                .addGap(61, 61, 61)
                 .addComponent(jButton1)
-                .addContainerGap(500, Short.MAX_VALUE))
+                .addContainerGap(507, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -103,6 +102,15 @@ public class MenuUsuariPanel extends javax.swing.JPanel {
   
     }//GEN-LAST:event_buttonChangeActionPerformed
 
+    /**
+     * jButton1ActionPerformed
+     * 
+     * Mètode que es crida quan es fa clic al botó "Canvi Contrasenya".
+     * Permet introduir una nova contrasenya per l'usuari actual i actualitzar-la
+     * mitjançant el controlador de presentació.
+     * 
+     * @param evt l'esdeveniment que ha disparat aquesta acció (clic al botó).
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String newPassword = javax.swing.JOptionPane.showInputDialog(this, "Introdueix la nova contrassenya:");
         if (newPassword != null && !newPassword.trim().isEmpty()) {
