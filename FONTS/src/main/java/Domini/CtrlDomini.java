@@ -420,14 +420,14 @@ public class CtrlDomini {
        
     }
 
-    private void afegirPrestatgeriaFitxer(List<String> pres) throws DominiException{
-//        int idPres = Integer.parseInt(id);
-//        int numCols = Integer.parseInt(cols);
-        Set<Integer> prods = pres.stream()
+    private void afegirPrestatgeriaFitxer(List<String> presInfo) throws DominiException{
+        int id = Integer.parseInt(presInfo.get(0));
+        int numCols = Integer.parseInt(presInfo.get(2));
+        Set<Integer> prods = presInfo.subList(3, presInfo.size()).stream()
                                         .map(Integer::valueOf) // Convertir cada String a Integer
                                         .collect(Collectors.toSet());
         
-//        crearPrestatgeria(idPres, nomPres, numCols, prods, true);
+        crearPrestatgeria(id, presInfo.get(1), numCols, prods, true);
     }
     
     /**
