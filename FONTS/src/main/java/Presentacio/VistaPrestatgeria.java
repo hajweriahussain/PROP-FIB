@@ -30,6 +30,8 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
     private CtrlPresentacio cp;
     private VistaCrearPrestatgeria vistaCrear;
     private GridBagConstraints gbc;
+    private JLabel selectedLabel1 = null; // Para almacenar el primer JLabel seleccionado
+    private JLabel selectedLabel2 = null;
         // Declara la vista
     /**
      * Creates new form VistaPrestatgeria
@@ -116,12 +118,19 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
     }
     
     public void cargarPrestatgeriesEnScrollPanel(){
-        Map<String, Map<String,String>> pres = cp.mostrarPrestatgeries();
+//        Map<String, Map<String,String>> pres = cp.mostrarPrestatgeries();
+        
 
+        Map<String, Map<String,String>> pres = crearEjemploPrestatgeries();
+        
+        if (pres == null || pres.isEmpty()) {
+                panelGrid.removeAll();
+                return;
+            }
 
-//        Map<String, Map<String,String>> pres = crearEjemploPrestatgeries();
+        panelGrid.removeAll();
 //        try{
-        if(pres != null) {
+//        if(pres != null) {
             for (String id : pres.keySet()) {
                 String nom = pres.get(id).get("nom"); 
                 String layout = pres.get(id).get("layout"); 
@@ -130,13 +139,16 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
 
                 btnPrestatgeria.addActionListener(e -> {
                     title2.setText(nom);
+                    idPres.setText(id);
                     mostrarDispEnPage2(layout);
                     cardLayout.show(bg, "Page2");
                 });
                 panelGrid.add(btnPrestatgeria);
             }
+            panelGrid.revalidate();
+            panelGrid.repaint();
             panelPres.setViewportView(panelGrid);
-        }
+//        }
 //        }catch (DominiException e) {
 //            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + e.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
 //        }
@@ -191,6 +203,13 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
                 label.setBorder(BorderFactory.createEmptyBorder(100, 50, 100, 50));
                 label.setOpaque(true);
                 label.setHorizontalAlignment(SwingConstants.CENTER);
+                
+                label.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        manejarSeleccion(label);
+                    }
+                });
                 gridPanel.add(label);
             }
         }
@@ -199,6 +218,56 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
         gridPanel.revalidate();
         gridPanel.repaint();
 
+    }
+    
+    private void manejarSeleccion(JLabel label) {
+        if (selectedLabel1 == null) {
+            selectedLabel1 = label;
+            label.setBackground(Color.YELLOW); // Marcar como seleccionada
+        } else if (selectedLabel2 == null && label != selectedLabel1) {
+            selectedLabel2 = label;
+            label.setBackground(Color.YELLOW); // Marcar como seleccionada
+        } else {
+            // Deseleccionar si ya están ambas seleccionadas
+            if (label == selectedLabel1) {
+                selectedLabel1.setBackground(new Color(0xf3d9b1));
+                selectedLabel1 = null;
+            } else if (label == selectedLabel2) {
+                selectedLabel2.setBackground(new Color(0xf3d9b1));
+                selectedLabel2 = null;
+            }
+        }
+    }
+    
+    public void intercanviarDosProductes(){
+        if (selectedLabel1 != null && selectedLabel2 != null) {
+            String texto1 = selectedLabel1.getText();
+            String texto2 = selectedLabel2.getText();
+            
+            String idProducto1 = (texto1.split(":")[1]);
+            String idProducto2 = (texto2.split(":")[1]);
+            String idPrestatgeria = idPres.getText();
+//            // Intercambiar texto
+//            selectedLabel1.setText(texto2);
+//            selectedLabel2.setText(texto1);
+
+            // Resetear selección
+            selectedLabel1.setBackground(new Color(0xf3d9b1));
+            selectedLabel2.setBackground(new Color(0xf3d9b1));
+            selectedLabel1 = null;
+            selectedLabel2 = null;
+            try{
+                cp.modificarPosicioProductes(idPrestatgeria, idProducto1, idProducto2);
+                JOptionPane.showMessageDialog(gridPanel, "Intercanvi realitzat.", "Èxit", JOptionPane.INFORMATION_MESSAGE);
+                cardLayout.show(bg, "Page1");
+                mostrarPrestatgeries();
+            }catch (Exception e) {
+                JOptionPane.showMessageDialog(gridPanel, "Error al intercambiar productes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(gridPanel, "Selecciona dos productes per intercanviar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     public void mostrarPrestatgeries() {
@@ -225,6 +294,9 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
         title2 = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         gridPanel = new javax.swing.JPanel();
+        btnEliminar = new javax.swing.JButton();
+        idPres = new javax.swing.JLabel();
+        btnIntercambiar = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -283,7 +355,24 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
 
         gridPanel.setBackground(new java.awt.Color(255, 255, 255));
         gridPanel.setPreferredSize(new java.awt.Dimension(1000, 700));
-        gridPanel.setLayout(new java.awt.GridLayout());
+        gridPanel.setLayout(new java.awt.GridLayout(1, 0));
+
+        btnEliminar.setText("Esborrar Prestatgeria");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        idPres.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        idPres.setText("ID");
+
+        btnIntercambiar.setText("Intercanviar");
+        btnIntercambiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIntercambiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout page2Layout = new javax.swing.GroupLayout(page2);
         page2.setLayout(page2Layout);
@@ -292,21 +381,37 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
             .addGroup(page2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBack)
-                    .addComponent(title2)
-                    .addComponent(gridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 788, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addGroup(page2Layout.createSequentialGroup()
+                        .addGroup(page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(page2Layout.createSequentialGroup()
+                                .addComponent(title2)
+                                .addGap(18, 18, 18)
+                                .addComponent(idPres))
+                            .addComponent(gridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 788, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(page2Layout.createSequentialGroup()
+                        .addComponent(btnBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnIntercambiar)
+                        .addGap(55, 55, 55)
+                        .addComponent(btnEliminar)))
+                .addGap(6, 6, 6))
         );
         page2Layout.setVerticalGroup(
             page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(page2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnBack)
-                .addGap(18, 18, 18)
-                .addComponent(title2)
+                .addGroup(page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnIntercambiar))
+                .addGap(26, 26, 26)
+                .addGroup(page2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(title2)
+                    .addComponent(idPres))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(gridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         bg.add(page2, "card3");
@@ -352,12 +457,38 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
         cardLayout.show(bg, "Page1");
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        String id = idPres.getText();
+
+        int confirmacio = JOptionPane.showConfirmDialog(this, "Estàs segur que vols esborrar la prestatgeria amb ID " + id + "?", "Confirmar esborrat", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacio == JOptionPane.YES_OPTION) {
+//            try {
+                cp.esborrarPrestatgeria(id);
+                JOptionPane.showMessageDialog(this, "Prestatgeria esborrada amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
+                cardLayout.show(bg, "Page1");
+                mostrarPrestatgeries();   // Torna a carregar els botons dels productes al llistaPanel
+//            } catch (DominiException ex) {
+//                javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+//            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnIntercambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIntercambiarActionPerformed
+        // TODO add your handling code here:
+        intercanviarDosProductes();
+    }//GEN-LAST:event_btnIntercambiarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCrear;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnIntercambiar;
     private javax.swing.JPanel gridPanel;
+    private javax.swing.JLabel idPres;
     private javax.swing.JPanel page1;
     private javax.swing.JPanel page2;
     private javax.swing.JPanel panelGrid;

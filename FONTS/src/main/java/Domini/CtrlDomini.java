@@ -31,10 +31,17 @@ public class CtrlDomini {
 
     private static CtrlDomini singletonObject;
     
+    /**
+     * Constructor de la classe CtrlDomini. Inicialitza el controlador de
+     * domini.
+     */
     public CtrlDomini() {
         inicialitzarCtrlDomini();
     }
-
+    
+    /**
+     * Inicialitza els components necessaris del controlador de domini.
+     */
     public void inicialitzarCtrlDomini() {
     	cp = new CtrlPersistencia();
     }
@@ -46,15 +53,36 @@ public class CtrlDomini {
         return singletonObject;
     }
     
-   public void listToProductes(List<String> producteJsonList) throws DominiException{
-        cjtProductes.setMapProductes(cjtProductes.listToProductes(producteJsonList));
-   }
-   
-   public void listToPrestatgeries(List<String> presJsonList) throws DominiException {
-       cjtPrestatgeries.setMapPrestatgeries(cjtPrestatgeries.listToPrestatgeries(presJsonList));
-       //ARREGLAR, tiene que devolver lo que devuelve la funcion de productos, y necesito un setMapPrestatgeries.
-   }
-
+    /**
+     * Converteix una llista de JSON de productes en objectes de producte i els
+     * afegeix al conjunt de productes.
+     *
+     * @param producteJsonList Llista de JSON de productes.
+     * @throws DominiException Si ocorre un error en el procés.
+     */
+    public void listToProductes(List<String> producteJsonList) throws DominiException{
+         cjtProductes.setMapProductes(cjtProductes.listToProductes(producteJsonList));
+    }
+    
+    /**
+     * Converteix una llista de JSON de prestatgeries en objectes de
+     * prestatgeria i les afegeix al conjunt de prestatgeries.
+     *
+     * @param presJsonList Llista de JSON de prestatgeries.
+     * @throws DominiException Si ocorre un error en el procés.
+     */
+    public void listToPrestatgeries(List<String> presJsonList) throws DominiException {
+        cjtPrestatgeries.setMapPrestatgeries(cjtPrestatgeries.listToPrestatgeries(presJsonList));
+        //ARREGLAR, tiene que devolver lo que devuelve la funcion de productos, y necesito un setMapPrestatgeries.
+    }
+    
+     /**
+     * Inicia una sessió per a un usuari especificat.
+     * @param username Nom d'usuari.
+     * @param pwd Contrasenya de l'usuari.
+     * @throws PersistenciaException Si ocorre un error de persistència.
+     * @throws DominiException Si ocorre un error de domini.
+     */
     public void iniciarSessio(String username, String pwd) throws PersistenciaException, DominiException{
         cjtProductes = new CjtProductes(username);
         listToProductes(cp.importarProductes(username));
@@ -62,12 +90,26 @@ public class CtrlDomini {
         listToPrestatgeries(cp.importarPrestatgeries(username)); //ARREGLAR es importar prestatgeries, PLURAL
         UsuariActual = new Usuari(username, pwd);
     }
-
+    
+    /**
+     * Crea un nou usuari i inicia la sessió amb aquest usuari.
+     *
+     * @param name Nom d'usuari.
+     * @param pwd Contrasenya de l'usuari.
+     * @throws PersistenciaException Si ocorre un error de persistència.
+     * @throws DominiException Si ocorre un error de domini.
+     */
     public void crearUsuari(String name, String pwd) throws PersistenciaException, DominiException{
     	cp.afegirUsuari(name, pwd);
         iniciarSessio(name, pwd);
     }
     
+    /**
+     * Llista els productes associats a l'usuari actual.
+     *
+     * @return Mapa de productes amb la seva informació.
+     * @throws DominiException Si ocorre un error de domini.
+     */
     public Map<String, Map<String,String>> llistarProductesUsuari() throws DominiException{
     	if (cjtProductes == null) {
             System.out.println("Error: No hi ha cap conjunt de productes associat a l'usuari.");
@@ -76,6 +118,11 @@ public class CtrlDomini {
         return cjtProductes.llistarProductesUsuari();
     }
     
+    /**
+     * Llista les prestatgeries associades a l'usuari actual.
+     *
+     * @return Mapa de prestatgeries amb la seva informació.
+     */
     public Map<String, Map<String,String>> llistarPrestatgeriesUsuari() {
     	if (cjtPrestatgeries == null) {
             System.out.println("Error: No hi ha cap prestatgeria creada.");
@@ -84,6 +131,15 @@ public class CtrlDomini {
         return cjtPrestatgeries.llistarPrestatgeriesUsuari();
     }
     
+    /**
+     * Crea un nou producte amb l'identificador, el nom i les similituds
+     * especificades.
+     *
+     * @param id Identificador del producte.
+     * @param nom Nom del producte.
+     * @param similituds Mapa de similituds amb altres productes.
+     * @throws DominiException Si ocorre un error de domini.
+     */
     public void crearProducte(int id, String nom, Map<Integer, Double> similituds) throws DominiException{
     	if (id <= 0 || nom == null) {
             System.out.println("Error: Dades del producte no vàlides.");
@@ -92,6 +148,11 @@ public class CtrlDomini {
         cjtProductes.afegirProducte(id, nom, similituds);
     }
     
+    /**
+     * Assigna identificadors a un vector d'identificadors de productes.
+     * @param productes Conjunt d'identificadors de productes.
+     * @return Vector d'identificadors de productes.
+     */
     public int[] setIdsToVecIds(Set<Integer> productes){
         if (productes == null || productes.isEmpty()) {
             return new int[0]; // Devuelve un array vacío
@@ -100,7 +161,15 @@ public class CtrlDomini {
         return productes.stream().mapToInt(Integer::intValue).toArray();
     }
     
-    
+    /**
+     * Genera un layout per a una prestatgeria especificada.
+     *
+     * @param id Identificador de la prestatgeria.
+     * @param productes Conjunt de productes per a la prestatgeria.
+     * @param bruteForce Si es vol utilitzar l'algoritme de força bruta.
+     * @param numCols Nombre de columnes de la prestatgeria.
+     * @throws DominiException Si ocorre un error de domini.
+     */
     public void obtenirLayout(int id, Set<Integer> productes, Boolean bruteForce, int numCols) throws DominiException{
         int[] vecProductes = setIdsToVecIds(productes);
         double[][] matSimilituds = cjtProductes.getMatriuSimilitudsPerIds(vecProductes);
@@ -127,7 +196,17 @@ public class CtrlDomini {
             }
         }
     }
-
+    
+    /**
+     * Crea una nova prestatgeria amb els paràmetres especificats.
+     *
+     * @param id Identificador de la prestatgeria.
+     * @param nom Nom de la prestatgeria.
+     * @param numCols Nombre de columnes de la prestatgeria.
+     * @param productes Conjunt de productes a afegir a la prestatgeria.
+     * @param bruteForce Si es vol utilitzar l'algoritme de força bruta.
+     * @throws DominiException Si ocorre un error de domini.
+     */
     public void crearPrestatgeria(int id, String nom, int numCols, Set<Integer> productes, Boolean bruteForce) throws DominiException{
     	if (productes.isEmpty()){
             throw new DominiException("Error: No s'han seleccionat productes");
@@ -141,7 +220,15 @@ public class CtrlDomini {
         cjtPrestatgeries.crearPrestatgeria(id, nom, numFilas, numCols, productes);
         obtenirLayout(id, productes,bruteForce, numCols);
     }
-
+    
+    /**
+     * Modifica un producte existent amb els nous valors especificats.
+     *
+     * @param idProdActual1 Identificador actual del producte.
+     * @param nouId Nou identificador per al producte (pot ser null).
+     * @param nouNom Nou nom per al producte (pot ser "-").
+     * @throws DominiException Si ocorre un error de domini.
+     */
     public void modificarProducte(Integer idProdActual1, Integer nouId, String nouNom) throws DominiException{
         if (cjtProductes.getProducte(idProdActual1) != null) {
             
@@ -160,6 +247,16 @@ public class CtrlDomini {
         }
     }
     
+    /**
+     * Modifica la similitud entre dos productes especificats.
+     *
+     * @param idProdActual1 Identificador del primer producte.
+     * @param idProdActual2 Identificador del segon producte.
+     * @param novaSim Nova similitud entre els productes.
+     * @param bruteForce Si es vol utilitzar l'algoritme de força bruta per al
+     * càlcul.
+     * @throws DominiException Si ocorre un error durant el procés.
+     */
     public void modificarSimilituds(Integer idProdActual1, Integer idProdActual2, double novaSim, Boolean bruteForce) throws DominiException {
     	if (cjtProductes.getProducte(idProdActual1) != null && cjtProductes.getProducte(idProdActual2) != null) {
             cjtProductes.modificarSimilitud(idProdActual1, idProdActual2, novaSim);
@@ -183,7 +280,16 @@ public class CtrlDomini {
             System.out.println("No existeixen un dels productes amb id = " + idProdActual1 + " o id= " + idProdActual2 );
         }
     }
-
+    
+    /**
+     * Modifica la configuració d'una prestatgeria intercanviant dos productes
+     * especificats.
+     *
+     * @param id Identificador de la prestatgeria.
+     * @param idp1 Identificador del primer producte.
+     * @param idp2 Identificador del segon producte.
+     * @throws DominiException Si ocorre un error durant el procés.
+     */
     public void modificarPrestatgeria(int id, int idp1, int idp2) throws DominiException{
         if (cjtPrestatgeries == null) {
             System.out.println("Error: No hi ha cap prestatgeria per modificar.");
@@ -195,7 +301,14 @@ public class CtrlDomini {
         cjtProductes.editarPosProducte(id, idp1, pos2);
         cjtProductes.editarPosProducte(id, idp2, pos1);
     }
-
+    
+    /**
+     * Elimina un producte i totes les prestatgeries associades a aquest
+     * producte.
+     *
+     * @param id Identificador del producte a eliminar.
+     * @throws DominiException Si ocorre un error durant el procés.
+     */
     public void esborrarProducte(int id) throws DominiException{
         Map<Integer, Pair<Integer, Integer>> pres = cjtProductes.getPosPrestatgeriesProducte(id);
         cjtProductes.eliminarProducte(id);
@@ -204,7 +317,12 @@ public class CtrlDomini {
             esborrarPrestatgeria(key);
         }
     }
-
+    
+    /**
+     * Elimina una prestatgeria especificada.
+     *
+     * @param id Identificador de la prestatgeria a eliminar.
+     */
     public void esborrarPrestatgeria(int id){
     	if (cjtPrestatgeries == null) {
             System.out.println("La prestatgeria no existeix.");
@@ -213,7 +331,12 @@ public class CtrlDomini {
         cjtPrestatgeries.esborrarPrestatgeria(id);
     }
 
-
+    /**
+     * Elimina l'usuari actual del sistema.
+     *
+     * @throws PersistenciaException Si ocorre un error de persistència.
+     * @throws DominiException Si ocorre un error durant el procés.
+     */
     public void esborrarUsuari() throws PersistenciaException, DominiException{
     	if (UsuariActual == null) {
             System.out.println("No hi ha usuari actual.");
@@ -223,27 +346,63 @@ public class CtrlDomini {
         tancarSessio(); 
     }
     
-    
+    /**
+     * Comprova si un usuari existeix al sistema.
+     *
+     * @param us Nom d'usuari a comprovar.
+     * @return Cert si l'usuari existeix, fals altrament.
+     * @throws PersistenciaException Si ocorre un error de persistència.
+     */
     public boolean existeixUsuari(String us) throws PersistenciaException {
         return cp.existeixUsuari(us);
     }
     
+    /**
+     * Comprova les credencials d'un usuari.
+     *
+     * @param username Nom d'usuari.
+     * @param pwd Contrasenya.
+     * @return Cert si les credencials són correctes, fals altrament.
+     * @throws PersistenciaException Si ocorre un error de persistència.
+     */
     public Boolean comprovarUsuari(String username, String pwd) throws PersistenciaException{
         return cp.verificarContrasenya(username, pwd);
     }
     
+    /**
+     * Obté el nom de l'usuari actual.
+     *
+     * @return Nom de l'usuari actual.
+     */
     public String getUsuariActual(){
         return UsuariActual.getUsername();
     }
     
+    /**
+     * Llegeix un fitxer de productes i afegeix els productes al conjunt de
+     * productes.
+     *
+     * @param path Ruta del fitxer de producte.
+     * @throws PersistenciaException Si ocorre un error de persistència.
+     * @throws DominiException Si ocorre un error durant el procés.
+     */
     public void LlegirProducteFitxer(String path) throws PersistenciaException, DominiException{
         List<String> prodInfo = cp.importarFitxerProducte(path);
         afegirProducteFitxer(prodInfo);
 
     }
-    public void LlegirPrestatgeriaFitxer(String nom, String id, String cols, String path) throws PersistenciaException, DominiException{
+    
+    /**
+     * Llegeix un fitxer de prestatgeries i afegeix la prestatgeria al conjunt
+     * de prestatgeries.
+     *
+     * @param path Ruta del fitxer de prestatgeria.
+     * @throws PersistenciaException Si ocorre un error de persistència.
+     * @throws DominiException Si ocorre un error durant el procés.
+     */
+    public void LlegirPrestatgeriaFitxer(String path) throws PersistenciaException, DominiException{
         List<String> pres = cp.importarFitxerPrestatgeria(path);
-        afegirPrestatgeriaFitxer(nom, id, cols, pres);
+        afegirPrestatgeriaFitxer(pres);
 
     }
     
@@ -261,28 +420,52 @@ public class CtrlDomini {
        
     }
 
-    private void afegirPrestatgeriaFitxer(String nomPres, String id, String cols, List<String> pres) throws DominiException{
-        int idPres = Integer.parseInt(id);
-        int numCols = Integer.parseInt(cols);
+    private void afegirPrestatgeriaFitxer(List<String> pres) throws DominiException{
+//        int idPres = Integer.parseInt(id);
+//        int numCols = Integer.parseInt(cols);
         Set<Integer> prods = pres.stream()
                                         .map(Integer::valueOf) // Convertir cada String a Integer
                                         .collect(Collectors.toSet());
         
-        crearPrestatgeria(idPres, nomPres, numCols, prods, true);
+//        crearPrestatgeria(idPres, nomPres, numCols, prods, true);
     }
     
+    /**
+     * Converteix els productes associats a l'usuari actual en una llista de
+     * cadenes JSON.
+     *
+     * @return Llista de cadenes JSON representant els productes.
+     * @throws DominiException Si ocorre un error durant el procés.
+     */
     public List<String> productesToList() throws DominiException{
         return cjtProductes.productesToList(cjtProductes.getProductes(UsuariActual.getUsername()));
     }
     
+    /**
+     * Converteix les prestatgeries associades a l'usuari actual en una llista
+     * de cadenes JSON.
+     *
+     * @return Llista de cadenes JSON representant les prestatgeries.
+     */
     public List<String> prestatgeriesToList(){
         return cjtPrestatgeries.prestatgeriesToList(cjtPrestatgeries.getConjPrestatges(UsuariActual.getUsername()));
     }
     
+    /**
+     * Canvia la contrasenya d'un usuari.
+     * @param username Nom d'usuari.
+     * @param novaContra Nova contrasenya.
+     * @throws PersistenciaException Si ocorre un error de persistència.
+     */
     public void canviarContrasenya(String username, String novaContra) throws PersistenciaException{
         cp.canviarContrasenya(username, novaContra);
     }
-
+    
+    /**
+     * Tanca la sessió de l'usuari actual, guardant les dades de productes i prestatgeries.
+     * @throws PersistenciaException Si ocorre un error de persistència.
+     * @throws DominiException Si ocorre un error durant el procés.
+     */
     public void tancarSessio() throws PersistenciaException, DominiException{
         List<String> prestatgeries =  prestatgeriesToList();
         List<String> productes = productesToList();

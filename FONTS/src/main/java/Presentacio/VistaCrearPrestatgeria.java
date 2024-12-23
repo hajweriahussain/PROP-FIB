@@ -55,7 +55,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
             File selectedFile = fileChooser.getSelectedFile();
             try {
                 String path = selectedFile.getAbsolutePath();
-                cp.crearProducteFitxer(path);
+                cp.crearPrestatgeriaFitxer(path);
                 JOptionPane.showMessageDialog(this, "Prestatgeria importada amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
                 sortir();
             } catch (Exception e) {
@@ -345,7 +345,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         btnBF.setText("Força Bruta");
 
         panelGrid.setBackground(new java.awt.Color(255, 255, 255));
-        panelGrid.setLayout(new java.awt.GridLayout());
+        panelGrid.setLayout(new java.awt.GridLayout(1, 0));
         panelProductos.setViewportView(panelGrid);
 
         productesLabel.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
@@ -385,9 +385,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                                     .addComponent(errorId, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(38, 38, 38)
                                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(bgLayout.createSequentialGroup()
-                                        .addComponent(algoritmeLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(algoritmeLabel)
                                     .addGroup(bgLayout.createSequentialGroup()
                                         .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(btnImportar)
@@ -397,7 +395,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                                                 .addGap(18, 18, 18)
                                                 .addComponent(btnDosAp))
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
                                                 .addComponent(btnCrear))))))
                             .addGroup(bgLayout.createSequentialGroup()
                                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -435,7 +433,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
                         .addComponent(errorId, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(nomLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nomtxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(errorNom, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -468,7 +466,7 @@ public class VistaCrearPrestatgeria extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
