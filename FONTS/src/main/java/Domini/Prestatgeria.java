@@ -221,25 +221,23 @@ public class Prestatgeria {
      * @param filaProd2 La fila del segon producte.
      * @param colProd2 La columna del segon producte.
      */
-    public void intercanviarDosProductes(int filaProd1, int colProd1, int filaProd2, int colProd2) {
+    public void intercanviarDosProductes(int filaProd1, int colProd1, int filaProd2, int colProd2) throws DominiException {
     	if (filaProd1 < 0 || colProd1 < 0 || filaProd1 >= numFilas || colProd1 >= numColumnas
                 || filaProd2 < 0 || colProd2 < 0 || filaProd2 >= numFilas || colProd2 >= numColumnas) {
-            System.out.println("Posicions fora de rang.");
+            throw new DominiException("Posicions fora de rang.");
         }
 
-        // Validación de posiciones iguales
         if (filaProd1 == filaProd2 && colProd1 == colProd2) {
-            System.out.println("Posicio producte 1: " + filaProd1 + ", " + colProd1);
-            System.out.println("Posicio producte 2: " + filaProd2 + ", " + colProd2);
-            System.out.println("Les posicions són iguals, no es pot realitzar l'intercanvi.");
+//            System.out.println("Posicio producte 1: " + filaProd1 + ", " + colProd1);
+//            System.out.println("Posicio producte 2: " + filaProd2 + ", " + colProd2);
+            throw new DominiException("Les posicions són iguals, no es pot realitzar l'intercanvi");
         }
 
-        // Obtener prestatges y validar productos no nulos
         Producte[] prestatge1 = layout.get(filaProd1);
         Producte[] prestatge2 = layout.get(filaProd2);
 
         if (prestatge1[colProd1] == null || prestatge2[colProd2] == null) {
-            System.out.println("Un o ambdós productes són null, no es pot realitzar l'intercanvi.");
+            throw new DominiException("Un o ambdós productes són null, no es pot realitzar l'intercanvi.");
         }
 
         Producte temp = prestatge1[colProd1];

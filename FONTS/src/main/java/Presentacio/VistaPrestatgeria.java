@@ -464,14 +464,14 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
         int confirmacio = JOptionPane.showConfirmDialog(this, "Estàs segur que vols esborrar la prestatgeria amb ID " + id + "?", "Confirmar esborrat", JOptionPane.YES_NO_OPTION);
 
         if (confirmacio == JOptionPane.YES_OPTION) {
-//            try {
+            try {
                 cp.esborrarPrestatgeria(id);
                 JOptionPane.showMessageDialog(this, "Prestatgeria esborrada amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
                 cardLayout.show(bg, "Page1");
                 mostrarPrestatgeries();   // Torna a carregar els botons dels productes al llistaPanel
-//            } catch (DominiException ex) {
-//                javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
-//            }
+            } catch (DominiException ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat al esborrar la prestatgeria: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 

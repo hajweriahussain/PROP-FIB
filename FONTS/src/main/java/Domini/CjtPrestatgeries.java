@@ -207,9 +207,7 @@ public class CjtPrestatgeries {
      * @param prestatgeID ID de la prestatgeria a eliminar.
      */
     public void esborrarPrestatgeria(int prestatgeID) {
-        Prestatgeria prestatgeria = getPrestatgeria(prestatgeID);
-        if (prestatgeria != null) prestatgeria.esborrarPrestatgeria();
-        else System.out.println("Error: No es pot esborrar la prestatgeria.");
+        map_prest.remove(prestatgeID);
     }
 
     /**
@@ -226,10 +224,11 @@ public class CjtPrestatgeries {
             for (Prestatgeria prestatgeria : prestatgeriesMap.values()) {
                 try {
                     // Convertir productes a una lista de Strings
-                    Set<String> productesAsString = prestatgeria.getProductes()
-                            .stream()
-                            .map(String::valueOf) // Convertir cada producto a String
-                            .collect(Collectors.toSet());
+                    Set<String> productesAsString = prestatgeria.getProductes() != null
+                    ? prestatgeria.getProductes().stream()
+                          .map(String::valueOf)
+                          .collect(Collectors.toSet())
+                    : new HashSet<>();
 
                     // Convertir disp a una lista serializable correctamente
                     List<List<Map<String, String>>> dispAsString = prestatgeria.getDisp()
@@ -240,15 +239,13 @@ public class CjtPrestatgeries {
                             "value", String.valueOf(pair.valor) // value como String
                     )).collect(Collectors.toList())).collect(Collectors.toList());
 
-                    // Crear el mapa con los datos de la prestatgeria
-                    Map<String, Object> prestatgeriaData = Map.of(
-                            "id", String.valueOf(prestatgeria.getId()), // Asegurar que id sea String
-                            "nom", prestatgeria.getNom(),
-                            "numFilas", prestatgeria.getNumFilas(),
-                            "numColumnas", prestatgeria.getNumColumnas(),
-                            "productes", productesAsString,
-                            "layout", dispAsString
-                    );
+                    Map<String, Object> prestatgeriaData = new HashMap<>();
+                    prestatgeriaData.put("id", String.valueOf(prestatgeria.getId()));
+                    prestatgeriaData.put("nom", prestatgeria.getNom());
+                    prestatgeriaData.put("numFilas", prestatgeria.getNumFilas());
+                    prestatgeriaData.put("numColumnas", prestatgeria.getNumColumnas());
+                    prestatgeriaData.put("productes", new ArrayList<>(productesAsString)); // Convertir Set a List
+                    prestatgeriaData.put("layout", dispAsString);
 
                     // Convertir el mapa a JSON
                     String jsonPrestatgeria = gson.toJson(prestatgeriaData);
@@ -296,24 +293,26 @@ public class CjtPrestatgeries {
 
                 // Procesar el layout
                 List<List<Map<String, String>>> dispData = (List<List<Map<String, String>>>) prestatgeriaData.get("layout");
-                if (dispData != null) {
+                if (dispData != null && !dispData.isEmpty() && numFilas > 0 && numColumnas > 0) {
                     Producte[][] layout = new Producte[numFilas][numColumnas];
                     for (int i = 0; i < dispData.size(); i++) {
                         List<Map<String, String>> filaData = dispData.get(i);
+                        if (filaData == null || filaData.isEmpty()) {
+                            continue; // Ignorar filas vacías o nulas
+                        }
                         for (int j = 0; j < filaData.size(); j++) {
                             Map<String, String> prodData = filaData.get(j);
                             if (prodData != null) {
-                                // Extraer datos del producto
                                 int prodId = Integer.parseInt(prodData.get("value"));
                                 String prodNom = prodData.get("key");
-
-                                // Crear y añadir el producto al layout
                                 Producte producte = new Producte(prodId, prodNom);
                                 layout[i][j] = producte;
                             }
                         }
                     }
                     prestatgeria.setLayout(layout);
+                } else {
+                    prestatgeria.setLayout(new Producte[0][0]); // Asignar un layout vacío
                 }
 
                 // Añadir la prestatgeria al mapa
@@ -354,6 +353,17 @@ public class CjtPrestatgeries {
         return llistatPrestatgeries;
     }
     
+    /**
+    * Convierte un layout representado como {@code List<List<Pair<String, Integer>>>}
+    * en una cadena formateada.
+    * <p>
+    * El formato de salida es: "Fila X: (clave, valor), ... | Fila Y: (clave, valor), ...".
+    * Las celdas vacías se representan como "(null, null)".
+    * </p>
+    *
+    * @param disp Layout de la prestatgeria como una lista de listas de pares clave-valor.
+    * @return Cadena que representa el layout en formato legible.
+    */
     private String convertirLayoutToString(List<List<Pair<String, Integer>>> disp) {
         StringBuilder sb = new StringBuilder();
 

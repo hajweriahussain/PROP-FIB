@@ -229,7 +229,7 @@ public class CtrlPresentacio {
      * Esborra una prestatgeria.
      * @param idPres Identificador de la prestatgeria a esborrar.
      */
-    public void esborrarPrestatgeria(String idPres) {
+    public void esborrarPrestatgeria(String idPres) throws DominiException{
         ctrlDomini.esborrarPrestatgeria(Integer.parseInt(idPres));
     }
     

@@ -332,10 +332,15 @@ public class CtrlDomini {
      *
      * @param id Identificador de la prestatgeria a eliminar.
      */
-    public void esborrarPrestatgeria(int id){
+    public void esborrarPrestatgeria(int id) throws DominiException{
     	if (cjtPrestatgeries == null) {
             System.out.println("La prestatgeria no existeix.");
             return;
+        }
+        Set<Integer> prods = cjtPrestatgeries.getProductes(id);
+        
+        for (Integer idP : prods){
+            cjtProductes.esborrarPosPrestatgeria(id, idP);
         }
         cjtPrestatgeries.esborrarPrestatgeria(id);
     }
