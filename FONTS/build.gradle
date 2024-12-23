@@ -51,6 +51,7 @@ tasks.named('javadoc') {
         version true
         links 'https://docs.oracle.com/en/java/javase/11/docs/api/' // Documentació externa
     }
+    destinationDir = file("$projectDir/JAVADOC") // Cambia la ruta al directorio deseado
 }
 
 sourceSets {
