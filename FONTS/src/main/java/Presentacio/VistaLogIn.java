@@ -9,16 +9,20 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author laura
+ * Aquesta classe representa la vista de l'inici de sessió (Log In).
+ * És un JPanel que gestiona la interfície d'usuari per iniciar sessió.
+ * 
+ * @author Laura
  */
 public class VistaLogIn extends javax.swing.JPanel {
     private CtrlPresentacio cp;
     private CardLayout cl;
     private VistaSignUp vistaSU;
     private VistaMenuInici parentMenu;
+    
     /**
-     * Creates new form VistaLogIn
+     * Crea una nova instància de VistaLogIn.
+     * Inicialitza els components i configura la interfície d'usuari.
      * @param parent
      */
     public VistaLogIn(VistaMenuInici parent) {
@@ -153,7 +157,7 @@ public class VistaLogIn extends javax.swing.JPanel {
         logo2.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         logo2.setText("N' PRODUCTS");
 
-        lblErrors.setForeground(new java.awt.Color(255, 0, 51));
+        lblErrors.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout LogInLayout = new javax.swing.GroupLayout(LogIn);
         LogIn.setLayout(LogInLayout);
@@ -175,19 +179,17 @@ public class VistaLogIn extends javax.swing.JPanel {
                             .addComponent(registre)))
                     .addGroup(LogInLayout.createSequentialGroup()
                         .addGap(103, 103, 103)
-                        .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(LogInLayout.createSequentialGroup()
-                                .addComponent(lblContrasenya)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblErrors, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblContrasenya)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
                             .addComponent(entrar)
-                            .addComponent(contrasenya, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usuari, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(contrasenya, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                            .addComponent(usuari, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
                             .addComponent(lblUsuari)
-                            .addComponent(lblIniciSessio))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblIniciSessio)
+                            .addComponent(lblErrors, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
         LogInLayout.setVerticalGroup(
             LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +201,7 @@ public class VistaLogIn extends javax.swing.JPanel {
                         .addComponent(logo1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(logo2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addComponent(lblIniciSessio)
                 .addGap(26, 26, 26)
                 .addComponent(lblUsuari)
@@ -207,25 +209,21 @@ public class VistaLogIn extends javax.swing.JPanel {
                 .addComponent(usuari, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(lblContrasenya)
                 .addGap(18, 18, 18)
-                .addGroup(LogInLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(LogInLayout.createSequentialGroup()
-                        .addComponent(lblErrors)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LogInLayout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(lblContrasenya)
-                        .addGap(18, 18, 18)))
                 .addComponent(contrasenya, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblErrors)
+                .addGap(30, 30, 30)
                 .addComponent(entrar)
-                .addGap(8, 8, 8)
+                .addGap(12, 12, 12)
                 .addComponent(lblRegistrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(registre)
-                .addContainerGap(322, Short.MAX_VALUE))
+                .addContainerGap(291, Short.MAX_VALUE))
         );
 
         bg.add(LogIn, "card2");
@@ -241,7 +239,12 @@ public class VistaLogIn extends javax.swing.JPanel {
             .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Gestiona l'esdeveniment quan es fa clic al botó "Entrar".
+     * Comprova la validesa de les credencials i inicia sessió si són correctes.
+     * 
+     * @param evt Esdeveniment del clic del ratolí
+     */
     private void entrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrarMouseClicked
 
         try{
@@ -255,10 +258,10 @@ public class VistaLogIn extends javax.swing.JPanel {
             else if(!valid){
                 boolean existeix = cp.existeixUsuari(usuari.getText());
                 if(!existeix){
-                    javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nIntent d'inici de sessió incorrecte.\nComprova el teu username.\nNo existeix cap compte amb aquest usuari.\nSi no tens compte registra't!");
+                    javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nIntent d'inici de sessió incorrecte.\nComprova el teu username.\nNo existeix cap compte amb aquest usuari.\nSi no tens compte registra't!","ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nIntent d'inici de sessió incorrecte.\nLa contrasenya NO és correcta!");
+                    javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nIntent d'inici de sessió incorrecte.\nLa contrasenya NO és correcta!","ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else{
@@ -289,7 +292,12 @@ public class VistaLogIn extends javax.swing.JPanel {
     private void usuariComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_usuariComponentRemoved
 
     }//GEN-LAST:event_usuariComponentRemoved
-
+    /**
+     * Configura l'aspecte del camp de text per al nom d'usuari quan es fa clic.
+     * Neteja el contingut si el text per defecte encara està present.
+     * 
+     * @param evt Esdeveniment del clic del ratolí
+     */
     private void usuariMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuariMousePressed
         if(usuari.getText().equals("Introdueix el teu nom d'usuari")){
             usuari.setText("");
@@ -305,7 +313,12 @@ public class VistaLogIn extends javax.swing.JPanel {
     private void usuariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariActionPerformed
 
     }//GEN-LAST:event_usuariActionPerformed
-
+    /**
+     * Configura l'aspecte del camp de text per a la contrasenya quan es fa clic.
+     * Neteja el contingut si el text per defecte encara està present.
+     * 
+     * @param evt Esdeveniment del clic del ratolí
+     */
     private void contrasenyaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contrasenyaMousePressed
         if(String.valueOf(contrasenya.getPassword()).equals("********")){
             contrasenya.setText("");
@@ -325,7 +338,12 @@ public class VistaLogIn extends javax.swing.JPanel {
     private void registreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registreMouseClicked
       
     }//GEN-LAST:event_registreMouseClicked
-
+    /**
+     * Gestiona l'esdeveniment quan es fa clic al botó "Registra't!".
+     * Mostra la vista de registre si no està ja inicialitzada.
+     * 
+     * @param evt Esdeveniment del clic del ratolí
+     */
     private void registreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registreActionPerformed
         if(vistaSU == null){
             vistaSU = new VistaSignUp(parentMenu);

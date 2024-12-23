@@ -5,8 +5,11 @@
 package Presentacio;
 import java.awt.CardLayout;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 /**
- *
+ * VistaSignUp és la vista per al registre d'un nou usuari.
+ * Permet introduir un nom d'usuari i contrasenya, i validar la seva informació.
+ * També permet navegar cap a la pantalla de login en cas que l'usuari vulgui tornar enrere.
  * @author laura
  */
 public class VistaSignUp extends javax.swing.JPanel {
@@ -257,7 +260,10 @@ public class VistaSignUp extends javax.swing.JPanel {
     private void usuariComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_usuariComponentAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_usuariComponentAdded
-
+    /**
+     * Acció que es realitza quan es fa clic sobre el camp de nom d'usuari.
+     * El text predeterminat desapareix quan l'usuari fa clic.
+     */
     private void usuariMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usuariMousePressed
         if(usuari.getText().equals("Introdueix el teu nom d'usuari")){
             usuari.setText("");
@@ -277,7 +283,10 @@ public class VistaSignUp extends javax.swing.JPanel {
     private void usuariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usuariActionPerformed
-
+    /**
+     * Acció que es realitza quan es fa clic sobre el camp de contrasenya.
+     * El text predeterminat desapareix quan l'usuari fa clic.
+     */
     private void contrasenyaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contrasenyaMousePressed
         if(String.valueOf(contrasenya.getPassword()).equals("********")){
             contrasenya.setText("");
@@ -297,7 +306,10 @@ public class VistaSignUp extends javax.swing.JPanel {
     private void contrasenyaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasenyaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_contrasenyaActionPerformed
-
+     /**
+     * Acció que es realitza quan es fa clic sobre el camp de confirmació de la contrasenya.
+     * El text predeterminat desapareix quan l'usuari fa clic.
+     */
     private void contrasenya2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contrasenya2MousePressed
         if(usuari.getText().isEmpty()){
             usuari.setText("Introdueix el teu nom d'usuari");
@@ -321,7 +333,10 @@ public class VistaSignUp extends javax.swing.JPanel {
     private void enrereMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enrereMouseClicked
 
     }//GEN-LAST:event_enrereMouseClicked
-
+    /**
+     * Acció que es realitza quan l'usuari prem el botó "Entrar".
+     * Comprova les dades introduïdes i realitza el registre si tot és correcte.
+     */
     private void entrar3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrar3MouseClicked
             String contrasenya11 = new String(contrasenya.getPassword());
             String contrasenya22 = new String(contrasenya2.getPassword());
@@ -349,7 +364,7 @@ public class VistaSignUp extends javax.swing.JPanel {
                     cp.registrarUsuari(usuari.getText(), contrasenya11);
                 }
                 catch(Exception e){
-                    javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nNo s'ha pogut fer l'inici de sessió");
+                    javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nNo s'ha pogut fer l'inici de sessió","ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 
                 cp.mostrarMenuUsuari();
@@ -358,7 +373,7 @@ public class VistaSignUp extends javax.swing.JPanel {
             }
             }
             catch(Exception e){
-                javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nNo s'ha pogut fer l'inici de sessió");
+                javax.swing.JOptionPane.showMessageDialog(this, "ERROR \nNo s'ha pogut fer l'inici de sessió","ERROR", JOptionPane.ERROR_MESSAGE);
             }
             
     }//GEN-LAST:event_entrar3MouseClicked
@@ -366,7 +381,10 @@ public class VistaSignUp extends javax.swing.JPanel {
     private void entrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrar3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_entrar3ActionPerformed
-
+    /**
+     * Acció que es realitza quan es fa clic sobre el botó "Enrere".
+     * Torna a la vista de login.
+     */
     private void enrereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrereActionPerformed
         // TODO add your handling code here:
         if(vistaLI == null){
