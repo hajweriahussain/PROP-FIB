@@ -17,10 +17,25 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- *
- * @author hajweria
+ * Classe GestorCjtPrestatgeries
+ * 
+ * Aquesta classe gestiona la persistència de les prestatgeries associades als usuaris.
+ * Proporciona mètodes per importar, guardar i esborrar prestatgeries en format JSON,
+ * així com per gestionar fitxers de prestatgeries.
+ * 
+ * @author [hajweria.hussain]
+ * @version 1.0
  */
 public class GestorCjtPrestatgeries {
+    
+    /**
+     * Importa les prestatgeries associades a un usuari des d'un fitxer JSON.
+     *
+     * @param usuari Nom de l'usuari.
+     * @return Llista de prestatgeries en format JSON com a cadenes.
+     * @throws PersistenciaException Si ocorre un error durant la lectura o el
+     * parseig del fitxer.
+     */
     public static List<String> importarPrestatgeries(String usuari) throws PersistenciaException{
         List<String> prestatgeries = new ArrayList<>();
         String ruta = getRuta(usuari);
@@ -78,6 +93,12 @@ public class GestorCjtPrestatgeries {
 
     }
     
+    /**
+     * Guarda les prestatgeries en un fitxer JSON associat a un usuari.
+     * @param prestatgeries Llista de prestatgeries en format JSON com a cadenes.
+     * @param usuari Nom de l'usuari.
+     * @throws PersistenciaException Si ocorre un error durant el guardat del fitxer.
+     */
     public static void guardarPrestatgeries(List<String> prestatgeries, String usuari) throws PersistenciaException {
         if (prestatgeries != null) {
             JSONObject jsonPrestatgeries = new JSONObject();
@@ -131,8 +152,14 @@ public class GestorCjtPrestatgeries {
         } else {
             esborrarPrestatgeriesUsuari(usuari);
         }
-}
+    }
     
+    /**
+     * Esborra el fitxer de prestatgeries associat a un usuari.
+     * @param usuari Nom de l'usuari.
+     * @return Cert si el fitxer s'ha esborrat amb èxit, fals altrament.
+     * @throws PersistenciaException Si ocorre un error durant l'eliminació del fitxer.
+     */
     public static boolean esborrarPrestatgeriesUsuari(String usuari) throws PersistenciaException{
 
        String ruta = getRuta(usuari);
@@ -150,7 +177,13 @@ public class GestorCjtPrestatgeries {
         return borrat;
     }
 
-    
+    /**
+     * Obté la ruta del fitxer de prestatgeries associat a un usuari.
+     * Si el fitxer o la carpeta no existeixen, els crea.
+     * @param usuari Nom de l'usuari.
+     * @return Ruta del fitxer de prestatgeries.
+     * @throws PersistenciaException Si ocorre un error durant la creació del fitxer o la carpeta.
+     */
     private static String getRuta(String usuari) throws PersistenciaException{
         String rutaCarpeta ="src/main/resources/persistencia";
         String rutaArxiu = rutaCarpeta + "/" + usuari + "_prestatgeries.json";
@@ -174,6 +207,12 @@ public class GestorCjtPrestatgeries {
         return rutaArxiu;
     }
     
+    /**
+     * Importa un fitxer de prestatgeria des d'una ruta específica.
+     * @param path Ruta del fitxer a importar.
+     * @return Llista d'IDs de prestatgeries vàlids.
+     * @throws PersistenciaException Si ocorre un error durant la lectura o el processament del fitxer.
+     */
     public static List<String> importarFitxerPrestatgeria(String path) throws PersistenciaException{
        List<String> idsEstanteria = new ArrayList<>(); // Lista para los IDs válidos (como Strings)
 
