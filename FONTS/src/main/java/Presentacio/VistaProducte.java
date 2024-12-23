@@ -54,14 +54,14 @@ public class VistaProducte extends javax.swing.JPanel {
     /**
      * Inicialitza el layout del panell de productes.
      */
-    public void initGridProds() {
+    private void initGridProds() {
         productPanel.setLayout(new GridLayout(0, 4, 10, 10));
     }
     
     /**
      * Configura el panell general amb el CardLayout.
      */
-    public void configurarPanelGeneral() {
+    private void configurarPanelGeneral() {
         cardLayout = new CardLayout();
         jPanelGeneral.setLayout(cardLayout);
 
@@ -238,7 +238,7 @@ public class VistaProducte extends javax.swing.JPanel {
     /**
      * Configura les constraints per al títol de la llista de productes.
      */
-    public void titolLlistaConstraints() {
+    private void titolLlistaConstraints() {
         llistaPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         
@@ -557,7 +557,7 @@ public class VistaProducte extends javax.swing.JPanel {
         panelProds = new javax.swing.JScrollPane();
         productPanel = new javax.swing.JPanel();
         infoPanel = new javax.swing.JPanel();
-        labelTitol = new javax.swing.JLabel();
+        labelTitolInfo = new javax.swing.JLabel();
         botoSortir = new javax.swing.JButton();
         textIdInfo = new javax.swing.JTextField();
         textNomInfo = new javax.swing.JTextField();
@@ -643,8 +643,8 @@ public class VistaProducte extends javax.swing.JPanel {
         infoPanel.setBackground(new java.awt.Color(255, 255, 255));
         infoPanel.setPreferredSize(new java.awt.Dimension(700, 500));
 
-        labelTitol.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
-        labelTitol.setText("INFORMACIÓ DEL PRODUCTE");
+        labelTitolInfo.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        labelTitolInfo.setText("INFORMACIÓ DEL PRODUCTE");
 
         botoSortir.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.shadow"));
         botoSortir.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
@@ -715,7 +715,7 @@ public class VistaProducte extends javax.swing.JPanel {
                         .addComponent(botoEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPanelLayout.createSequentialGroup()
-                        .addComponent(labelTitol)
+                        .addComponent(labelTitolInfo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botoSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))
@@ -748,7 +748,7 @@ public class VistaProducte extends javax.swing.JPanel {
             .addGroup(infoPanelLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelTitol)
+                    .addComponent(labelTitolInfo)
                     .addComponent(botoSortir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -876,13 +876,12 @@ public class VistaProducte extends javax.swing.JPanel {
                         .addComponent(rbDosA))
                     .addGroup(editarPanelLayout.createSequentialGroup()
                         .addGap(591, 591, 591)
-                        .addComponent(botoGuardar)))
-                .addGap(25, 25, 25))
-            .addGroup(editarPanelLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(labelTitolEditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botoGuardar))
+                    .addGroup(editarPanelLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(labelTitolEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botoSortirEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(25, 25, 25))
         );
         editarPanelLayout.setVerticalGroup(
@@ -1020,8 +1019,8 @@ public class VistaProducte extends javax.swing.JPanel {
     private javax.swing.JLabel labelNouNom;
     private javax.swing.JLabel labelPosPrestatgeries;
     private javax.swing.JLabel labelSimilituds;
-    private javax.swing.JLabel labelTitol;
     private javax.swing.JLabel labelTitolEditar;
+    private javax.swing.JLabel labelTitolInfo;
     private javax.swing.JLabel labelTitolLlista;
     private javax.swing.JPanel llistaPanel;
     private javax.swing.JList<String> llistaProductesExistents;

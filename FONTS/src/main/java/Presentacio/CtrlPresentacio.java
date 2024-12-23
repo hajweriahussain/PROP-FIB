@@ -23,7 +23,6 @@ public class CtrlPresentacio {
         this.ctrlDomini = CtrlDomini.getInstance();
     }
     
-    // VISTES
 
     /**
      * Mostra el menú d'inici de l'aplicació.
@@ -47,7 +46,6 @@ public class CtrlPresentacio {
         actFrame.setVisible(true);
     }
     
-
     /**
      * Obté la llista de productes de l'usuari actual.
      * @return Mapa amb la informació dels productes.
@@ -64,8 +62,7 @@ public class CtrlPresentacio {
     public Map<String, Map<String, String>> mostrarPrestatgeries() {
         return ctrlDomini.llistarPrestatgeriesUsuari();
     }
-    
-    // AUX
+
     
     /**
      * Converteix una cadena de text en un mapa de similituds.
@@ -75,6 +72,7 @@ public class CtrlPresentacio {
     private Map<Integer, Double> convertirStringAMap(String input) {
         Map<Integer, Double> similitudMap = new HashMap<>();
         String[] pairs = input.split("\n");
+        
         for (String pair : pairs) {
             String[] keyValue = pair.split(":");
             if (keyValue.length == 2) {
@@ -83,6 +81,7 @@ public class CtrlPresentacio {
                 similitudMap.put(key, value);
             }
         }
+        
         return similitudMap;
     }
     
@@ -95,7 +94,6 @@ public class CtrlPresentacio {
         Set<Integer> set = new HashSet<>();
 
         String trimmed = input.substring(1, input.length() - 1);
-
         String[] values = trimmed.split(", ");
 
         for (String value : values) {
@@ -105,7 +103,6 @@ public class CtrlPresentacio {
         return set;
     }
     
-    // PRODUCTES
       
     /**
      * Crea un nou producte.
@@ -199,7 +196,6 @@ public class CtrlPresentacio {
         return productes.containsKey(idProd);
     }
     
-    // PRESTATGERIES
 
     /**
      * Crea una nova prestatgeria.
@@ -243,7 +239,6 @@ public class CtrlPresentacio {
         return prestatgeries.containsKey(idPres);
     }
     
-    // USUARI
 
     /**
      * Valida les credencials d'un usuari.
@@ -330,8 +325,5 @@ public class CtrlPresentacio {
         }catch(DominiException e){
             throw new DominiException("Error al guardar la estanteria presen " + e.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
     }
 }

@@ -36,7 +36,7 @@ public class GestorCjtProductes {
      */
     public static List<String> importarProductes(String usuari) throws PersistenciaException {
         List<String> productes = new ArrayList<>();
-        String ruta = getRuta(usuari);  // Obtenir la ruta de l'arxiu JSON corresponent a l'usuari
+        String ruta = getRuta(usuari);
 
         try (FileReader fr = new FileReader(ruta)) {
             if (new File(ruta).length() > 0) {
@@ -44,41 +44,38 @@ public class GestorCjtProductes {
                 JSONObject jsonProductes = (JSONObject) parser.parse(fr);
 
                 for (Object key : jsonProductes.keySet()) {
-                    String idProd = (String) key; // Clau del producte en format String
+                    String idProd = (String) key;
                     JSONObject jsonProducte = (JSONObject) jsonProductes.get(idProd);
 
                     Map<String, Object> producteInfo = new HashMap<>();
                     producteInfo.put("id", idProd);
                     producteInfo.put("nom", jsonProducte.get("nom"));
 
-                    // Manejo de similituds
                     JSONObject similitudsObj = (JSONObject) jsonProducte.get("similituds");
                     Map<String, Double> similitudsMap = new HashMap<>();
 
-                    // Si similituds está vacío, simplemente se queda vacío el mapa
                     if (similitudsObj != null && !similitudsObj.isEmpty()) {
                         for (Object simKey : similitudsObj.keySet()) {
                             String simId = (String) simKey;
                             Double simValue = Double.parseDouble(similitudsObj.get(simId).toString());
+                            
                             similitudsMap.put(simId, simValue);
                         }
                     }
                     producteInfo.put("similituds", similitudsMap);
 
-                    // Manejo de posPrestatgeries
                     JSONObject posPrestatgeriesObj = (JSONObject) jsonProducte.get("posPrestatgeries");
                     Map<String, Pair<Integer, Integer>> posPrestatgeriesMap = new HashMap<>();
 
-                    // Si posPrestatgeries está vacío, simplemente se queda vacío el mapa
                     if (posPrestatgeriesObj != null && !posPrestatgeriesObj.isEmpty()) {
                         for (Object posKey : posPrestatgeriesObj.keySet()) {
                             String posId = (String) posKey;
                             JSONObject posObject = (JSONObject) posPrestatgeriesObj.get(posId);
 
-                            // Asegúrate de que contiene las claves "clau" y "valor"
                             if (posObject.containsKey("clau") && posObject.containsKey("valor")) {
                                 int fila = Integer.parseInt(posObject.get("clau").toString());
                                 int columna = Integer.parseInt(posObject.get("valor").toString());
+                                
                                 posPrestatgeriesMap.put(posId, new Pair<>(fila, columna));
                             }
                         }
@@ -119,7 +116,6 @@ public class GestorCjtProductes {
 
             for (String prod : productes) {
                 try {
-                    System.out.println("Processant producte: " + prod);
                     JSONObject jsonProducte = (JSONObject) parser.parse(prod);
                     String id = jsonProducte.get("id").toString();
 
@@ -127,7 +123,6 @@ public class GestorCjtProductes {
                     producteOrdenat.put("id", id);
                     producteOrdenat.put("nom", jsonProducte.get("nom"));
                     
-                    // Manejo específico para similituds y posPrestatgeries
                     Object similituds = jsonProducte.get("similituds");
                     producteOrdenat.put("similituds", (similituds instanceof JSONObject) ? similituds : new JSONObject());
 
@@ -135,7 +130,6 @@ public class GestorCjtProductes {
                     producteOrdenat.put("posPrestatgeries", (posPrestatgeries instanceof JSONObject) ? posPrestatgeries : new JSONObject());
 
                     jsonProductes.put(id, producteOrdenat);
-                    System.out.println("Producte processat correctament: " + id); // Log para depuración
                 } catch (ParseException e) {
                     throw new PersistenciaException("Error al parsear el JSON: " + e.getMessage());
                 } catch (Exception e) {
@@ -154,7 +148,6 @@ public class GestorCjtProductes {
                 throw new PersistenciaException("Error al guardar l'arxiu: " + e.getMessage());
             }
         } else {
-            System.out.println("No hi ha productes per guardar. S'esborrarà l'arxiu existent."); // Log para depuración
             esborrarProductes(usuari);
         }
     }
