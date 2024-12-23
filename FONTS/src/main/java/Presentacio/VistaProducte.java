@@ -342,7 +342,7 @@ public class VistaProducte extends javax.swing.JPanel {
 
                 // Verificar si la similitud ha cambiado
                 Map<String, Map<String, String>> prods = cp.mostrarProductes();
-                String similitudActual = prods.get(idOriginal).get("similituds").replace("{", "").replace("}", "");
+                String similitudActual = prods.get(nouId).get("similituds").replace("{", "").replace("}", "");
 
                 if (!similitudActual.contains("\"" + idProd2 + "\":" + novaSimilitud)) {
                     similitudsModificades.put(idProd2, novaSimilitud);
