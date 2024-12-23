@@ -27,7 +27,7 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         this.setSize(800, 800);
         mostrarProductesEnJList();
         precompletarAreaSimilituds();
-        configurarBotoImportar();
+        configurarBotons();
     }
     
     private void resetLabels() {
@@ -203,8 +203,9 @@ public class VistaCrearProducte extends javax.swing.JPanel {
         return false;
     }
     
-    private void configurarBotoImportar() {
+    private void configurarBotons() {
         botoImportar.addActionListener(e -> importarProducteDesdeFitxer());
+        botoSortir.addActionListener(e -> sortir());
     }
     
     private void importarProducteDesdeFitxer() {
@@ -222,15 +223,6 @@ public class VistaCrearProducte extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Error en importar el producte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }
-    
-    public void setVistaProducte(VistaProducte vistaProducte) {
-        this.vistaProducte = vistaProducte;
-        configurarBotoSortir();
-    }
-
-    private void configurarBotoSortir() {
-        botoSortir.addActionListener(e -> sortir());
     }
 
     private void sortir() {
@@ -469,8 +461,8 @@ public class VistaCrearProducte extends javax.swing.JPanel {
 
                 cp.crearProducte(id, nom, similituds);
                 resetLabels();
+                mostrarProductesEnJList();
                 JOptionPane.showMessageDialog(this, "Producte creat!", "CONFIRMACIÓ", JOptionPane.INFORMATION_MESSAGE);
-                sortir();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error en crear el producte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }

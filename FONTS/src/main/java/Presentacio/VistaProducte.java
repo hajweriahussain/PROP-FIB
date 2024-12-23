@@ -82,7 +82,6 @@ public class VistaProducte extends javax.swing.JPanel {
                     textIdInfo.setText(id);
                     textNomInfo.setText(nom);
 
-                    // Convertir la cadena de similituds a un format llegible
                     StringBuilder sbSimilituds = new StringBuilder();
                     String[] similitudEntries = similituds.replace("{", "").replace("}", "").split(",");
 
@@ -158,7 +157,6 @@ public class VistaProducte extends javax.swing.JPanel {
         editarPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
 
-        // Títol
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
@@ -166,13 +164,11 @@ public class VistaProducte extends javax.swing.JPanel {
         gbc.insets = new Insets(25, 25, 10, 0);
         editarPanel.add(labelTitolEditar, gbc);
 
-        // Botó Sortir
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(25, 0, 10, 25);
         editarPanel.add(botoSortirEditar, gbc);
 
-        // Label Nou ID
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
@@ -180,42 +176,35 @@ public class VistaProducte extends javax.swing.JPanel {
         gbc.insets = new Insets(10, 25, 5, 25);
         editarPanel.add(labelNouId, gbc);
 
-        // TextField Nou ID
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         editarPanel.add(textNouId, gbc);
 
-        // Label Nou Nom
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(15, 25, 5, 25);
         editarPanel.add(labelNouNom, gbc);
 
-        // TextField Nou Nom
         gbc.gridy = 4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 25, 10, 25);
         editarPanel.add(textNouNom, gbc);
 
-        // Label Algoritmes
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(15, 25, 10, 25);
         editarPanel.add(labelAlgoritmes, gbc);
 
-        // RadioButton FB
         gbc.gridy = 7;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 25, 10, 25);
         editarPanel.add(rbFB, gbc);
         
-        // RadioButton DosA
         gbc.gridy = 8;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 25, 10, 25);
         editarPanel.add(rbDosA, gbc);
         
-        // Botó Guardar
         gbc.gridy = 9;
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -252,6 +241,7 @@ public class VistaProducte extends javax.swing.JPanel {
     
     private void configurarBotons() {
         botoCrear.addActionListener(e -> mostrarCrearProductePanel());
+        
         botoEditar.addActionListener(e -> {
             cardLayout.show(jPanelGeneral, "editarPanel");
             textNouId.setText(textIdInfo.getText());
@@ -260,18 +250,21 @@ public class VistaProducte extends javax.swing.JPanel {
             rbDosA.setSelected(false);
             inicialitzarTaulaSimilituds();
         });
+        
         botoGuardar.addActionListener(e -> {
             editarProducte();
             mostrarProductesEnJList();
             cardLayout.show(jPanelGeneral, "infoPanel");
         });
+        
         botoEliminar.addActionListener(e -> esborrarProducte());
+        
         rbFB.addActionListener(e -> {
             if (rbFB.isSelected()) {
                 rbDosA.setSelected(false);
             }
         });
-
+        
         rbDosA.addActionListener(e -> {
             if (rbDosA.isSelected()) {
                 rbFB.setSelected(false);
@@ -312,7 +305,7 @@ public class VistaProducte extends javax.swing.JPanel {
             }
         }
         else {
-            nouId = idOriginal; // Si no es canvia l'ID, fem servir l'original
+            nouId = idOriginal;
         }
 
         if (!nouNom.isEmpty() && !nouNom.equals("Introdueix un nou nom") && !nouNom.equals(textNomInfo.getText())) {
@@ -356,14 +349,12 @@ public class VistaProducte extends javax.swing.JPanel {
             }
         }
         
-        // Validar selecció de l'algoritme només si hi ha canvis en les similituds
         if (canvisSimilituds) {
             if (!validarSeleccioAlgoritme()) {
                 return;
             }
             String algoritmoSeleccionado = rbFB.isSelected() ? "true" : "false";
 
-            // Aplicar els canvis de similituds
             for (Map.Entry<String, String> entry : similitudsModificades.entrySet()) {
                 try {
                     cp.modificarSimilitudProductes(nouId, entry.getKey(), entry.getValue(), algoritmoSeleccionado);
@@ -405,7 +396,7 @@ public class VistaProducte extends javax.swing.JPanel {
                 }
             }
             textAreaSimilituds.setText(sbSimilituds.toString());
-
+            
             carregarProductesEnScrollPanel();
         } catch (DominiException ex) {
             javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -434,53 +425,25 @@ public class VistaProducte extends javax.swing.JPanel {
                 }
             }
 
-            // Configuració addicional de la taula
             taulaSimilituds.setPreferredScrollableViewportSize(new Dimension(300, 100));
             taulaSimilituds.setFillsViewportHeight(true);
 
-            // Actualitza el JScrollPane
             scrollPaneTaulaSimilituds.setViewportView(taulaSimilituds);
 
-            // Configura les restriccions per al JScrollPane
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.gridx = 0;
-            gbc.gridy = 5; // Ajusta segons la posició desitjada
+            gbc.gridy = 5;
             gbc.gridwidth = 2;
             gbc.fill = GridBagConstraints.BOTH;
             gbc.weightx = 1.0;
             gbc.weighty = 1.0;
             gbc.insets = new Insets(10, 25, 10, 25);
 
-            // Elimina el JScrollPane si ja existeix i torna a afegir-lo
             editarPanel.remove(scrollPaneTaulaSimilituds);
             editarPanel.add(scrollPaneTaulaSimilituds, gbc);
 
-            // Revalida i repinta el panel
             editarPanel.revalidate();
             editarPanel.repaint();
-        } catch (DominiException ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-
-    private void guardarSimilitudsEditades() {
-        StringBuilder sbSimilituds = new StringBuilder("{");
-        DefaultTableModel model = (DefaultTableModel) taulaSimilituds.getModel();
-        for (int i = 0; i < model.getRowCount(); i++) {
-            String id = model.getValueAt(i, 0).toString();
-            String similitud = model.getValueAt(i, 1).toString();
-            sbSimilituds.append("\"").append(id).append("\":").append(similitud);
-            if (i < model.getRowCount() - 1) {
-                sbSimilituds.append(",");
-            }
-        }
-        sbSimilituds.append("}");
-
-        String idProducte = textIdInfo.getText();
-        try {
-            Map<String, Map<String, String>> prods = cp.mostrarProductes();
-            prods.get(idProducte).put("similituds", sbSimilituds.toString());
         } catch (DominiException ex) {
             javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
@@ -504,22 +467,20 @@ public class VistaProducte extends javax.swing.JPanel {
                 cp.esborrarProducte(idProd);
                 JOptionPane.showMessageDialog(this, "Producte esborrat amb èxit", "Èxit", JOptionPane.INFORMATION_MESSAGE);
                 cardLayout.show(jPanelGeneral, "llistaPanel");
-                carregarProductesEnScrollPanel();   // Torna a carregar els botons dels productes al llistaPanel
+                carregarProductesEnScrollPanel();
             } catch (DominiException ex) {
                 javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + ex.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    // Mètode per mostrar el panel de crear producte
     public void mostrarCrearProductePanel() {
         cardLayout.show(jPanelGeneral, "crearProductePanel");
     }
 
-    // Mètode per tornar al llistaPanel
     public void mostrarLlistaPanel() {
-        carregarProductesEnScrollPanel();
         cardLayout.show(jPanelGeneral, "llistaPanel");
+        carregarProductesEnScrollPanel();
     }
 
     /**
