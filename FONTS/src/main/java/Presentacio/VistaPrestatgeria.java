@@ -118,10 +118,10 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
     }
     
     public void cargarPrestatgeriesEnScrollPanel(){
-//        Map<String, Map<String,String>> pres = cp.mostrarPrestatgeries();
+        Map<String, Map<String,String>> pres = cp.mostrarPrestatgeries();
         
 
-        Map<String, Map<String,String>> pres = crearEjemploPrestatgeries();
+//        Map<String, Map<String,String>> pres = crearEjemploPrestatgeries();
         
         if (pres == null || pres.isEmpty()) {
                 panelGrid.removeAll();
@@ -130,7 +130,7 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
 
         panelGrid.removeAll();
 //        try{
-//        if(pres != null) {
+        if(pres != null) {
             for (String id : pres.keySet()) {
                 String nom = pres.get(id).get("nom"); 
                 String layout = pres.get(id).get("layout"); 
@@ -148,7 +148,7 @@ public class VistaPrestatgeria extends javax.swing.JPanel {
             panelGrid.revalidate();
             panelGrid.repaint();
             panelPres.setViewportView(panelGrid);
-//        }
+        }
 //        }catch (DominiException e) {
 //            javax.swing.JOptionPane.showMessageDialog(this, "Ha hagut un error inesperat: " + e.getMessage(), "Error Desconegut", javax.swing.JOptionPane.ERROR_MESSAGE);
 //        }
