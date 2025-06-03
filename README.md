@@ -4,9 +4,14 @@ Este repositorio contiene el código fuente del proyecto realizado para la asign
 
 ## Descripción
 
-El objetivo del proyecto es el desarrollo de un sistema (describe brevemente el objetivo principal o funcionalidad, por ejemplo: "para la gestión de archivos de texto y ejecución de tareas específicas").  
-Incluye funcionalidades como:
-- (Aquí puedes listar funcionalidades principales, como procesamiento de archivos, generación de reportes, interfaces gráficas, etc.)
+
+Este proyecto es una aplicación diseñada para **propietarios de supermercados** que buscan **optimizar la organización de su negocio** con el objetivo de **maximizar las ventas**.  
+
+El sistema permite gestionar productos, organizar categorías, y facilitar la toma de decisiones estratégicas para mejorar la eficiencia operativa y aumentar las ganancias.
+
+Entre sus funcionalidades principales se encuentran:
+- Gestión de inventario y categorías de productos.
+- Organización y distribución optimizada de productos a través de estanterias.
 
 ## Autores
 
