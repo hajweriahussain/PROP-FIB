@@ -1,1 +1,13 @@
-{}
+{
+  "5": {
+    "id": "5",
+    "nom": "pppp",
+    "similituds": {},
+    "posPrestatgeries": {
+      "88": {
+        "clau": 0,
+        "valor": 0
+      }
+    }
+  }
+}
